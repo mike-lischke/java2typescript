@@ -1,0 +1,20 @@
+{
+    "version": "0.2",
+    "words": [
+        "antlr",
+        "Declarators",
+        "Xexact"
+    ],
+    "ignoreWords": [
+        "COLONCOLON",
+        "LBRACK",
+        "LPAREN",
+        "RBRACK",
+        "RPAREN",
+        "stringbuilder",
+        "stringtemplate"
+    ],
+    "ignorePaths": [
+        ".eslintrc.json"
+    ]
+}
