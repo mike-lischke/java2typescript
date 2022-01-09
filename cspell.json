@@ -3,7 +3,9 @@
     "words": [
         "antlr",
         "Cloneable",
-        "Declarators"
+        "Declarators",
+        "misformatted",
+        "whitespaces"
     ],
     "ignoreWords": [
         "COLONCOLON",
