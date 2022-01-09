@@ -144,3 +144,6 @@ const importResolver = (packageId: string): PackageSource[] => {
 In this example the resolver creates empty sources for each known Java SDK package (which could not be resolved otherwise). An empty source has an empty symbol table and can hence not resolve symbols. So they serve rather as placeholders. If a package cannot be resolved `java2typescript` implicitly creates an empty source (and logs that in the console).
 
 Normally you would, however, not create an empty source, but one that can deal with symbols and return fully qualfied names. For an example how to do that check the `JavaPackageSource.ts` file, which manually creates a symbol table for all supported Java types, and holds the target path to the TS implementations (polyfills) for path resolution.
+
+# Nested Classes and Interfaces
+Because Typescript does not support nested classes and interfaces, a transformation is done using namespaces. The top level class is exported as usual. If it contains an inner class then a namespace with the same name as that of the top level class is added and the nested class is exported from there. The same approach is used for deeper nesting levels, converting so nested classes/interfaces to nested namespaces.
