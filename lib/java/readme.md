@@ -3,7 +3,7 @@
 
 This folder contains Typescript implementations for certain Java SDK members. They are organized so that converted source code can access them with their normal SDK name (fully qualified), for instance `java.lang.Character`.
 
-This is accomplished by create one file per SDK class, named after the last package ID part (e.g. `Character.ts`), which exports exactly that single class. This file is then imported in the index.ts file in that folder. The index.ts file itself is then re-exported again in another file in the same folder, whose name corresponds to the second last package ID part, here `lang.ts`, with the name exported name `lang`.
+This is accomplished by create one file per SDK class, named after the last package ID part (e.g. `Character.ts`), which exports exactly that single class. This file is then imported in the index.ts file in that folder. The index.ts file itself is then re-exported again in another file in the same folder, whose name corresponds to the second last package ID part, here `lang.ts`, with the exported name `lang`.
 
 This pattern is then used for all parent folders up to `java` and at the end makes all SDK classes + interfaces available with the single `java` import. It might look a bit long-winded using multiple imports and (re) exports, but it turned out to be the best way, since namespaces are discouraged (and namespace merging has its limits) and modules cannot be merged.
 
@@ -27,6 +27,7 @@ export { image };
 ```
 
 to the `image.ts` file.
+
 7. Add `export * from "./image/image";` in `java/awt/index.ts`.
 8. Add
 9.

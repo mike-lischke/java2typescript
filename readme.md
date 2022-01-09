@@ -1,6 +1,5 @@
 # **java2typescript**
 A Node.js tool for converting Java source packages to Typescript
----
 
 With this tool it is possible to do the major work of converting Java code to Typescript. Of course a lot of manual work remains after the conversion run, but at least all the tedious standard changes (like exchanging variable name and its type) is done automatically.
 
