@@ -1,5 +1,4 @@
 # Java SDK Polyfills
----
 
 This folder contains Typescript implementations for certain Java SDK members. They are organized so that converted source code can access them with their normal SDK name (fully qualified), for instance `java.lang.Character`.
 
@@ -28,15 +27,15 @@ export { image };
 
 to the `image.ts` file.
 
-7. Add `export * from "./image/image";` in `java/awt/index.ts`.
+7. Add `export * from "./image/image";` to `java/awt/index.ts`.
 8. Add
-9.
 ```typescript
 import * as awt from "./index";
 
 export { awt };
 ```
 to the `awt.ts` file.
+
 9. Add `export * from "./awt/awt";` to `java/index.ts`.
 
 Obviously the folder creation and changes to `image.ts`, `awt.ts` and `java/index.ts` are one time tasks, as long as new TS files end up in existing folders. The only change which is always needed is to add a new class to the `index.ts` file in its folder.
