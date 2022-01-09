@@ -69,10 +69,11 @@ export const printParseTreeStack = (fileName: string, root: ParseTree, ruleNames
 
     console.log("\n\n");
     if (tree instanceof TerminalNode) {
-        console.log((tree.parent as RuleContext).toString(ruleNames));
-        console.log(tree.toString());
+        console.log("Parse tree: " + (tree.parent as RuleContext).toString(ruleNames));
+        console.log("\nText at position: " + tree.toString());
     } else if (tree instanceof RuleContext) {
         console.log(tree.toString(ruleNames));
     }
 
+    console.log("\n");
 };

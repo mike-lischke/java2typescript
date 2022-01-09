@@ -2,8 +2,8 @@
     "version": "0.2",
     "words": [
         "antlr",
-        "Declarators",
-        "Xexact"
+        "Cloneable",
+        "Declarators"
     ],
     "ignoreWords": [
         "COLONCOLON",
@@ -11,6 +11,9 @@
         "LPAREN",
         "RBRACK",
         "RPAREN",
+        "javax",
+        "Xexact",
+        "arraycopy",
         "stringbuilder",
         "stringtemplate"
     ],

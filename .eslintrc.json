@@ -414,7 +414,13 @@
         "no-empty": "error",
         "no-invalid-this": "off",
         "no-magic-numbers": "off",
-        "no-multiple-empty-lines": "error",
+        "no-multiple-empty-lines": [
+            "error",
+            {
+                "max": 1,
+                "maxEOF": 1
+            }
+        ],
         "no-return-await": "error",
         "no-trailing-spaces": "error",
         "no-undef-init": "error",

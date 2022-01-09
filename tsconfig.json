@@ -1,21 +1,18 @@
 {
     "compilerOptions": {
-        "target": "es6",
-        "module": "commonjs",
+        "target": "esnext",
+        "module": "CommonJS",
         "outDir": "output",
         "sourceMap": true,
         "esModuleInterop": true,
-        "experimentalDecorators": true
+        "experimentalDecorators": true,
+        "moduleResolution": "Node",
     },
     "include": [
         "src/**/*.ts",
         "lib/**/*.ts",
-        "port-icu/**/*.ts",
-        "port-jdk/**/*.ts",
-        "port-antlr4/**/*.ts",
+        "antlr3/**/*.ts",
         "java/generated/**/*.ts",
-        "lib/ExceptionSupport.ts",
-        "lib/Decorators.ts",
-        "lib/ContainerSupport.ts"
+        "lib/Decorators.ts"
     ]
 }

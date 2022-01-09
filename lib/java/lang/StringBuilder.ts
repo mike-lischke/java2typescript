@@ -5,59 +5,13 @@
  * See LICENSE file for more info.
  */
 
-/* eslint-disable max-classes-per-file, @typescript-eslint/no-namespace, no-redeclare,
-                  @typescript-eslint/naming-convention,
-*/
-
 import printf from "printf";
-
-// A partial implementation of the Java Character class.
-
-export class Character {
-    public static isISOControl = (c: string): boolean => {
-        return false;
-    };
-
-    public static isDigit(s: string): boolean {
-        if (s.length !== 1) {
-            return false;
-        }
-
-        return s.match(/0-9/).length > 0;
-    }
-
-    public static toString(s: string): string {
-        return s;
-    }
-
-    public static toUpperCase(s: string): string {
-        return s.toUpperCase();
-    }
-
-}
-
-export namespace Character {
-    export class UnicodeBlock {
-        public static readonly BASIC_LATIN = 1;
-
-        public static of = (c: string): number => {
-            return 0;
-        };
-
-    }
-}
-
-export class Integer {
-    public static parseInt(s: string, radix = 10): number {
-        return parseInt(s, radix);
-    }
-}
 
 export class StringBuilder {
     private data: Uint8Array = new Uint8Array();
     private encoder = new TextEncoder();
 
-    public constructor(text?: string) {
+    public constructor(text?: string | StringBuilder) {
         if (text) {
             this.append(text);
         }
@@ -91,8 +45,16 @@ export class StringBuilder {
         return this;
     }
 
-    public prepend(newContent: string | StringBuilder): this {
-        const bytes = newContent instanceof StringBuilder ? newContent.data : this.encoder.encode(newContent);
+    /**
+     * Inserts the new content at the beginning of the existing content.
+     *
+     * @param newContent The content to insert.
+     *
+     * @returns Itself for method chaining.
+     */
+    public prepend(newContent: string | String | StringBuilder | number | bigint): this {
+        const bytes = newContent instanceof StringBuilder
+            ? newContent.data : this.encoder.encode(newContent.toString());
         const newData = new Uint8Array(bytes.length + this.data.length);
         newData.set(bytes);
         newData.set(this.data, bytes.length);
@@ -101,11 +63,11 @@ export class StringBuilder {
         return this;
     }
 
-    public append(...newContent: Array<string | StringBuilder>): this {
+    public append(...newContent: Array<string | String | StringBuilder | number | bigint>): this {
         const list: Uint8Array[] = [];
         let size = 0;
         newContent.forEach((entry) => {
-            const bytes = entry instanceof StringBuilder ? entry.data : this.encoder.encode(entry);
+            const bytes = entry instanceof StringBuilder ? entry.data : this.encoder.encode(entry.toString());
             size += bytes.length;
             list.push(bytes);
         });
@@ -124,7 +86,7 @@ export class StringBuilder {
     }
 
     public appendLine(text: string): this {
-        this.append(text + "\n");
+        this.append(text, "\n");
 
         return this;
     }

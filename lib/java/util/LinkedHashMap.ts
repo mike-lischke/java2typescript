@@ -5,8 +5,6 @@
  * See LICENSE file for more info.
  */
 
-/* eslint-disable max-classes-per-file */
-
 export class LinkedHashMap<K, V> extends Map<K, V> {
     /**
      * @param value
@@ -25,7 +23,7 @@ export class LinkedHashMap<K, V> extends Map<K, V> {
     /**
      * @returns a set view of the mappings contained in this map.
      */
-    public entrySet(): Set<[K ,V]> {
+    public entrySet(): Set<[K, V]> {
         const result = new Set<[K, V]>();
         for (const tuple of this) {
             result.add(tuple);
@@ -62,13 +60,4 @@ export class LinkedHashMap<K, V> extends Map<K, V> {
     public put = (key: K, value: V): this => {
         return this.set(key, value);
     };
-}
-
-export class Stack<T> extends Array<T> {
-    /**
-     * @returns The Top Of Stack element (the last one pushed to it) without removing it.
-     */
-    public get tos(): T | undefined {
-        return this.length === 0 ? undefined : this[this.length - 1];
-    }
 }

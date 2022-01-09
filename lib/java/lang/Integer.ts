@@ -5,3 +5,8 @@
  * See LICENSE file for more info.
  */
 
+export class Integer {
+    public static parseInt(s: string, radix = 10): number {
+        return parseInt(s, radix);
+    }
+}
