@@ -106,7 +106,7 @@ The folder structure of a Java project/package is recreated in the target folder
 
 # Import Resolvers
 
-In opposition to Java all symbols must use the fully qualified identifier form (e.g. `this.` for class/interface members, `ClassName.` for static members etc.). This requires to resolve every symbol (types, variable names etc.). The converter resolves symbols according to this model:
+In opposition to Java all symbols in Typescript must use the fully qualified identifier form (e.g. `this.` for class/interface members, `ClassName.` for static members etc.). This requires to resolve every symbol (types, variable names etc.). The converter resolves symbols according to this model:
 
 - The current file (local variables, parameters, normal and static class members, in this order).
 - Any of the extended or implemented classes/interfaces (public and protected normal and static class members).
@@ -116,7 +116,7 @@ In opposition to Java all symbols must use the fully qualified identifier form (
 
 If a symbol cannot be resolved then the original text is used and the user has to fix it manually.
 
-Import resolvers are the last resort to get symbols automatically resolved if nothing else works. There is one predefined resolver in the project: for the Java SDK. See the [separate readme](lib/java/readme) for details, how to work with and extend the Java SDK polyfills.
+Import resolvers are the last resort to get symbols automatically resolved if nothing else works. There is one predefined resolver in the project: for the Java SDK. See the [separate readme](lib/java/readme.md) for details, how to work with and extend the Java SDK polyfills.
 
 The converter uses socalled package sources for keeping symbol information per file. There are 2 types of package sources:
 
