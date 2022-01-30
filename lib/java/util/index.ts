@@ -11,5 +11,8 @@ export * from "./ArrayList";
 export * from "./List";
 export * from "./ListIterator";
 export * from "./Collection";
+export * from "./Collections";
 export * from "./Stack";
 export * from "./LinkedHashMap";
+export * from "./HashMap";
+export * from "../util/HashSet";

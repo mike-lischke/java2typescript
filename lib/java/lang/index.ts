@@ -5,8 +5,6 @@
  * See LICENSE file for more info.
  */
 
-/* eslint-disable @typescript-eslint/no-namespace */
-
 export * from "./StringBuilder";
 export * from "./StringBuffer";
 export * from "./Character";
@@ -18,6 +16,8 @@ export * from "./IndexOutOfBoundsException";
 export * from "./NoSuchElementException";
 export * from "./NumberFormatException";
 export * from "./IllegalStateException";
+export * from "./UnsupportedOperationException";
 export * from "./IOException";
+export * from "./NullPointerException";
 export * from "./Exception";
 export * from "./System";

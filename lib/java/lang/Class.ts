@@ -6,9 +6,9 @@
  */
 
 // A partial implementation of Java's Class type.
-export class Class<T extends Object> extends Object {
+export class Class<T> extends Object {
 
-    public constructor(private ctor: new(...args: unknown[]) => T) {
+    public constructor(private ctor: abstract new(...args: unknown[]) => T) {
         super();
     }
 

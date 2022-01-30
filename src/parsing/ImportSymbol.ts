@@ -7,11 +7,19 @@
 
 import { Symbol } from "antlr4-c3";
 
-export class ImportSymbol extends Symbol {
-    public readonly fullPath: string;
-    public readonly relativePath: string;
+import { PackageSource } from "../PackageSource";
+import { PackageSourceManager } from "../PackageSourceManager";
 
-    public constructor(name: string, packageRoot: string, public fullImport: boolean) {
+export class ImportSymbol extends Symbol {
+    public importedSources: Set<PackageSource> = new Set();
+
+    public constructor(name: string, private packageRoot: string, public fullImport: boolean) {
         super(name);
+
+        const sources = PackageSourceManager.fromPackageId(this.name, this.packageRoot, this.fullImport);
+        sources.forEach((source) => {
+            this.importedSources.add(source);
+        });
     }
+
 }

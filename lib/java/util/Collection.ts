@@ -51,11 +51,6 @@ export interface Collection<T> {
     isEmpty(): boolean;
 
     /**
-     * Returns an iterator over the elements in this collection.
-     */
-    iterator(): Iterator<T>;
-
-    /**
      * Removes a single instance of the specified element from this collection, if it is present.
      */
     remove(o: T): boolean;

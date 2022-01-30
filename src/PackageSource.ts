@@ -13,7 +13,6 @@ import { Symbol, SymbolTable } from "antlr4-c3";
 
 import { Interval } from "antlr4ts/misc/Interval";
 import { CompilationUnitContext } from "../java/generated/JavaParser";
-import { JavaFileSymbolTable } from "../lib/java/JavaFileSymbolTable";
 import { ISymbolInfo } from "./PackageSourceManager";
 
 // A class to provide symbol information for a single package or source file. It allows to convert
@@ -45,8 +44,8 @@ export class PackageSource {
         // Overridden by descendants.
     };
 
-    public getSymbolQualifier = (_context: ParseTree, _name: string): string => {
-        return "";
+    public getSymbolQualifier = (_context: ParseTree, _name: string): string | undefined => {
+        return undefined;
     };
 
     /**
@@ -61,38 +60,31 @@ export class PackageSource {
     };
 
     /**
-     * Constructs all import statements from the recorded symbols. Recording is done during symbol resolution.
+     * Collects all imported names. Recording is done during symbol resolution.
      *
      * @param importingFile The absolute path to the file, for which to generate the import statements.
      *
-     * @returns A list of complete import statements.
+     * @returns A tuple containing a list of imported names and the relative import path.
      */
-    public generateImportStatements = (importingFile: string): string[] => {
-        const result: string[] = [];
-
+    public getImportInfo = (importingFile: string): [string[], string] => {
         if (this.importList.size > 0) {
             const names = Array.from(this.importList.values());
-            let importPath = path.relative(path.dirname(importingFile), path.dirname(this.targetFile));
-            importPath = path.join(importPath, path.basename(this.targetFile, ".ts"));
-            if (importPath[0] !== ".") {
-                importPath = "./" + importPath;
+            let importPath: string;
+            if (this.targetFile.startsWith("/") || this.targetFile.startsWith(".")) {
+                importPath = path.relative(path.dirname(importingFile), path.dirname(this.targetFile));
+                importPath = path.join(importPath, path.basename(this.targetFile, ".ts"));
+
+                if (importPath[0] !== ".") {
+                    importPath = "./" + importPath;
+                }
+            } else {
+                importPath = this.targetFile;
             }
 
-            result.push(`import { ${names.join(", ")} } from "${importPath}";`);
+            return [names, importPath];
         }
 
-        return result;
-    };
-
-    /**
-     * Called after all files from a package are parsed. Now class + interface references can be resolved.
-     *
-     * @param packageRoot The root folder of the package we are loading.
-     */
-    public resolveReferences = (packageRoot: string): void => {
-        if (this.symbolTable instanceof JavaFileSymbolTable) {
-            this.symbolTable.resolveReferences(packageRoot);
-        }
+        return [[], ""];
     };
 
     /**

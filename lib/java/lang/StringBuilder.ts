@@ -17,14 +17,14 @@ export class StringBuilder {
         }
     }
 
-    public get buffer(): Uint8Array {
-        return this.data;
-    }
-
     public get text(): string {
         const decoder = new TextDecoder();
 
         return decoder.decode(this.data);
+    }
+
+    public get buffer(): Uint8Array {
+        return this.data;
     }
 
     /**
@@ -95,6 +95,10 @@ export class StringBuilder {
         this.append(String.fromCodePoint(c));
 
         return this;
+    }
+
+    public get length(): number {
+        return this.data.length;
     }
 }
 

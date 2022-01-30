@@ -36,13 +36,15 @@ export class JavaFileSource extends PackageSource {
     // Only set if a file was parsed.
     public fileParseInfo?: IFileParseInfo;
 
-    public constructor(packageId: string, sourceFile: string, targetFile: string, packageRoot: string) {
+    public constructor(packageId: string, sourceFile: string, targetFile: string, private packageRoot: string) {
         super(packageId, sourceFile, targetFile);
-
-        this.parse(packageRoot);
     }
 
     public get parseTree(): CompilationUnitContext | undefined {
+        if (!this.fileParseInfo) {
+            this.parse();
+        }
+
         return this.fileParseInfo?.tree;
     }
 
@@ -61,7 +63,13 @@ export class JavaFileSource extends PackageSource {
         return this.fileParseInfo?.inputStream.getText(interval);
     };
 
-    private parse = (packageRoot: string): void => {
+    private parse = (): void => {
+        if (!fs.existsSync(this.sourceFile)) {
+            console.warn(`\nFile ${this.sourceFile} does not exist.`);
+
+            return;
+        }
+
         const content = fs.readFileSync(this.sourceFile, "utf-8");
         const inputStream = CharStreams.fromString(content);
         const lexer = new JavaLexer(inputStream);
@@ -83,7 +91,7 @@ export class JavaFileSource extends PackageSource {
                 tree,
             };
 
-            this.symbolTable = new JavaFileSymbolTable(tree, packageRoot);
+            this.symbolTable = new JavaFileSymbolTable(this.packageId, tree, this.packageRoot);
         } else {
             throw new Error("Parsing failed for " + this.sourceFile);
         }

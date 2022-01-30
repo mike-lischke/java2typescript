@@ -5,6 +5,5 @@
  * See LICENSE file for more info.
  */
 
-export * from "./io/io";
-export * from "./util/util";
-export * from "./lang/lang";
+export class NullPointerException extends Error {
+}

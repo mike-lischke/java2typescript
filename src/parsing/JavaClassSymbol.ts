@@ -11,7 +11,7 @@ import { ClassSymbol, Symbol } from "antlr4-c3";
 export class JavaClassSymbol extends ClassSymbol {
 
     public resolveSync(name: string, localOnly?: boolean): Symbol | undefined {
-        let symbol = super.resolveSync(name, true);
+        let symbol = super.resolveSync(name, localOnly);
         if (!symbol && !localOnly) {
             if (this.extends.length > 0) {
                 symbol = this.extends[0].resolveSync(name, true);

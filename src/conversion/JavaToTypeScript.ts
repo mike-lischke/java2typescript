@@ -7,9 +7,27 @@
 
 import glob from "glob";
 import path from "path";
+import fs from "fs";
 
 import { FileProcessor } from "./FileProcessor";
 import { CustomImportResolver, PackageSourceManager } from "../PackageSourceManager";
+import { PackageSource } from "../PackageSource";
+
+// A record for the class resolver map.
+export interface IClassResolver {
+    alias?: string;
+    importPath: string;
+}
+
+// Maps a root package ID to a source path to get the Java source code from, as well as a path that is used
+// for the imports. Source mappings are to provide symbol information for a package, which is however not converted.
+// For example the antlr4ts runtime is already done and available in a node module, but for symbol lookup we have
+// to parse the original Java files.
+export interface ISourceMapping {
+    sourcePath: string; // The full path to the file to parse.
+    importPath: string; // A path specifying the import. It's assumed to be a node module, if it doesn't start with
+    // a slash or dot. Otherwise the import will be computed relative to the target file.
+}
 
 export interface IConverterOptions {
     prefix?: string; // Anything to go before the first code line (e.g. linter settings).
@@ -30,14 +48,23 @@ export interface IConverterOptions {
     // If true the processor will automatically add braces in IF/ELSE statements, if they are missing.
     autoAddBraces?: boolean;
 
+    // For simpler imports index files can be added to each generated output folder, which export all files in that
+    // folder plus the index files of all subfolders.
+    addIndexFiles?: boolean;
+
     // A mapping of a 3rd party package which is available in source form. Maps root package IDs (without any type
     // name) to a source path, which is then used as package root for that package.
-    sourceMappings?: Map<string, string>;
+    sourceMappings?: Map<string, ISourceMapping>;
 
     // A map that contains symbol source instances for each imported package in a Java file.
     // It maps from a package id, e.g. "java.lang" to a symbol source that can deliver imports for polyfills
     // that provide the necessary functionality (e.g. via node modules or plain JS APIs).
-    importResolver: CustomImportResolver;
+    importResolver?: CustomImportResolver;
+
+    // A map that provides an import string for a given class name. Names given here do not use qualifiers, but
+    // are imported directly from the node module or file/folder given as resolution.
+    // No file is parsed and no symbol table is created for the symbols listed here.
+    classResolver?: Map<string, IClassResolver>;
 }
 
 // Options used for debugging the transformation process.
@@ -96,9 +123,8 @@ export interface IConverterConfiguration {
 
 export class JavaToTypescriptConverter {
     public constructor(private configuration: IConverterConfiguration) {
-        PackageSourceManager.customImportResolver = configuration.options.importResolver;
-        PackageSourceManager.sourceMappings = configuration.options.sourceMappings;
-        PackageSourceManager.javaTargetRoot = path.resolve(process.cwd(), "./lib/java/java.ts");
+        PackageSourceManager.configure(configuration.options.importResolver,
+            configuration.options.sourceMappings, path.resolve(process.cwd(), "./lib/java/java.ts"));
 
         configuration.options.lib = path.join(process.cwd(), configuration.options.lib ?? "");
     }
@@ -114,9 +140,10 @@ export class JavaToTypescriptConverter {
         console.log(`\nParsing ${fileList.length} java files...`);
 
         const currentDir = process.cwd();
+        const root = this.configuration.packageRoot;
 
         // Load all files from the given package, for internal references.
-        const packageFiles: FileProcessor[] = [];
+        const internalSources = new Set<PackageSource>();
 
         // Only the files in this list are also converted.
         const toConvert: FileProcessor[] = [];
@@ -127,9 +154,8 @@ export class JavaToTypescriptConverter {
             const tsName = relativeSource.substring(0, relativeSource.length - 4) + "ts";
             const target = this.configuration.output + "/" + tsName;
 
-            const processor = new FileProcessor(entry, path.join(currentDir, target), this.configuration);
-
-            packageFiles.push(processor);
+            //const source = PackageSourceManager.fromFile(entry, path.join(currentDir, target), root);
+            //internalSources.add(source);
 
             // Is this file explicitly excluded?
             let canInclude = true;
@@ -147,18 +173,17 @@ export class JavaToTypescriptConverter {
                 if (this.configuration.include && this.configuration.include.length > 0) {
                     for (const filter of this.configuration.include) {
                         if (entry.match(filter)) {
-                            toConvert.push(processor);
+                            const source = PackageSourceManager.fromFile(entry, path.join(currentDir, target), root);
+                            toConvert.push(new FileProcessor(source, this.configuration));
                             break;
                         }
                     }
                 } else {
-                    toConvert.push(processor);
+                    const source = PackageSourceManager.fromFile(entry, path.join(currentDir, target), root);
+                    toConvert.push(new FileProcessor(source, this.configuration));
                 }
             }
         });
-
-        console.log("\nResolving package references...");
-        PackageSourceManager.resolveReferences(this.configuration.packageRoot);
 
         console.log(`\nConverting ${toConvert.length} files...`);
 
@@ -166,6 +191,33 @@ export class JavaToTypescriptConverter {
             await processor.convertFile();
         }
 
+        if (this.configuration.options.addIndexFiles) {
+            console.log("\nAdding index files...");
+            this.addIndexFile(path.join(currentDir, this.configuration.output));
+        }
+
         console.log("\nConversion finished");
     }
+
+    private addIndexFile = (dir: string): void => {
+        const dirList: string[] = [];
+        const fileList: string[] = [];
+
+        const entries = fs.readdirSync(dir, { encoding: "utf-8", withFileTypes: true });
+        entries.forEach((entry) => {
+            if (!entry.name.startsWith(".") && entry.name !== "index.ts") {
+                if (entry.isDirectory()) {
+                    dirList.push(`export * from "./${entry.name}";`);
+                    this.addIndexFile(dir + "/" + entry.name);
+                } else if (entry.isFile() && entry.name.endsWith(".ts")) {
+                    fileList.push(`export * from "./${path.basename(entry.name, ".ts")}";`);
+                }
+            }
+        });
+
+        fs.writeFileSync(dir + "/index.ts",
+            `// java2typescript: auto generated index file. Disable generation by setting the "addIndexFiles" ` +
+            `option to false.\n\n${dirList.join("\n")}\n${dirList.length > 0 ? "\n" : ""}` +
+            `${fileList.join("\n")}\n`);
+    };
 }

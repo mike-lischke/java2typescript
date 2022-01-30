@@ -13,19 +13,24 @@ The other side of the equation is what infrastructure the source code uses (SDK,
 
 Also helpful for an iterative approach is that a conversion process usually takes only a very small amount of time, in the range of seconds, depending on the project size and how fast the file system is (enumeration, file loading, file writing).
 
-# Limitations
+# Limitations and Other Notes
 
-It's practically never the case that two languages have the same semantic concepts everywhere and so is it with Java and Typescript, even though they are so close that much of the code can directly be taken over (after proper symbol resolution). What's not supported out of the box is this:
+It's practically never the case that two languages have the same semantic concepts everywhere and so is it with Java and Typescript, even though they are so close that much of the code can directly be taken over (after proper symbol resolution). This leads to certain issues:
 
 - Java interfaces are probably the most incompatible objects between the two languages. Java interfaces can have initialized fields and method implementations, which is not possible in Typescript. Hence all interfaces are converted to abstract TS classes. Fortunately, TS allows that a class `implements` another class, not only an interface. Using `implements` is however not always a good solution (especially when referencing symbols from the base class). An effort is made to use `extends` in simple cases (no existing `extends` clause and only one type for the `implements` clause). Using `extends` for all types in general is not possible, as that might lead to multiple inheritance, which is not supported by TS/JS.
+- Another incompatible concept are iterators. Some iterator classes exist in the JDK polyfills (e.g. `ListIterator`), but those don't work in native JS/TS `for` loops. Therefore the native TS iterator is implemented instead. This requires manual updates where such iterators are used.
 - Constructor overloading and method overloading. This is a concept, which can be implemented in Typescript as well, but requires significant extra work to merge parameter handling, which is out of the scope currently.
 - Java has no concept of optional fields and parameters. Hence it is difficult to tell if a parameter is allowed to be undefined. This must be handled manually on a case-by-case basis.
+- Typescript does not support multi-dimensional array creation with array sizes (initializers are supported however). That means constructs like `new String[1][2][4]` can only be converted to TS without initial sizes: `= [[[]]]`.
 - Java automatically converts between `long` and other integer type. TS uses `bigint` for 64 bit integer types and the `n` suffix for bigint literals. In Java these integer types can freely be mixed, but TS will complain if one tries to, say, shift a bigint using a standard number literal. This must be solved manually.
 - Annotations usually cannot be converted, except for a very few (like @final), which are then converted using decorators. The current implementation is however very simple. Don't expect much of that.
 - Generic constructors are not possible in Typescript. This must be solve manually.
 - Resources are not handled at all.
+- Anything related to Java reflection is out of the scope of this tool.
+- The converter avoids extending existing classes (like `String`), which means certain functionality must be moved to other classes. For instance `String.format` is implemented in the static `StringBuilder.format` function.
+- I certainly have not seen all possible Java constructs, so those I haven't encountered maybe converted in an incompatible way. This project is still WIP after all.
 
-# Conversion
+# Conversion Process
 
 The conversion process tries hard to keep all whitespaces + comments in place. However, when code must be reordered or generated, this can lead to misformatted target code. Also no conversion is done for tabs. A good linter and/or prettifier is recommended to fix this easily.
 

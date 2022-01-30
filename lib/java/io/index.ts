@@ -5,7 +5,5 @@
  * See LICENSE file for more info.
  */
 
-/* eslint-disable @typescript-eslint/no-namespace */
-
 export * from "./File";
 export * from "./Console";

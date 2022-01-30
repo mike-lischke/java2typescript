@@ -5,12 +5,12 @@
  * See LICENSE file for more info.
  */
 
-import { ClassSymbol, InterfaceSymbol, ScopedSymbol, SymbolTable } from "antlr4-c3";
+import { ClassSymbol, InterfaceSymbol, MethodSymbol, ScopedSymbol, SymbolTable } from "antlr4-c3";
 
 import { PackageSource } from "../../src/PackageSource";
 import { FileSymbol } from "../../src/parsing/JavaParseTreeWalker";
 
-// A package source specifically for Java imports. It handles all package imports from Java.
+// A package source specifically for Java imports. It handles symbol resolution for known Java SDK packages.
 export class JavaPackageSource extends PackageSource {
 
     public constructor(packageId: string, targetFile: string) {
@@ -41,7 +41,9 @@ export class JavaPackageSource extends PackageSource {
         this.symbolTable.addNewSymbolOfType(ClassSymbol, lang, "StringBuilder", [], []);
         this.symbolTable.addNewSymbolOfType(ClassSymbol, lang, "StringBuffer", [], []);
         this.symbolTable.addNewSymbolOfType(ClassSymbol, lang, "IllegalStateException", [], []);
+        this.symbolTable.addNewSymbolOfType(ClassSymbol, lang, "UnsupportedOperationException", [], []);
         this.symbolTable.addNewSymbolOfType(ClassSymbol, lang, "IOException", [], []);
+        this.symbolTable.addNewSymbolOfType(ClassSymbol, lang, "NullPointerException", [], []);
         this.symbolTable.addNewSymbolOfType(ClassSymbol, lang, "Exception", [], []);
         this.symbolTable.addNewSymbolOfType(ClassSymbol, lang, "Cloneable", [], []);
         this.symbolTable.addNewSymbolOfType(ClassSymbol, lang, "System", [], []);
@@ -57,15 +59,22 @@ export class JavaPackageSource extends PackageSource {
     };
 
     private createUtilEntries = (parent: ScopedSymbol): void => {
-        const io = this.symbolTable.addNewNamespaceFromPathSync(parent, "java.util", ".");
+        const util = this.symbolTable.addNewNamespaceFromPathSync(parent, "java.util", ".");
 
-        this.symbolTable.addNewSymbolOfType(ClassSymbol, io, "ArrayList", [], []);
-        this.symbolTable.addNewSymbolOfType(ClassSymbol, io, "ArrayListIterator", [], []);
-        this.symbolTable.addNewSymbolOfType(ClassSymbol, io, "Arrays", [], []);
-        this.symbolTable.addNewSymbolOfType(InterfaceSymbol, io, "Collection", [], []);
-        this.symbolTable.addNewSymbolOfType(ClassSymbol, io, "LinkedHashMap", [], []);
-        this.symbolTable.addNewSymbolOfType(ClassSymbol, io, "List", [], []);
-        this.symbolTable.addNewSymbolOfType(ClassSymbol, io, "ListIterator", [], []);
-        this.symbolTable.addNewSymbolOfType(ClassSymbol, io, "Stack", [], []);
+        // These types are actually not used by default, but converted into straight JS arrays.
+        this.symbolTable.addNewSymbolOfType(ClassSymbol, util, "ArrayList", [], []);
+        this.symbolTable.addNewSymbolOfType(InterfaceSymbol, util, "Collection", [], []);
+        this.symbolTable.addNewSymbolOfType(ClassSymbol, util, "List", [], []);
+        this.symbolTable.addNewSymbolOfType(ClassSymbol, util, "Collections", [], []);
+
+        // Support classes.
+        this.symbolTable.addNewSymbolOfType(ClassSymbol, util, "ArrayListIterator", [], []);
+        this.symbolTable.addNewSymbolOfType(ClassSymbol, util, "Arrays", [], []);
+        this.symbolTable.addNewSymbolOfType(ClassSymbol, util, "LinkedHashMap", [], []);
+
+        const hashMap = this.symbolTable.addNewSymbolOfType(ClassSymbol, util, "HashMap", [], []);
+        this.symbolTable.addNewSymbolOfType(MethodSymbol, hashMap, "put");
+        this.symbolTable.addNewSymbolOfType(ClassSymbol, util, "ListIterator", [], []);
+        this.symbolTable.addNewSymbolOfType(ClassSymbol, util, "Stack", [], []);
     };
 }
