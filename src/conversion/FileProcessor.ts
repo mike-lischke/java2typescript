@@ -25,9 +25,9 @@ import {
     FinallyBlockContext, ForControlContext, ForInitContext, FormalParameterContext, FormalParameterListContext,
     FormalParametersContext, GenericConstructorDeclarationContext, GenericInterfaceMethodDeclarationContext,
     GenericMethodDeclarationContext, InnerCreatorContext, InterfaceBodyContext, InterfaceBodyDeclarationContext,
-    InterfaceDeclarationContext, InterfaceMemberDeclarationContext, InterfaceMethodDeclarationContext,
-    InterfaceMethodModifierContext, JavaParser, LambdaExpressionContext, LambdaParametersContext,
-    LastFormalParameterContext, LiteralContext, LocalTypeDeclarationContext,
+    InterfaceCommonBodyDeclarationContext, InterfaceDeclarationContext, InterfaceMemberDeclarationContext,
+    InterfaceMethodDeclarationContext, JavaParser, LambdaExpressionContext,
+    LambdaParametersContext, LastFormalParameterContext, LiteralContext, LocalTypeDeclarationContext,
     LocalVariableDeclarationContext, MemberDeclarationContext, MethodBodyContext, MethodCallContext,
     MethodDeclarationContext, ModifierContext, NonWildcardTypeArgumentsContext,
     NonWildcardTypeArgumentsOrDiamondContext, ParExpressionContext, PrimaryContext, PrimitiveTypeContext,
@@ -38,12 +38,11 @@ import {
 } from "../../java/generated/JavaParser";
 
 import { PackageSource } from "../PackageSource";
-import { PackageSourceManager } from "../PackageSourceManager";
 import { IClassResolver, IConverterConfiguration } from "./JavaToTypeScript";
 import { Stack } from "../../lib/java/util";
 import { ClassSymbol, InterfaceSymbol } from "antlr4-c3";
 import { EnumSymbol } from "../parsing/JavaParseTreeWalker";
-import { ImportSymbol } from "../parsing/ImportSymbol";
+import { PackageSourceManager } from "../PackageSourceManager";
 
 enum Modifier {
     None,
@@ -82,6 +81,36 @@ interface ITypeInfo {
     nestedDeclarations: StringBuilder;
 }
 
+interface IParameterInfo {
+    name: string;
+    type: string;
+}
+
+// Holds certain details of each member of a class. Required for method overloading and instance initialization.
+interface IClassMemberDetails {
+    type: "init" | "field" | "constructor" | "method" | "other";
+
+    // Visibility/read only modifier.
+    modifier: string;
+
+    // Name + optional type parameters of the member (only for methods + constructors).
+    name?: string;
+    typeParameters?: string;
+
+    // Separated name + TS type of all parameters (only for methods + constructors).
+    signature?: IParameterInfo[];
+
+    // Separate return type for methods.
+    returnType?: string;
+
+    // The converted signature TS code, including leading whitespaces.
+    signatureContent?: StringBuilder;
+
+    // The converted body block for methods + constructor or the full converted code for any other type,
+    // including leading whitespaces.
+    bodyContent: StringBuilder;
+}
+
 // Converts the given Java file to Typescript.
 export class FileProcessor {
 
@@ -90,7 +119,7 @@ export class FileProcessor {
     private needDecorators?: boolean;
 
     // Keeps names of classes for which inner processing is going on. Sometimes it is necessary to know the name
-    // for special processing (e.g. auto creating static initializer functions).
+    // for special processing (e.g. auto creating static initializer functions or type aliases).
     private typeStack: Stack<ITypeInfo> = new Stack();
 
     // A list of strings that must be added at the end of the generated file (usually for static initialization).
@@ -103,9 +132,6 @@ export class FileProcessor {
 
     // The class that were resolved by the class resolver and must be listed in the imports.
     private resolvedClasses = new Set<string>();
-
-    // The list of sources that were included by this file.
-    private imports = new Set<PackageSource>();
 
     /**
      * Constructs a new file process and parses the given file. No conversion is done yet.
@@ -135,6 +161,9 @@ export class FileProcessor {
             }
         }
 
+        // Remove previously recorded symbols.
+        PackageSourceManager.clearImportedSymbols();
+
         if (this.source.parseTree) {
             process.stdout.write(`Converting: ${this.source.sourceFile}...`);
 
@@ -155,14 +184,6 @@ export class FileProcessor {
                 }
             });
 
-            // Collect all imported package sources.
-            const importSymbols = this.source.symbolTable.getNestedSymbolsOfTypeSync(ImportSymbol);
-            importSymbols.forEach((symbol) => {
-                symbol.importedSources.forEach((source) => {
-                    this.imports.add(source);
-                });
-            });
-
             let fileMatched = true;
             if (this.configuration.debug?.pathForPosition.filePattern) {
                 fileMatched = this.source.sourceFile.match(
@@ -177,10 +198,15 @@ export class FileProcessor {
             const builder = new StringBuilder();
             this.processCompilationUnit(builder, this.source.targetFile, libPath, this.source.parseTree);
 
-            fs.mkdirSync(path.dirname(this.source.targetFile), { recursive: true });
-            fs.writeFileSync(this.source.targetFile, builder.buffer);
+            try {
+                fs.mkdirSync(path.dirname(this.source.targetFile), { recursive: true });
+                fs.writeFileSync(this.source.targetFile, builder.buffer);
+                console.log(" done");
+            } catch (e) {
+                console.log("failed");
+                throw e;
+            }
 
-            console.log(" done");
         } else {
             console.log(`Ignoring: ${this.source.sourceFile}`);
         }
@@ -212,20 +238,13 @@ export class FileProcessor {
                     header.append(this.getLeadingWhiteSpaces(entry));
                 }
 
-                const packageId = entry.qualifiedName().text;
-                const sources = PackageSourceManager.fromPackageId(packageId, this.configuration.packageRoot,
-                    entry.MUL() !== undefined);
-                sources.forEach((source) => {
-                    return this.imports.add(source);
-                });
-
                 this.ignoreContent(entry);
             });
 
             this.processTypeDeclaration(builder, context.typeDeclaration());
             builder.append(this.typeStack.tos.nestedDeclarations);
 
-            this.imports.forEach((source) => {
+            this.source.importList.forEach((source) => {
                 const info = source.getImportInfo(target);
                 if (info[0].length > 0) {
                     header.appendLine(`import { ${info[0].join(",")} } from "${info[1]}";`);
@@ -274,13 +293,17 @@ export class FileProcessor {
 
     private processTypeDeclaration = (builder: StringBuilder, list: TypeDeclarationContext[]): void => {
         list.forEach((context) => {
-            let doExport = false;
+            let prefix = this.getLeadingWhiteSpaces(context);
             let hasVisibility = false;
+
+            let doExport = false;
+            const modifierBuilder = new StringBuilder();
             context.classOrInterfaceModifier().forEach((context) => {
-                switch (this.processClassOrInterfaceModifier(builder, context, RelatedElement.File)) {
+                switch (this.processClassOrInterfaceModifier(modifierBuilder, context, RelatedElement.File)) {
                     case Modifier.Public: {
-                        doExport = true;
+                        prefix += "export ";
                         hasVisibility = true;
+                        doExport = true;
                         break;
                     }
 
@@ -296,16 +319,16 @@ export class FileProcessor {
 
             if (!hasVisibility) {
                 // No modifier means: export.
-                builder.append("export ");
+                prefix += "export ";
                 doExport = true;
             }
 
             if (context.classDeclaration()) {
-                this.processClassDeclaration(builder, context.classDeclaration(), doExport);
+                this.processClassDeclaration(builder, context.classDeclaration(), prefix, doExport);
             } else if (context.enumDeclaration()) {
-                this.processEnumDeclaration(builder, context.enumDeclaration(), doExport);
+                this.processEnumDeclaration(builder, context.enumDeclaration(), prefix, doExport);
             } else if (context.interfaceDeclaration()) {
-                this.processInterfaceDeclaration(builder, context.interfaceDeclaration(), doExport);
+                this.processInterfaceDeclaration(builder, context.interfaceDeclaration(), prefix, doExport);
             } else { // annotationTypeDeclaration
                 this.getContent(builder, context, true);
             }
@@ -355,6 +378,11 @@ export class FileProcessor {
                     break;
                 }
 
+                case JavaParser.FINAL: {
+                    builder.append("readonly ");
+                    break;
+                }
+
                 default: {
                     this.ignoreContent(element);
 
@@ -375,9 +403,9 @@ export class FileProcessor {
     };
 
     private processClassDeclaration = (builder: StringBuilder, context: ClassDeclarationContext,
-        doExport: boolean): void => {
+        prefix: string, doExport: boolean): void => {
         this.typeStack.push({
-            name: context.IDENTIFIER().text,
+            name: context.identifier().text,
             init: new StringBuilder(),
             nestedDeclarations: new StringBuilder(),
         });
@@ -385,7 +413,7 @@ export class FileProcessor {
         const localBuilder = new StringBuilder();
 
         this.getContent(localBuilder, context.CLASS());
-        this.getContent(localBuilder, context.IDENTIFIER());
+        this.getContent(localBuilder, context.identifier());
 
         if (context.typeParameters()) {
             this.processTypeParameters(localBuilder, context.typeParameters());
@@ -403,23 +431,24 @@ export class FileProcessor {
         }
 
         if (context.IMPLEMENTS()) {
-            if (!context.EXTENDS() && context.typeList().typeType().length === 1) {
+            if (!context.EXTENDS() && context.typeList(0).typeType().length === 1) {
                 localBuilder.append(this.getLeadingWhiteSpaces(context.IMPLEMENTS()), "extends ");
-                this.processTypeList(localBuilder, context.typeList());
+                this.processTypeList(localBuilder, context.typeList(0));
             } else {
                 this.getContent(localBuilder, context.IMPLEMENTS());
-                this.processTypeList(localBuilder, context.typeList());
+                this.processTypeList(localBuilder, context.typeList(0));
             }
         }
 
         this.processClassBody(localBuilder, context.classBody());
         const nested = this.processNestedContent(doExport);
-        this.typeStack.tos.nestedDeclarations.append(nested);
         if (this.typeStack.length > 1) {
-            this.typeStack.tos.nestedDeclarations.append(doExport ? "export " : "", localBuilder);
+            this.typeStack.tos.nestedDeclarations.append(prefix, doExport ? "export " : "", localBuilder);
         } else {
-            builder.append(localBuilder);
+            builder.append(prefix, localBuilder);
         }
+
+        this.typeStack.tos.nestedDeclarations.append(nested);
     };
 
     private processClassBody = (builder: StringBuilder, context: ClassBodyContext): void => {
@@ -438,20 +467,24 @@ export class FileProcessor {
         this.getContent(builder, context.RBRACE());
     };
 
-    private processClassBodyDeclaration = (builder: StringBuilder,
-        list: ClassBodyDeclarationContext[]): void => {
+    private processClassBodyDeclaration = (builder: StringBuilder, list: ClassBodyDeclarationContext[]): void => {
+        const members: IClassMemberDetails[] = [];
         list.forEach((context) => {
             if (context.SEMI()) {
-                // Empty body.
-                this.getContent(builder, context, true);
+                // Empty statement.
+                const bodyContent = new StringBuilder();
+                this.getContent(bodyContent, context, false);
+                members.push({ type: "other", modifier: "", name: "", bodyContent });
             } else if (context.block()) {
                 // Static or instance initializer.
                 if (context.STATIC()) {
                     const typeInfo = this.typeStack.tos;
+                    const bodyContent = new StringBuilder();
 
-                    builder.append(this.getLeadingWhiteSpaces(context.STATIC()));
-                    builder.append(`public static initialize${typeInfo.name}(): void`);
-                    this.processBlock(builder, context.block());
+                    bodyContent.append(this.getLeadingWhiteSpaces(context.STATIC()));
+                    bodyContent.append(`public static initialize${typeInfo.name}(): void`);
+                    this.processBlock(bodyContent, context.block());
+                    members.push({ type: "other", modifier: "public", name: "", bodyContent });
 
                     // Add a call to this special function at the end of the file.
                     this.initializerCalls.push(`${typeInfo.name}.initialize${typeInfo.name}();`);
@@ -466,6 +499,7 @@ export class FileProcessor {
             } else {
                 let hasVisibility = false;
                 const modifierBuilder = new StringBuilder();
+                const ws = this.getLeadingWhiteSpaces(context);
                 context.modifier().forEach((context) => {
                     switch (this.processModifier(modifierBuilder, context)) {
                         case Modifier.Public:
@@ -482,19 +516,20 @@ export class FileProcessor {
 
                 if (!hasVisibility) {
                     // No modifier means: public.
-                    modifierBuilder.append("public");
-                    builder.append(this.getLeadingWhiteSpaces(context.memberDeclaration()));
+                    modifierBuilder.prepend("public ");
                 }
 
-                const declaration = new StringBuilder();
-                this.processMemberDeclaration(declaration, context.memberDeclaration(), modifierBuilder.text);
+                const details = this.processMemberDeclaration(context.memberDeclaration(), ws, modifierBuilder.text);
 
-                if (declaration.length > 0) {
-                    // The declaration is empty if it was converted to a (nested) namespace.
-                    builder.append(modifierBuilder, declaration);
+                if (details.bodyContent.length > 0) {
+                    // The content is empty if the member was converted to a (nested) namespace
+                    // for nested interfaces, classes and enums.
+                    members.push(details);
                 }
             }
         });
+
+        this.processBodyMembers(builder, members);
     };
 
     private processModifier = (builder: StringBuilder, context: ModifierContext): Modifier => {
@@ -511,101 +546,144 @@ export class FileProcessor {
         return result;
     };
 
-    private processMemberDeclaration = (builder: StringBuilder, context: MemberDeclarationContext,
-        modifier: string): void => {
+    private processMemberDeclaration = (context: MemberDeclarationContext, prefix: string,
+        modifier: string): IClassMemberDetails => {
+        const result: IClassMemberDetails = {
+            type: "other",
+            modifier,
+            bodyContent: new StringBuilder(),
+        };
+
         const firstChild = context.getChild(0) as ParserRuleContext;
         switch (firstChild.ruleIndex) {
             case JavaParser.RULE_methodDeclaration: {
-                return this.processMethodDeclaration(builder, context.methodDeclaration());
+                this.processMethodDeclaration(result, context.methodDeclaration());
+                result.type = "method";
+                result.name = context.methodDeclaration().identifier().text;
+                result.signatureContent.prepend(prefix, modifier);
+
+                break;
             }
 
             case JavaParser.RULE_genericMethodDeclaration: {
-                return this.processGenericMethodDeclaration(builder, context.genericMethodDeclaration());
+                this.processGenericMethodDeclaration(result, context.genericMethodDeclaration());
+                result.type = "method";
+                result.name = context.genericMethodDeclaration().methodDeclaration().identifier().text;
+                result.signatureContent.prepend(prefix, modifier);
+
+                break;
             }
 
             case JavaParser.RULE_fieldDeclaration: {
-                return this.processFieldDeclaration(builder, context.fieldDeclaration(), modifier);
+                result.bodyContent.prepend(prefix);
+                this.processFieldDeclaration(result.bodyContent, context.fieldDeclaration(), modifier);
+                result.type = "field";
+
+                break;
             }
 
             case JavaParser.RULE_constructorDeclaration: {
-                return this.processConstructorDeclaration(builder, context.constructorDeclaration());
+                this.processConstructorDeclaration(result, context.constructorDeclaration());
+                result.type = "constructor";
+                result.name = context.constructorDeclaration().identifier().text;
+                result.signatureContent.prepend(prefix, modifier);
+
+                break;
             }
 
             case JavaParser.RULE_genericConstructorDeclaration: {
-                return this.processGenericConstructorDeclaration(builder, context.genericConstructorDeclaration());
+                this.processGenericConstructorDeclaration(result, context.genericConstructorDeclaration());
+                result.type = "constructor";
+                result.name = context.genericConstructorDeclaration().constructorDeclaration().identifier().text;
+                result.signatureContent.prepend(prefix, modifier);
+
+                break;
             }
 
             case JavaParser.RULE_interfaceDeclaration: {
-                return this.processInterfaceDeclaration(builder, context.interfaceDeclaration(),
-                    modifier.endsWith("public"));
+                this.processInterfaceDeclaration(result.bodyContent, context.interfaceDeclaration(), prefix,
+                    modifier.includes("public"));
+
+                break;
             }
 
             case JavaParser.RULE_annotationTypeDeclaration: {
-                return this.processAnnotationTypeDeclaration(builder, context.annotationTypeDeclaration());
+                this.processAnnotationTypeDeclaration(result.bodyContent, context.annotationTypeDeclaration());
+
+                break;
             }
 
             case JavaParser.RULE_classDeclaration: {
-                return this.processClassDeclaration(builder, context.classDeclaration(), modifier.endsWith("public"));
+                this.processClassDeclaration(result.bodyContent, context.classDeclaration(), prefix,
+                    modifier.includes("public"));
+
+                break;
             }
 
             case JavaParser.RULE_enumDeclaration: {
-                return this.processEnumDeclaration(builder, context.enumDeclaration(), modifier.endsWith("public"));
+                this.processEnumDeclaration(result.bodyContent, context.enumDeclaration(), prefix,
+                    modifier.includes("public"));
+
+                break;
             }
 
             default:
         }
+
+        return result;
     };
 
-    private processMethodDeclaration = (builder: StringBuilder, context: MethodDeclarationContext,
+    private processMethodDeclaration = (details: IClassMemberDetails, context: MethodDeclarationContext,
         genericParams?: StringBuilder): void => {
         const returnType = new StringBuilder();
-        const isPrimitiveType = this.processTypeTypeOrVoid(returnType, context.typeTypeOrVoid());
+        this.processTypeTypeOrVoid(returnType, context.typeTypeOrVoid());
 
-        this.getContent(builder, context.IDENTIFIER());
+        details.name = context.identifier().text;
+        details.signatureContent = new StringBuilder();
+        details.signature = [];
+        details.returnType = returnType.text;
+
+        this.getContent(details.signatureContent, context.identifier());
 
         if (this.configuration.options.preferArrowFunctions) {
-            builder.append(" = ");
+            details.signatureContent.append(" = ");
         }
 
         if (genericParams) {
-            builder.append(genericParams);
+            details.signatureContent.append(genericParams);
         }
 
-        this.processFormalParameters(builder, context.formalParameters());
+        this.processFormalParameters(details, context.formalParameters());
 
         // TODO: move brackets to the type string.
         if (context.LBRACK().length > 0) {
-            builder.append(this.getLeadingWhiteSpaces(context.LBRACK(0)));
+            details.signatureContent.append(this.getLeadingWhiteSpaces(context.LBRACK(0)));
 
             const rightBrackets = context.RBRACK();
             this.whiteSpaceAnchor = rightBrackets[rightBrackets.length - 1].symbol.stopIndex + 1;
-
         }
 
-        builder.append(":", returnType);
-        if (!isPrimitiveType) {
-            builder.append(" | undefined");
-        }
-        builder.append(" ", this.configuration.options.preferArrowFunctions ? "=>" : "");
+        details.signatureContent.append(":", returnType);
+        details.signatureContent.append(" ", this.configuration.options.preferArrowFunctions ? "=>" : "");
 
         if (context.THROWS()) {
             this.ignoreContent(context.qualifiedNameList());
         }
 
-        this.processMethodBody(builder, context.methodBody());
+        this.processMethodBody(details.bodyContent, context.methodBody());
     };
 
-    private processFormalParameters = (builder: StringBuilder, context: FormalParametersContext): void => {
-        this.getContent(builder, context.LPAREN());
+    private processFormalParameters = (details: IClassMemberDetails, context: FormalParametersContext): void => {
+        this.getContent(details.signatureContent, context.LPAREN());
 
         if (context.formalParameterList()) {
-            this.processFormalParameterList(builder, context.formalParameterList());
+            this.processFormalParameterList(details, context.formalParameterList());
         }
 
-        this.getContent(builder, context.RPAREN());
+        this.getContent(details.signatureContent, context.RPAREN());
     };
 
-    private processFormalParameterList = (builder: StringBuilder, context: FormalParameterListContext): void => {
+    private processFormalParameterList = (details: IClassMemberDetails, context: FormalParameterListContext): void => {
         let index = 0;
         let child = context.getChild(index);
         while (true) {
@@ -613,7 +691,7 @@ export class FileProcessor {
                 break;
             }
 
-            this.processFormalParameter(builder, child);
+            details.signature.push(this.processFormalParameter(details.signatureContent, child));
             if (++index === context.childCount) {
                 break;
             }
@@ -623,7 +701,7 @@ export class FileProcessor {
                 break;
             }
 
-            this.getContent(builder, child);
+            this.getContent(details.signatureContent, child);
 
             if (++index === context.childCount) {
                 break;
@@ -633,12 +711,20 @@ export class FileProcessor {
         }
 
         if (child instanceof LastFormalParameterContext) {
-            this.processFormalParameter(builder, child);
+            details.signature.push(this.processFormalParameter(details.signatureContent, child));
         }
     };
 
+    /**
+     * Processes a single formal parameter.
+     *
+     * @param builder The target buffer to write the converted code to.
+     * @param context The parse context to examine.
+     *
+     * @returns Returns name and type of the parameter.
+     */
     private processFormalParameter = (builder: StringBuilder,
-        context: FormalParameterContext | LastFormalParameterContext): void => {
+        context: FormalParameterContext | LastFormalParameterContext): IParameterInfo => {
 
         context.variableModifier().forEach((modifier) => {
             this.getContent(builder, modifier, true);
@@ -647,7 +733,7 @@ export class FileProcessor {
         const typeWs = this.getLeadingWhiteSpaces(context.typeType());
 
         const type = new StringBuilder();
-        const isPrimitiveType = this.processTypeType(type, context.typeType());
+        this.processTypeType(type, context.typeType());
 
         if (context instanceof LastFormalParameterContext) {
             context.annotation().forEach((annotation) => {
@@ -656,15 +742,12 @@ export class FileProcessor {
             this.getContent(builder, context.ELLIPSIS());
         }
 
-        const nameWs = this.getLeadingWhiteSpaces(context.variableDeclaratorId().IDENTIFIER());
-
+        const identifier = context.variableDeclaratorId().identifier();
+        const nameWs = this.getLeadingWhiteSpaces(identifier);
         builder.append(typeWs);
-        this.getContent(builder, context.variableDeclaratorId().IDENTIFIER());
+        this.getContent(builder, identifier);
         builder.append(":", nameWs);
         builder.append(type);
-        if (!isPrimitiveType) {
-            builder.append(" | undefined");
-        }
 
         if (context.variableDeclaratorId().LBRACK().length > 0) {
             // Old array style given.
@@ -674,6 +757,8 @@ export class FileProcessor {
                 this.getContent(builder, children[index++] as TerminalNode);
             }
         }
+
+        return { name: identifier.text, type: type.text };
     };
 
     private processMethodBody = (builder: StringBuilder, context: MethodBodyContext): void => {
@@ -684,12 +769,13 @@ export class FileProcessor {
         }
     };
 
-    private processGenericMethodDeclaration = (builder: StringBuilder,
+    private processGenericMethodDeclaration = (details: IClassMemberDetails,
         context: GenericMethodDeclarationContext): void => {
         const params = new StringBuilder();
         this.processTypeParameters(params, context.typeParameters());
+        details.typeParameters = params.text;
 
-        return this.processMethodDeclaration(builder, context.methodDeclaration(), params);
+        return this.processMethodDeclaration(details, context.methodDeclaration(), params);
     };
 
     private processFieldDeclaration = (builder: StringBuilder, context: FieldDeclarationContext,
@@ -700,16 +786,22 @@ export class FileProcessor {
         this.getContent(builder, context.SEMI());
     };
 
-    private processConstructorDeclaration = (builder: StringBuilder, context: ConstructorDeclarationContext): void => {
-        builder.append(this.getLeadingWhiteSpaces(context.IDENTIFIER()) + "constructor");
-        this.processFormalParameters(builder, context.formalParameters());
+    private processConstructorDeclaration = (details: IClassMemberDetails,
+        context: ConstructorDeclarationContext): void => {
+
+        details.name = "constructor";
+        details.signatureContent = new StringBuilder();
+        details.signature = [];
+
+        details.signatureContent.append(this.getLeadingWhiteSpaces(context.identifier()) + "constructor");
+        this.processFormalParameters(details, context.formalParameters());
 
         if (context.THROWS()) {
             this.ignoreContent(context.qualifiedNameList());
         }
 
         // See if we should automatically add a call to super. Only if none exists yet and this class extends another.
-        const info = this.source.resolveType(context.IDENTIFIER().text);
+        const info = this.source.resolveType(context.identifier().text);
         let needSuperCall = false;
         if (info && info.symbol instanceof ClassSymbol) {
             if (info.symbol.extends.length > 0 || info.symbol.implements.length > 0) {
@@ -727,15 +819,15 @@ export class FileProcessor {
             }
         }
 
-        this.processBlock(builder, context.block(), needSuperCall);
+        this.processBlock(details.bodyContent, context.block(), needSuperCall);
     };
 
-    private processGenericConstructorDeclaration = (builder: StringBuilder,
+    private processGenericConstructorDeclaration = (details: IClassMemberDetails,
         context: GenericConstructorDeclarationContext): void => {
 
         // Constructors cannot have type parameters.
-        this.getContent(builder, context.typeParameters(), true);
-        this.processConstructorDeclaration(builder, context.constructorDeclaration());
+        this.getContent(details.bodyContent, context.typeParameters(), true);
+        this.processConstructorDeclaration(details, context.constructorDeclaration());
     };
 
     private processTypeParameters = (builder: StringBuilder, context: TypeParametersContext): void => {
@@ -757,34 +849,27 @@ export class FileProcessor {
     };
 
     private processTypeParameter = (builder: StringBuilder, context: TypeParameterContext): void => {
-        let index = 0;
-        while (true) {
-            const child = context.getChild(index);
-            if (child instanceof TerminalNode) {
-                // The identifier.
+        let i = 0;
+        while (i < context.childCount) {
+            const child = context.getChild(i++);
+            if (child instanceof AnnotationContext) {
+                this.processAnnotation(builder, child);
+            } else {
                 break;
             }
-
-            this.processAnnotation(builder, child as AnnotationContext);
-            ++index;
         }
 
-        this.getContent(builder, context.IDENTIFIER());
-        ++index;
+        this.getContent(builder, context.identifier());
 
         if (context.EXTENDS()) {
-            ++index;
-            this.getContent(builder, context.EXTENDS());
-
-            while (true) {
-                const child = context.getChild(index);
-                if (child instanceof TypeBoundContext) {
-                    // End of the annotations.
+            i += 2;
+            while (i < context.childCount) {
+                const child = context.getChild(i++);
+                if (child instanceof AnnotationContext) {
+                    this.processAnnotation(builder, child);
+                } else {
                     break;
                 }
-
-                this.processAnnotation(builder, child as AnnotationContext);
-                ++index;
             }
 
             this.processTypeBound(builder, context.typeBound());
@@ -806,9 +891,9 @@ export class FileProcessor {
     };
 
     private processInterfaceDeclaration = (builder: StringBuilder, context: InterfaceDeclarationContext,
-        doExport: boolean): void => {
+        prefix: string, doExport: boolean): void => {
         this.typeStack.push({
-            name: context.IDENTIFIER().text,
+            name: context.identifier().text,
             init: new StringBuilder(),
             nestedDeclarations: new StringBuilder(),
         });
@@ -820,7 +905,7 @@ export class FileProcessor {
         // typescript).
         this.ignoreContent(context.INTERFACE());
         localBuilder.append("abstract class");
-        this.getContent(localBuilder, context.IDENTIFIER());
+        this.getContent(localBuilder, context.identifier());
 
         if (context.typeParameters()) {
             this.processTypeParameters(localBuilder, context.typeParameters());
@@ -835,108 +920,119 @@ export class FileProcessor {
 
         if (this.typeStack.length > 1) {
             const nested = this.processNestedContent(doExport);
-            this.typeStack.tos.nestedDeclarations.append(nested, localBuilder);
+            this.typeStack.tos.nestedDeclarations.append(prefix, nested, localBuilder);
         } else {
-            builder.append(localBuilder);
+            builder.append(prefix, localBuilder);
         }
     };
 
     private processInterfaceBody = (builder: StringBuilder, context: InterfaceBodyContext): void => {
         this.getContent(builder, context.LBRACE());
 
-        context.interfaceBodyDeclaration().forEach((declaration) => {
-            this.processInterfaceBodyDeclaration(builder, declaration);
-        });
+        this.processInterfaceBodyDeclaration(builder, context.interfaceBodyDeclaration());
 
         this.getContent(builder, context.RBRACE());
     };
 
     private processInterfaceBodyDeclaration = (builder: StringBuilder,
-        context: InterfaceBodyDeclarationContext): void => {
-        if (!context.SEMI()) { // If not an empty interface.
-            let hasVisibility = false;
-            const modifierBuilder = new StringBuilder();
-            context.modifier().forEach((context) => {
-                switch (this.processModifier(modifierBuilder, context)) {
-                    case Modifier.Public:
-                    case Modifier.Protected:
-                    case Modifier.Private: {
-                        hasVisibility = true;
-                        break;
+        list: InterfaceBodyDeclarationContext[]): void => {
+        const members: IClassMemberDetails[] = [];
+        list.forEach((context) => {
+            if (!context.SEMI()) { // If not an empty interface.
+                let hasVisibility = false;
+                const modifierBuilder = new StringBuilder();
+                context.modifier().forEach((context) => {
+                    switch (this.processModifier(modifierBuilder, context)) {
+                        case Modifier.Public:
+                        case Modifier.Protected:
+                        case Modifier.Private: {
+                            hasVisibility = true;
+                            break;
+                        }
+
+                        default:
                     }
+                });
 
-                    default:
+                if (!hasVisibility) {
+                    // No modifier means: public.
+                    modifierBuilder.prepend("public ");
                 }
-            });
 
-            if (!hasVisibility) {
-                // No modifier means: public.
-                modifierBuilder.append("public");
-                builder.append(this.getLeadingWhiteSpaces(context.interfaceMemberDeclaration()));
+                const details = this.processInterfaceMemberDeclaration(context.interfaceMemberDeclaration(), "",
+                    modifierBuilder.text);
+
+                if (details.bodyContent.length > 0) {
+                    // The declaration is empty if it was converted to a (nested) namespace.
+                    members.push(details);
+                }
             }
+        });
 
-            const declaration = new StringBuilder();
-            this.processInterfaceMemberDeclaration(declaration, context.interfaceMemberDeclaration(),
-                modifierBuilder.text);
-
-            if (declaration.length > 0) {
-                // The declaration is empty if it was converted to a (nested) namespace.
-                builder.append(modifierBuilder, declaration);
-            }
-        }
+        this.processBodyMembers(builder, members);
     };
 
-    private processInterfaceMemberDeclaration = (builder: StringBuilder, context: InterfaceMemberDeclarationContext,
-        modifier: string): void => {
+    private processInterfaceMemberDeclaration = (context: InterfaceMemberDeclarationContext, prefix: string,
+        modifier: string): IClassMemberDetails => {
+        const result: IClassMemberDetails = {
+            type: "other",
+            modifier,
+            bodyContent: new StringBuilder(),
+        };
+
         const firstChild = context.getChild(0) as ParserRuleContext;
         switch (firstChild.ruleIndex) {
             case JavaParser.RULE_constDeclaration: {
-                this.processConstDeclaration(builder, firstChild as ConstDeclarationContext);
+                this.processConstDeclaration(result.bodyContent, firstChild as ConstDeclarationContext);
 
                 break;
             }
 
             case JavaParser.RULE_interfaceMethodDeclaration: {
-                this.processInterfaceMethodDeclaration(builder, firstChild as InterfaceMethodDeclarationContext);
+                this.processInterfaceMethodDeclaration(result, firstChild as InterfaceMethodDeclarationContext);
 
                 break;
             }
 
             case JavaParser.RULE_genericInterfaceMethodDeclaration: {
-                this.processGenericInterfaceMethodDeclaration(builder,
+                this.processGenericInterfaceMethodDeclaration(result,
                     firstChild as GenericInterfaceMethodDeclarationContext);
 
                 break;
             }
 
             case JavaParser.RULE_interfaceDeclaration: {
-                this.processInterfaceDeclaration(builder, firstChild as InterfaceDeclarationContext,
-                    modifier.endsWith("public"));
+                this.processInterfaceDeclaration(result.bodyContent, firstChild as InterfaceDeclarationContext,
+                    prefix, modifier.includes("public"));
 
                 break;
             }
 
             case JavaParser.RULE_annotationTypeDeclaration: {
-                this.processAnnotationTypeDeclaration(builder, firstChild as AnnotationTypeDeclarationContext);
+                this.processAnnotationTypeDeclaration(result.bodyContent,
+                    firstChild as AnnotationTypeDeclarationContext);
 
                 break;
             }
 
             case JavaParser.RULE_classDeclaration: {
-                this.processClassDeclaration(builder, firstChild as ClassDeclarationContext,
-                    modifier.endsWith("public"));
+                this.processClassDeclaration(result.bodyContent, firstChild as ClassDeclarationContext, prefix,
+                    modifier.includes("public"));
 
                 break;
             }
 
             case JavaParser.RULE_enumDeclaration: {
-                this.processEnumDeclaration(builder, firstChild as EnumDeclarationContext, modifier.endsWith("public"));
+                this.processEnumDeclaration(result.bodyContent, firstChild as EnumDeclarationContext, prefix,
+                    modifier.includes("public"));
 
                 break;
             }
 
             default:
         }
+
+        return result;
     };
 
     private processConstDeclaration = (builder: StringBuilder, context: ConstDeclarationContext): void => {
@@ -946,7 +1042,7 @@ export class FileProcessor {
         let index = 1;
         while (true) {
             let child = context.getChild(index++);
-            this.processConstantDeclarator(builder, child as ConstantDeclaratorContext, type);
+            this.processConstantDeclarator(builder, child as ConstantDeclaratorContext, type.text);
 
             child = context.getChild(index++);
             this.getContent(builder, child as TerminalNode); // Comma or semicolon.
@@ -957,17 +1053,13 @@ export class FileProcessor {
     };
 
     private processConstantDeclarator = (builder: StringBuilder, context: ConstantDeclaratorContext,
-        type: StringBuilder): void => {
+        type: string): void => {
 
-        const ws = this.getLeadingWhiteSpaces(context.IDENTIFIER());
-        this.getContent(builder, context.IDENTIFIER());
+        const ws = this.getLeadingWhiteSpaces(context.identifier());
+        this.getContent(builder, context.identifier());
 
-        if (!this.configuration.options.ignoreExplicitTypeForInitializers) {
-            builder.append(`:${ws}`);
-            builder.append(type);
-        } else {
-            builder.append(ws);
-        }
+        builder.append(`:${ws}`);
+        builder.append(type);
 
         context.RBRACK().forEach((bracket) => {
             this.getContent(builder, bracket);
@@ -977,75 +1069,69 @@ export class FileProcessor {
         this.processVariableInitializer(builder, context.variableInitializer());
     };
 
-    private processInterfaceMethodDeclaration = (builder: StringBuilder,
+    private processInterfaceMethodDeclaration = (details: IClassMemberDetails,
         context: InterfaceMethodDeclarationContext): void => {
-        let index = 0;
 
-        let child = context.getChild(index++);
-        const ws = this.getLeadingWhiteSpaces(child as ParserRuleContext);
-        if (child instanceof InterfaceMethodModifierContext) {
-            const list = context.interfaceMethodModifier();
-            this.getRangeCommented(builder, list[0], list[list.length - 1]);
+        // Ignore all method modifiers. Interface members in TS have no modifiers.
+        context.interfaceMethodModifier().forEach((modifier) => {
+            this.ignoreContent(modifier);
+        });
 
-            index += list.length;
+        this.processInterfaceCommonBodyDeclaration(details, context.interfaceCommonBodyDeclaration());
+    };
 
-            child = context.getChild(index++);
-        }
+    private processGenericInterfaceMethodDeclaration = (details: IClassMemberDetails,
+        context: GenericInterfaceMethodDeclarationContext): void => {
 
-        const type = new StringBuilder();
-        if (child instanceof TypeTypeOrVoidContext) {
-            this.processTypeTypeOrVoid(type, child);
-        } else {
-            this.processTypeParameters(type, child as TypeParametersContext);
+        // Ignore all method modifiers. Interface members in TS have no modifiers.
+        context.interfaceMethodModifier().forEach((modifier) => {
+            this.ignoreContent(modifier);
+        });
 
-            child = context.getChild(index++);
-            if (child instanceof AnnotationContext) {
-                const list = context.annotation();
-                list.forEach((annotation) => {
-                    this.processAnnotation(type, annotation);
-                });
+        const typeParameters = new StringBuilder();
+        this.processTypeParameters(typeParameters, context.typeParameters());
+        details.typeParameters = typeParameters.text;
 
-                index += list.length;
+        this.processInterfaceCommonBodyDeclaration(details, context.interfaceCommonBodyDeclaration());
+    };
 
-                child = context.getChild(index++);
-            }
+    private processInterfaceCommonBodyDeclaration = (details: IClassMemberDetails,
+        context: InterfaceCommonBodyDeclarationContext): void => {
+        details.signatureContent = new StringBuilder();
+        details.signature = [];
 
-            this.processTypeTypeOrVoid(type, child as TypeTypeOrVoidContext);
-        }
+        context.annotation().forEach((annotation) => {
+            this.ignoreContent(annotation);
+        });
 
-        builder.append(ws);
+        const returnType = new StringBuilder();
+        this.processTypeTypeOrVoid(returnType, context.typeTypeOrVoid());
 
-        const isAbstract = context.methodBody().SEMI() !== void 0;
+        const isAbstract = context.methodBody().SEMI() !== undefined;
         if (isAbstract) {
-            builder.append("abstract ");
+            details.signatureContent.append("abstract ");
         }
 
-        this.getContent(builder, context.IDENTIFIER());
+        details.name = context.identifier().text;
+        this.getContent(details.signatureContent, context.identifier());
         if (this.configuration.options.preferArrowFunctions) {
-            builder.append(isAbstract ? ": " : " = ");
+            details.signatureContent.append(isAbstract ? ": " : " = ");
         }
-        this.processFormalParameters(builder, context.formalParameters());
+        this.processFormalParameters(details, context.formalParameters());
 
         // For old style square brackets (after the method parameters) collect them and add them to the type.
         context.RBRACK().forEach((bracket) => {
-            this.getContent(type, bracket);
+            this.getContent(returnType, bracket);
         });
+        details.returnType = returnType.text;
 
         if (context.THROWS()) {
             this.ignoreContent(context.qualifiedNameList());
         }
 
-        builder.append(this.configuration.options.preferArrowFunctions ? " => " : ": ", type);
+        details.signatureContent.append(this.configuration.options.preferArrowFunctions ? " => " : ": ", returnType);
 
-        this.processMethodBody(builder, context.methodBody());
-    };
-
-    private processGenericInterfaceMethodDeclaration = (builder: StringBuilder,
-        context: GenericInterfaceMethodDeclarationContext): void => {
-        // Unclear handling ahead! The generic variant uses type parameters, but they are already handled in the
-        // "non-generic" method declaration. Or in other words: if the grammar is correct we would have 2 sets of
-        // type parameters, which seems not correct, so I ignore those here for now.
-        this.processInterfaceMethodDeclaration(builder, context.interfaceMethodDeclaration());
+        this.processMethodBody(details.bodyContent, context.methodBody());
     };
 
     private processAnnotationTypeDeclaration = (builder: StringBuilder,
@@ -1054,10 +1140,10 @@ export class FileProcessor {
     };
 
     private processEnumDeclaration = (builder: StringBuilder, context: EnumDeclarationContext,
-        doExport: boolean): void => {
+        prefix: string, doExport: boolean): void => {
         // Enum declarations always must be moved to an outer namespace.
-        const localBuilder = new StringBuilder();
-        this.getContent(localBuilder, context.IDENTIFIER());
+        const localBuilder = new StringBuilder(prefix);
+        this.getContent(localBuilder, context.identifier());
 
         if (context.IMPLEMENTS()) {
             this.getRangeCommented(localBuilder, context.IMPLEMENTS(), context.typeList());
@@ -1101,7 +1187,7 @@ export class FileProcessor {
                 this.getRangeCommented(builder, list[0], list[list.length - 1]);
             }
 
-            this.getContent(builder, context.IDENTIFIER());
+            this.getContent(builder, context.identifier());
 
             if (context.arguments()) {
                 // The Java way of defining explicit values. Can use only one of them per entry, though.
@@ -1193,12 +1279,13 @@ export class FileProcessor {
         while (true) {
             const child = context.getChild(index++);
 
+            builder.append(modifier);
             this.processVariableDeclarator(builder, child as VariableDeclaratorContext, type, makeOptional);
             if (index === context.childCount) {
                 break;
             }
 
-            // Separate each declarator and add type and modifier again.
+            // Separate each declarator and add the type again.
             const comma = context.getChild(index++) as TerminalNode;
             builder.append(";", this.getLeadingWhiteSpaces(comma), "\n", modifier);
             this.ignoreContent(comma);
@@ -1210,18 +1297,14 @@ export class FileProcessor {
         const ws = this.getLeadingWhiteSpaces(context.variableDeclaratorId());
 
         const localBuilder = new StringBuilder();
-        this.getContent(localBuilder, context.variableDeclaratorId().IDENTIFIER());
+        this.getContent(localBuilder, context.variableDeclaratorId().identifier());
         const name = localBuilder.text;
 
         if (context.parent.parent instanceof LocalVariableDeclarationContext) {
             builder.append("let ");
         }
 
-        if (this.configuration.options.ignoreExplicitTypeForInitializers && context.ASSIGN()) {
-            builder.append(`${ws}${name}`);
-        } else {
-            builder.append(`${ws}${name}${makeOptional ? "?" : ""}: ${type}`);
-        }
+        builder.append(`${ws}${name}${makeOptional ? "?" : ""}: ${type}`);
 
         if (context.variableDeclaratorId().LBRACK().length > 0) {
             let index = 1;
@@ -1355,10 +1438,11 @@ export class FileProcessor {
                             }
 
                             case JavaLexer.DOT: {
-                                if (context.getChild(2) instanceof TerminalNode) {
-                                    builder.append(firstExpression);
-                                    this.getContent(builder, context.DOT());
-
+                                builder.append(firstExpression);
+                                this.getContent(builder, context.DOT());
+                                if (context.identifier()) {
+                                    this.getContent(builder, context.identifier());
+                                } else if (context.getChild(2) instanceof TerminalNode) {
                                     const node = context.getChild(2) as TerminalNode;
                                     switch (node.symbol.type) {
                                         case JavaLexer.IDENTIFIER:
@@ -1385,8 +1469,6 @@ export class FileProcessor {
                                         default:
                                     }
                                 } else {
-                                    builder.append(firstExpression);
-                                    this.getContent(builder, context.DOT());
                                     if (context.methodCall()) {
                                         this.processMethodCall(builder, context.methodCall());
                                     } else {
@@ -1439,7 +1521,7 @@ export class FileProcessor {
                                     if (context.typeArguments()) {
                                         this.processTypeArguments(builder, context.typeArguments());
                                     }
-                                    this.getContent(builder, context.IDENTIFIER());
+                                    this.getContent(builder, context.identifier());
 
                                     break;
                                 }
@@ -1473,13 +1555,11 @@ export class FileProcessor {
                 }
 
                 case JavaParser.RULE_methodCall: {
-                    if (context.methodCall().IDENTIFIER()) {
-                        const qualifier = this.source.getSymbolQualifier(context,
-                            context.methodCall().IDENTIFIER().text);
-                        builder.append(this.getLeadingWhiteSpaces(context.methodCall()));
-                        if (qualifier) {
-                            builder.append(qualifier);
-                        }
+                    if (context.methodCall().identifier()) {
+                        const name = context.methodCall().identifier().text;
+                        builder.append(this.getLeadingWhiteSpaces(context.methodCall().identifier()));
+                        builder.append(this.resolveMember(context, name));
+                        this.ignoreContent(context.methodCall().identifier());
                     }
 
                     this.processMethodCall(builder, context.methodCall());
@@ -1498,7 +1578,7 @@ export class FileProcessor {
                     builder.append(this.getLeadingWhiteSpaces(context.COLONCOLON()) + ".");
                     if (context.typeArguments()) {
                         this.processTypeArguments(builder, context.typeArguments());
-                        this.getContent(builder, context.IDENTIFIER());
+                        this.getContent(builder, context.identifier());
                     } else {
                         this.getContent(builder, context.NEW());
                     }
@@ -1593,12 +1673,17 @@ export class FileProcessor {
     };
 
     private processLambdaParameters = (builder: StringBuilder, context: LambdaParametersContext): void => {
-        if (context.IDENTIFIER().length > 0) {
-            context.IDENTIFIER().forEach((identifier) => {
+        if (context.identifier().length > 0) {
+            context.identifier().forEach((identifier) => {
                 this.getContent(builder, identifier);
             });
         } else if (context.formalParameterList()) {
-            this.processFormalParameterList(builder, context.formalParameterList());
+            const details: IClassMemberDetails = {
+                type: "other",
+                modifier: "",
+                bodyContent: builder,
+            };
+            this.processFormalParameterList(details, context.formalParameterList());
         }
 
         if (context.RPAREN()) {
@@ -1607,11 +1692,7 @@ export class FileProcessor {
     };
 
     private processMethodCall = (builder: StringBuilder, context: MethodCallContext): void => {
-        const firstChild = context.getChild(0) as TerminalNode;
-        builder.append(this.getLeadingWhiteSpaces(firstChild));
-
-        this.getContent(builder, firstChild);
-
+        // The call identifier has been consumed already by the caller.
         this.getContent(builder, context.LPAREN());
 
         if (context.expressionList()) {
@@ -1622,9 +1703,18 @@ export class FileProcessor {
     };
 
     private processExpressionList = (builder: StringBuilder, context: ExpressionListContext): void => {
-        context.expression().forEach((expression) => {
-            this.processExpression(builder, expression);
-        });
+        let i = 0;
+        while (i < context.childCount) {
+            let child = context.getChild(i++);
+            this.processExpression(builder, child as ExpressionContext);
+
+            if (i === context.childCount) {
+                break;
+            }
+
+            child = context.getChild(i++);
+            this.getContent(builder, child as TerminalNode); // The comma.
+        }
     };
 
     /**
@@ -1745,16 +1835,16 @@ export class FileProcessor {
                 }
 
                 default: {
-                    const ws = this.getLeadingWhiteSpaces(context.IDENTIFIER());
+                    const ws = this.getLeadingWhiteSpaces(context.identifier());
                     builder.append(ws);
 
-                    let name = context.IDENTIFIER().text;
-                    const qualifier = this.source.getSymbolQualifier(context.parent, name);
+                    let name = context.identifier().text;
+                    const info = this.source.getQualifiedSymbol(context.parent, name);
 
-                    if (qualifier === undefined) {
+                    if (info === undefined) {
                         name = this.resolveTypeName(context, name);
-                    } else if (qualifier.length > 0) {
-                        const parts = qualifier.split(".");
+                    } else {
+                        const parts = info.qualifiedName.split(".");
                         parts[0] = this.resolveTypeName(context, parts[0]);
                         builder.append(parts.join("."));
                     }
@@ -1764,16 +1854,23 @@ export class FileProcessor {
         } else {
             switch ((firstChild as ParserRuleContext).ruleIndex) {
                 case JavaParser.RULE_typeTypeOrVoid: {
+                    builder.append(this.getLeadingWhiteSpaces(context.typeTypeOrVoid()), "new java.lang.Class(");
                     this.processTypeTypeOrVoid(builder, context.typeTypeOrVoid());
-                    this.getContent(builder, context.DOT());
+                    builder.append(")");
                     this.ignoreContent(context.CLASS());
-                    builder.append("name"); // Replaces ".class" appendix.
 
                     break;
                 }
 
                 case JavaParser.RULE_literal: {
                     this.processLiteral(builder, context.literal());
+                    break;
+                }
+
+                case JavaParser.RULE_identifier: {
+                    builder.append(this.getLeadingWhiteSpaces(context.identifier()));
+                    const identifier = context.identifier().text;
+                    builder.append(this.resolveMember(context.parent, identifier));
                     break;
                 }
 
@@ -1823,7 +1920,7 @@ export class FileProcessor {
             this.getContent(builder, context.SUPER());
             this.processSuperSuffix(builder, context.superSuffix());
         } else {
-            this.getContent(builder, context.IDENTIFIER());
+            this.getContent(builder, context.identifier());
             this.processArguments(builder, context.arguments());
         }
     };
@@ -2045,8 +2142,8 @@ export class FileProcessor {
         this.processCatchType(type, context.catchType());
         builder.append(this.checkExceptionType(context, type.text));
 
-        const ws = this.getLeadingWhiteSpaces(context.IDENTIFIER());
-        this.getContent(builder, context.IDENTIFIER());
+        const ws = this.getLeadingWhiteSpaces(context.identifier());
+        this.getContent(builder, context.identifier());
         builder.append(":", ws, "unknown");
         this.processBlock(builder, context.block());
     };
@@ -2201,7 +2298,7 @@ export class FileProcessor {
         if (context.typeArguments()) {
             this.processTypeArguments(builder, context.typeArguments());
         } else {
-            this.getContent(builder, context.IDENTIFIER());
+            this.getContent(builder, context.identifier());
         }
     };
 
@@ -2302,6 +2399,194 @@ export class FileProcessor {
     };
 
     /**
+     * Overload processing for class and interface declarations. All members which are not methods or constructors
+     * are written directly as processed by the calling code. Otherwise the member list is searched for duplicated
+     * "constructor" or method name entries. If something was found the code is transformed into overloaded methods
+     * or constructors.
+     *
+     * @param builder The target build to write the final output to.
+     * @param members A list of process member entries.
+     */
+    private processBodyMembers = (builder: StringBuilder, members: IClassMemberDetails[]): void => {
+        while (true) {
+            const member = members.shift();
+            if (!member) {
+                break;
+            }
+
+            if (member.type === "constructor" || member.type === "method") {
+                const name = member.name;
+                const overloads = members.filter((candidate) => {
+                    // Cannot overload static methods, so these are kept as is.
+                    return candidate.name === name && !candidate.modifier.includes("static");
+                });
+
+                if (overloads.length > 0) {
+                    overloads.unshift(member);
+
+                    // Found overloads, so filter the remaining members list for the rest.
+                    members = members.filter((candidate) => {
+                        return candidate.name !== name || candidate.modifier.includes("static");
+                    });
+
+                    // Write the overload signatures.
+                    overloads.forEach((overload) => {
+                        builder.append(overload.signatureContent, ";");
+                    });
+
+                    // Construct the implementation signature.
+                    // Determine the largest number of parameters and get the set of possible return types.
+                    let maxParamCount = 0;
+                    const returnTypes = new Set<string>();
+                    overloads.forEach((overload) => {
+                        if (overload.signature.length > maxParamCount) {
+                            maxParamCount = overload.signature.length;
+                        }
+                        if (member.type === "method") {
+                            returnTypes.add(overload.returnType);
+                        }
+                    });
+
+                    const combinedParameters: Array<IParameterInfo & { optional: boolean }> = [];
+                    let combinedParameterString = "";
+
+                    if (maxParamCount > 0) {
+                        for (let i = 0; i < maxParamCount; ++i) {
+                            // These are sets to ignore duplicates.
+                            const names = new Set<string>();
+                            const types = new Set<string>();
+                            let optional = false;
+                            overloads.forEach((overload) => {
+                                if (i < overload.signature.length) {
+                                    names.add(overload.signature[i].name);
+                                    types.add(overload.signature[i].type);
+                                } else {
+                                    optional = true;
+                                }
+                            });
+
+                            // Convert the found names (w/o duplicates) to an array to join them, after
+                            // converting all names to title case (except the first one).
+                            const nameArray = Array.from(names);
+                            nameArray.forEach((name, index) => {
+                                if (index > 0) {
+                                    nameArray[index] = name[0].toUpperCase() + name.substring(1);
+                                }
+                            });
+                            const parameterName = nameArray.join("Or");
+
+                            // Next construct a union type out of the found types.
+                            const typeArray = Array.from(types);
+                            const parameterType = typeArray.join(" | ");
+
+                            combinedParameters[i] = { name: parameterName, type: parameterType, optional };
+                        }
+
+                        // Construct the implementation signature from the combined parameters.
+                        combinedParameters.forEach((parameter, index) => {
+                            if (index > 0) {
+                                combinedParameterString += ", ";
+                            }
+
+                            if (parameter.optional) {
+                                combinedParameterString += parameter.name + "?: " + parameter.type;
+                            } else {
+                                combinedParameterString += parameter.name + ": " + parameter.type;
+                            }
+                        });
+                    }
+
+                    if (member.type === "constructor") {
+                        builder.append(member.modifier, " constructor(", combinedParameterString, ") {\n");
+                    } else {
+                        const combinedReturnTypeString = Array.from(returnTypes).join(" | ");
+                        builder.append(`\n${member.modifier} ${member.name}${member.typeParameters ?? ""}(` +
+                            `${combinedParameterString}): ${combinedReturnTypeString} {\n`);
+                    }
+
+                    // Finally add the body code for each overload, depending on the overload parameters.
+                    overloads.forEach((overload, index) => {
+                        if (index > 0) {
+                            builder.append(" else ");
+                        }
+
+                        const nameAssignments: string[] = [];
+                        if (index < overloads.length - 1) {
+                            let condition = "";
+                            for (let i = 0; i < maxParamCount; ++i) {
+                                if (i > 0) {
+                                    condition += " && ";
+                                }
+
+                                if (i < overload.signature.length) {
+                                    // There's a parameter at this position. Add a check for it.
+                                    const typeParts = overload.signature[i].type.split(".");
+                                    const typeName = typeParts.length === 1
+                                        ? typeParts[0]
+                                        : typeParts[typeParts.length - 1];
+                                    const isClass = typeName[0] === typeName[0].toUpperCase();
+
+                                    if (isClass) {
+                                        let type = overload.signature[i].type.trim();
+                                        const typeParamsCheck = type.match(/^[A-Z_.]+[ \t]*(<.+>)/i);
+                                        if (typeParamsCheck) {
+                                            type = type.substring(0, type.length - typeParamsCheck[1].length);
+                                        }
+
+                                        condition += `${combinedParameters[i].name} instanceof ${type}`;
+                                    } else {
+                                        condition += `typeof ${combinedParameters[i].name} === ` +
+                                            `"${overload.signature[i].type}"`;
+                                    }
+
+                                    if (overload.signature[i].name !== combinedParameters[i].name) {
+                                        nameAssignments.push(`const ${overload.signature[i].name} = ` +
+                                            `${combinedParameters[i].name} as ${overload.signature[i].type};`);
+                                    }
+                                } else {
+                                    // Overload parameter list exhausted. Add a check for the current parameter
+                                    // and stop the loop. After an optional parameter there can't be a non-optional one.
+                                    condition += `${combinedParameters[i].name} === undefined`;
+                                    break;
+                                }
+                            }
+                            builder.append(`if (${condition})`);
+                        } else {
+                            // This is the last overload branch. No need for a condition, but we still need
+                            // the name assignments.
+                            for (let i = 0; i < overload.signature.length; ++i) {
+                                if (overload.signature[i].name !== combinedParameters[i].name) {
+                                    nameAssignments.push(`const ${overload.signature[i].name} = ` +
+                                        `${combinedParameters[i].name} as ${overload.signature[i].type};`);
+                                }
+                            }
+                        }
+
+                        // Before writing the body content, we also have to inject assignments with the original
+                        // parameter name (+ a cast), if it differs from the combined name, to allow using the
+                        // body content without change.
+                        let block = overload.bodyContent.text;
+                        if (nameAssignments.length > 0) {
+                            const openCurlyIndex = block.indexOf("{");
+                            if (openCurlyIndex > -1) { // Should always be true.
+                                block = block.substring(0, openCurlyIndex + 1) + "\n" + nameAssignments.join("\n") +
+                                    block.substring(openCurlyIndex + 1);
+                            }
+                        }
+                        builder.append(block, "\n");
+                    });
+                    builder.append("\n}\n");
+                } else {
+                    builder.append(member.signatureContent);
+                    builder.append(member.bodyContent);
+                }
+            } else {
+                builder.append(member.bodyContent);
+            }
+        }
+    };
+
+    /**
      * Returns all white spaces (including comments) between the current white space anchor and the first character
      * covered by the target.
      * The white space anchor is then set to the position directly following the target.
@@ -2386,7 +2671,6 @@ export class FileProcessor {
      */
     private processNestedContent = (doExport: boolean): StringBuilder => {
         const result = new StringBuilder();
-
         const classInfo = this.typeStack.pop();
         if (classInfo.nestedDeclarations.length > 0) {
             result.append("\n\n");
@@ -2452,26 +2736,37 @@ export class FileProcessor {
             default:
         }
 
-        /* No lookup if `name` is not a type name (must start with upper case letter).
-        if (name[0].toLocaleUpperCase() !== name[0]) {
-            return name;
-        }*/
-
         // 3. Is it a symbol from this file?
-        const qualifier = this.source.getSymbolQualifier(context, name);
-        if (qualifier) {
-            return qualifier + name;
+        const info = this.source.getQualifiedSymbol(context, name);
+        if (info) {
+            return info.qualifiedName;
         }
 
         // 4. Is it an imported type?
-        this.imports.forEach((source) => {
+        for (const source of this.source.importList) {
             const info = source.resolveType(name);
             if (info) {
                 return info.qualifiedName;
             }
-        });
+        }
 
         return name;
     };
 
+    /**
+     * Resolves an identifier from an expression, which must be a member name (local variable, parameter, class field).
+     *
+     * @param context A parse tree to start searching from for local symbols.
+     * @param name The name of the type to check.
+     *
+     * @returns Either a replacement for the given name or the name itself.
+     */
+    private resolveMember = (context: ParseTree, name: string): string => {
+        const info = this.source.getQualifiedSymbol(context, name);
+        if (info) {
+            return info.qualifiedName;
+        }
+
+        return name;
+    };
 }

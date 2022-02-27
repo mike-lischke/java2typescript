@@ -8,7 +8,6 @@
 import { ClassSymbol, InterfaceSymbol, MethodSymbol, ScopedSymbol, SymbolTable } from "antlr4-c3";
 
 import { PackageSource } from "../../src/PackageSource";
-import { FileSymbol } from "../../src/parsing/JavaParseTreeWalker";
 
 // A package source specifically for Java imports. It handles symbol resolution for known Java SDK packages.
 export class JavaPackageSource extends PackageSource {
@@ -21,11 +20,10 @@ export class JavaPackageSource extends PackageSource {
 
     private createSymbolTable = (): void => {
         this.symbolTable = new SymbolTable("Java", { allowDuplicateSymbols: false });
-        const file = this.symbolTable.addNewSymbolOfType(FileSymbol, undefined, "file");
 
-        this.createLangEntries(file);
-        this.createIoEntries(file);
-        this.createUtilEntries(file);
+        this.createLangEntries(this.symbolTable);
+        this.createIoEntries(this.symbolTable);
+        this.createUtilEntries(this.symbolTable);
     };
 
     private createLangEntries = (parent: ScopedSymbol): void => {
@@ -76,5 +74,16 @@ export class JavaPackageSource extends PackageSource {
         this.symbolTable.addNewSymbolOfType(MethodSymbol, hashMap, "put");
         this.symbolTable.addNewSymbolOfType(ClassSymbol, util, "ListIterator", [], []);
         this.symbolTable.addNewSymbolOfType(ClassSymbol, util, "Stack", [], []);
+
+        this.createRegexEntries(util);
+    };
+
+    private createRegexEntries = (parent: ScopedSymbol): void => {
+        const regex = this.symbolTable.addNewNamespaceFromPathSync(parent, "regex", ".");
+
+        this.symbolTable.addNewSymbolOfType(ClassSymbol, regex, "Pattern", [], []);
+        this.symbolTable.addNewSymbolOfType(ClassSymbol, regex, "Matcher", [], []);
+        this.symbolTable.addNewSymbolOfType(ClassSymbol, regex, "MatchResult", [], []);
+        this.symbolTable.addNewSymbolOfType(ClassSymbol, regex, "PatternSyntaxException", [], []);
     };
 }

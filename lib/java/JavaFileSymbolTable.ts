@@ -9,42 +9,54 @@ import { Symbol, ClassSymbol, ScopedSymbol, SymbolTable, InterfaceSymbol, Parame
 import { ParseTree, ParseTreeWalker } from "antlr4ts/tree";
 
 import {
-    ClassDeclarationContext, CreatorContext, InterfaceDeclarationContext, TypeTypeContext,
+    ClassDeclarationContext, CreatorContext, ExpressionContext, InterfaceDeclarationContext, MemberDeclarationContext,
+    TypeTypeContext,
 } from "../../java/generated/JavaParser";
+import { ISymbolInfo } from "../../src/conversion/types";
 import { PackageSource } from "../../src/PackageSource";
-import { ImportSymbol } from "../../src/parsing/ImportSymbol";
 import { JavaClassSymbol } from "../../src/parsing/JavaClassSymbol";
-import { EnumSymbol, JavaParseTreeWalker } from "../../src/parsing/JavaParseTreeWalker";
+import { ConstructorSymbol, EnumSymbol, JavaParseTreeWalker } from "../../src/parsing/JavaParseTreeWalker";
 
 export class JavaFileSymbolTable extends SymbolTable {
 
     private referencesResolved = false;
 
-    public constructor(private packageId: string, private tree: ParseTree, packageRoot: string) {
+    public constructor(private tree: ParseTree, packageRoot: string, private importList: Set<PackageSource>) {
         super("fileSymbolTable", { allowDuplicateSymbols: true });
 
-        ParseTreeWalker.DEFAULT.walk(new JavaParseTreeWalker(this, packageRoot), this.tree);
-
+        ParseTreeWalker.DEFAULT.walk(new JavaParseTreeWalker(this, packageRoot, importList), this.tree);
     }
 
     /**
-     * Determines a TS qualifier needed for the symbol with the given name. This can be `this` or a qualified
-     * identifier for static field members etc.
+     * Converts a given symbol name to its fully qualified form, if it can be found.
      *
      * @param context The parse context where to start the search from.
      * @param name The name of the symbol to find.
      *
      * @returns A string containing the constructed qualifier. If no symbol could be found then undefined is returned.
      */
-    public getSymbolQualifier = (context: ParseTree, name: string): string | undefined => {
-        if (!this.referencesResolved) {
-            this.resolveReferences();
-        }
+    public getQualifiedSymbol = (context: ParseTree, name: string): ISymbolInfo | undefined => {
+        this.resolveReferences();
 
         let block = this.symbolWithContextSync(context);
-
         if (!block) {
-            return undefined;
+            // The given context is not one of the key contexts we used in the symbol table.
+            // Walk the parent chain up to see if we can find an expression or member context and continue from there.
+            while (true) {
+                context = context.parent;
+                if (!context || context instanceof ExpressionContext || context instanceof MemberDeclarationContext) {
+                    break;
+                }
+            }
+
+            if (!context) {
+                return undefined;
+            }
+
+            block = this.symbolWithContextSync(context);
+            if (!block) {
+                return undefined;
+            }
         }
 
         if (!(block instanceof ScopedSymbol)) {
@@ -56,45 +68,59 @@ export class JavaFileSymbolTable extends SymbolTable {
             return undefined;
         }
 
-        if (symbol instanceof ParameterSymbol) {
-            return "";
+        if (symbol instanceof ParameterSymbol || symbol instanceof ConstructorSymbol) {
+            return {
+                symbol,
+                qualifiedName: name,
+            };
         }
 
-        if (symbol.parent instanceof ClassSymbol || symbol.parent instanceof InterfaceSymbol) {
+        // Is the symbol itself a class or interface?
+        if (symbol instanceof ClassSymbol || symbol instanceof InterfaceSymbol) {
+            // If so this is a nested type and we have to fully qualify it.
+            return {
+                symbol,
+                qualifiedName: symbol.qualifiedName(),
+            };
+        } else if (symbol.parent instanceof ClassSymbol || symbol.parent instanceof InterfaceSymbol) {
             // Member of a class or interface.
             if (symbol.modifiers.has(Modifier.Static)) {
-                return symbol.parent.name + ".";
+                return {
+                    symbol,
+                    qualifiedName: symbol.parent.name + "." + name,
+                };
+
             } else {
-                return "this.";
+                return {
+                    symbol,
+                    qualifiedName: "this." + name,
+                };
             }
         }
 
-        return "";
+        return {
+            symbol,
+            qualifiedName: name,
+        };
     };
 
     /**
-     * Called after the symbol table content was built, which also loads imported packages.
-     * Now class + interface references can be resolved.
+     * Called when inheritance information might be necessary.
+     * Here we search inherited and implemented classes/interfaces and store references to their symbols.
      */
-    private resolveReferences = (): void => {
+    public resolveReferences = (): void => {
+        if (this.referencesResolved) {
+            return;
+        }
+
         this.referencesResolved = true;
 
         const classSymbols = this.getNestedSymbolsOfTypeSync(JavaClassSymbol);
         const interfaceSymbols = this.getNestedSymbolsOfTypeSync(InterfaceSymbol);
-        const importSymbols = this.getNestedSymbolsOfTypeSync(ImportSymbol);
 
-        if (importSymbols.length > 0 && (classSymbols.length > 0 || interfaceSymbols.length > 0)) {
-            const sources: Set<PackageSource> = new Set();
-            importSymbols.forEach((symbol) => {
-                symbol.importedSources.forEach((source) => {
-                    sources.add(source);
-                });
-            });
-
-            if (sources.size > 0) {
-                this.resolveClassSymbols(classSymbols, sources);
-                this.resolveInterfaceSymbols(interfaceSymbols, sources);
-            }
+        if (this.importList.size > 0 && (classSymbols.length > 0 || interfaceSymbols.length > 0)) {
+            this.resolveClassSymbols(classSymbols, this.importList);
+            this.resolveInterfaceSymbols(interfaceSymbols, this.importList);
         }
     };
 
@@ -103,7 +129,7 @@ export class JavaFileSymbolTable extends SymbolTable {
             let candidate = classSymbol.context.parent.parent.parent;
             if (candidate instanceof CreatorContext) {
                 // Anonymous inner class. Have to walk up quite a bit to get the base class name.
-                const type = candidate.createdName().IDENTIFIER(0).text;
+                const type = candidate.createdName().identifier(0).text;
                 this.resolveTypeName(type, sources, (symbol: Symbol) => {
                     if (symbol instanceof ClassSymbol) {
                         classSymbol.extends.push(symbol);
@@ -125,9 +151,9 @@ export class JavaFileSymbolTable extends SymbolTable {
                         });
                     }
 
-                    if (candidate.typeList()) {
+                    if (candidate.IMPLEMENTS()) {
                         // Interfaces to implement.
-                        candidate.typeList().typeType().forEach((typeContext) => {
+                        candidate.typeList(0).typeType().forEach((typeContext) => {
                             this.resolveType(typeContext, sources, (symbol: Symbol) => {
                                 if (symbol instanceof ClassSymbol || symbol instanceof InterfaceSymbol) {
                                     classSymbol.implements.push(symbol);
@@ -160,7 +186,7 @@ export class JavaFileSymbolTable extends SymbolTable {
         add: (symbol: Symbol) => void): void => {
         if (context.classOrInterfaceType()) {
             // Ignoring type parameters here for now.
-            const parts = context.classOrInterfaceType().IDENTIFIER().map((node) => {
+            const parts = context.classOrInterfaceType().identifier().map((node) => {
                 return node.text;
             });
             const name = parts.join(".");

@@ -13,7 +13,8 @@ import { Symbol, SymbolTable } from "antlr4-c3";
 
 import { Interval } from "antlr4ts/misc/Interval";
 import { CompilationUnitContext } from "../java/generated/JavaParser";
-import { ISymbolInfo } from "./PackageSourceManager";
+import { PackageSourceManager } from "./PackageSourceManager";
+import { ISymbolInfo } from "./conversion/types";
 
 // A class to provide symbol information for a single package or source file. It allows to convert
 // Java imports to JS/TS imports and to expand partial type specifiers to their fully qualified name.
@@ -21,11 +22,18 @@ export class PackageSource {
     // Available symbols from the associated file or package.
     public symbolTable?: SymbolTable;
 
+    // The set of sources imported by this source. Might contain unused imports.
+    public importList = new Set<PackageSource>();
+
     // A list of symbol names, which have been resolved at least once, which means they are imported into the
     // file being converted. Hence those names comprise the TS import list.
-    protected importList = new Set<string>();
+    protected importedSymbols = new Set<string>();
 
     public constructor(public packageId: string, public sourceFile: string, public targetFile: string) {
+        if (packageId !== "java") {
+            // In Java only java.lang is implicitly imported, but we do that for all Java classes here.
+            this.importList.add(PackageSourceManager.fromPackageId("java"));
+        }
     }
 
     public get parseTree(): CompilationUnitContext | undefined {
@@ -44,7 +52,7 @@ export class PackageSource {
         // Overridden by descendants.
     };
 
-    public getSymbolQualifier = (_context: ParseTree, _name: string): string | undefined => {
+    public getQualifiedSymbol = (_context: ParseTree, _name: string): ISymbolInfo | undefined => {
         return undefined;
     };
 
@@ -60,6 +68,13 @@ export class PackageSource {
     };
 
     /**
+     * Used to reset the recorded list of imported symbols. This has to be done for each processor run.
+     */
+    public clearImportedSymbols = (): void => {
+        this.importedSymbols.clear();
+    };
+
+    /**
      * Collects all imported names. Recording is done during symbol resolution.
      *
      * @param importingFile The absolute path to the file, for which to generate the import statements.
@@ -67,8 +82,8 @@ export class PackageSource {
      * @returns A tuple containing a list of imported names and the relative import path.
      */
     public getImportInfo = (importingFile: string): [string[], string] => {
-        if (this.importList.size > 0) {
-            const names = Array.from(this.importList.values());
+        if (this.importedSymbols.size > 0) {
+            const names = Array.from(this.importedSymbols.values());
             let importPath: string;
             if (this.targetFile.startsWith("/") || this.targetFile.startsWith(".")) {
                 importPath = path.relative(path.dirname(importingFile), path.dirname(this.targetFile));
@@ -100,6 +115,9 @@ export class PackageSource {
      * @returns The symbol for the given name, if found. Otherwise nothing is returned.
      */
     public resolveType = (name: string): ISymbolInfo | undefined => {
+        // Touch the parse tree, to trigger a parse run of this source, if not yet done.
+        void this.parseTree;
+
         // Locate the type with the name given by the last part, which is our deepest level.
         const parts = name.split(".");
         const symbols = this.symbolTable?.getAllNestedSymbolsSync(parts[parts.length - 1]) ?? [];
@@ -108,10 +126,8 @@ export class PackageSource {
         }
 
         const candidates = symbols.map((symbol) => {
-            // There are 2 top level nodes (the symbol table itself and the file scope).
             const path = symbol.symbolPath;
-            path.pop();
-            path.pop();
+            path.pop(); // Remove the symbol table entry.
 
             return path.reverse().map((pathSymbol) => {
                 return pathSymbol.name;
@@ -122,7 +138,7 @@ export class PackageSource {
             const candidate = candidates[index];
             const qualifiedName = candidate.join(".");
             if (qualifiedName.endsWith(name)) {
-                this.importList.add(candidate[0]);
+                this.importedSymbols.add(candidate[0]);
 
                 return {
                     symbol: symbols[index],
@@ -146,6 +162,8 @@ export class PackageSource {
      * @returns The symbol when found, otherwise undefined.
      */
     public resolveMember = (name: string, context: ParseTree): Symbol | undefined => {
+        void this.parseTree;
+
         const base = this.symbolTable?.symbolWithContextSync(context);
         if (!base) {
             return undefined;

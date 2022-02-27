@@ -5,67 +5,49 @@
  * See LICENSE file for more info.
  */
 
-import fs from "fs";
-import path from "path";
-
-import { Symbol } from "antlr4-c3";
-
 import { JavaFileSource } from "../lib/java/JavaFileSource";
 import { PackageSource } from "./PackageSource";
 import { JavaPackageSource } from "../lib/java/JavaPackageSource";
-import { ISourceMapping } from "./conversion/JavaToTypeScript";
-
-export interface ISymbolInfo {
-    symbol: Symbol;
-    qualifiedName: string;
-    source: PackageSource;
-}
 
 // This is the hook for the application to provide custom package sources for symbol resolution.
-export type CustomImportResolver = (packageId: string) => PackageSource[];
+export type CustomImportResolver = (packageId: string) => PackageSource | undefined;
 
-// A class to provide symbol information for a single package or source file. It allows to convert
-// Java imports to JS/TS imports and to expand partial type specifiers to their fully qualified name.
+// A class to hold package sources for use by the conversion process.
 export class PackageSourceManager {
+    // A mapper function which can return a package source for a package ID.
+    // Such a package source is usually not loaded from a file, but contains a symbol table constructed by
+    // other means (e.g. hard coded values).
     private static customImportResolver: CustomImportResolver;
-    private static sourceMappings: Map<string, ISourceMapping>;
+
+    // A special path holding the JDK polyfills.
     private static javaTargetRoot: string;
 
-    // The list of sources, loaded from files.
-    private static fileSources = new Map<string, JavaFileSource>();
+    // The list of all known package sources.
+    private static sources = new Map<string, PackageSource>();
 
-    // The list of sources generated from other references (like hard coded symbol tables).
-    private static mappedSources = new Map<string, PackageSource>();
-
-    public static configure = (
-        customImportResolver: CustomImportResolver,
-        sourceMappings: Map<string, ISourceMapping>,
-        javaTargetRoot: string): void => {
-
+    public static configure = (customImportResolver: CustomImportResolver, javaTargetRoot: string): void => {
         this.customImportResolver = customImportResolver;
-        this.sourceMappings = sourceMappings;
         this.javaTargetRoot = javaTargetRoot;
 
-        // java.lang is imported by default in Java.
-        if (!sourceMappings.has("java.lang.*")) {
-            const source = new JavaPackageSource("java", this.javaTargetRoot);
-            this.mappedSources.set("java", source);
-        }
+        // All JDK sources are always known.
+        const source = new JavaPackageSource("java", this.javaTargetRoot);
+        this.sources.set("java", source);
     };
 
     /**
      * Looks up a package source in the internal registry, loaded from the given absolute path.
-     * If it doesn't exist yet create it from the specified file.
+     * If it doesn't exist yet, it's created from the specified file.
      *
-     * @param source The absolute path to a Java file, which will be parsed.
+     * @param source The absolute path to a Java file, which can be loaded and parse. This file must exist or an error
+     *               is raised.
      * @param target The absolute path to the TS file, which will be generated. Can be empty if no target file is
-     *               generated or contain a reference to some other source.
+     *               generated or may contain a reference to some other source like a node module.
      * @param packageRoot The path to the root of the package where the given file is in. Used to resolve
      *                    relative file paths for imports.
      *
      * @returns A package source instance. An error is thrown if the source could not be read.
      */
-    public static fromFile = (source: string, target: string, packageRoot: string): JavaFileSource => {
+    public static fromFile = (source: string, target: string, packageRoot: string): PackageSource => {
         // Construct a package name for lookup from the given paths.
         if (!source.startsWith(packageRoot)) {
             throw new Error("The full path must specify a file within the given package root.");
@@ -81,121 +63,81 @@ export class PackageSourceManager {
         }
         const packageId = subPath.replace(/\//g, ".");
 
-        let packageSource = this.findFileSource(packageId);
+        let packageSource = this.findSource(packageId);
         if (packageSource) {
-            // Already loaded.
             return packageSource;
         }
 
         packageSource = new JavaFileSource(packageId, source, target, packageRoot);
-        this.fileSources.set(packageId, packageSource);
-
-        // Touch the parse tree of the new source to make it run the parser.
-        void packageSource.parseTree;
+        this.sources.set(packageId, packageSource);
 
         return packageSource;
     };
 
     /**
-     * Uses a package ID for look up of a package source. This can be a package ID as used by imports.
-     * If the ID references a file from the current package (i.e. exists under the package root), the package
-     * is loaded from that file.
+     * Uses a package ID for look up of a package source. This must be a complete package ID as used by imports.
+     * Wildcard imports are handled in `fromPackageIdWildcard`.
      *
-     * Alternatively, the mapping from package IDs to source folders is scanned to find files outside of the
-     * package root. Also these are loaded from the found files.
+     * All packages should be created upfront before invoking any of the package lookup methods. Exceptions are
+     * sources created from the custom import resolver.
      *
-     * If these two steps do not lead to a valid file on disk, the import resolver is consulted to provide a
-     * custom package source. This source must be provided from outside and may contain a symbol table
-     * with symbols from any origin (hard coded, loaded from data file etc.), to allow resolving symbols.
-     * Such an external source can provide symbols for more than a single file, while usually each file gets an
-     * individual package source instance. The typical use case is 3rd party node modules, which provide an
-     * alternative implementation for specific Java code.
-     *
-     * If also that did not lead to a package source then a generic source is created, without a symbol table, and
-     * a warning is printed, helping so the user to find packages that still need valid package sources.
+     * As a last resort an empty package source is created for IDs that are not know to the manager.
      *
      * @param packageId The ID of a package to load.
-     * @param packageRoot The path to the root of the package where the files are located, which will be converted.
-     * @param fullImport Set for wildcard imports. The package ID specifies a subfolder to load all files from.
      *
-     * @returns A list of package source instances which match the given parameters.
+     * @returns A package source instance which matches the given ID.
      */
-    public static fromPackageId = (packageId: string, packageRoot: string, fullImport: boolean): PackageSource[] => {
-        const parts = packageId.split(".");
-        if (parts.length < 2) {
-            return [];
-        }
-
+    public static fromPackageId = (packageId: string): PackageSource => {
         // Has the given package already been loaded?
-        let source = this.findSource(packageId);
+        const source = this.findSource(packageId);
         if (source) {
-            return [source];
+            return source;
         }
 
-        let actualRoot = packageRoot;
-        let target = "";
-
-        // Check the source mappings for source overrides or folders outside of the current package.
-        for (const [id, { sourcePath, importPath }] of this.sourceMappings) {
-            const mappingParts = id.split(".");
-            if (this.packageIdMatches(parts, mappingParts)) {
-                actualRoot = sourcePath;
-                target = importPath;
-                break;
-            }
-        }
-
-        if (fullImport) {
-            // Get all files in the folder produced from the package root and the package ID and see if they are all
-            // loaded already.
-            const fullPath = path.join(actualRoot, ...parts);
-            if (fs.existsSync(fullPath)) {
-                const sources: PackageSource[] = [];
-                const dirEntries = fs.readdirSync(fullPath, "utf-8");
-                dirEntries.forEach((entry) => {
-                    if (entry.endsWith(".java")) {
-                        const entryPackageId = packageId + "." + entry.substring(0, entry.length - ".java".length);
-                        const result = this.fromPackageId(entryPackageId, actualRoot, false);
-                        sources.push(...result);
-                    }
-                });
-
-                return sources;
-            }
-
-            console.warn(`\nThe path "${fullPath}" does not exist. Using an empty source instead.`);
-
-            return [this.emptySource(packageId)];
-        } else {
-            // Is it a package loaded from a file?
-            source = this.loadFileSourceFromId(packageId, target, actualRoot);
+        // No package with that ID registered yet. Reach out to the import resolver.
+        if (this.customImportResolver) {
+            const source = this.customImportResolver(packageId);
             if (source) {
-                return [source];
+                this.sources.set(source.packageId, source);
+
+                return source;
             }
-
-            // Cannot automatically resolve the package. Reach out to the import resolver.
-            if (this.customImportResolver) {
-                const sources = this.customImportResolver(packageId);
-                if (sources.length > 0) {
-                    sources.forEach((source) => {
-                        this.mappedSources.set(source.packageId, source);
-                    });
-
-                    return sources;
-                }
-            }
-
-            console.warn(`\nCannot find the source for package "${packageId}". Using an empty source instead.`);
-
-            return [this.emptySource(packageId)];
         }
+
+        console.warn(`\nCannot find the source for package "${packageId}". Using an empty source instead.`);
+
+        return this.emptySource(packageId);
+
     };
 
     /**
-     * Searches for an existing package with the given ID. If found that source is returned. Otherwise
-     * a new empty source is created and returned.
+     * Returns a list of package sources for all files in the given package.
      *
-     * @param packageId The package ID to search for.
+     * @param packageId The ID of a package to get all sources for.
+     *
+     * @returns A list of package source instances which match the given parameters.
+     */
+    public static fromPackageIdWildcard = (packageId: string): PackageSource[] => {
+        const sources: PackageSource[] = [];
+        this.sources.forEach((value, key) => {
+            if (key.startsWith(packageId)) {
+                const rest = key.substring(packageId.length);
+                if (rest.lastIndexOf(".") === 0) {
+                    sources.push(value);
+                }
+            }
+        });
+
+        return sources;
+    };
+
+    /**
+     * Creates and registers an empty package source for the given ID. Such a source has no symbol table
+     * and hence cannot contribute to symbol resolutions.
+     * If there's already a package source (empty or not) for the given ID, that will be returned instead of
+     * creating a new package source.
+     *
+     * @param packageId The package ID to use.
      *
      * @returns A package source for that ID.
      */
@@ -203,79 +145,31 @@ export class PackageSourceManager {
         let source = this.findSource(packageId);
         if (!source) {
             source = new PackageSource(packageId, "", "");
-            this.mappedSources.set(packageId, source);
+            this.sources.set(packageId, source);
         }
 
         return source;
     };
 
     /**
-     * Collects all package source that match the given package prefix.
-     *
-     * @param prefix The prefix to match. Must not end in a dot, as a dot is automatically appended.
-     *
-     * @returns The list of found sources.
+     * Removes all imported symbols from all known package sources.
+     * Used at each process run to remove imported symbols from a previous run.
      */
-    public static sourcesMatching = (prefix: string): PackageSource[] => {
-        const result: PackageSource[] = [];
-
-        result.push(...this.localSourcesMatching(prefix));
-
-        if (prefix.startsWith("java.")) {
-            result.push(this.mappedSources.get("java"));
-        } else {
-            prefix = prefix + ".";
-            for (const [id, source] of this.mappedSources) {
-                if (id.startsWith(prefix)) {
-                    result.push(source);
-                }
-            }
-        }
-
-        return result;
+    public static clearImportedSymbols = (): void => {
+        this.sources.forEach((source) => {
+            source.clearImportedSymbols();
+        });
     };
 
     /**
-     * Collects all package source loaded from a file that match the given package prefix.
+     * Takes a full package ID and returns a package source for it, if one exists.
      *
-     * @param prefix The prefix to match. Must not end in a dot, as a dot is automatically appended.
+     * @param packageId The package ID as used in a Java import statement (no wildcard).
      *
-     * @returns The list of found sources.
-     */
-    public static localSourcesMatching = (prefix: string): PackageSource[] => {
-        const result: PackageSource[] = [];
-
-        prefix = prefix + ".";
-        for (const [id, source] of this.fileSources) {
-            if (id.startsWith(prefix)) {
-                result.push(source);
-            }
-        }
-
-        return result;
-    };
-
-    /**
-     * Takes a package ID (optionally including type references but never a wildcard) and returns a symbol source for
-     * it, if one was already loaded.
-     *
-     * @param packageId The package ID as used in a Java import statement.
-     *
-     * @returns The found symbol source or undefined, if none could be found.
+     * @returns The found package source or undefined, if none could be found.
      */
     private static findSource = (packageId: string): PackageSource | undefined => {
-        // Handle Java imports separately.
-        if (packageId.startsWith("java.")) {
-            // There's only one java package source.
-            return this.mappedSources.get("java");
-        }
-
-        const source = this.findFileSource(packageId);
-        if (source) {
-            return source;
-        }
-
-        for (const [id, source] of this.mappedSources) {
+        for (const [id, source] of this.sources) {
             if (packageId === id || packageId.startsWith(id + ".")) {
                 return source;
             }
@@ -284,73 +178,4 @@ export class PackageSourceManager {
         return undefined;
     };
 
-    /**
-     * Same as findSource, but only for file sources.
-     *
-     * @param packageId The package ID as used in a Java import statement.
-     *
-     * @returns The found symbol source or undefined, if none could be found.
-     */
-    private static findFileSource = (packageId: string): JavaFileSource | undefined => {
-        for (const [id, source] of this.fileSources) {
-            if (packageId === id || packageId.startsWith(id + ".")) {
-                return source;
-            }
-        }
-
-        return undefined;
-    };
-
-    /**
-     * Tries to find a source file, given by the package ID, in the given path.
-     *
-     * @param packageId The package ID specifying the file to load.
-     * @param targetFile The file from which types can be imported.
-     * @param packageRoot The source root path to use for searching.
-     *
-     * @returns A package source instance if a file could be loaded, otherwise undefined.
-     */
-    private static loadFileSourceFromId = (packageId: string, targetFile: string,
-        packageRoot: string): JavaFileSource | undefined => {
-        let importName = packageId.replace(/\./g, "/");
-
-        // Walk up the file system until we find a valid Java file.
-        let fullPath = "";
-        while (importName !== "/" && importName !== ".") {
-            fullPath = path.join(packageRoot, importName) + ".java";
-            if (fs.existsSync(fullPath)) {
-                return this.fromFile(fullPath, targetFile, packageRoot);
-            }
-
-            importName = path.dirname(importName);
-        }
-
-        return undefined;
-    };
-
-    /**
-     * Determines if the given id can be matched by the pattern, which may end with a wildcard.
-     *
-     * @param id The ID parts to check.
-     * @param pattern The pattern parts to match against.
-     *
-     * @returns true if the id matches the pattern.
-     */
-    private static packageIdMatches = (id: string[], pattern: string[]): boolean => {
-        // The ID can never be smaller than the pattern.
-        if (id.length < pattern.length) {
-            return false;
-        }
-
-        let index = 0;
-        while (index < pattern.length) {
-            if (pattern[index] !== id[index] && pattern[index] !== "*") {
-                return false;
-            }
-
-            ++index;
-        }
-
-        return true;
-    };
 }

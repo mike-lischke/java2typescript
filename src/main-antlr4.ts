@@ -5,14 +5,11 @@
  * See LICENSE file for more info.
  */
 
-import glob from "glob";
-
 import {
-    IClassResolver, IConverterConfiguration, ISourceMapping, JavaToTypescriptConverter,
+    IClassResolver, IConverterConfiguration, JavaToTypescriptConverter,
 } from "./conversion/JavaToTypeScript";
 import { PackageSource } from "./PackageSource";
 import { PackageSourceManager } from "./PackageSourceManager";
-import { SourceGenerator } from "./SourceGenerator";
 
 // Only packages required for ANTLR4.
 const knownSDKPackages: string[] = [
@@ -30,43 +27,14 @@ const knownSDKPackages: string[] = [
     "org.stringtemplate.v4.compiler.GroupLexer",
 ];
 
-// Files which are generated from grammar or string template files.
-const generatedPackages: string[] = [
-    "org.antlr.v4.parse.ActionSplitter",
-    "org.antlr.v4.parse.ANTLRLexer",
-    "org.antlr.v4.parse.ANTLRParser",
-    "org.antlr.v4.parse.ATNBuilder",
-    "org.antlr.v4.parse.BlockSetTransformer",
-    "org.antlr.v4.parse.GrammarTreeVisitor",
-    "org.antlr.v4.parse.LeftRecursiveRuleWalker",
-
-    "org.antlr.v4.unicode.UnicodeData",
-
-    "org.stringtemplate.v4.compiler.GroupLexer",
-
-];
-
-const importResolver = (packageId: string): PackageSource[] => {
-    const result: PackageSource[] = [];
-
-    if (packageId.startsWith("antlr.")) {
-        // A reference to the ANTLR3 runtime.
-        result.push(PackageSourceManager.emptySource("antlr"));
-    }
-
+const importResolver = (packageId: string): PackageSource | undefined => {
     knownSDKPackages.forEach((value) => {
-        if (packageId.startsWith(value)) {
-            result.push(PackageSourceManager.emptySource(value));
+        if (packageId === value) {
+            return PackageSourceManager.emptySource(value);
         }
     });
 
-    generatedPackages.forEach((value) => {
-        if (packageId.startsWith(value)) {
-            result.push(PackageSourceManager.emptySource(value));
-        }
-    });
-
-    return result;
+    return undefined;
 };
 
 const convertST3 = async () => {
@@ -90,9 +58,6 @@ const convertST3 = async () => {
             lib: "lib",
             convertAnnotations: false,
 
-            // ANTLR4 is still based on older versions of itself and StringTemplate.
-            sourceMappings: new Map<string, ISourceMapping>([
-            ]),
             preferArrowFunctions: true,
             autoAddBraces: true,
         },
@@ -143,24 +108,16 @@ const convertAntlr3Parsers = async () => {
             convertAnnotations: false,
             preferArrowFunctions: false,
             autoAddBraces: true,
-            ignoreExplicitTypeForInitializers: true,
-            sourceMappings: new Map<string, ISourceMapping>([
-                [
-                    "org.antlr.runtime",
-                    {
-                        sourcePath: "/Volumes/Extern/Work/projects/antlr3/runtime/Java/src/main/java",
-                        importPath: "./antlr3",
-                    },
-                ],
-                [
-                    "org.antlr.grammar.v3",
-                    {
-                        sourcePath: "./antlr3/generated",
-                        importPath: "./antlr3/parsers",
-                    },
-                ],
-            ]),
-            //importResolver,
+            sourceMappings: [
+                {
+                    sourcePath: "/Volumes/Extern/Work/projects/antlr3/runtime/Java/src/main/java",
+                    importPath: "./antlr3",
+                },
+                {
+                    sourcePath: "./antlr3/generated",
+                    importPath: "./antlr3/parsers",
+                },
+            ],
             classResolver: new Map<string, IClassResolver>([
             ]),
         },
@@ -184,7 +141,9 @@ const convertAntlr3Runtime = async () => {
     const antlrToolOptions: IConverterConfiguration = {
         packageRoot: "/Volumes/Extern/Work/projects/antlr3/runtime/Java/src/main/java",
         include: [
-            //"Stats.java",
+            //"/TreeParser.java",
+            //"/BaseRecognizer.java",
+            "TokenRewriteStream.java",
         ],
         exclude: [
             "DebugEventSocketProxy.java",
@@ -195,31 +154,29 @@ const convertAntlr3Runtime = async () => {
 /*
  eslint-disable @typescript-eslint/no-namespace, @typescript-eslint/naming-convention, no-redeclare,
  max-classes-per-file, jsdoc/check-tag-names, @typescript-eslint/no-empty-function,
- @typescript-eslint/unified-signatures, @typescript-eslint/member-ordering, max-len
+ @typescript-eslint/restrict-plus-operands, @typescript-eslint/unified-signatures, @typescript-eslint/member-ordering,
+ max-len
 */
 
 /* cspell: disable */
 
 `,
-
             importResolver,
             lib: "lib",
             convertAnnotations: false,
 
-            // ANTLR4 is still based on older versions of itself and StringTemplate.
-            sourceMappings: new Map<string, ISourceMapping>([
-            ]),
+            sourceMappings: [
+            ],
             preferArrowFunctions: false,
             autoAddBraces: true,
-            ignoreExplicitTypeForInitializers: true,
             addIndexFiles: true,
         },
         /*debug: {
             pathForPosition: {
-                filePattern: "Stats.java",
+                filePattern: "/TreeParser.java",
                 position: {
-                    row: 145,
-                    column: 11,
+                    row: 45,
+                    column: 5,
                 },
             },
         },*/
@@ -231,16 +188,13 @@ const convertAntlr3Runtime = async () => {
 };
 
 /**
- * Converts parts of the ANTLR3 tool (only those used in ANTLR4).
- * Requires the types from the ANTLR3 and ANTLR4 runtimes, plus ST4.
- * Note: we use here the generated Java files, which are created by a Maven build run of the ANTLR4 tool. This means
- * there must have been at least one such run to have these files available (see also the path below).
+ * Converts generated parts of the ANTLR3 tool. To generate these files you have to trigger a build in ANTLR4.
  */
-const convertAntlr3Files = async () => {
+const convertGeneratedAntlr3Files = async () => {
     const antlrToolOptions: IConverterConfiguration = {
         packageRoot: "/Volumes/Extern/Work/projects/antlr4/tool/target/generated-sources/antlr3",
         include: [
-            "SourceGenTriggers.java",
+            //"SourceGenTriggers.java",
         ],
         exclude: [
             "UnicodeData.java",
@@ -261,43 +215,34 @@ const convertAntlr3Files = async () => {
             lib: "lib",
             convertAnnotations: false,
 
-            sourceMappings: new Map<string, ISourceMapping>([
-                [
-                    "org.antlr.v4.runtime", {
-                        sourcePath: "/Volumes/Extern/Work/projects/antlr4/runtime/Java/src",
-                        importPath: "antlr4ts",
-                    },
-                ],
-                [
-                    "org.antlr.v4", {
-                        sourcePath: "/Volumes/Extern/Work/projects/antlr4/tool/src",
-                        importPath: "./antlr4/tool/org/antlr/v4",
-                    },
-                ],
-                [
-                    "org.antlr.runtime", {
-                        sourcePath: "/Volumes/Extern/Work/projects/antlr3/runtime/Java/src/main/java",
-                        importPath: "./antlr3/runtime",
-                    },
-                ],
-                [
-                    "org.stringtemplate.v4", {
-                        sourcePath: "/Volumes/Extern/Work/projects/stringtemplate4/src",
-                        importPath: "./stringtemplate4",
-                    },
-                ],
-            ]),
+            sourceMappings: [
+                {
+                    sourcePath: "/Volumes/Extern/Work/projects/antlr4/runtime/Java/src",
+                    importPath: "antlr4ts",
+                },
+                {
+                    sourcePath: "/Volumes/Extern/Work/projects/antlr4/tool/src",
+                    importPath: "./antlr4/tool/org/antlr/v4",
+                },
+                {
+                    sourcePath: "/Volumes/Extern/Work/projects/antlr3/runtime/Java/src/main/java",
+                    importPath: "./antlr3/runtime",
+                },
+                {
+                    sourcePath: "/Volumes/Extern/Work/projects/stringtemplate4/src",
+                    importPath: "./stringtemplate4",
+                },
+            ],
             preferArrowFunctions: true,
             autoAddBraces: true,
-            ignoreExplicitTypeForInitializers: true,
             addIndexFiles: true,
         },
         debug: {
             pathForPosition: {
                 filePattern: "SourceGenTriggers.java",
                 position: {
-                    row: 22,
-                    column: 44,
+                    row: 154,
+                    column: 53,
                 },
             },
         },
@@ -329,29 +274,17 @@ const convertAntlr4Tool = async () => {
             convertAnnotations: false,
             preferArrowFunctions: false,
             autoAddBraces: true,
-            ignoreExplicitTypeForInitializers: true,
             addIndexFiles: true,
-            sourceMappings: new Map<string, ISourceMapping>([
-                [
-                    "org.antlr.v4.runtime", {
-                        sourcePath: "/Volumes/Extern/Work/projects/antlr4/runtime/Java/src",
-                        importPath: "antlr4ts",
-                    },
-                ],
-                [
-                    "org.antlr.runtime", {
-                        sourcePath: "/Volumes/Extern/Work/projects/antlr3/runtime/Java/src/main/java",
-                        importPath: "./antlr3",
-                    },
-                ],
-                /*[
-                    "org.stringtemplate.v4",
-                    {
-                        sourcePath: "/Volumes/Extern/Work/projects/stringtemplate4/src",
-                        importPath: "stringtemplate4",
-                    },
-                ],*/
-            ]),
+            sourceMappings: [
+                {
+                    sourcePath: "/Volumes/Extern/Work/projects/antlr4/runtime/Java/src",
+                    importPath: "antlr4ts",
+                },
+                {
+                    sourcePath: "/Volumes/Extern/Work/projects/antlr3/runtime/Java/src/main/java",
+                    importPath: "./antlr3",
+                },
+            ],
             importResolver,
             classResolver: new Map<string, IClassResolver>([
                 ["BitSet", { importPath: "antlr4ts/misc" }],
@@ -382,12 +315,12 @@ const convertAntlr4Tool = async () => {
         await SourceGenerator.generateAntlr3Parsers(file);
     }*/
 
-    //await convertAntlr3Runtime();
+    await convertAntlr3Runtime();
 
-    await convertAntlr3Files();
+    //await convertGeneratedAntlr3Files();
 
     // Finally the v4 tool.
     //await convertAntlr4Tool();
-})().catch((e) => {
-    console.error("Error during conversion: " + String(e));
+})().catch((e: Error) => {
+    console.error("\nError during conversion: " + e.stack);
 });

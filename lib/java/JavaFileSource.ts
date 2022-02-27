@@ -18,6 +18,7 @@ import { JavaErrorListener } from "../../src/parsing/JavaErrorListener";
 import { ParseTree } from "antlr4ts/tree";
 import { Interval } from "antlr4ts/misc/Interval";
 import { printParseTreeStack } from "../../src/Utilities";
+import { ISymbolInfo } from "../../src/conversion/types";
 
 // This interface keeps all concerned parsing parts together, to ensure they stay alive during the entire
 // processing time. Symbol tables and parse trees depend on that.
@@ -48,8 +49,8 @@ export class JavaFileSource extends PackageSource {
         return this.fileParseInfo?.tree;
     }
 
-    public getSymbolQualifier = (context: ParseTree, name: string): string => {
-        return (this.symbolTable as JavaFileSymbolTable).getSymbolQualifier(context, name);
+    public getQualifiedSymbol = (context: ParseTree, name: string): ISymbolInfo | undefined => {
+        return (this.symbolTable as JavaFileSymbolTable).getQualifiedSymbol(context, name);
     };
 
     public printParseTreeForPosition = (position: { column: number; row: number }): void => {
@@ -91,7 +92,8 @@ export class JavaFileSource extends PackageSource {
                 tree,
             };
 
-            this.symbolTable = new JavaFileSymbolTable(this.packageId, tree, this.packageRoot);
+            this.symbolTable = new JavaFileSymbolTable(tree, this.packageRoot, this.importList);
+            this.importList.delete(this);
         } else {
             throw new Error("Parsing failed for " + this.sourceFile);
         }

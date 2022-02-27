@@ -3,7 +3,7 @@ A Node.js tool for converting Java source packages to Typescript
 
 With this tool it is possible to do the major work of converting Java code to Typescript. Of course a lot of manual work remains after the conversion run, but at least all the tedious standard changes (like exchanging variable name and its type) is done automatically.
 
-The tool uses (a copy of) the [Java grammar from the ANTLR4 grammar directory](https://github.com/antlr/grammars-v4/tree/master/java/java), which supports Java 17, even though not all features from later Java versions are supported in the converter tool.
+The tool uses (a copy of) the [Java grammar from the ANTLR4 grammar directory](https://github.com/antlr/grammars-v4/tree/master/java/java), which supports Java 17. The converter, however, only supports language features up to Java 11.
 
 # Abstract
 
@@ -19,16 +19,20 @@ It's practically never the case that two languages have the same semantic concep
 
 - Java interfaces are probably the most incompatible objects between the two languages. Java interfaces can have initialized fields and method implementations, which is not possible in Typescript. Hence all interfaces are converted to abstract TS classes. Fortunately, TS allows that a class `implements` another class, not only an interface. Using `implements` is however not always a good solution (especially when referencing symbols from the base class). An effort is made to use `extends` in simple cases (no existing `extends` clause and only one type for the `implements` clause). Using `extends` for all types in general is not possible, as that might lead to multiple inheritance, which is not supported by TS/JS.
 - Another incompatible concept are iterators. Some iterator classes exist in the JDK polyfills (e.g. `ListIterator`), but those don't work in native JS/TS `for` loops. Therefore the native TS iterator is implemented instead. This requires manual updates where such iterators are used.
-- Constructor overloading and method overloading. This is a concept, which can be implemented in Typescript as well, but requires significant extra work to merge parameter handling, which is out of the scope currently.
+- The tool supports constructor and method overloading, up to the point what's allowed in Typescript. That excludes the mix of static and non-static overloaded methods and generic methods with different type parameter lists.
 - Java has no concept of optional fields and parameters. Hence it is difficult to tell if a parameter is allowed to be undefined. This must be handled manually on a case-by-case basis.
 - Typescript does not support multi-dimensional array creation with array sizes (initializers are supported however). That means constructs like `new String[1][2][4]` can only be converted to TS without initial sizes: `= [[[]]]`.
 - Java automatically converts between `long` and other integer type. TS uses `bigint` for 64 bit integer types and the `n` suffix for bigint literals. In Java these integer types can freely be mixed, but TS will complain if one tries to, say, shift a bigint using a standard number literal. This must be solved manually.
 - Annotations usually cannot be converted, except for a very few (like @final), which are then converted using decorators. The current implementation is however very simple. Don't expect much of that.
-- Generic constructors are not possible in Typescript. This must be solve manually.
+- Generic constructors are not possible in Typescript. This must be solved manually.
 - Resources are not handled at all.
 - Anything related to Java reflection is out of the scope of this tool.
-- The converter avoids extending existing classes (like `String`), which means certain functionality must be moved to other classes. For instance `String.format` is implemented in the static `StringBuilder.format` function.
-- I certainly have not seen all possible Java constructs, so those I haven't encountered maybe converted in an incompatible way. This project is still WIP after all.
+- TS regular expressions do not support all features from Java regex, specifically these flags are not supported: Pattern.CANON_EQ, Pattern.COMMENTS, Pattern.LITERAL, Pattern.UNIX_LINES.
+- Exception behavior (specifically the message text) for included JDK polyfills is not guaranteed to be what happens in the Java SDK. If you need exactly the same behavior write your own polyfills.
+
+The converter avoids extending existing classes (like `String`), which means certain functionality must be moved to other classes. For instance `String.format` is implemented in the static `StringBuilder.format` function.
+
+I certainly have not seen all possible Java constructs, so those I haven't encountered maybe converted in an incompatible way. This project is still WIP after all.
 
 # Conversion Process
 

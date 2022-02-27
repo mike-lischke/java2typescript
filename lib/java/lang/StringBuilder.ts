@@ -52,35 +52,14 @@ export class StringBuilder {
      *
      * @returns Itself for method chaining.
      */
-    public prepend(newContent: string | String | StringBuilder | number | bigint): this {
-        const bytes = newContent instanceof StringBuilder
-            ? newContent.data : this.encoder.encode(newContent.toString());
-        const newData = new Uint8Array(bytes.length + this.data.length);
-        newData.set(bytes);
-        newData.set(this.data, bytes.length);
-        this.data = newData;
+    public prepend(...newContent: Array<string | String | StringBuilder | number | bigint>): this {
+        this.addData(false, ...newContent);
 
         return this;
     }
 
     public append(...newContent: Array<string | String | StringBuilder | number | bigint>): this {
-        const list: Uint8Array[] = [];
-        let size = 0;
-        newContent.forEach((entry) => {
-            const bytes = entry instanceof StringBuilder ? entry.data : this.encoder.encode(entry.toString());
-            size += bytes.length;
-            list.push(bytes);
-        });
-
-        const newData = new Uint8Array(size + this.data.length);
-        newData.set(this.data);
-
-        let offset = this.data.length;
-        list.forEach((bytes) => {
-            newData.set(bytes, offset);
-            offset += bytes.length;
-        });
-        this.data = newData;
+        this.addData(true, ...newContent);
 
         return this;
     }
@@ -100,5 +79,33 @@ export class StringBuilder {
     public get length(): number {
         return this.data.length;
     }
+
+    private addData(append: boolean, ...newContent: Array<string | String | StringBuilder | number | bigint>): void {
+        const list: Uint8Array[] = [];
+        let size = 0;
+        newContent.forEach((entry) => {
+            const bytes = entry instanceof StringBuilder ? entry.data : this.encoder.encode(entry.toString());
+            size += bytes.length;
+            list.push(bytes);
+        });
+
+        const newData = new Uint8Array(size + this.data.length);
+        if (append) {
+            newData.set(this.data);
+        }
+
+        let offset = append ? this.data.length : 0;
+        list.forEach((bytes) => {
+            newData.set(bytes, offset);
+            offset += bytes.length;
+        });
+
+        if (!append) {
+            newData.set(this.data, offset);
+        }
+
+        this.data = newData;
+    }
+
 }
 

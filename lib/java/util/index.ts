@@ -15,4 +15,6 @@ export * from "./Collections";
 export * from "./Stack";
 export * from "./LinkedHashMap";
 export * from "./HashMap";
-export * from "../util/HashSet";
+export * from "./HashSet";
+
+export * from "./regex/regex";

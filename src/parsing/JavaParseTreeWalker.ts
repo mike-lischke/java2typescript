@@ -9,7 +9,7 @@
 
 import {
     Symbol, BlockSymbol, FieldSymbol, MethodSymbol, ParameterSymbol, ScopedSymbol, SymbolTable, InterfaceSymbol,
-    Modifier,
+    Modifier, Type, TypeKind, ReferenceKind, VariableSymbol,
 } from "antlr4-c3";
 
 import { ParserRuleContext } from "antlr4ts";
@@ -17,16 +17,19 @@ import { TerminalNode } from "antlr4ts/tree";
 import {
     AnnotationTypeBodyContext, MethodDeclarationContext, GenericMethodDeclarationContext, BlockContext,
     EnumDeclarationContext, InterfaceDeclarationContext, AnnotationTypeDeclarationContext, ClassDeclarationContext,
-    VariableDeclaratorsContext, ExpressionContext, FormalParameterContext, ConstantDeclaratorContext,
-    PackageDeclarationContext, ImportDeclarationContext, GenericConstructorDeclarationContext,
-    ConstructorDeclarationContext, ClassBodyDeclarationContext, TypeDeclarationContext, InterfaceBodyDeclarationContext,
-    InterfaceMethodDeclarationContext, JavaParser,
+    ExpressionContext, FormalParameterContext, ConstantDeclaratorContext, PackageDeclarationContext,
+    ImportDeclarationContext, GenericConstructorDeclarationContext, ConstructorDeclarationContext,
+    ClassBodyDeclarationContext, TypeDeclarationContext, InterfaceBodyDeclarationContext,
+    InterfaceMethodDeclarationContext, JavaParser, MemberDeclarationContext, LocalVariableDeclarationContext,
+    FieldDeclarationContext, VariableDeclaratorsContext,
 } from "../../java/generated/JavaParser";
 import { JavaParserListener } from "../../java/generated/JavaParserListener";
 
 import { java } from "../../lib/java/java";
+import { EnhancedTypeKind } from "../conversion/types";
+import { PackageSource } from "../PackageSource";
+import { PackageSourceManager } from "../PackageSourceManager";
 
-import { ImportSymbol } from "./ImportSymbol";
 import { JavaClassSymbol } from "./JavaClassSymbol";
 
 export class FileSymbol extends ScopedSymbol { }
@@ -37,28 +40,67 @@ export class ConstructorSymbol extends MethodSymbol { }
 export class ClassBodySymbol extends ScopedSymbol { }
 export class InterfaceBodySymbol extends ScopedSymbol { }
 
-export class TypeSymbol extends Symbol { }
+export class MemberSymbol extends ScopedSymbol { }
 
-export class PackageSymbol extends ImportSymbol { }
+export class TypeSymbol extends Symbol { }
+export class PackageSymbol extends Symbol { }
+export class ImportSymbol extends Symbol { }
 
 export class JavaParseTreeWalker implements JavaParserListener {
 
+    private static typeKindMap = new Map<string, EnhancedTypeKind>([
+        ["List", EnhancedTypeKind.Array],
+        ["Array", EnhancedTypeKind.Array],
+        ["ArrayList", EnhancedTypeKind.Array],
+
+        ["int", EnhancedTypeKind.Integer],
+        ["Integer", EnhancedTypeKind.Integer],
+
+        ["float", EnhancedTypeKind.Float],
+
+        ["String", EnhancedTypeKind.String],
+
+        ["boolean", EnhancedTypeKind.Boolean],
+        ["Boolean", EnhancedTypeKind.Boolean],
+
+        ["Map", EnhancedTypeKind.Map],
+        ["HashMap", EnhancedTypeKind.Map],
+        ["LinkedHashMap", EnhancedTypeKind.Map],
+
+    ]);
+
     private symbolStack: java.util.Stack<ScopedSymbol> = new java.util.Stack();
 
-    public constructor(private symbolTable: SymbolTable, private packageRoot: string) {
-        this.pushNewScope(FileSymbol, "#file#");
+    public constructor(private symbolTable: SymbolTable, private packageRoot: string,
+        private importList: Set<PackageSource>) {
+        this.symbolStack.push(symbolTable);
     }
 
     public exitPackageDeclaration = (ctx: PackageDeclarationContext): void => {
-        // Implicitly import all files from the folder indicated by the package ID.
-        this.symbolTable.addNewSymbolOfType(PackageSymbol, this.symbolStack.tos, ctx.qualifiedName().text,
-            this.packageRoot, true);
+        const packageId = ctx.qualifiedName().text;
+        this.symbolTable.addNewSymbolOfType(PackageSymbol, this.symbolStack.tos, ctx.qualifiedName().text);
+
+        const sources = PackageSourceManager.fromPackageIdWildcard(packageId);
+        sources.forEach((source) => {
+            this.importList.add(source);
+        });
+
     };
 
     public exitImportDeclaration = (ctx: ImportDeclarationContext): void => {
-        const text = ctx.qualifiedName().text;
-        this.symbolTable.addNewSymbolOfType(ImportSymbol, this.symbolStack.tos, text,
-            this.packageRoot, ctx.DOT() !== undefined);
+        const packageId = ctx.qualifiedName().text;
+        this.symbolTable.addNewSymbolOfType(ImportSymbol, this.symbolStack.tos, packageId);
+
+        if (ctx.MUL()) {
+            const sources = PackageSourceManager.fromPackageIdWildcard(packageId);
+            sources.forEach((source) => {
+                this.importList.add(source);
+            });
+        } else {
+            const source = PackageSourceManager.fromPackageId(packageId);
+            this.importList.add(source);
+        }
+
     };
 
     public enterBlock = (ctx: BlockContext): void => {
@@ -70,7 +112,7 @@ export class JavaParseTreeWalker implements JavaParserListener {
     };
 
     public enterClassDeclaration = (ctx: ClassDeclarationContext): void => {
-        this.pushNewScope(JavaClassSymbol, ctx.IDENTIFIER().text, ctx);
+        this.pushNewScope(JavaClassSymbol, ctx.identifier().text, ctx);
     };
 
     public exitClassDeclaration = (): void => {
@@ -99,7 +141,7 @@ export class JavaParseTreeWalker implements JavaParserListener {
     };
 
     public enterMethodDeclaration = (ctx: MethodDeclarationContext): void => {
-        const symbol = this.pushNewScope(MethodSymbol, ctx.IDENTIFIER().text, ctx);
+        const symbol = this.pushNewScope(MethodSymbol, ctx.identifier().text, ctx);
         this.checkStatic(symbol);
     };
 
@@ -108,7 +150,7 @@ export class JavaParseTreeWalker implements JavaParserListener {
     };
 
     public enterGenericMethodDeclaration = (ctx: GenericMethodDeclarationContext): void => {
-        const symbol = this.pushNewScope(MethodSymbol, ctx.methodDeclaration().IDENTIFIER().text, ctx);
+        const symbol = this.pushNewScope(MethodSymbol, ctx.methodDeclaration().identifier().text, ctx);
         this.checkStatic(symbol);
     };
 
@@ -117,7 +159,7 @@ export class JavaParseTreeWalker implements JavaParserListener {
     };
 
     public enterConstructorDeclaration = (ctx: ConstructorDeclarationContext): void => {
-        const symbol = this.pushNewScope(ConstructorSymbol, ctx.IDENTIFIER().text, ctx);
+        const symbol = this.pushNewScope(ConstructorSymbol, ctx.identifier().text, ctx);
         this.checkStatic(symbol);
     };
 
@@ -126,7 +168,7 @@ export class JavaParseTreeWalker implements JavaParserListener {
     };
 
     public enterGenericConstructorDeclaration = (ctx: GenericConstructorDeclarationContext): void => {
-        this.pushNewScope(MethodSymbol, ctx.constructorDeclaration().IDENTIFIER().text, ctx);
+        this.pushNewScope(MethodSymbol, ctx.constructorDeclaration().identifier().text, ctx);
     };
 
     public exitGenericConstructorDeclaration = (): void => {
@@ -134,7 +176,7 @@ export class JavaParseTreeWalker implements JavaParserListener {
     };
 
     public enterInterfaceDeclaration = (ctx: InterfaceDeclarationContext): void => {
-        this.pushNewScope(InterfaceSymbol, ctx.IDENTIFIER().text, ctx);
+        this.pushNewScope(InterfaceSymbol, ctx.identifier().text, ctx);
     };
 
     public exitInterfaceDeclaration = (): void => {
@@ -142,7 +184,7 @@ export class JavaParseTreeWalker implements JavaParserListener {
     };
 
     public enterAnnotationTypeDeclaration = (ctx: AnnotationTypeDeclarationContext): void => {
-        this.pushNewScope(AnnotationSymbol, ctx.IDENTIFIER().text, ctx);
+        this.pushNewScope(AnnotationSymbol, ctx.identifier().text, ctx);
     };
 
     public exitAnnotationTypeDeclaration = (): void => {
@@ -150,7 +192,7 @@ export class JavaParseTreeWalker implements JavaParserListener {
     };
 
     public enterEnumDeclaration = (ctx: EnumDeclarationContext): void => {
-        this.pushNewScope(EnumSymbol, ctx.IDENTIFIER().text, ctx);
+        this.pushNewScope(EnumSymbol, ctx.identifier().text, ctx);
     };
 
     public exitEnumDeclaration = (): void => {
@@ -167,22 +209,27 @@ export class JavaParseTreeWalker implements JavaParserListener {
         this.symbolStack.pop();
     };
 
-    public enterVariableDeclarators = (ctx: VariableDeclaratorsContext): void => {
-        const block = this.symbolStack.tos;
+    public enterLocalVariableDeclaration = (ctx: LocalVariableDeclarationContext): void => {
 
-        ctx.variableDeclarator().forEach((declarator) => {
-            const symbol = this.symbolTable.addNewSymbolOfType(FieldSymbol, block,
-                declarator.variableDeclaratorId().IDENTIFIER().text);
-            symbol.context = declarator;
+        if (ctx.variableDeclarators()) {
+            this.handleVariables(ctx.typeType().text, ctx.variableDeclarators());
+        } else if (ctx.VAR()) {
+            const block = this.symbolStack.tos;
+            const symbol = this.symbolTable.addNewSymbolOfType(VariableSymbol, block, ctx.identifier().text);
+            symbol.context = ctx;
             this.checkStatic(symbol);
-        });
+        }
 
+    };
+
+    public enterFieldDeclaration = (ctx: FieldDeclarationContext): void => {
+        this.handleVariables(ctx.typeType().text, ctx.variableDeclarators());
     };
 
     public enterConstantDeclarator = (ctx: ConstantDeclaratorContext): void => {
         const block = this.symbolStack.tos;
 
-        const symbol = this.symbolTable.addNewSymbolOfType(FieldSymbol, block, ctx.IDENTIFIER().text);
+        const symbol = this.symbolTable.addNewSymbolOfType(FieldSymbol, block, ctx.identifier().text);
         symbol.context = ctx;
     };
 
@@ -190,16 +237,16 @@ export class JavaParseTreeWalker implements JavaParserListener {
         const block = this.symbolStack.tos;
 
         const symbol = this.symbolTable.addNewSymbolOfType(ParameterSymbol, block,
-            ctx.variableDeclaratorId().IDENTIFIER().text);
+            ctx.variableDeclaratorId().identifier().text);
         symbol.context = ctx;
     };
 
-    /*public enterClassOrInterfaceType = (ctx: ClassOrInterfaceTypeContext): void => {
+    public enterMemberDeclaration = (ctx: MemberDeclarationContext): void => {
         const block = this.symbolStack.tos;
 
-        const symbol = this.symbolTable.addNewSymbolOfType(TypeSymbol, block, ctx.text);
+        const symbol = this.symbolTable.addNewSymbolOfType(MemberSymbol, block, ctx.text);
         symbol.context = ctx;
-    };*/
+    };
 
     public visitTerminal = (_node: TerminalNode): void => { /**/ };
 
@@ -275,5 +322,31 @@ export class JavaParseTreeWalker implements JavaParserListener {
                 }
             }
         }
+    };
+
+    private handleVariables = (typeText: string, declarators: VariableDeclaratorsContext): void => {
+        const block = this.symbolStack.tos;
+
+        const typeParamsCheck = typeText.match(/^[A-Z_.]+[ \t]*(<.+>)/i);
+        let baseText = typeText;
+        if (typeParamsCheck) {
+            baseText = typeText.substring(0, typeText.length - typeParamsCheck[1].length);
+        }
+
+        const kind = JavaParseTreeWalker.typeKindMap.get(baseText) ?? EnhancedTypeKind.Unknown;
+        const type: Type = {
+            name: typeText,
+            baseTypes: [],
+            kind: kind as unknown as TypeKind, // Temporary use of the cast until the type kind is updated.
+            reference: ReferenceKind.Irrelevant,
+        };
+
+        declarators.variableDeclarator().forEach((declarator) => {
+            const id = declarator.variableDeclaratorId().identifier().text;
+            const symbol = this.symbolTable.addNewSymbolOfType(FieldSymbol, block, id, undefined, type);
+            symbol.context = declarator;
+            this.checkStatic(symbol);
+        });
+
     };
 }

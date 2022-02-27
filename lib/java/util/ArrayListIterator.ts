@@ -5,8 +5,8 @@
  * See LICENSE file for more info.
  */
 
-import { IndexOutOfBoundsException, NoSuchElementException } from "../lang/NoSuchElementException";
-import { ListIterator } from "./List";
+import { ListIterator } from ".";
+import { IndexOutOfBoundsException, NoSuchElementException } from "../lang";
 
 export class ArrayListIterator<T> implements ListIterator<T> {
 
@@ -84,7 +84,6 @@ export class ArrayListIterator<T> implements ListIterator<T> {
             this.buffer[this.nextBufferIndex] = element;
         }
     }
-
 
 }
 

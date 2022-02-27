@@ -11,7 +11,6 @@ import fs from "fs";
 
 import { FileProcessor } from "./FileProcessor";
 import { CustomImportResolver, PackageSourceManager } from "../PackageSourceManager";
-import { PackageSource } from "../PackageSource";
 
 // A record for the class resolver map.
 export interface IClassResolver {
@@ -41,10 +40,6 @@ export interface IConverterOptions {
     // If true, functions/methods use the arrow syntax.
     preferArrowFunctions?: boolean;
 
-    // If true no type is added for variables/members that have an explicit initialization (from which the type
-    // can be derived).
-    ignoreExplicitTypeForInitializers?: boolean;
-
     // If true the processor will automatically add braces in IF/ELSE statements, if they are missing.
     autoAddBraces?: boolean;
 
@@ -54,7 +49,7 @@ export interface IConverterOptions {
 
     // A mapping of a 3rd party package which is available in source form. Maps root package IDs (without any type
     // name) to a source path, which is then used as package root for that package.
-    sourceMappings?: Map<string, ISourceMapping>;
+    sourceMappings?: ISourceMapping[];
 
     // A map that contains symbol source instances for each imported package in a Java file.
     // It maps from a package id, e.g. "java.lang" to a symbol source that can deliver imports for polyfills
@@ -123,13 +118,19 @@ export interface IConverterConfiguration {
 
 export class JavaToTypescriptConverter {
     public constructor(private configuration: IConverterConfiguration) {
-        PackageSourceManager.configure(configuration.options.importResolver,
-            configuration.options.sourceMappings, path.resolve(process.cwd(), "./lib/java/java.ts"));
+        PackageSourceManager.configure(configuration.options.importResolver, path.resolve(process.cwd(),
+            "./lib/java/java.ts"));
 
         configuration.options.lib = path.join(process.cwd(), configuration.options.lib ?? "");
     }
 
     public async startConversion(): Promise<void> {
+        const currentDir = process.cwd();
+
+        // Only the files in this list are converted.
+        const toConvert: FileProcessor[] = [];
+
+        // Start off by creating java file source instances for each file in the package root.
         const fileList = glob.sync(this.configuration.packageRoot + "/**/*.java");
         if (fileList.length === 0) {
             console.error("The specified pattern/path does not return any file");
@@ -137,53 +138,28 @@ export class JavaToTypescriptConverter {
             return;
         }
 
-        console.log(`\nParsing ${fileList.length} java files...`);
-
-        const currentDir = process.cwd();
+        console.log(`\nFound ${fileList.length} java files in ${this.configuration.packageRoot}`);
         const root = this.configuration.packageRoot;
-
-        // Load all files from the given package, for internal references.
-        const internalSources = new Set<PackageSource>();
-
-        // Only the files in this list are also converted.
-        const toConvert: FileProcessor[] = [];
-
         fileList.forEach((entry) => {
             const relativeSource = path.relative(this.configuration.packageRoot, entry);
 
             const tsName = relativeSource.substring(0, relativeSource.length - 4) + "ts";
             const target = this.configuration.output + "/" + tsName;
 
-            //const source = PackageSourceManager.fromFile(entry, path.join(currentDir, target), root);
-            //internalSources.add(source);
-
-            // Is this file explicitly excluded?
-            let canInclude = true;
-            if (this.configuration.exclude) {
-                for (const filter of this.configuration.exclude) {
-                    if (entry.match(filter)) {
-                        canInclude = false;
-                        break;
-                    }
-                }
-            }
-
-            // Does the file match the include filter.
-            if (canInclude) {
-                if (this.configuration.include && this.configuration.include.length > 0) {
-                    for (const filter of this.configuration.include) {
-                        if (entry.match(filter)) {
-                            const source = PackageSourceManager.fromFile(entry, path.join(currentDir, target), root);
-                            toConvert.push(new FileProcessor(source, this.configuration));
-                            break;
-                        }
-                    }
-                } else {
-                    const source = PackageSourceManager.fromFile(entry, path.join(currentDir, target), root);
-                    toConvert.push(new FileProcessor(source, this.configuration));
-                }
+            const source = PackageSourceManager.fromFile(entry, path.join(currentDir, target), root);
+            if (this.filterFile(entry, this.configuration.include, this.configuration.exclude)) {
+                toConvert.push(new FileProcessor(source, this.configuration));
             }
         });
+
+        // Load also all files given by a source mapping. These are never converted, however.
+        for (const { sourcePath, importPath } of this.configuration.options.sourceMappings) {
+            const list = glob.sync(sourcePath + "/**/*.java");
+            console.log(`\nFound ${list.length} java files in ${sourcePath}`);
+            list.forEach((entry) => {
+                PackageSourceManager.fromFile(entry, importPath, sourcePath);
+            });
+        }
 
         console.log(`\nConverting ${toConvert.length} files...`);
 
@@ -198,6 +174,41 @@ export class JavaToTypescriptConverter {
 
         console.log("\nConversion finished");
     }
+
+    /**
+     * Check if the given file name matches any entry in the include and exclude filters.
+     * If it matches one of the exclusion rules (if given) then the file is filtered out.
+     * If the name matches any of the inclusion rules or no inclusion rules are given then the file is accepted.
+     * Otherwise the file is filtered out.
+     *
+     * @param fileName The full path name.
+     * @param include The inclusion rules.
+     * @param exclude The exclusion rules.
+     *
+     * @returns True if the file is to be taken in, otherwise false.
+     */
+    private filterFile = (fileName: string, include?: Array<string | RegExp>,
+        exclude?: Array<string | RegExp>): boolean => {
+        if (exclude) {
+            for (const filter of exclude) {
+                if (fileName.match(filter)) {
+                    return false;
+                }
+            }
+        }
+
+        if (include && include.length > 0) {
+            for (const filter of include) {
+                if (fileName.match(filter)) {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        return true;
+    };
 
     private addIndexFile = (dir: string): void => {
         const dirList: string[] = [];
