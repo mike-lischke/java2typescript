@@ -5,6 +5,8 @@
  * See LICENSE file for more info.
  */
 
+export type CodePoint = number;
+
 export * from "./StringBuilder";
 export * from "./StringBuffer";
 export * from "./Character";

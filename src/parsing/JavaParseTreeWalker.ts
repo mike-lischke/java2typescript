@@ -49,9 +49,7 @@ export class ImportSymbol extends Symbol { }
 export class JavaParseTreeWalker implements JavaParserListener {
 
     private static typeKindMap = new Map<string, EnhancedTypeKind>([
-        ["List", EnhancedTypeKind.Array],
         ["Array", EnhancedTypeKind.Array],
-        ["ArrayList", EnhancedTypeKind.Array],
 
         ["int", EnhancedTypeKind.Integer],
         ["Integer", EnhancedTypeKind.Integer],
@@ -64,9 +62,6 @@ export class JavaParseTreeWalker implements JavaParserListener {
         ["Boolean", EnhancedTypeKind.Boolean],
 
         ["Map", EnhancedTypeKind.Map],
-        ["HashMap", EnhancedTypeKind.Map],
-        ["LinkedHashMap", EnhancedTypeKind.Map],
-
     ]);
 
     private symbolStack: java.util.Stack<ScopedSymbol> = new java.util.Stack();

@@ -9,23 +9,21 @@
                   @typescript-eslint/naming-convention,
 */
 
+import { CodePoint } from ".";
+
 // A partial implementation of the Java Character class.
 
 export class Character {
-    public static isISOControl = (c: number): boolean => {
+    public static isISOControl = (c: CodePoint): boolean => {
         return false;
     };
 
-    public static isDigit(s: string): boolean {
-        if (s.length !== 1) {
-            return false;
-        }
-
-        return s.match(/0-9/).length > 0;
+    public static isDigit(c: CodePoint): boolean {
+        return String.fromCodePoint(c).match(/0-9/) !== null;
     }
 
-    public static toString(s: string): string {
-        return s;
+    public static toString(c: CodePoint): string {
+        return String.fromCodePoint(c);
     }
 
     public static toUpperCase(s: string): string {
@@ -42,7 +40,7 @@ export namespace Character {
     export class UnicodeBlock {
         public static readonly BASIC_LATIN = 1;
 
-        public static of = (c: number): number => {
+        public static of = (c: CodePoint): number => {
             return 0;
         };
 

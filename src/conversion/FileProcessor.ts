@@ -40,9 +40,10 @@ import {
 import { PackageSource } from "../PackageSource";
 import { IClassResolver, IConverterConfiguration } from "./JavaToTypeScript";
 import { Stack } from "../../lib/java/util";
-import { ClassSymbol, InterfaceSymbol } from "antlr4-c3";
+import { ClassSymbol, InterfaceSymbol, TypedSymbol } from "antlr4-c3";
 import { EnumSymbol } from "../parsing/JavaParseTreeWalker";
 import { PackageSourceManager } from "../PackageSourceManager";
+import { EnhancedTypeKind, ISymbolInfo } from "./types";
 
 enum Modifier {
     None,
@@ -88,7 +89,7 @@ interface IParameterInfo {
 
 // Holds certain details of each member of a class. Required for method overloading and instance initialization.
 interface IClassMemberDetails {
-    type: "init" | "field" | "constructor" | "method" | "other";
+    type: "init" | "field" | "constructor" | "method" | "lambda" | "static" | "abstract" | "empty";
 
     // Visibility/read only modifier.
     modifier: string;
@@ -111,8 +112,31 @@ interface IClassMemberDetails {
     bodyContent: StringBuilder;
 }
 
+interface IMethodReplaceEntry {
+    replacement?: string;
+    options: {
+        parentheses?: "keep" | "remove" | "add";
+        makeIndexed?: boolean;
+    };
+}
+
 // Converts the given Java file to Typescript.
 export class FileProcessor {
+
+    private static mapMethodMap = new Map<string, IMethodReplaceEntry>([
+        ["put", { replacement: "set", options: {} }],
+        ["remove", { replacement: "delete", options: {} }],
+    ]);
+
+    private static arrayMethodMap = new Map<string, IMethodReplaceEntry>([
+        ["set", { options: { makeIndexed: true } }],
+        ["get", { options: { makeIndexed: true } }],
+
+        ["add", { replacement: "push", options: {} }],
+        ["subList", { replacement: "slice", options: {} }],
+        ["size", { replacement: "length", options: { parentheses: "remove" } }],
+        ["isEmpty", { replacement: "length === 0", options: { parentheses: "remove" } }],
+    ]);
 
     private whiteSpaceAnchor = 0;
 
@@ -121,9 +145,6 @@ export class FileProcessor {
     // Keeps names of classes for which inner processing is going on. Sometimes it is necessary to know the name
     // for special processing (e.g. auto creating static initializer functions or type aliases).
     private typeStack: Stack<ITypeInfo> = new Stack();
-
-    // A list of strings that must be added at the end of the generated file (usually for static initialization).
-    private initializerCalls: string[] = [];
 
     private classResolver: Map<string, IClassResolver>;
 
@@ -200,7 +221,7 @@ export class FileProcessor {
 
             try {
                 fs.mkdirSync(path.dirname(this.source.targetFile), { recursive: true });
-                fs.writeFileSync(this.source.targetFile, builder.buffer);
+                fs.writeFileSync(this.source.targetFile, builder.text);
                 console.log(" done");
             } catch (e) {
                 console.log("failed");
@@ -279,13 +300,6 @@ export class FileProcessor {
         if (this.needDecorators) {
             const decorators = path.join(libPath, "Decorators");
             header.append(`${this.getLeadingWhiteSpaces(context)}import { final } from "${decorators}";\n`);
-        }
-
-        if (this.initializerCalls.length > 0) {
-            builder.append("\n\n");
-            this.initializerCalls.forEach((call) => {
-                builder.append(call + "\n");
-            });
         }
 
         builder.prepend(header);
@@ -474,20 +488,14 @@ export class FileProcessor {
                 // Empty statement.
                 const bodyContent = new StringBuilder();
                 this.getContent(bodyContent, context, false);
-                members.push({ type: "other", modifier: "", name: "", bodyContent });
+                members.push({ type: "empty", modifier: "", name: "", bodyContent });
             } else if (context.block()) {
                 // Static or instance initializer.
                 if (context.STATIC()) {
-                    const typeInfo = this.typeStack.tos;
                     const bodyContent = new StringBuilder();
-
-                    bodyContent.append(this.getLeadingWhiteSpaces(context.STATIC()));
-                    bodyContent.append(`public static initialize${typeInfo.name}(): void`);
+                    this.getContent(bodyContent, context.STATIC());
                     this.processBlock(bodyContent, context.block());
-                    members.push({ type: "other", modifier: "public", name: "", bodyContent });
-
-                    // Add a call to this special function at the end of the file.
-                    this.initializerCalls.push(`${typeInfo.name}.initialize${typeInfo.name}();`);
+                    members.push({ type: "static", modifier: "public", name: "", bodyContent });
                 } else {
                     // Code in instance initializers is added to the class' constructor.
                     this.ignoreContent(context.block().LBRACE());
@@ -549,7 +557,7 @@ export class FileProcessor {
     private processMemberDeclaration = (context: MemberDeclarationContext, prefix: string,
         modifier: string): IClassMemberDetails => {
         const result: IClassMemberDetails = {
-            type: "other",
+            type: "empty",
             modifier,
             bodyContent: new StringBuilder(),
         };
@@ -975,7 +983,7 @@ export class FileProcessor {
     private processInterfaceMemberDeclaration = (context: InterfaceMemberDeclarationContext, prefix: string,
         modifier: string): IClassMemberDetails => {
         const result: IClassMemberDetails = {
-            type: "other",
+            type: "empty",
             modifier,
             bodyContent: new StringBuilder(),
         };
@@ -1104,11 +1112,16 @@ export class FileProcessor {
             this.ignoreContent(annotation);
         });
 
+        const ws = this.getLeadingWhiteSpaces(context.typeTypeOrVoid());
+        details.modifier = ws + details.modifier;
+
         const returnType = new StringBuilder();
         this.processTypeTypeOrVoid(returnType, context.typeTypeOrVoid());
 
         const isAbstract = context.methodBody().SEMI() !== undefined;
         if (isAbstract) {
+            details.type = "abstract";
+
             details.signatureContent.append("abstract ");
         }
 
@@ -1344,7 +1357,17 @@ export class FileProcessor {
         this.getContent(builder, context.RPAREN());
     };
 
-    private processExpression = (builder: StringBuilder, context: ExpressionContext): void => {
+    /**
+     * Processes a single expression.
+     *
+     * @param builder The target buffer to write the result to.
+     * @param context The expression context for processing.
+     *
+     * @returns If the expression results in an identifiable member (e.g. a field) then the symbol for it is returned.
+     */
+    private processExpression = (builder: StringBuilder, context: ExpressionContext): ISymbolInfo | undefined => {
+        let instance: ISymbolInfo | undefined;
+
         const firstChild = context.getChild(0);
         if (firstChild instanceof TerminalNode) {
             switch (firstChild.symbol.type) {
@@ -1417,7 +1440,7 @@ export class FileProcessor {
             const firstChild = context.getChild(0) as ParserRuleContext;
             switch (firstChild.ruleIndex) {
                 case JavaParser.RULE_primary: {
-                    this.processPrimary(builder, context.primary());
+                    instance = this.processPrimary(builder, context.primary());
                     break;
                 }
 
@@ -1425,7 +1448,7 @@ export class FileProcessor {
                     builder.append(this.getLeadingWhiteSpaces(context.expression(0)));
 
                     const firstExpression = new StringBuilder();
-                    this.processExpression(firstExpression, context.expression(0));
+                    instance = this.processExpression(firstExpression, context.expression(0));
 
                     // eslint-disable-next-line no-underscore-dangle
                     const operator = context._bop;
@@ -1470,7 +1493,8 @@ export class FileProcessor {
                                     }
                                 } else {
                                     if (context.methodCall()) {
-                                        this.processMethodCall(builder, context.methodCall());
+                                        // A method called on a specific class instance.
+                                        this.processMethodCall(builder, context.methodCall(), instance);
                                     } else {
                                         this.processExplicitGenericInvocation(builder,
                                             context.explicitGenericInvocation());
@@ -1555,13 +1579,7 @@ export class FileProcessor {
                 }
 
                 case JavaParser.RULE_methodCall: {
-                    if (context.methodCall().identifier()) {
-                        const name = context.methodCall().identifier().text;
-                        builder.append(this.getLeadingWhiteSpaces(context.methodCall().identifier()));
-                        builder.append(this.resolveMember(context, name));
-                        this.ignoreContent(context.methodCall().identifier());
-                    }
-
+                    // A method call with no instance to call on.
                     this.processMethodCall(builder, context.methodCall());
 
                     break;
@@ -1603,6 +1621,8 @@ export class FileProcessor {
                 }
             }
         }
+
+        return instance;
     };
 
     private processExplicitGenericInvocation = (builder: StringBuilder,
@@ -1679,7 +1699,7 @@ export class FileProcessor {
             });
         } else if (context.formalParameterList()) {
             const details: IClassMemberDetails = {
-                type: "other",
+                type: "lambda",
                 modifier: "",
                 bodyContent: builder,
             };
@@ -1691,15 +1711,109 @@ export class FileProcessor {
         }
     };
 
-    private processMethodCall = (builder: StringBuilder, context: MethodCallContext): void => {
-        // The call identifier has been consumed already by the caller.
-        this.getContent(builder, context.LPAREN());
+    /**
+     * Process a method call with either the current class as instance or for the given instance.
+     *
+     * @param builder The target buffer to write to.
+     * @param context The context to be processed.
+     * @param instance Optional symbol information, if the method call belongs to this instance. This allows us to
+     *                 transform certain method calls to their TS equivalent.
+     */
+    private processMethodCall = (builder: StringBuilder, context: MethodCallContext, instance?: ISymbolInfo): void => {
+        let convertToIndexedAccess = false;
+        let ignoreParentheses = false;
 
-        if (context.expressionList()) {
-            this.processExpressionList(builder, context.expressionList());
+        // Replace some known method call identifiers with their TS equivalent.
+        if (context.THIS()) {
+            // TODO: special handling required.
+            this.getContent(builder, context.THIS());
+        } else if (context.SUPER()) {
+            this.getContent(builder, context.SUPER());
+        } else {
+            const methodName = context.identifier().text;
+            builder.append(this.getLeadingWhiteSpaces(context.identifier()));
+
+            if (instance && instance.symbol instanceof TypedSymbol && instance.symbol.type) {
+                switch (instance.symbol.type.kind as unknown as EnhancedTypeKind) {
+                    case EnhancedTypeKind.Array: {
+                        const entry = FileProcessor.arrayMethodMap.get(methodName);
+                        if (entry) {
+                            if (entry.options.parentheses === "remove") {
+                                ignoreParentheses = true;
+                            }
+
+                            if (entry.options.makeIndexed) {
+                                convertToIndexedAccess = true;
+                            }
+
+                            if (entry.replacement) {
+                                builder.append(entry.replacement);
+                            }
+                        } else {
+                            builder.append(methodName);
+                        }
+
+                        break;
+                    }
+
+                    case EnhancedTypeKind.Map: {
+                        const entry = FileProcessor.mapMethodMap.get(methodName);
+                        if (entry) {
+                            if (entry.options.parentheses === "remove") {
+                                ignoreParentheses = true;
+                            }
+
+                            if (entry.options.makeIndexed) {
+                                convertToIndexedAccess = true;
+                            }
+
+                            if (entry.replacement) {
+                                builder.append(entry.replacement);
+                            }
+                        } else {
+                            builder.append(methodName);
+                        }
+
+                        break;
+                    }
+
+                    default: {
+                        builder.append(methodName);
+                    }
+                }
+            } else {
+                const info = this.resolveMember(context, methodName);
+                if (typeof info === "string") {
+                    builder.append(info);
+                } else {
+                    builder.append(info.qualifiedName);
+                }
+            }
+
+            this.ignoreContent(context.identifier());
         }
 
-        this.getContent(builder, context.RPAREN());
+        if (convertToIndexedAccess) {
+            // On enter there's already the dot in the output, which we have to remove.
+            builder.deleteCharAt(builder.length - 1);
+            builder.append(this.getLeadingWhiteSpaces(context.LPAREN()), "[");
+
+            if (context.expressionList()) {
+                this.processExpressionList(builder, context.expressionList());
+            }
+
+            builder.append(this.getLeadingWhiteSpaces(context.RPAREN()), "]");
+        } else if (ignoreParentheses) {
+            this.ignoreContent(context.RPAREN());
+        } else {
+            this.getContent(builder, context.LPAREN());
+
+            if (context.expressionList()) {
+                this.processExpressionList(builder, context.expressionList());
+            }
+
+            this.getContent(builder, context.RPAREN());
+        }
     };
 
     private processExpressionList = (builder: StringBuilder, context: ExpressionListContext): void => {
@@ -1816,7 +1930,9 @@ export class FileProcessor {
 
     };
 
-    private processPrimary = (builder: StringBuilder, context: PrimaryContext): void => {
+    private processPrimary = (builder: StringBuilder, context: PrimaryContext): ISymbolInfo | undefined => {
+        let instance: ISymbolInfo | undefined;
+
         const firstChild = context.getChild(0);
         if (firstChild instanceof TerminalNode) {
             switch (firstChild.symbol.type) {
@@ -1839,12 +1955,12 @@ export class FileProcessor {
                     builder.append(ws);
 
                     let name = context.identifier().text;
-                    const info = this.source.getQualifiedSymbol(context.parent, name);
+                    instance = this.source.getQualifiedSymbol(context.parent, name);
 
-                    if (info === undefined) {
+                    if (instance === undefined) {
                         name = this.resolveTypeName(context, name);
                     } else {
-                        const parts = info.qualifiedName.split(".");
+                        const parts = instance.qualifiedName.split(".");
                         parts[0] = this.resolveTypeName(context, parts[0]);
                         builder.append(parts.join("."));
                     }
@@ -1870,7 +1986,14 @@ export class FileProcessor {
                 case JavaParser.RULE_identifier: {
                     builder.append(this.getLeadingWhiteSpaces(context.identifier()));
                     const identifier = context.identifier().text;
-                    builder.append(this.resolveMember(context.parent, identifier));
+                    const member = this.resolveMember(context.parent, identifier);
+                    if (typeof member === "string") {
+                        builder.append(member);
+                    } else {
+                        instance = member;
+                        builder.append(member.qualifiedName);
+                    }
+
                     break;
                 }
 
@@ -1886,6 +2009,8 @@ export class FileProcessor {
                 }
             }
         }
+
+        return instance;
     };
 
     private processLiteral = (builder: StringBuilder, context: LiteralContext): void => {
@@ -2399,191 +2524,220 @@ export class FileProcessor {
     };
 
     /**
-     * Overload processing for class and interface declarations. All members which are not methods or constructors
-     * are written directly as processed by the calling code. Otherwise the member list is searched for duplicated
-     * "constructor" or method name entries. If something was found the code is transformed into overloaded methods
-     * or constructors.
+     * Processing of the individual body members. They may require reordering (static parts) or need a rewrite
+     * (overloaded methods).
      *
      * @param builder The target build to write the final output to.
      * @param members A list of process member entries.
      */
     private processBodyMembers = (builder: StringBuilder, members: IClassMemberDetails[]): void => {
+        const pending: IClassMemberDetails[] = [];
+
         while (true) {
             const member = members.shift();
             if (!member) {
                 break;
             }
 
-            if (member.type === "constructor" || member.type === "method") {
-                const name = member.name;
-                const overloads = members.filter((candidate) => {
-                    // Cannot overload static methods, so these are kept as is.
-                    return candidate.name === name && !candidate.modifier.includes("static");
-                });
-
-                if (overloads.length > 0) {
-                    overloads.unshift(member);
-
-                    // Found overloads, so filter the remaining members list for the rest.
-                    members = members.filter((candidate) => {
-                        return candidate.name !== name || candidate.modifier.includes("static");
+            switch (member.type) {
+                case "constructor":
+                case "method": {
+                    const name = member.name;
+                    const overloads = members.filter((candidate) => {
+                        // Cannot overload static methods, so these are kept as is.
+                        return candidate.name === name && !candidate.modifier.includes("static");
                     });
 
-                    // Write the overload signatures.
-                    overloads.forEach((overload) => {
-                        builder.append(overload.signatureContent, ";");
-                    });
+                    if (overloads.length > 0) {
+                        overloads.unshift(member);
 
-                    // Construct the implementation signature.
-                    // Determine the largest number of parameters and get the set of possible return types.
-                    let maxParamCount = 0;
-                    const returnTypes = new Set<string>();
-                    overloads.forEach((overload) => {
-                        if (overload.signature.length > maxParamCount) {
-                            maxParamCount = overload.signature.length;
-                        }
-                        if (member.type === "method") {
-                            returnTypes.add(overload.returnType);
-                        }
-                    });
+                        // Found overloads, so filter the remaining members list for the rest.
+                        members = members.filter((candidate) => {
+                            return candidate.name !== name || candidate.modifier.includes("static");
+                        });
 
-                    const combinedParameters: Array<IParameterInfo & { optional: boolean }> = [];
-                    let combinedParameterString = "";
+                        // Write the overload signatures.
+                        overloads.forEach((overload) => {
+                            builder.append(overload.signatureContent, ";");
+                        });
 
-                    if (maxParamCount > 0) {
-                        for (let i = 0; i < maxParamCount; ++i) {
-                            // These are sets to ignore duplicates.
-                            const names = new Set<string>();
-                            const types = new Set<string>();
-                            let optional = false;
-                            overloads.forEach((overload) => {
-                                if (i < overload.signature.length) {
-                                    names.add(overload.signature[i].name);
-                                    types.add(overload.signature[i].type);
-                                } else {
-                                    optional = true;
-                                }
-                            });
-
-                            // Convert the found names (w/o duplicates) to an array to join them, after
-                            // converting all names to title case (except the first one).
-                            const nameArray = Array.from(names);
-                            nameArray.forEach((name, index) => {
-                                if (index > 0) {
-                                    nameArray[index] = name[0].toUpperCase() + name.substring(1);
-                                }
-                            });
-                            const parameterName = nameArray.join("Or");
-
-                            // Next construct a union type out of the found types.
-                            const typeArray = Array.from(types);
-                            const parameterType = typeArray.join(" | ");
-
-                            combinedParameters[i] = { name: parameterName, type: parameterType, optional };
-                        }
-
-                        // Construct the implementation signature from the combined parameters.
-                        combinedParameters.forEach((parameter, index) => {
-                            if (index > 0) {
-                                combinedParameterString += ", ";
+                        // Construct the implementation signature.
+                        // Determine the largest number of parameters and get the set of possible return types.
+                        let maxParamCount = 0;
+                        const returnTypes = new Set<string>();
+                        overloads.forEach((overload) => {
+                            if (overload.signature.length > maxParamCount) {
+                                maxParamCount = overload.signature.length;
                             }
-
-                            if (parameter.optional) {
-                                combinedParameterString += parameter.name + "?: " + parameter.type;
-                            } else {
-                                combinedParameterString += parameter.name + ": " + parameter.type;
+                            if (member.type === "method") {
+                                returnTypes.add(overload.returnType);
                             }
                         });
-                    }
 
-                    if (member.type === "constructor") {
-                        builder.append(member.modifier, " constructor(", combinedParameterString, ") {\n");
-                    } else {
-                        const combinedReturnTypeString = Array.from(returnTypes).join(" | ");
-                        builder.append(`\n${member.modifier} ${member.name}${member.typeParameters ?? ""}(` +
-                            `${combinedParameterString}): ${combinedReturnTypeString} {\n`);
-                    }
+                        const combinedParameters: Array<IParameterInfo & { optional: boolean }> = [];
+                        let combinedParameterString = "";
 
-                    // Finally add the body code for each overload, depending on the overload parameters.
-                    overloads.forEach((overload, index) => {
-                        if (index > 0) {
-                            builder.append(" else ");
-                        }
-
-                        const nameAssignments: string[] = [];
-                        if (index < overloads.length - 1) {
-                            let condition = "";
+                        if (maxParamCount > 0) {
                             for (let i = 0; i < maxParamCount; ++i) {
-                                if (i > 0) {
-                                    condition += " && ";
+                                // These are sets to ignore duplicates.
+                                const names = new Set<string>();
+                                const types = new Set<string>();
+                                let optional = false;
+                                overloads.forEach((overload) => {
+                                    if (i < overload.signature.length) {
+                                        names.add(overload.signature[i].name);
+                                        types.add(overload.signature[i].type);
+                                    } else {
+                                        optional = true;
+                                    }
+                                });
+
+                                // Convert the found names (w/o duplicates) to an array to join them, after
+                                // converting all names to title case (except the first one).
+                                const nameArray = Array.from(names);
+                                nameArray.forEach((name, index) => {
+                                    if (index > 0) {
+                                        nameArray[index] = name[0].toUpperCase() + name.substring(1);
+                                    }
+                                });
+                                const parameterName = nameArray.join("Or");
+
+                                // Next construct a union type out of the found types.
+                                const typeArray = Array.from(types);
+                                const parameterType = typeArray.join(" | ");
+
+                                combinedParameters[i] = { name: parameterName, type: parameterType, optional };
+                            }
+
+                            // Construct the implementation signature from the combined parameters.
+                            combinedParameters.forEach((parameter, index) => {
+                                if (index > 0) {
+                                    combinedParameterString += ", ";
                                 }
 
-                                if (i < overload.signature.length) {
-                                    // There's a parameter at this position. Add a check for it.
-                                    const typeParts = overload.signature[i].type.split(".");
-                                    const typeName = typeParts.length === 1
-                                        ? typeParts[0]
-                                        : typeParts[typeParts.length - 1];
-                                    const isClass = typeName[0] === typeName[0].toUpperCase();
+                                if (parameter.optional) {
+                                    combinedParameterString += parameter.name + "?: " + parameter.type;
+                                } else {
+                                    combinedParameterString += parameter.name + ": " + parameter.type;
+                                }
+                            });
+                        }
 
-                                    if (isClass) {
-                                        let type = overload.signature[i].type.trim();
-                                        const typeParamsCheck = type.match(/^[A-Z_.]+[ \t]*(<.+>)/i);
-                                        if (typeParamsCheck) {
-                                            type = type.substring(0, type.length - typeParamsCheck[1].length);
+                        if (member.type === "constructor") {
+                            builder.append(member.modifier, " constructor(", combinedParameterString, ") {\n");
+                        } else {
+                            const combinedReturnTypeString = Array.from(returnTypes).join(" | ");
+                            builder.append(`\n${member.modifier} ${member.name}${member.typeParameters ?? ""}(` +
+                                `${combinedParameterString}): ${combinedReturnTypeString} {\n`);
+                        }
+
+                        // Finally add the body code for each overload, depending on the overload parameters.
+                        overloads.forEach((overload, index) => {
+                            if (index > 0) {
+                                builder.append(" else ");
+                            }
+
+                            const nameAssignments: string[] = [];
+                            if (index < overloads.length - 1) {
+                                let condition = "";
+                                for (let i = 0; i < maxParamCount; ++i) {
+                                    if (i > 0) {
+                                        condition += " && ";
+                                    }
+
+                                    if (i < overload.signature.length) {
+                                        // There's a parameter at this position. Add a check for it.
+                                        const typeParts = overload.signature[i].type.split(".");
+                                        const typeName = typeParts.length === 1
+                                            ? typeParts[0]
+                                            : typeParts[typeParts.length - 1];
+                                        const isClass = typeName[0] === typeName[0].toUpperCase();
+
+                                        if (isClass) {
+                                            let type = overload.signature[i].type.trim();
+                                            const typeParamsCheck = type.match(/^[A-Z_.]+[ \t]*(<.+>)/i);
+                                            if (typeParamsCheck) {
+                                                type = type.substring(0, type.length - typeParamsCheck[1].length);
+                                            }
+
+                                            condition += `${combinedParameters[i].name} instanceof ${type}`;
+                                        } else {
+                                            condition += `typeof ${combinedParameters[i].name} === ` +
+                                                `"${overload.signature[i].type}"`;
                                         }
 
-                                        condition += `${combinedParameters[i].name} instanceof ${type}`;
+                                        if (overload.signature[i].name !== combinedParameters[i].name) {
+                                            nameAssignments.push(`const ${overload.signature[i].name} = ` +
+                                                `${combinedParameters[i].name} as ${overload.signature[i].type};`);
+                                        }
                                     } else {
-                                        condition += `typeof ${combinedParameters[i].name} === ` +
-                                            `"${overload.signature[i].type}"`;
+                                        // Overload parameter list exhausted. Add a check for the current parameter
+                                        // and stop the loop. After an optional parameter there can't be a
+                                        // non-optional one.
+                                        condition += `${combinedParameters[i].name} === undefined`;
+                                        break;
                                     }
-
+                                }
+                                builder.append(`if (${condition})`);
+                            } else {
+                                // This is the last overload branch. No need for a condition, but we still need
+                                // the name assignments.
+                                for (let i = 0; i < overload.signature.length; ++i) {
                                     if (overload.signature[i].name !== combinedParameters[i].name) {
-                                        nameAssignments.push(`const ${overload.signature[i].name} = ` +
+                                        // Intentionally using "let" here. Linters can convert to const, if required.
+                                        nameAssignments.push(`let ${overload.signature[i].name} = ` +
                                             `${combinedParameters[i].name} as ${overload.signature[i].type};`);
                                     }
-                                } else {
-                                    // Overload parameter list exhausted. Add a check for the current parameter
-                                    // and stop the loop. After an optional parameter there can't be a non-optional one.
-                                    condition += `${combinedParameters[i].name} === undefined`;
-                                    break;
                                 }
                             }
-                            builder.append(`if (${condition})`);
-                        } else {
-                            // This is the last overload branch. No need for a condition, but we still need
-                            // the name assignments.
-                            for (let i = 0; i < overload.signature.length; ++i) {
-                                if (overload.signature[i].name !== combinedParameters[i].name) {
-                                    nameAssignments.push(`const ${overload.signature[i].name} = ` +
-                                        `${combinedParameters[i].name} as ${overload.signature[i].type};`);
-                                }
-                            }
-                        }
 
-                        // Before writing the body content, we also have to inject assignments with the original
-                        // parameter name (+ a cast), if it differs from the combined name, to allow using the
-                        // body content without change.
-                        let block = overload.bodyContent.text;
-                        if (nameAssignments.length > 0) {
-                            const openCurlyIndex = block.indexOf("{");
-                            if (openCurlyIndex > -1) { // Should always be true.
-                                block = block.substring(0, openCurlyIndex + 1) + "\n" + nameAssignments.join("\n") +
-                                    block.substring(openCurlyIndex + 1);
+                            // Before writing the body content, we also have to inject assignments with the original
+                            // parameter name (+ a cast), if it differs from the combined name, to allow using the
+                            // body content without change.
+                            let block = overload.bodyContent.text;
+                            if (nameAssignments.length > 0) {
+                                const openCurlyIndex = block.indexOf("{");
+                                if (openCurlyIndex > -1) { // Should always be true.
+                                    block = block.substring(0, openCurlyIndex + 1) + "\n" + nameAssignments.join("\n") +
+                                        block.substring(openCurlyIndex + 1);
+                                }
                             }
-                        }
-                        builder.append(block, "\n");
-                    });
-                    builder.append("\n}\n");
-                } else {
+                            builder.append(block, "\n");
+                        });
+                        builder.append("\n}\n");
+                    } else {
+                        builder.append(member.signatureContent);
+                        builder.append(member.bodyContent);
+                    }
+                    break;
+                }
+
+                case "static": {
+                    // Not strictly required, but standard eslint ordering rules for members require static blocks
+                    // to be after all other members.
+                    pending.push(member);
+                    break;
+                }
+
+                case "abstract": {
+                    builder.append(member.modifier, " ");
                     builder.append(member.signatureContent);
                     builder.append(member.bodyContent);
+
+                    break;
                 }
-            } else {
-                builder.append(member.bodyContent);
+
+                default: {
+                    builder.append(member.bodyContent);
+
+                    break;
+                }
             }
         }
+
+        pending.forEach((member) => {
+            builder.append(member.bodyContent);
+        });
     };
 
     /**
@@ -2715,24 +2869,6 @@ export class FileProcessor {
                 return "object";
             }
 
-            case "List":
-            case "ArrayList":
-            case "Collection": {
-                return "Array";
-            }
-
-            case "Integer": {
-                return "number";
-            }
-
-            case "HashSet": {
-                return "Set";
-            }
-
-            case "HashMap": {
-                return "Map";
-            }
-
             default:
         }
 
@@ -2761,10 +2897,10 @@ export class FileProcessor {
      *
      * @returns Either a replacement for the given name or the name itself.
      */
-    private resolveMember = (context: ParseTree, name: string): string => {
+    private resolveMember = (context: ParseTree, name: string): ISymbolInfo | string => {
         const info = this.source.getQualifiedSymbol(context, name);
         if (info) {
-            return info.qualifiedName;
+            return info;
         }
 
         return name;

@@ -5,6 +5,7 @@
         "Cloneable",
         "Declarators",
         "misformatted",
+        "signum",
         "subfolders",
         "whitespaces"
     ],
