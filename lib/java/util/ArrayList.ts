@@ -30,15 +30,18 @@ export class ArrayList<T> extends List<T> {
         } else {
             this.buffer = input.toArray();
         }
+
+        this.end = this.buffer.length;
     }
 
     public add(element: T): boolean;
     public add(index: number, element: T): void;
     public add(indexOrElement: number | T, element?: T): void | boolean {
+        ++this.end;
         if (typeof indexOrElement === "number") {
-            this.buffer.splice(indexOrElement, 0, element);
+            this.buffer.splice(this.start + indexOrElement, 0, element);
         } else {
-            this.buffer.push(indexOrElement);
+            this.buffer.splice(this.end, 0, indexOrElement);
 
             return true;
         }
@@ -48,10 +51,11 @@ export class ArrayList<T> extends List<T> {
     public addAll(index: number, c: Collection<T>): boolean;
     public addAll(indexOrCollection: number | Collection<T>, c?: Collection<T>): boolean {
         const a = c.toArray();
+        this.end += a.length;
         if (typeof indexOrCollection === "number") {
-            this.buffer.splice(indexOrCollection, 0, ...a);
+            this.buffer.splice(this.start + indexOrCollection, 0, ...a);
         } else {
-            this.buffer.push(...a);
+            this.buffer.splice(this.end, 0, ...a);
         }
 
         return true;
@@ -59,15 +63,29 @@ export class ArrayList<T> extends List<T> {
 
     public clear(): void {
         this.buffer = [];
+        this.start = 0;
+        this.end = 0;
     }
 
     public contains(element: T): boolean {
-        return this.buffer.includes(element);
+        if (this.end < this.buffer.length) {
+            // Have to make a temporary copy, because there's no way to limit search to a specific end index.
+            const temp = this.buffer.slice(this.start, this.end);
+
+            return temp.includes(element);
+        }
+
+        return this.buffer.includes(element, this.start);
     }
 
     public containsAll(c: Collection<T>): boolean {
+        let target = this.buffer;
+        if (this.end < this.buffer.length) {
+            target = this.buffer.slice(this.start, this.end);
+        }
+
         for (const element of c) {
-            if (!this.buffer.includes(element)) {
+            if (!target.includes(element)) {
                 return false;
             }
         }
@@ -76,13 +94,21 @@ export class ArrayList<T> extends List<T> {
     }
 
     public equals(other: ArrayList<T>): boolean {
-        return this.buffer.length === other.buffer.length && this.buffer.every((value, index) => {
+        if (this.start !== other.start || this.end !== other.end) {
+            return false;
+        }
+
+        return this.buffer.every((value, index) => {
+            if (index < this.start || index >= this.end) {
+                return true;
+            }
+
             return value === other.buffer[index];
         });
     }
 
     public get(index: number): T {
-        if (index < 0 || index >= this.buffer.length) {
+        if (index < this.start || index >= this.end) {
             throw new IndexOutOfBoundsException();
         }
 
@@ -90,15 +116,19 @@ export class ArrayList<T> extends List<T> {
     }
 
     public hashCode(): number {
+        if (this.start > 0 || this.end < this.buffer.length) {
+            return parseInt(hash_sum(this.buffer.slice(this.start, this.end)), 16);
+        }
+
         return parseInt(hash_sum(this.buffer), 16);
     }
 
     public indexOf(element: T): number {
-        return this.buffer.indexOf(element);
+        return this.buffer.indexOf(element) - this.start;
     }
 
     public isEmpty(): boolean {
-        return this.buffer.length === 0;
+        return this.end - this.start <= 0;
     }
 
     public iterator(): Iterator<T> {
@@ -106,10 +136,24 @@ export class ArrayList<T> extends List<T> {
     }
 
     public lastIndexOf(element: T): number {
-        return this.buffer.lastIndexOf(element);
+        if (this.isEmpty()) {
+            return -1;
+        }
+
+        if (this.start > 0) {
+            const temp = this.buffer.slice(this.start, this.end);
+
+            return temp.lastIndexOf(element);
+        }
+
+        return this.buffer.lastIndexOf(element, this.end - 1);
     }
 
     public listIterator(index?: number): ListIterator<T> {
+        if (this.start > 0 || this.end < this.buffer.length) {
+            return new ArrayListIterator(this.buffer.slice(this.start, this.end), index);
+        }
+
         return new ArrayListIterator(this.buffer, index);
     }
 
@@ -117,11 +161,14 @@ export class ArrayList<T> extends List<T> {
     public remove(element: T): boolean;
     public remove(elementOrIndex: T | number): boolean | T {
         if (typeof elementOrIndex === "number") {
-            return this.buffer.splice(elementOrIndex, 1)[0];
+            --this.end;
+
+            return this.buffer.splice(this.start + elementOrIndex, 1)[0];
         } else {
             const index = this.buffer.indexOf(elementOrIndex);
-            if (index > -1) {
+            if (this.start <= index && index < this.end) {
                 this.buffer.splice(index, 1);
+                --this.end;
 
                 return true;
             }
@@ -135,8 +182,9 @@ export class ArrayList<T> extends List<T> {
 
         for (const element of c) {
             const index = this.buffer.indexOf(element);
-            if (index > -1) {
+            if (this.start <= index && index < this.end) {
                 this.buffer.splice(index, 1);
+                --this.end;
                 result = true;
             }
         }
@@ -145,44 +193,65 @@ export class ArrayList<T> extends List<T> {
     }
 
     public retainAll(c: Collection<T>): boolean {
-        let result = false;
+        if (c.size() === 0) {
+            return false;
+        }
 
+        let result = false;
         const newList: T[] = [];
+
+        let target = this.buffer;
+        if (this.start > 0 || this.end < this.buffer.length) {
+            target = this.buffer.slice(this.start, this.end);
+        }
+
         for (const element of c) {
-            if (this.buffer.includes(element)) {
+            if (target.includes(element)) {
                 newList.push(element);
 
                 result = true;
             }
         }
-        this.buffer = newList;
+
+        this.buffer.splice(this.start, this.end, ...newList);
+        this.end = newList.length - this.end;
 
         return result;
     }
 
     public set(index: number, element: T): T {
-        if (index < 0 || index >= this.buffer.length) {
+        if (index - this.start < 0 || this.start + index >= this.end) {
             throw new IndexOutOfBoundsException();
         }
 
-        return this.buffer.splice(index, 1, element)[0];
+        return this.buffer.splice(this.start + index, 1, element)[0];
     }
 
     public size(): number {
-        return this.buffer.length;
+        return this.end - this.start;
     }
 
-    public subList(_fromIndex: number, _toIndex: number): List<T> {
-        throw new Error("Unsupported operation");
+    public subList(fromIndex: number, toIndex: number): List<T> {
+        const list = new ArrayList<T>();
+        list.buffer = this.buffer;
+        list.start = fromIndex;
+        list.end = toIndex;
+
+        return list;
     }
 
     public toArray(): T[];
     public toArray<T2 extends T>(a: T2[]): T2[];
     public toArray<T2 extends T>(a?: T2[]): T2[] | T[] {
-        if (a) {
-            return this.buffer as T2[];
+        let target = this.buffer;
+        if (this.start > 0 || this.end < this.buffer.length) {
+            target = this.buffer.slice(this.start, this.end);
         }
 
-        return this.buffer;
+        if (a) {
+            return target as T2[];
+        }
+
+        return target;
     }
 }

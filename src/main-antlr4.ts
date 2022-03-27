@@ -5,16 +5,81 @@
  * See LICENSE file for more info.
  */
 
+/* eslint-disable max-classes-per-file */
+/* eslint-disable no-underscore-dangle */
+
 import {
     IClassResolver, IConverterConfiguration, JavaToTypescriptConverter,
 } from "./conversion/JavaToTypeScript";
 import { PackageSource } from "./PackageSource";
 import { PackageSourceManager } from "./PackageSourceManager";
 
+class OuterClass {
+    // eslint-disable-next-line @typescript-eslint/naming-convention
+    public static InnerClass2 = class InnerClass2 {
+        // eslint-disable-next-line @typescript-eslint/naming-convention
+        public static InnerClass3 = class InnerClass3 {
+
+        };
+
+        public update(o: OuterClass): void {
+            o.a = "b";
+        }
+    };
+
+    // eslint-disable-next-line @typescript-eslint/naming-convention
+    public InnerClass1 = (($outer) => {
+        return class InnerClass1 {
+            // eslint-disable-next-line @typescript-eslint/naming-convention
+            public static InnerClass3 = class InnerClass3 {
+            };
+
+            public update(): void {
+                $outer.a = "b";
+            }
+
+        };
+    })(this);
+
+    // eslint-disable-next-line @typescript-eslint/naming-convention
+    public InnerClassDerived = (($outer) => {
+        return class InnerClass extends this.InnerClass1 {
+            public constructor() {
+                super();
+
+                this.update();
+            }
+
+        };
+    })(this);
+
+    private a = "a";
+    private list: Array<InstanceType<OuterClass["InnerClass1"]>> = [];
+
+    public test(): void {
+        const i = new this.InnerClass1();
+        this.list.push(i);
+        i.update();
+    }
+}
+
+// eslint-disable-next-line @typescript-eslint/no-namespace
+export declare namespace OuterClass {
+    // eslint-disable-next-line @typescript-eslint/no-namespace
+    export type InnerClass1 = InstanceType<OuterClass["InnerClass1"]>;
+    export type InnerClass2 = InstanceType<typeof OuterClass["InnerClass2"]>;
+}
+
+const o = new OuterClass();
+o.test();
+
+const list: OuterClass.InnerClass1[] = [new new OuterClass().InnerClass1()];
+
 // Only packages required for ANTLR4.
 const knownSDKPackages: string[] = [
     "javax",
 
+    /** cspell: ignore abego, treelayout */
     "org.abego.treelayout",
 
     "com.ibm.icu.lang.UCharacter",
@@ -141,9 +206,7 @@ const convertAntlr3Runtime = async () => {
     const antlrToolOptions: IConverterConfiguration = {
         packageRoot: "/Volumes/Extern/Work/projects/antlr3/runtime/Java/src/main/java",
         include: [
-            //"/TreeParser.java",
-            //"/BaseRecognizer.java",
-            "TokenRewriteStream.java",
+            "/CommonTree.java",
         ],
         exclude: [
             "DebugEventSocketProxy.java",
@@ -155,7 +218,7 @@ const convertAntlr3Runtime = async () => {
  eslint-disable @typescript-eslint/no-namespace, @typescript-eslint/naming-convention, no-redeclare,
  max-classes-per-file, jsdoc/check-tag-names, @typescript-eslint/no-empty-function,
  @typescript-eslint/restrict-plus-operands, @typescript-eslint/unified-signatures, @typescript-eslint/member-ordering,
- max-len
+ no-underscore-dangle, max-len
 */
 
 /* cspell: disable */
@@ -171,15 +234,15 @@ const convertAntlr3Runtime = async () => {
             autoAddBraces: true,
             addIndexFiles: true,
         },
-        /*debug: {
+        debug: {
             pathForPosition: {
-                filePattern: "/TreeParser.java",
+                filePattern: "BufferedTreeNodeStream.java",
                 position: {
-                    row: 45,
+                    row: 61,
                     column: 5,
                 },
             },
-        },*/
+        },
 
     };
 

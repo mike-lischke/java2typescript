@@ -15,13 +15,12 @@ import {
 import { ParserRuleContext } from "antlr4ts";
 import { TerminalNode } from "antlr4ts/tree";
 import {
-    AnnotationTypeBodyContext, MethodDeclarationContext, GenericMethodDeclarationContext, BlockContext,
-    EnumDeclarationContext, InterfaceDeclarationContext, AnnotationTypeDeclarationContext, ClassDeclarationContext,
-    ExpressionContext, FormalParameterContext, ConstantDeclaratorContext, PackageDeclarationContext,
-    ImportDeclarationContext, GenericConstructorDeclarationContext, ConstructorDeclarationContext,
-    ClassBodyDeclarationContext, TypeDeclarationContext, InterfaceBodyDeclarationContext,
+    AnnotationTypeBodyContext, MethodDeclarationContext, BlockContext, EnumDeclarationContext,
+    InterfaceDeclarationContext, AnnotationTypeDeclarationContext, ClassDeclarationContext, ExpressionContext,
+    FormalParameterContext, ConstantDeclaratorContext, PackageDeclarationContext, ImportDeclarationContext,
+    ConstructorDeclarationContext, ClassBodyDeclarationContext, TypeDeclarationContext, InterfaceBodyDeclarationContext,
     InterfaceMethodDeclarationContext, JavaParser, MemberDeclarationContext, LocalVariableDeclarationContext,
-    FieldDeclarationContext, VariableDeclaratorsContext,
+    FieldDeclarationContext,
 } from "../../java/generated/JavaParser";
 import { JavaParserListener } from "../../java/generated/JavaParserListener";
 
@@ -144,12 +143,12 @@ export class JavaParseTreeWalker implements JavaParserListener {
         this.symbolStack.pop();
     };
 
-    public enterGenericMethodDeclaration = (ctx: GenericMethodDeclarationContext): void => {
-        const symbol = this.pushNewScope(MethodSymbol, ctx.methodDeclaration().identifier().text, ctx);
+    public enterInterfaceMethodDeclaration = (ctx: InterfaceMethodDeclarationContext): void => {
+        const symbol = this.pushNewScope(MethodSymbol, ctx.interfaceCommonBodyDeclaration().identifier().text, ctx);
         this.checkStatic(symbol);
     };
 
-    public exitGenericMethodDeclaration = (): void => {
+    public exitInterfaceMethodDeclaration = (): void => {
         this.symbolStack.pop();
     };
 
@@ -159,14 +158,6 @@ export class JavaParseTreeWalker implements JavaParserListener {
     };
 
     public exitConstructorDeclaration = (): void => {
-        this.symbolStack.pop();
-    };
-
-    public enterGenericConstructorDeclaration = (ctx: GenericConstructorDeclarationContext): void => {
-        this.pushNewScope(MethodSymbol, ctx.constructorDeclaration().identifier().text, ctx);
-    };
-
-    public exitGenericConstructorDeclaration = (): void => {
         this.symbolStack.pop();
     };
 
@@ -207,7 +198,15 @@ export class JavaParseTreeWalker implements JavaParserListener {
     public enterLocalVariableDeclaration = (ctx: LocalVariableDeclarationContext): void => {
 
         if (ctx.variableDeclarators()) {
-            this.handleVariables(ctx.typeType().text, ctx.variableDeclarators());
+            const block = this.symbolStack.tos;
+
+            const type = this.generateTypeRecord(ctx.typeType().text);
+            ctx.variableDeclarators().variableDeclarator().forEach((declarator) => {
+                const id = declarator.variableDeclaratorId().identifier().text;
+                const symbol = this.symbolTable.addNewSymbolOfType(VariableSymbol, block, id, undefined, type);
+                symbol.context = declarator;
+                this.checkStatic(symbol);
+            });
         } else if (ctx.VAR()) {
             const block = this.symbolStack.tos;
             const symbol = this.symbolTable.addNewSymbolOfType(VariableSymbol, block, ctx.identifier().text);
@@ -218,7 +217,15 @@ export class JavaParseTreeWalker implements JavaParserListener {
     };
 
     public enterFieldDeclaration = (ctx: FieldDeclarationContext): void => {
-        this.handleVariables(ctx.typeType().text, ctx.variableDeclarators());
+        const block = this.symbolStack.tos;
+
+        const type = this.generateTypeRecord(ctx.typeType().text);
+        ctx.variableDeclarators().variableDeclarator().forEach((declarator) => {
+            const id = declarator.variableDeclaratorId().identifier().text;
+            const symbol = this.symbolTable.addNewSymbolOfType(FieldSymbol, block, id, undefined, type);
+            symbol.context = declarator;
+            this.checkStatic(symbol);
+        });
     };
 
     public enterConstantDeclarator = (ctx: ConstantDeclaratorContext): void => {
@@ -231,15 +238,17 @@ export class JavaParseTreeWalker implements JavaParserListener {
     public enterFormalParameter = (ctx: FormalParameterContext): void => {
         const block = this.symbolStack.tos;
 
-        const symbol = this.symbolTable.addNewSymbolOfType(ParameterSymbol, block,
-            ctx.variableDeclaratorId().identifier().text);
+        const type = this.generateTypeRecord(ctx.typeType().text);
+        const id = ctx.variableDeclaratorId().identifier().text;
+        const symbol = this.symbolTable.addNewSymbolOfType(ParameterSymbol, block, id, undefined, type);
         symbol.context = ctx;
+        this.checkStatic(symbol);
     };
 
     public enterMemberDeclaration = (ctx: MemberDeclarationContext): void => {
         const block = this.symbolStack.tos;
 
-        const symbol = this.symbolTable.addNewSymbolOfType(MemberSymbol, block, ctx.text);
+        const symbol = this.symbolTable.addNewSymbolOfType(MemberSymbol, block, "#member#");
         symbol.context = ctx;
     };
 
@@ -319,9 +328,7 @@ export class JavaParseTreeWalker implements JavaParserListener {
         }
     };
 
-    private handleVariables = (typeText: string, declarators: VariableDeclaratorsContext): void => {
-        const block = this.symbolStack.tos;
-
+    private generateTypeRecord = (typeText: string): Type => {
         const typeParamsCheck = typeText.match(/^[A-Z_.]+[ \t]*(<.+>)/i);
         let baseText = typeText;
         if (typeParamsCheck) {
@@ -329,19 +336,13 @@ export class JavaParseTreeWalker implements JavaParserListener {
         }
 
         const kind = JavaParseTreeWalker.typeKindMap.get(baseText) ?? EnhancedTypeKind.Unknown;
-        const type: Type = {
+
+        return {
             name: typeText,
             baseTypes: [],
             kind: kind as unknown as TypeKind, // Temporary use of the cast until the type kind is updated.
             reference: ReferenceKind.Irrelevant,
         };
-
-        declarators.variableDeclarator().forEach((declarator) => {
-            const id = declarator.variableDeclaratorId().identifier().text;
-            const symbol = this.symbolTable.addNewSymbolOfType(FieldSymbol, block, id, undefined, type);
-            symbol.context = declarator;
-            this.checkStatic(symbol);
-        });
-
     };
+
 }

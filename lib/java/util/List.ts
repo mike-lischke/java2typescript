@@ -11,16 +11,20 @@ import { Collection, ListIterator } from ".";
 
 export abstract class List<T> implements Iterable<T>, Collection<T> {
 
+    // For list that represent ranges of other lists.
+    protected start = 0;
+    protected end = 0;
+
     public [Symbol.iterator](): Iterator<T> {
-        let index = 0;
+        let index = this.start;
 
         return {
-            next: function () {
+            next: () => {
                 return {
-                    done: index === (this as List<T>).size(),
-                    value: (this as List<T>).get(index++),
+                    done: index === this.end,
+                    value: this.get(index++),
                 };
-            }.bind(this),
+            },
         };
     }
 

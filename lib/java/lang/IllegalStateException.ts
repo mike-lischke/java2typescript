@@ -5,5 +5,7 @@
  * See LICENSE file for more info.
  */
 
-export class IllegalStateException extends Error {
+import { RuntimeException } from "./RuntimeException";
+
+export class IllegalStateException extends RuntimeException {
 }

@@ -21,10 +21,10 @@ export class JavaFileSymbolTable extends SymbolTable {
 
     private referencesResolved = false;
 
-    public constructor(private tree: ParseTree, packageRoot: string, private importList: Set<PackageSource>) {
+    public constructor(private source: PackageSource, packageRoot: string, private importList: Set<PackageSource>) {
         super("fileSymbolTable", { allowDuplicateSymbols: true });
 
-        ParseTreeWalker.DEFAULT.walk(new JavaParseTreeWalker(this, packageRoot, importList), this.tree);
+        ParseTreeWalker.DEFAULT.walk(new JavaParseTreeWalker(this, packageRoot, importList), source.parseTree);
     }
 
     /**
@@ -44,7 +44,10 @@ export class JavaFileSymbolTable extends SymbolTable {
             // Walk the parent chain up to see if we can find an expression or member context and continue from there.
             while (true) {
                 context = context.parent;
-                if (!context || context instanceof ExpressionContext || context instanceof MemberDeclarationContext) {
+                if (!context || context instanceof ExpressionContext
+                    || context instanceof MemberDeclarationContext
+                    || context instanceof ClassDeclarationContext
+                ) {
                     break;
                 }
             }
@@ -63,7 +66,9 @@ export class JavaFileSymbolTable extends SymbolTable {
             block = block.parent;
         }
 
-        const symbol = block.parent.resolveSync(name, false);
+        const symbol = context instanceof ClassDeclarationContext
+            ? block.resolveSync(name, false)
+            : block.parent.resolveSync(name, false);
         if (!symbol) {
             return undefined;
         }
@@ -77,11 +82,61 @@ export class JavaFileSymbolTable extends SymbolTable {
 
         // Is the symbol itself a class or interface?
         if (symbol instanceof ClassSymbol || symbol instanceof InterfaceSymbol) {
-            // If so this is a nested type and we have to fully qualify it.
-            return {
-                symbol,
-                qualifiedName: symbol.qualifiedName(),
-            };
+            // If so this is a nested type and we have to fully qualify it, depending whether various conditions.
+            // Or it represents a base class/interface, which doesn't need any qualifier.
+            if (symbol.modifiers.has(Modifier.Static)) {
+                // There's only one way to use a static local class.
+                return {
+                    symbol,
+                    qualifiedName: symbol.qualifiedName(),
+                };
+            } else {
+                // Non-static local class types either use `this` or the outer class as qualifier, depending on the
+                // context in which they are used.
+                if (context instanceof MemberDeclarationContext) {
+                    if (context.classDeclaration()) {
+                        // The class is used as base class for inheritance.
+                        return {
+                            symbol,
+                            qualifiedName: "this." + name,
+                        };
+                    }
+                }
+
+                if (context instanceof ExpressionContext) {
+                    // Classes in expressions can be used either as types or constructor functions.
+                    // In the first form we need the fully qualified name, otherwise the name of the (generated)
+                    // constructor function in the owning class (requiring the "this" prefix).
+                    // The tests here all check for the use as constructor function.
+                    if (context.creator() && context.creator().createdName().identifier().length > 0) {
+                        const creatorName = context.creator().createdName().identifier(0).text;
+                        if (creatorName === name) {
+                            // The class is used to create a new instance of it.
+                            return {
+                                symbol,
+                                qualifiedName: "this." + name,
+                            };
+                        }
+                    } else if (context.INSTANCEOF()) {
+                        // The class is used for a type check.
+                        return {
+                            symbol,
+                            qualifiedName: "this." + name,
+                        };
+                    } else if (context.primary() && context.primary().CLASS()) {
+                        // The class is used to get a Class instance of it.
+                        return {
+                            symbol,
+                            qualifiedName: "this." + name,
+                        };
+                    }
+                }
+
+                return {
+                    symbol,
+                    qualifiedName: symbol.name,
+                };
+            }
         } else if (symbol.parent instanceof ClassSymbol || symbol.parent instanceof InterfaceSymbol) {
             // Member of a class or interface.
             if (symbol.modifiers.has(Modifier.Static)) {
@@ -91,10 +146,20 @@ export class JavaFileSymbolTable extends SymbolTable {
                 };
 
             } else {
-                return {
-                    symbol,
-                    qualifiedName: "this." + name,
-                };
+                // At this point we know it's a non-static member of the class we are in. However in nested classes
+                // we cannot directly access such a member from the outer class. Instead we have to use the special
+                // `$outer` parameter, which is generated for such scenarios.
+                if (this.needOuterScope(block, symbol)) {
+                    return {
+                        symbol,
+                        qualifiedName: "$outer." + name,
+                    };
+                } else {
+                    return {
+                        symbol,
+                        qualifiedName: "this." + name,
+                    };
+                }
             }
         }
 
@@ -119,18 +184,18 @@ export class JavaFileSymbolTable extends SymbolTable {
         const interfaceSymbols = this.getNestedSymbolsOfTypeSync(InterfaceSymbol);
 
         if (this.importList.size > 0 && (classSymbols.length > 0 || interfaceSymbols.length > 0)) {
-            this.resolveClassSymbols(classSymbols, this.importList);
-            this.resolveInterfaceSymbols(interfaceSymbols, this.importList);
+            this.resolveClassSymbols(classSymbols);
+            this.resolveInterfaceSymbols(interfaceSymbols);
         }
     };
 
-    private resolveClassSymbols = (symbols: JavaClassSymbol[], sources: Set<PackageSource>): void => {
+    private resolveClassSymbols = (symbols: JavaClassSymbol[]): void => {
         symbols.forEach((classSymbol) => {
             let candidate = classSymbol.context.parent.parent.parent;
             if (candidate instanceof CreatorContext) {
                 // Anonymous inner class. Have to walk up quite a bit to get the base class name.
                 const type = candidate.createdName().identifier(0).text;
-                this.resolveTypeName(type, sources, (symbol: Symbol) => {
+                this.resolveTypeName(type, (symbol: Symbol) => {
                     if (symbol instanceof ClassSymbol) {
                         classSymbol.extends.push(symbol);
                     }
@@ -144,7 +209,7 @@ export class JavaFileSymbolTable extends SymbolTable {
 
                 if (candidate instanceof ClassDeclarationContext) {
                     if (candidate.typeType()) {
-                        this.resolveType(candidate.typeType(), sources, (symbol: Symbol) => {
+                        this.resolveType(candidate.typeType(), (symbol: Symbol) => {
                             if (symbol instanceof ClassSymbol) {
                                 classSymbol.extends.push(symbol);
                             }
@@ -154,7 +219,7 @@ export class JavaFileSymbolTable extends SymbolTable {
                     if (candidate.IMPLEMENTS()) {
                         // Interfaces to implement.
                         candidate.typeList(0).typeType().forEach((typeContext) => {
-                            this.resolveType(typeContext, sources, (symbol: Symbol) => {
+                            this.resolveType(typeContext, (symbol: Symbol) => {
                                 if (symbol instanceof ClassSymbol || symbol instanceof InterfaceSymbol) {
                                     classSymbol.implements.push(symbol);
                                 }
@@ -166,13 +231,13 @@ export class JavaFileSymbolTable extends SymbolTable {
         });
     };
 
-    private resolveInterfaceSymbols = (symbols: InterfaceSymbol[], sources: Set<PackageSource>): void => {
+    private resolveInterfaceSymbols = (symbols: InterfaceSymbol[]): void => {
         symbols.forEach((interfaceSymbol) => {
             const context = interfaceSymbol.context as InterfaceDeclarationContext;
             if (context.typeList()) {
                 // Interfaces or classes to extend.
                 context.typeList().typeType().forEach((typeContext) => {
-                    this.resolveType(typeContext, sources, (symbol: Symbol) => {
+                    this.resolveType(typeContext, (symbol: Symbol) => {
                         if (symbol instanceof ClassSymbol || symbol instanceof InterfaceSymbol) {
                             interfaceSymbol.extends.push(symbol);
                         }
@@ -182,8 +247,7 @@ export class JavaFileSymbolTable extends SymbolTable {
         });
     };
 
-    private resolveType = (context: TypeTypeContext, sources: Set<PackageSource>,
-        add: (symbol: Symbol) => void): void => {
+    private resolveType = (context: TypeTypeContext, add: (symbol: Symbol) => void): void => {
         if (context.classOrInterfaceType()) {
             // Ignoring type parameters here for now.
             const parts = context.classOrInterfaceType().identifier().map((node) => {
@@ -191,7 +255,15 @@ export class JavaFileSymbolTable extends SymbolTable {
             });
             const name = parts.join(".");
 
-            for (const source of sources) {
+            const info = this.source.resolveType(name);
+            if (info) {
+                // A local type.
+                add(info.symbol);
+
+                return;
+            }
+
+            for (const source of this.importList) {
                 const info = source.resolveType(name);
                 if (info?.symbol instanceof ClassSymbol || info?.symbol instanceof InterfaceSymbol
                     || info?.symbol instanceof EnumSymbol) {
@@ -203,8 +275,8 @@ export class JavaFileSymbolTable extends SymbolTable {
         }
     };
 
-    private resolveTypeName = (name: string, sources: Set<PackageSource>, add: (symbol: Symbol) => void): void => {
-        for (const source of sources) {
+    private resolveTypeName = (name: string, add: (symbol: Symbol) => void): void => {
+        for (const source of this.importList) {
             const info = source.resolveType(name);
             if (info?.symbol instanceof ClassSymbol || info?.symbol instanceof InterfaceSymbol
                 || info?.symbol instanceof EnumSymbol) {
@@ -213,5 +285,22 @@ export class JavaFileSymbolTable extends SymbolTable {
                 return;
             }
         }
+    };
+
+    private needOuterScope = (scope: Symbol, symbol: Symbol): boolean => {
+        // Find the directly owning class.
+        while (scope) {
+            if (scope instanceof ClassSymbol || scope instanceof InterfaceSymbol) {
+                // Does the found scope own the given symbol or is it one of the base classes?
+                if (symbol.parent === scope || (scope.extends.length > 0 && symbol.parent === scope.extends[0])) {
+                    return false;
+                }
+
+                break;
+            }
+            scope = scope.parent;
+        }
+
+        return scope.parent instanceof ClassSymbol || scope.parent instanceof InterfaceSymbol;
     };
 }

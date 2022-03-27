@@ -7,3 +7,5 @@
 
 export * from "./File";
 export * from "./Console";
+export * from "./PrintStream";
+export * from "./IOException";

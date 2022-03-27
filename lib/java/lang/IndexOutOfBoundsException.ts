@@ -5,7 +5,9 @@
  * See LICENSE file for more info.
  */
 
-export class IndexOutOfBoundsException extends Error {
+import { RuntimeException } from "./RuntimeException";
+
+export class IndexOutOfBoundsException extends RuntimeException {
     public constructor(message?: string) {
         super(message ?? "The given index is not within the bounds");
     }

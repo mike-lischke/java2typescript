@@ -5,5 +5,7 @@
  * See LICENSE file for more info.
  */
 
-export class UnsupportedOperationException extends Error {
+import { RuntimeException } from "./RuntimeException";
+
+export class UnsupportedOperationException extends RuntimeException {
 }

@@ -92,7 +92,7 @@ export class JavaFileSource extends PackageSource {
                 tree,
             };
 
-            this.symbolTable = new JavaFileSymbolTable(tree, this.packageRoot, this.importList);
+            this.symbolTable = new JavaFileSymbolTable(this, this.packageRoot, this.importList);
             this.importList.delete(this);
         } else {
             throw new Error("Parsing failed for " + this.sourceFile);

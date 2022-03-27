@@ -5,4 +5,6 @@
  * See LICENSE file for more info.
  */
 
-export class IllegalArgumentException extends Error {}
+import { RuntimeException } from "./RuntimeException";
+
+export class IllegalArgumentException extends RuntimeException { }

@@ -5,9 +5,11 @@
  * See LICENSE file for more info.
  */
 
-import { Console } from "../io/Console";
+import { Console, PrintStream } from "../io";
 
 const consoleInstance = new Console();
+const errorStream = new PrintStream(true);
+const outputStream = new PrintStream(false);
 
 // A partial implementation of Java's System type.
 export class System {
@@ -17,5 +19,13 @@ export class System {
 
     public static console(): Console {
         return consoleInstance;
+    }
+
+    public static get err(): PrintStream {
+        return errorStream;
+    }
+
+    public static get out(): PrintStream {
+        return outputStream;
     }
 }

@@ -238,7 +238,7 @@
         ],
         "no-throw-literal": "error",
         "no-undef": [
-            "error"
+            "off"
         ],
         "no-restricted-globals": [
             "error",

@@ -5,8 +5,7 @@
  * See LICENSE file for more info.
  */
 
-import { Throwable } from "./Throwable";
+import { Exception } from "../lang";
 
-export class Exception extends Throwable {
-
+export class IOException extends Exception {
 }

@@ -5,5 +5,7 @@
  * See LICENSE file for more info.
  */
 
-export class NullPointerException extends Error {
+import { RuntimeException } from "./RuntimeException";
+
+export class NullPointerException extends RuntimeException {
 }

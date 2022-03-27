@@ -5,5 +5,7 @@
  * See LICENSE file for more info.
  */
 
-export class IOException extends Error {
+import { LinkageError } from "./LinkageError";
+
+export class IncompatibleClassChangeError extends LinkageError {
 }

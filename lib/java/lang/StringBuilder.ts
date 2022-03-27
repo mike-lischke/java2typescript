@@ -7,10 +7,13 @@
 
 import printf from "printf";
 
-import { CodePoint } from ".";
+import { CodePoint, StringBuffer } from ".";
 import { IndexOutOfBoundsException } from "./IndexOutOfBoundsException";
 
-type SourceData = Array<string | String | StringBuilder | Uint32Array | CodePoint | bigint>;
+type SourceDataType =
+    boolean | string | String | number | bigint | StringBuilder | StringBuffer | Uint32Array | CodePoint | unknown;
+
+type SourceData = SourceDataType[];
 
 export class StringBuilder {
     private data: Uint32Array = new Uint32Array();
@@ -58,13 +61,13 @@ export class StringBuilder {
      *
      * @returns Itself for method chaining.
      */
-    public prepend(...newContent: Array<string | String | StringBuilder | Uint32Array | CodePoint | bigint>): this {
+    public prepend(...newContent: SourceData): this {
         this.insertData(0, ...newContent);
 
         return this;
     }
 
-    public append(...newContent: Array<string | String | StringBuilder | Uint32Array | CodePoint | bigint>): this {
+    public append(...newContent: SourceData): this {
         this.insertData(this.currentLength, ...newContent);
 
         return this;
@@ -311,7 +314,7 @@ export class StringBuilder {
                     list.push(entry);
                     additionalSize += entry.length;
                 }
-            } else {
+            } else if (entry) {
                 const text = entry.toString();
                 if (text.length > 0) {
                     const codePoints: number[] = [];

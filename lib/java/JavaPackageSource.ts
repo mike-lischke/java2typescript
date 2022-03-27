@@ -43,6 +43,8 @@ export class JavaPackageSource extends PackageSource {
         this.symbolTable.addNewSymbolOfType(ClassSymbol, lang, "IOException", [], []);
         this.symbolTable.addNewSymbolOfType(ClassSymbol, lang, "NullPointerException", [], []);
         this.symbolTable.addNewSymbolOfType(ClassSymbol, lang, "Exception", [], []);
+        this.symbolTable.addNewSymbolOfType(ClassSymbol, lang, "RuntimeException", [], []);
+        this.symbolTable.addNewSymbolOfType(ClassSymbol, lang, "NoSuchMethodError", [], []);
         this.symbolTable.addNewSymbolOfType(ClassSymbol, lang, "Cloneable", [], []);
         this.symbolTable.addNewSymbolOfType(ClassSymbol, lang, "System", [], []);
     };
@@ -53,6 +55,7 @@ export class JavaPackageSource extends PackageSource {
         this.symbolTable.addNewSymbolOfType(ClassSymbol, io, "File", [], []);
         this.symbolTable.addNewSymbolOfType(ClassSymbol, io, "InputStreamReader", [], []);
         this.symbolTable.addNewSymbolOfType(ClassSymbol, io, "FileInputStream", [], []);
+        this.symbolTable.addNewSymbolOfType(ClassSymbol, io, "PrintStream", [], []);
 
     };
 

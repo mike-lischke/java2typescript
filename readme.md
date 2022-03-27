@@ -19,28 +19,42 @@ It's practically never the case that two languages have the same semantic concep
 
 - Java interfaces are probably the most incompatible objects between the two languages. Java interfaces can have initialized fields and method implementations, which is not possible in Typescript. Hence all interfaces are converted to abstract TS classes. Fortunately, TS allows that a class `implements` another class, not only an interface. Using `implements` is however not always a good solution (especially when referencing symbols from the base class). An effort is made to use `extends` in simple cases (no existing `extends` clause and only one type for the `implements` clause) instead. Using `extends` for all classes in general is not possible, as that might lead to multiple inheritance, which is not supported by TS/JS.
 - Another incompatible concept are iterators. Some iterator classes exist in the JDK polyfills (e.g. `ListIterator`), but those don't work in native JS/TS `for` loops. Therefore the native TS iterator is implemented instead. This requires manual updates where such iterators are used.
-- The tool supports constructor and method overloading, up to the point what's allowed in Typescript. That excludes the mix of static and non-static overloaded methods and generic methods with different type parameter lists. Additionally, all overloaded methods must have the same visibility (public/protected/private).
+- The tool supports constructor and method overloading, up to the point what's allowed in Typescript.
+    - That excludes the mix of static and non-static overloaded methods and generic methods with different type parameter lists.
+    - All overloaded methods must have the same visibility (public/protected/private).
+    - A Java constructor can call a sibling constructor, because they exist in parallel. However, in JS/TS only one constructor exists, which makes such calls impossible.
+    - Overloaded methods which override inherited methods won't work out of the box and need manual changes.
 - Java has no concept of optional fields and parameters. This makes it difficult to tell if a parameter is allowed to be undefined. This must be handled manually on a case-by-case basis.
 - Typescript does not support multi-dimensional array creation with array sizes (initializers are supported however). That means constructs like `new String[1][2][4]` can only be converted to TS without initial sizes: `= [[[]]]`.
 - Java automatically converts between `long` and other integer type. TS uses `bigint` for 64 bit integer types and the `n` suffix for bigint literals. In Java these integer types can freely be mixed, but TS will complain if one tries to, say, shift a bigint using a standard number literal. This must be solved manually.
 - Annotations usually cannot be converted, except for a very few (like @final), which are then converted using decorators. The current implementation is however very basic. Don't expect much of that.
 - Generic constructors are not possible in Typescript. This must be solved manually.
-- Resources are not handled at all.
-- Anything related to Java reflection is out of the scope of this tool.
-- TS regular expressions do not support all features from Java regex, specifically these flags are not supported: Pattern.CANON_EQ, Pattern.COMMENTS, Pattern.LITERAL, Pattern.UNIX_LINES.
-- Exception behavior (specifically the message text) for included JDK polyfills is not guaranteed to be what happens in the Java SDK. If you need exactly the same behavior write your own polyfills.
+- The try-with-resources statement is currently not handled.
+- Reflection is partially supported, by implementing `getClass()` and `.class` accessors. The package java.lang.reflect is not supported, however.
+- TS regular expressions do not support all features from Java regex, specifically these flags are not supported:
+    - Pattern.CANON_EQ
+    - Pattern.COMMENTS
+    - Pattern.LITERAL
+    - Pattern.UNIX_LINES.
+- Exception behavior (specifically the message text) for included JDK polyfills is not guaranteed to be what happens in the Java SDK. If you need exactly the same behavior write your own polyfills. Also it's not possible to get individual stack trace entries (see Java's StackTraceElement), because NodeJS stacktraces are simple strings.
 - Java supports automatic (un)boxing of built-in types (for example `Integer <-> int`). This behavior is not transformed to TS, so some manual work is required to make the conversion explicit.
+- Java class initializers are handled properly However, static initializers require ECMA 2022 and non-static initializers are converted to a parameter-less constructor. If other constructors exist then this must be manually converted to work with constructor overloading.
 - There are also certain things to consider for nested types. See below for more details.
 
 The converter avoids extending existing classes (like `String`), which means certain functionality must be moved to other classes. For instance `String.format` is implemented in the static `StringBuilder.format` function.
 
 I certainly have not seen all possible Java constructs, so those I haven't encountered maybe converted in an incompatible way. This project is still WIP after all.
 
+# Nested Classes and Interfaces
+Nested classes and types are converted to local classes in Typescript by using either a class expression (for static nested classes) or class factory methods (for non-static nested classes). This concept allows non-static inner classes to access all members of the outer class (including private ones) and supports inheritance between local classes (and external use anyhow).
+
+To allow use of such local classes as a type, a namespace declaration is automatically added at the end of the generated file.
+
 # Conversion Process
 
 The conversion process tries hard to keep all whitespaces + comments in place. However, when code must be reordered or generated, this can lead to misformatted target code. Also no conversion is done for tabs. A good linter and/or prettifier is recommended to fix this easily.
 
-Starting a conversion requires a number of things. Everything is kicked of by creating an instance of the `JavaToTypescriptConverter` class, providing a configuration object, and calling `startConversion` of that instance. Below is an example of that with comments/examples:
+Starting a conversion requires a number of things. Everything is kicked off by creating an instance of the `JavaToTypescriptConverter` class, providing a configuration object, and calling `startConversion` of that instance. Below is an example with comments/examples:
 
 ```typescript
 const convertPackageBlah = async () => {
@@ -154,8 +168,3 @@ const importResolver = (packageId: string): PackageSource[] => {
 In this example the resolver creates empty sources for each known Java SDK package (which could not be resolved otherwise). An empty source has an empty symbol table and can hence not resolve symbols. So they serve rather as placeholders. If a package cannot be resolved `java2typescript` implicitly creates an empty source (and logs that in the console).
 
 Normally you would, however, not create an empty source, but one that can deal with symbols and return fully qualfied names. For an example how to do that check the `JavaPackageSource.ts` file, which manually creates a symbol table for all supported Java types, and holds the target path to the TS implementations (polyfills) for path resolution.
-
-# Nested Classes and Interfaces
-Because Typescript does not support nested classes and interfaces, a transformation is done using namespaces. The top level class is exported as usual. If it contains an inner class then a namespace with the same name as that of the top level class is added and the nested class is exported from there. The same approach is used for deeper nesting levels, converting so nested classes/interfaces to nested namespaces.
-
-This works pretty well, except for fields that are not public, but accessed by the outer class. In Java it is possible to access such protected fields of inner classes. In TS you have to manually make them public.

@@ -5,7 +5,9 @@
  * See LICENSE file for more info.
  */
 
-export class NoSuchElementException extends Error {
+import { RuntimeException } from "./RuntimeException";
+
+export class NoSuchElementException extends RuntimeException {
     public constructor(message?: string) {
         super(message ?? "No element available");
     }

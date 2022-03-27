@@ -12,27 +12,27 @@ import { JavaFileSymbolTable } from "../../lib/java/JavaFileSymbolTable";
 export class JavaClassSymbol extends ClassSymbol {
 
     public resolveSync(name: string, localOnly?: boolean): Symbol | undefined {
-        let symbol = super.resolveSync(name, localOnly);
-        if (!symbol && !localOnly) {
-            const symbolTable = this.symbolTable;
-            if (symbolTable instanceof JavaFileSymbolTable) {
-                symbolTable.resolveReferences();
-            }
+        // First look for members of the classes this one is derived from.
+        if (this.symbolTable instanceof JavaFileSymbolTable) {
+            this.symbolTable.resolveReferences();
+        }
 
-            if (this.extends.length > 0) {
-                symbol = this.extends[0].resolveSync(name, localOnly);
+        if (this.extends.length > 0) {
+            const symbol = this.extends[0].resolveSync(name, localOnly);
+            if (symbol) {
+                return symbol;
             }
+        }
 
-            if (!symbol && this.implements.length > 0) {
-                for (const base of this.implements) {
-                    symbol = base.resolveSync(name, localOnly);
-                    if (symbol) {
-                        break;
-                    }
+        if (this.implements.length > 0) {
+            for (const base of this.implements) {
+                const symbol = base.resolveSync(name, localOnly);
+                if (symbol) {
+                    return symbol;
                 }
             }
         }
 
-        return symbol;
+        return super.resolveSync(name, localOnly);
     }
 }

@@ -8,8 +8,12 @@
 // A partial implementation of Java's Class type.
 export class Class<T> extends Object {
 
-    public constructor(private ctor: abstract new(...args: unknown[]) => T) {
+    public constructor(private ctor: abstract new (...args: unknown[]) => T) {
         super();
+    }
+
+    public getName(): string {
+        return this.ctor.name;
     }
 
     public isInstance(o: unknown): boolean {

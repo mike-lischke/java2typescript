@@ -5,8 +5,8 @@
  * See LICENSE file for more info.
  */
 
-import { Throwable } from "./Throwable";
+import { Exception } from "./Exception";
 
-export class Exception extends Throwable {
+export class RuntimeException extends Exception {
 
 }

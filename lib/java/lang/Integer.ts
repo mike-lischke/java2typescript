@@ -248,6 +248,10 @@ export class Integer {
         return this.value.toString();
     }
 
+    public valueOf(): number {
+        return this.value;
+    }
+
     static {
         // Defer initializing the TYPE field, to ensure the Class class is loaded before using it.
         setImmediate(() => {

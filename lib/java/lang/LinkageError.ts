@@ -5,8 +5,7 @@
  * See LICENSE file for more info.
  */
 
-import { Throwable } from "./Throwable";
+import { Error } from "./Error";
 
-export class Exception extends Throwable {
-
+export class LinkageError extends Error {
 }
