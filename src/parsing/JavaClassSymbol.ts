@@ -18,6 +18,10 @@ export class JavaClassSymbol extends ClassSymbol {
         }
 
         if (this.extends.length > 0) {
+            if (this.extends[0].name === name) {
+                return this.extends[0];
+            }
+
             const symbol = this.extends[0].resolveSync(name, localOnly);
             if (symbol) {
                 return symbol;
@@ -26,6 +30,10 @@ export class JavaClassSymbol extends ClassSymbol {
 
         if (this.implements.length > 0) {
             for (const base of this.implements) {
+                if (base.name === name) {
+                    return base;
+                }
+
                 const symbol = base.resolveSync(name, localOnly);
                 if (symbol) {
                     return symbol;

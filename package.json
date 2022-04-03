@@ -13,6 +13,7 @@
     "dependencies": {
         "antlr4-c3": "^2.2.0",
         "antlr4ts": "0.5.0-alpha.4",
+        "fast-printf": "^1.6.9",
         "glob": "^7.2.0",
         "hash-sum": "^2.0.0",
         "lodash": "^4.17.21",

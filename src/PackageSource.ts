@@ -152,24 +152,22 @@ export class PackageSource {
     };
 
     /**
-     * Resolves a name to the associated member symbol represented in this package source.
-     * Resolving a name to a symbol means to look up a symbol that can be referenced from a specific point in the
-     * source. So we need a parse tree context as reference point.
+     * Finds an exported type given by name. If found the name is added to the import list of this source.
      *
-     * @param name The name of the symbol to find. Can be a qualified identifier.
-     * @param context The context to start from.
+     * @param name The name to resolve.
      *
-     * @returns The symbol when found, otherwise undefined.
+     * @returns The symbol for the given name, if found.
      */
-    public resolveMember = (name: string, context: ParseTree): Symbol | undefined => {
+    public resolveAndImport = (name: string): Symbol | undefined => {
+        // Touch the parse tree, to trigger a parse run of this source, if not yet done.
         void this.parseTree;
 
-        const base = this.symbolTable?.symbolWithContextSync(context);
-        if (!base) {
-            return undefined;
+        const symbol = this.symbolTable.resolveSync(name, true); // Only look locally.
+        if (symbol) {
+            this.importedSymbols.add(symbol.name);
         }
 
-        return base.resolveSync(name);
+        return symbol;
     };
 
     protected textFromInterval = (_interval: Interval): string => {

@@ -60,6 +60,16 @@ export const parseTreeFromPosition = (root: ParseTree, column: number, row: numb
     }
 };
 
+/**
+ * Converts a parse tree invocation stack to a string and prints it to the console.
+ *
+ * @param fileName The name of the file for which the output is produced.
+ * @param root The parse tree to use.
+ * @param ruleNames The list of all rule names for pretty printing.
+ * @param position The position in the source text where to start parse tree traversal from.
+ * @param position.column The column value.
+ * @param position.row The row value.
+ */
 export const printParseTreeStack = (fileName: string, root: ParseTree, ruleNames: string[],
     position: { column: number; row: number }): void => {
     const tree = parseTreeFromPosition(root, position.column, position.row);

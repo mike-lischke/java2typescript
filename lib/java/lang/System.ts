@@ -5,11 +5,14 @@
  * See LICENSE file for more info.
  */
 
+import os from "os";
+
 import { Console, PrintStream } from "../io";
+import { SystemOutputStream } from "../io/SystemOutputStream";
 
 const consoleInstance = new Console();
-const errorStream = new PrintStream(true);
-const outputStream = new PrintStream(false);
+const errorStream = new PrintStream(new SystemOutputStream(true));
+const outputStream = new PrintStream(new SystemOutputStream(false));
 
 // A partial implementation of Java's System type.
 export class System {
@@ -27,5 +30,29 @@ export class System {
 
     public static get out(): PrintStream {
         return outputStream;
+    }
+
+    public static getProperty(key: string, def?: string): string | undefined {
+        switch (key) {
+            case "user.dir": {
+                return process.cwd();
+            }
+
+            case "user.home": {
+                return process.env.HOME;
+            }
+
+            case "user.name": {
+                return process.env.USER;
+            }
+
+            case "line.separator": {
+                return os.EOL;
+            }
+
+            default: {
+                return def;
+            }
+        }
     }
 }

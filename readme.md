@@ -38,12 +38,13 @@ It's practically never the case that two languages have the same semantic concep
     - Pattern.UNIX_LINES.
 - Exception behavior (specifically the message text) for included JDK polyfills is not guaranteed to be what happens in the Java SDK. If you need exactly the same behavior write your own polyfills. Also it's not possible to get individual stack trace entries (see Java's StackTraceElement), because NodeJS stacktraces are simple strings.
 - Java supports automatic (un)boxing of built-in types (for example `Integer <-> int`). This behavior is not transformed to TS, so some manual work is required to make the conversion explicit.
-- Java class initializers are handled properly However, static initializers require ECMA 2022 and non-static initializers are converted to a parameter-less constructor. If other constructors exist then this must be manually converted to work with constructor overloading.
-- There are also certain things to consider for nested types. See below for more details.
+- Java class initializers are handled properly. However, static initializers require ECMA 2022 and non-static initializers are converted to a parameter-less constructor. If other constructors exist then this must be manually converted to work with constructor overloading.
+- Explicit constructor invocation (calling `this(...)` from within a constructor) is not possible in TS. This must be solved manually.
+- The java `char` type is represented as a the type alias `CodePoint`, which represents a single numeric value in the Unicode range 0..0x1FFFF.
+
+There are also certain things to consider for nested types. See below for more details.
 
 The converter avoids extending existing classes (like `String`), which means certain functionality must be moved to other classes. For instance `String.format` is implemented in the static `StringBuilder.format` function.
-
-I certainly have not seen all possible Java constructs, so those I haven't encountered maybe converted in an incompatible way. This project is still WIP after all.
 
 # Nested Classes and Interfaces
 Nested classes and types are converted to local classes in Typescript by using either a class expression (for static nested classes) or class factory methods (for non-static nested classes). This concept allows non-static inner classes to access all members of the outer class (including private ones) and supports inheritance between local classes (and external use anyhow).

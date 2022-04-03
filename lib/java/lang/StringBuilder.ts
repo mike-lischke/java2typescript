@@ -8,6 +8,7 @@
 import printf from "printf";
 
 import { CodePoint, StringBuffer } from ".";
+import { CharSequence } from "./CharSequence";
 import { IndexOutOfBoundsException } from "./IndexOutOfBoundsException";
 
 type SourceDataType =
@@ -15,7 +16,7 @@ type SourceDataType =
 
 type SourceData = SourceDataType[];
 
-export class StringBuilder {
+export class StringBuilder implements CharSequence {
     private data: Uint32Array = new Uint32Array();
 
     // The used length in data (which might be larger, due to removed parts).
@@ -91,12 +92,12 @@ export class StringBuilder {
     }
 
     // Returns the char value in this sequence at the specified index.
-    public charAt(index: number): string {
+    public charAt(index: number): CodePoint {
         if (index < 0 || index >= this.currentLength) {
             throw new IndexOutOfBoundsException();
         }
 
-        return String.fromCodePoint(this.data.at(index));
+        return this.data.at(index);
     }
 
     // Returns the character (Unicode code point) at the specified index.

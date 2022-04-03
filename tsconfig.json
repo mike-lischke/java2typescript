@@ -11,8 +11,7 @@
     "include": [
         "src/**/*.ts",
         "lib/**/*.ts",
-        "antlr3/**/*.ts",
-        //"antlr4/**/*.ts",
+        "antlr4/**/*.ts",
         "java/generated/**/*.ts",
         "lib/Decorators.ts"
     ]

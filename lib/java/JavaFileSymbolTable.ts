@@ -5,7 +5,9 @@
  * See LICENSE file for more info.
  */
 
-import { Symbol, ClassSymbol, ScopedSymbol, SymbolTable, InterfaceSymbol, ParameterSymbol, Modifier } from "antlr4-c3";
+import {
+    Symbol, ClassSymbol, ScopedSymbol, SymbolTable, InterfaceSymbol, ParameterSymbol, Modifier, NamespaceSymbol,
+} from "antlr4-c3";
 import { ParseTree, ParseTreeWalker } from "antlr4ts/tree";
 
 import {
@@ -15,7 +17,9 @@ import {
 import { ISymbolInfo } from "../../src/conversion/types";
 import { PackageSource } from "../../src/PackageSource";
 import { JavaClassSymbol } from "../../src/parsing/JavaClassSymbol";
-import { ConstructorSymbol, EnumSymbol, JavaParseTreeWalker } from "../../src/parsing/JavaParseTreeWalker";
+import {
+    ConstructorSymbol, EnumSymbol, JavaParseTreeWalker, PackageSymbol,
+} from "../../src/parsing/JavaParseTreeWalker";
 
 export class JavaFileSymbolTable extends SymbolTable {
 
@@ -82,61 +86,70 @@ export class JavaFileSymbolTable extends SymbolTable {
 
         // Is the symbol itself a class or interface?
         if (symbol instanceof ClassSymbol || symbol instanceof InterfaceSymbol) {
-            // If so this is a nested type and we have to fully qualify it, depending whether various conditions.
-            // Or it represents a base class/interface, which doesn't need any qualifier.
-            if (symbol.modifiers.has(Modifier.Static)) {
-                // There's only one way to use a static local class.
-                return {
-                    symbol,
-                    qualifiedName: symbol.qualifiedName(),
-                };
-            } else {
-                // Non-static local class types either use `this` or the outer class as qualifier, depending on the
-                // context in which they are used.
-                if (context instanceof MemberDeclarationContext) {
-                    if (context.classDeclaration()) {
-                        // The class is used as base class for inheritance.
-                        return {
-                            symbol,
-                            qualifiedName: "this." + name,
-                        };
-                    }
-                }
+            // Top level classes, classes in namespaces (usually imported classes) and static declarations
+            // require a full qualifier.
+            if (symbol.parent instanceof JavaFileSymbolTable || symbol.parent instanceof NamespaceSymbol
+                || symbol.modifiers.has(Modifier.Static)) {
+                const path = symbol.symbolPath;
+                path.pop(); // Remove the symbol table entry.
 
-                if (context instanceof ExpressionContext) {
-                    // Classes in expressions can be used either as types or constructor functions.
-                    // In the first form we need the fully qualified name, otherwise the name of the (generated)
-                    // constructor function in the owning class (requiring the "this" prefix).
-                    // The tests here all check for the use as constructor function.
-                    if (context.creator() && context.creator().createdName().identifier().length > 0) {
-                        const creatorName = context.creator().createdName().identifier(0).text;
-                        if (creatorName === name) {
-                            // The class is used to create a new instance of it.
-                            return {
-                                symbol,
-                                qualifiedName: "this." + name,
-                            };
-                        }
-                    } else if (context.INSTANCEOF()) {
-                        // The class is used for a type check.
-                        return {
-                            symbol,
-                            qualifiedName: "this." + name,
-                        };
-                    } else if (context.primary() && context.primary().CLASS()) {
-                        // The class is used to get a Class instance of it.
-                        return {
-                            symbol,
-                            qualifiedName: "this." + name,
-                        };
-                    }
-                }
+                const qualifiedName = path.reverse().map((pathSymbol) => {
+                    return pathSymbol.name;
+                }).join(".");
 
                 return {
                     symbol,
-                    qualifiedName: symbol.name,
+                    qualifiedName,
                 };
             }
+
+            // Otherwise this is a non-static nested type and we have to apply special qualifiers,
+            // depending on certain conditions.
+            // Non-static local class types either use `this` or the outer class as qualifier, depending on the
+            // context in which they are used.
+            if (context instanceof MemberDeclarationContext) {
+                if (context.classDeclaration()) {
+                    // The class is used as base class for inheritance.
+                    return {
+                        symbol,
+                        qualifiedName: "this." + name,
+                    };
+                }
+            }
+
+            if (context instanceof ExpressionContext) {
+                // Classes in expressions can be used either as types or constructor functions.
+                // In the first form we need the fully qualified name, otherwise the name of the (generated)
+                // constructor function in the owning class (requiring the "this" prefix).
+                // The tests here all check for the use as constructor function.
+                if (context.creator() && context.creator().createdName().identifier().length > 0) {
+                    const creatorName = context.creator().createdName().identifier(0).text;
+                    if (creatorName === name) {
+                        // The class is used to create a new instance of it.
+                        return {
+                            symbol,
+                            qualifiedName: "this." + name,
+                        };
+                    }
+                } else if (context.INSTANCEOF()) {
+                    // The class is used for a type check.
+                    return {
+                        symbol,
+                        qualifiedName: "this." + name,
+                    };
+                } else if (context.primary() && context.primary().CLASS()) {
+                    // The class is used to get a Class instance of it.
+                    return {
+                        symbol,
+                        qualifiedName: "this." + name,
+                    };
+                }
+            }
+
+            return {
+                symbol,
+                qualifiedName: symbol.name,
+            };
         } else if (symbol.parent instanceof ClassSymbol || symbol.parent instanceof InterfaceSymbol) {
             // Member of a class or interface.
             if (symbol.modifiers.has(Modifier.Static)) {
@@ -208,18 +221,28 @@ export class JavaFileSymbolTable extends SymbolTable {
                 }
 
                 if (candidate instanceof ClassDeclarationContext) {
-                    if (candidate.typeType()) {
-                        this.resolveType(candidate.typeType(), (symbol: Symbol) => {
-                            if (symbol instanceof ClassSymbol) {
-                                classSymbol.extends.push(symbol);
-                            }
-                        });
+                    if (candidate.typeType()) { // Implies EXTENDS() is assigned.
+                        if (classSymbol.parent instanceof JavaFileSymbolTable) {
+                            // A symbol imported from another package.
+                            this.resolveFromImports(candidate.typeType(), (symbol: Symbol) => {
+                                if (symbol instanceof ClassSymbol) {
+                                    classSymbol.extends.push(symbol);
+                                }
+                            });
+                        } else {
+                            // A symbol defined in the same file.
+                            this.resolveLocally(candidate.typeType(), (symbol: Symbol) => {
+                                if (symbol instanceof ClassSymbol) {
+                                    classSymbol.extends.push(symbol);
+                                }
+                            });
+                        }
                     }
 
                     if (candidate.IMPLEMENTS()) {
                         // Interfaces to implement.
                         candidate.typeList(0).typeType().forEach((typeContext) => {
-                            this.resolveType(typeContext, (symbol: Symbol) => {
+                            this.resolveFromImports(typeContext, (symbol: Symbol) => {
                                 if (symbol instanceof ClassSymbol || symbol instanceof InterfaceSymbol) {
                                     classSymbol.implements.push(symbol);
                                 }
@@ -237,7 +260,7 @@ export class JavaFileSymbolTable extends SymbolTable {
             if (context.typeList()) {
                 // Interfaces or classes to extend.
                 context.typeList().typeType().forEach((typeContext) => {
-                    this.resolveType(typeContext, (symbol: Symbol) => {
+                    this.resolveFromImports(typeContext, (symbol: Symbol) => {
                         if (symbol instanceof ClassSymbol || symbol instanceof InterfaceSymbol) {
                             interfaceSymbol.extends.push(symbol);
                         }
@@ -247,30 +270,52 @@ export class JavaFileSymbolTable extends SymbolTable {
         });
     };
 
-    private resolveType = (context: TypeTypeContext, add: (symbol: Symbol) => void): void => {
+    private resolveFromImports = (context: TypeTypeContext, add: (symbol: Symbol) => void): void => {
         if (context.classOrInterfaceType()) {
-            // Ignoring type parameters here for now.
             const parts = context.classOrInterfaceType().identifier().map((node) => {
                 return node.text;
             });
             const name = parts.join(".");
 
-            const info = this.source.resolveType(name);
-            if (info) {
-                // A local type.
-                add(info.symbol);
+            const packageSymbols = this.source.symbolTable.getAllSymbolsSync(PackageSymbol);
+            if (packageSymbols.length === 1) {
+                const importName = packageSymbols[0].name + "." + name;
+                for (const source of this.importList) {
+                    if (source.packageId === importName) {
+                        add(source.resolveAndImport(name));
 
-                return;
+                        break;
+                    }
+                }
             }
 
-            for (const source of this.importList) {
-                const info = source.resolveType(name);
-                if (info?.symbol instanceof ClassSymbol || info?.symbol instanceof InterfaceSymbol
-                    || info?.symbol instanceof EnumSymbol) {
-                    add(info.symbol);
+        }
+    };
 
-                    return;
+    private resolveLocally = (context: TypeTypeContext, add: (symbol: Symbol) => void): void => {
+        if (context.classOrInterfaceType()) {
+            const parts = context.classOrInterfaceType().identifier().map((node) => {
+                return node.text;
+            });
+
+            // eslint-disable-next-line @typescript-eslint/no-this-alias
+            let current: ScopedSymbol = this;
+            while (true) {
+                const name = parts.shift();
+                if (!name) {
+                    break;
                 }
+
+                const candidate = current.resolveSync(name, true);
+                if (!candidate || !(current instanceof ScopedSymbol)) {
+                    break;
+                }
+
+                current = candidate as ScopedSymbol;
+            }
+
+            if (current && current !== this) {
+                add(current);
             }
         }
     };

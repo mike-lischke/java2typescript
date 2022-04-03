@@ -206,7 +206,7 @@ const convertAntlr3Runtime = async () => {
     const antlrToolOptions: IConverterConfiguration = {
         packageRoot: "/Volumes/Extern/Work/projects/antlr3/runtime/Java/src/main/java",
         include: [
-            "/CommonTree.java",
+            "/TreeFilter.java",
         ],
         exclude: [
             "DebugEventSocketProxy.java",
@@ -236,10 +236,10 @@ const convertAntlr3Runtime = async () => {
         },
         debug: {
             pathForPosition: {
-                filePattern: "BufferedTreeNodeStream.java",
+                filePattern: "TreeFilter.java",
                 position: {
-                    row: 61,
-                    column: 5,
+                    row: 57,
+                    column: 11,
                 },
             },
         },
@@ -316,6 +316,54 @@ const convertGeneratedAntlr3Files = async () => {
     await converter.startConversion();
 };
 
+const convertAntlr4Runtime = async () => {
+    const antlrToolOptions: IConverterConfiguration = {
+        packageRoot: "/Volumes/Extern/Work/projects/antlr4/runtime/Java/src",
+        include: [
+            //"/AmbiquityInfo.java",
+        ],
+        exclude: [
+            //"DebugEventSocketProxy.java",
+        ],
+        output: "antlr4/runtime",
+        options: {
+            prefix: `
+/*
+ eslint-disable @typescript-eslint/no-namespace, @typescript-eslint/naming-convention, no-redeclare,
+ max-classes-per-file, jsdoc/check-tag-names, @typescript-eslint/no-empty-function,
+ @typescript-eslint/restrict-plus-operands, @typescript-eslint/unified-signatures, @typescript-eslint/member-ordering,
+ no-underscore-dangle, max-len
+*/
+
+/* cspell: disable */
+
+`,
+            importResolver,
+            lib: "lib",
+            convertAnnotations: false,
+
+            sourceMappings: [
+            ],
+            preferArrowFunctions: false,
+            autoAddBraces: true,
+            addIndexFiles: true,
+        },
+        /*debug: {
+            pathForPosition: {
+                filePattern: "TreeFilter.java",
+                position: {
+                    row: 57,
+                    column: 11,
+                },
+            },
+        },*/
+
+    };
+
+    const converter = new JavaToTypescriptConverter(antlrToolOptions);
+    await converter.startConversion();
+};
+
 const convertAntlr4Tool = async () => {
     const antlrToolOptions: IConverterConfiguration = {
         packageRoot: "/Volumes/Extern/Work/projects/antlr4/tool/src",
@@ -378,7 +426,8 @@ const convertAntlr4Tool = async () => {
         await SourceGenerator.generateAntlr3Parsers(file);
     }*/
 
-    await convertAntlr3Runtime();
+    //await convertAntlr3Runtime();
+    await convertAntlr4Runtime();
 
     //await convertGeneratedAntlr3Files();
 

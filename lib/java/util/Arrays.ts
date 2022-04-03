@@ -27,7 +27,7 @@ export class Arrays {
         });
     };
 
-    public static readonly asList = <T>(list: T[]): List<T> => {
+    public static readonly asList = <T>(...list: T[]): List<T> => {
         return new ArrayList<T>(list);
     };
 }
