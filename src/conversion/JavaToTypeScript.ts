@@ -18,54 +18,80 @@ export interface IClassResolver {
     importPath: string;
 }
 
-// Maps a root package ID to a source path to get the Java source code from, as well as a path that is used
-// for the imports. Source mappings are to provide symbol information for a package, which is however not converted.
-// For example the antlr4ts runtime is already done and available in a node module, but for symbol lookup we have
-// to parse the original Java files.
+/**
+ * Maps a root package ID to a source path to get the Java source code from, as well as a path that is used
+ * for the imports. Source mappings are to provide symbol information for a package, which is however not converted.
+ * For example the antlr4ts runtime is already done and available in a node module, but for symbol lookup we have
+ * to parse the original Java files.
+ */
 export interface ISourceMapping {
-    sourcePath: string; // The full path to the file to parse.
-    importPath: string; // A path specifying the import. It's assumed to be a node module, if it doesn't start with
-    // a slash or dot. Otherwise the import will be computed relative to the target file.
+    /** The full path to the file to parse. */
+    sourcePath: string;
+
+    /**
+     * A path specifying the import. It's assumed to be a node module, if it doesn't start with
+     * a slash or dot. Otherwise the import will be computed relative to the target file.
+     */
+    importPath: string;
 }
 
 export interface IConverterOptions {
-    prefix?: string; // Anything to go before the first code line (e.g. linter settings).
+    /** Anything to go before the first code line (e.g. linter settings). */
+    prefix?: string;
 
-    // If true then Java annotations are converted to Typescript decorators.
+    /** If true then Java annotations are converted to Typescript decorators. */
     convertAnnotations?: boolean;
 
-    // A folder path for additional TS source files required to polyfill Java classes or which implement support code.
+    /**
+     * A folder path for additional TS source files required to polyfill Java classes or which implement support code.
+     */
     lib?: string;
 
-    // If true, functions/methods use the arrow syntax.
+    /** If true, functions/methods use the arrow syntax. */
     preferArrowFunctions?: boolean;
 
-    // If true the processor will automatically add braces in IF/ELSE statements, if they are missing.
+    /** If true the processor will automatically add braces in IF/ELSE statements, if they are missing. */
     autoAddBraces?: boolean;
 
-    // For simpler imports index files can be added to each generated output folder, which export all files in that
-    // folder plus the index files of all subfolders.
+    /**
+     * For simpler imports index files can be added to each generated output folder, which export all files in that
+     * folder plus the index files of all subfolders.
+     */
     addIndexFiles?: boolean;
 
-    // A mapping of a 3rd party package which is available in source form. Maps root package IDs (without any type
-    // name) to a source path, which is then used as package root for that package.
+    /**
+     * A mapping of a 3rd party package which is available in source form. Maps root package IDs (without any type
+     * name) to a source path, which is then used as package root for that package.
+     */
     sourceMappings?: ISourceMapping[];
 
-    // A map that contains symbol source instances for each imported package in a Java file.
-    // It maps from a package id, e.g. "java.lang" to a symbol source that can deliver imports for polyfills
-    // that provide the necessary functionality (e.g. via node modules or plain JS APIs).
+    /**
+     * A map that contains symbol source instances for each imported package in a Java file.
+     * It maps from a package id, e.g. "java.lang" to a symbol source that can deliver imports for polyfills
+     * that provide the necessary functionality (e.g. via node modules or plain JS APIs).
+     */
     importResolver?: CustomImportResolver;
 
-    // A map that provides an import string for a given class name. Names given here do not use qualifiers, but
-    // are imported directly from the node module or file/folder given as resolution.
-    // No file is parsed and no symbol table is created for the symbols listed here.
+    /**
+     * A map that provides an import string for a given class name. Names given here do not use qualifiers, but
+     * are imported directly from the node module or file/folder given as resolution.
+     * No file is parsed and no symbol table is created for the symbols listed here.
+     */
     classResolver?: Map<string, IClassResolver>;
+
+    /**
+     * Indicates if the code generator should add @ts-expect-error comments to suppress reported errors caused
+     * by the conversion of explicit constructor invocation expressions to a closure.
+     */
+    suppressTSErrorsForECI?: boolean;
 }
 
-// Options used for debugging the transformation process.
+/** Options used for debugging the transformation process. */
 export interface IDebugOptions {
-    // Specifies a position in a file whose name matches filePattern. The parse tree located covering this position
-    // is searched after parsing and the entire parse tree path from the root up to this tree is printed to the console.
+    /**
+     *  Specifies a position in a file whose name matches filePattern. The parse tree located covering this position
+     * is searched after parsing and the entire parse tree path from the root up to this tree is printed to the console.
+     */
     pathForPosition?: {
         filePattern?: string | RegExp;
         position: {

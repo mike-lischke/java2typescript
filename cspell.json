@@ -4,6 +4,7 @@
         "antlr",
         "Cloneable",
         "Declarators",
+        "instanceof",
         "misformatted",
         "signum",
         "subfolders",

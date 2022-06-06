@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 /*
  * This file is released under the MIT license.
  * Copyright (c) 2021, 2022, Mike Lischke
@@ -13,67 +14,6 @@ import {
 } from "./conversion/JavaToTypeScript";
 import { PackageSource } from "./PackageSource";
 import { PackageSourceManager } from "./PackageSourceManager";
-
-class OuterClass {
-    // eslint-disable-next-line @typescript-eslint/naming-convention
-    public static InnerClass2 = class InnerClass2 {
-        // eslint-disable-next-line @typescript-eslint/naming-convention
-        public static InnerClass3 = class InnerClass3 {
-
-        };
-
-        public update(o: OuterClass): void {
-            o.a = "b";
-        }
-    };
-
-    // eslint-disable-next-line @typescript-eslint/naming-convention
-    public InnerClass1 = (($outer) => {
-        return class InnerClass1 {
-            // eslint-disable-next-line @typescript-eslint/naming-convention
-            public static InnerClass3 = class InnerClass3 {
-            };
-
-            public update(): void {
-                $outer.a = "b";
-            }
-
-        };
-    })(this);
-
-    // eslint-disable-next-line @typescript-eslint/naming-convention
-    public InnerClassDerived = (($outer) => {
-        return class InnerClass extends this.InnerClass1 {
-            public constructor() {
-                super();
-
-                this.update();
-            }
-
-        };
-    })(this);
-
-    private a = "a";
-    private list: Array<InstanceType<OuterClass["InnerClass1"]>> = [];
-
-    public test(): void {
-        const i = new this.InnerClass1();
-        this.list.push(i);
-        i.update();
-    }
-}
-
-// eslint-disable-next-line @typescript-eslint/no-namespace
-export declare namespace OuterClass {
-    // eslint-disable-next-line @typescript-eslint/no-namespace
-    export type InnerClass1 = InstanceType<OuterClass["InnerClass1"]>;
-    export type InnerClass2 = InstanceType<typeof OuterClass["InnerClass2"]>;
-}
-
-const o = new OuterClass();
-o.test();
-
-const list: OuterClass.InnerClass1[] = [new new OuterClass().InnerClass1()];
 
 // Only packages required for ANTLR4.
 const knownSDKPackages: string[] = [
@@ -320,7 +260,8 @@ const convertAntlr4Runtime = async () => {
     const antlrToolOptions: IConverterConfiguration = {
         packageRoot: "/Volumes/Extern/Work/projects/antlr4/runtime/Java/src",
         include: [
-            //"/AmbiquityInfo.java",
+            //"/PredictionContext.java",
+            "/RuleContext.java",
         ],
         exclude: [
             //"DebugEventSocketProxy.java",
@@ -341,19 +282,20 @@ const convertAntlr4Runtime = async () => {
             importResolver,
             lib: "lib",
             convertAnnotations: false,
-
             sourceMappings: [
             ],
-            preferArrowFunctions: false,
+            preferArrowFunctions: true,
             autoAddBraces: true,
             addIndexFiles: true,
+            suppressTSErrorsForECI: true,
         },
-        /*debug: {
+        /*
+        debug: {
             pathForPosition: {
-                filePattern: "TreeFilter.java",
+                //filePattern: "TreeFilter.java",
                 position: {
-                    row: 57,
-                    column: 11,
+                    row: 501,
+                    column: 16,
                 },
             },
         },*/

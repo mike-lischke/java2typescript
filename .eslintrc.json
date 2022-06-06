@@ -478,6 +478,7 @@
             }
         ],
         "@typescript-eslint/ban-types": "off",
+        "@typescript-eslint/ban-ts-comment": "off",
         "@typescript-eslint/consistent-type-definitions": "error",
         "@typescript-eslint/explicit-member-accessibility": [
             "error",

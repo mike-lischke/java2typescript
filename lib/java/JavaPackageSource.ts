@@ -93,6 +93,7 @@ export class JavaPackageSource extends PackageSource {
         const hashMap = this.symbolTable.addNewSymbolOfType(ClassSymbol, util, "HashMap", [], []);
         this.symbolTable.addNewSymbolOfType(ClassSymbol, util, "LinkedHashMap", [hashMap], []);
         this.symbolTable.addNewSymbolOfType(ClassSymbol, util, "Stack", [], []);
+        this.symbolTable.addNewSymbolOfType(ClassSymbol, util, "Comparator", [], []);
 
         this.createRegexEntries(util);
     };

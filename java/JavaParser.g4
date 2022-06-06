@@ -451,7 +451,7 @@ blockStatement
     ;
 
 localVariableDeclaration
-    : variableModifier* (typeType variableDeclarators | VAR identifier '=' expression)
+    : variableModifier* typeType variableDeclarators
     ;
 
 identifier

@@ -29,11 +29,13 @@ to the `image.ts` file.
 
 7. Add `export * from "./image/image";` to `java/awt/index.ts`.
 8. Add
+
 ```typescript
 import * as awt from "./index";
 
 export { awt };
 ```
+
 to the `awt.ts` file.
 
 9. Add `export * from "./awt/awt";` to `java/index.ts`.

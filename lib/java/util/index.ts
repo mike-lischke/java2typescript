@@ -16,5 +16,6 @@ export * from "./Stack";
 export * from "./LinkedHashMap";
 export * from "./HashMap";
 export * from "./HashSet";
+export * from "./Comparator";
 
 export * from "./regex/regex";

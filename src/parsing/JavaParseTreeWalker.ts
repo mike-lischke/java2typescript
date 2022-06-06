@@ -19,8 +19,7 @@ import {
     InterfaceDeclarationContext, AnnotationTypeDeclarationContext, ClassDeclarationContext, ExpressionContext,
     FormalParameterContext, ConstantDeclaratorContext, PackageDeclarationContext, ImportDeclarationContext,
     ConstructorDeclarationContext, ClassBodyDeclarationContext, TypeDeclarationContext, InterfaceBodyDeclarationContext,
-    InterfaceMethodDeclarationContext, JavaParser, MemberDeclarationContext, LocalVariableDeclarationContext,
-    FieldDeclarationContext,
+    InterfaceMethodDeclarationContext, JavaParser, LocalVariableDeclarationContext, FieldDeclarationContext,
     EnhancedForControlContext,
 } from "../../java/generated/JavaParser";
 import { JavaParserListener } from "../../java/generated/JavaParserListener";
@@ -40,7 +39,9 @@ export class ConstructorSymbol extends MethodSymbol { }
 export class ClassBodySymbol extends ScopedSymbol { }
 export class InterfaceBodySymbol extends ScopedSymbol { }
 
-export class MemberSymbol extends ScopedSymbol { }
+export class InitializerBlockSymbol extends ScopedSymbol {
+    public isStatic: boolean;
+}
 
 export class TypeSymbol extends Symbol { }
 export class PackageSymbol extends Symbol { }
@@ -115,14 +116,14 @@ export class JavaParseTreeWalker implements JavaParserListener {
     };
 
     public enterClassBodyDeclaration = (ctx: ClassBodyDeclarationContext): void => {
-        if (ctx.block() && !ctx.STATIC()) {
-            // This is an anonymous inner class.
-            this.pushNewScope(JavaClassSymbol, "#anonymous#", ctx);
+        if (ctx.block()) {
+            const symbol = this.pushNewScope(InitializerBlockSymbol, "#initializer#", ctx);
+            symbol.isStatic = ctx.STATIC() !== undefined;
         }
     };
 
     public exitClassBodyDeclaration = (): void => {
-        if (this.symbolStack.tos.name === "#anonymous#") {
+        if (this.symbolStack.tos.name === "#initializer#") {
             this.symbolStack.pop();
         }
     };
@@ -260,17 +261,10 @@ export class JavaParseTreeWalker implements JavaParserListener {
         this.checkStatic(symbol);
     };
 
-    public enterMemberDeclaration = (ctx: MemberDeclarationContext): void => {
-        const block = this.symbolStack.tos;
-
-        const symbol = this.symbolTable.addNewSymbolOfType(MemberSymbol, block, "#member#");
-        symbol.context = ctx;
-    };
-
     public visitTerminal = (_node: TerminalNode): void => { /**/ };
 
     private pushNewScope = <T extends ScopedSymbol>(t: new (...args: unknown[]) => T, name: string,
-        ctx?: ParserRuleContext): Symbol => {
+        ctx?: ParserRuleContext): T => {
         const parent = this.symbolStack.length === 0 ? undefined : this.symbolStack.tos;
 
         const symbol = this.symbolTable.addNewSymbolOfType(t, parent, name, [], []);

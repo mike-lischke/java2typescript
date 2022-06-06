@@ -5,7 +5,7 @@
  * See LICENSE file for more info.
  */
 
-import { ArrayList, List } from ".";
+import { ArrayList, Comparator, List } from ".";
 
 /* eslint-disable @typescript-eslint/naming-convention */
 
@@ -32,5 +32,14 @@ export abstract class Collections {
 
     public static emptyList<T>(): List<T> {
         return new ArrayList<T>();
+    }
+
+    public static sort<T>(list: List<T>, c: Comparator<T>): List<T> {
+        const array = new ArrayList<T>(list).toArray();
+        array.sort((a, b) => {
+            return c.compare(a, b);
+        });
+
+        return new ArrayList<T>(array);
     }
 }
