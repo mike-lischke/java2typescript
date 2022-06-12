@@ -23,8 +23,8 @@ import {
     EnhancedForControlContext,
 } from "../../java/generated/JavaParser";
 import { JavaParserListener } from "../../java/generated/JavaParserListener";
+import { Stack } from "../../lib/java/util/Stack";
 
-import { java } from "../../lib/java/java";
 import { EnhancedTypeKind } from "../conversion/types";
 import { PackageSource } from "../PackageSource";
 import { PackageSourceManager } from "../PackageSourceManager";
@@ -65,7 +65,7 @@ export class JavaParseTreeWalker implements JavaParserListener {
         ["Map", EnhancedTypeKind.Map],
     ]);
 
-    private symbolStack: java.util.Stack<ScopedSymbol> = new java.util.Stack();
+    private symbolStack = new Stack<ScopedSymbol>();
 
     public constructor(private symbolTable: SymbolTable, private packageRoot: string,
         private importList: Set<PackageSource>) {
@@ -217,19 +217,13 @@ export class JavaParseTreeWalker implements JavaParserListener {
 
     public enterLocalVariableDeclaration = (ctx: LocalVariableDeclarationContext): void => {
         const block = this.symbolStack.tos;
-        if (ctx.variableDeclarators()) {
-            const type = this.generateTypeRecord(ctx.typeType().text);
-            ctx.variableDeclarators().variableDeclarator().forEach((declarator) => {
-                const id = declarator.variableDeclaratorId().identifier().text;
-                const symbol = this.symbolTable.addNewSymbolOfType(VariableSymbol, block, id, undefined, type);
-                symbol.context = declarator;
-                this.checkStatic(symbol);
-            });
-        } else if (ctx.VAR()) {
-            const symbol = this.symbolTable.addNewSymbolOfType(VariableSymbol, block, ctx.identifier().text);
-            symbol.context = ctx;
+        const type = this.generateTypeRecord(ctx.typeType().text);
+        ctx.variableDeclarators().variableDeclarator().forEach((declarator) => {
+            const id = declarator.variableDeclaratorId().identifier().text;
+            const symbol = this.symbolTable.addNewSymbolOfType(VariableSymbol, block, id, undefined, type);
+            symbol.context = declarator;
             this.checkStatic(symbol);
-        }
+        });
     };
 
     public enterFieldDeclaration = (ctx: FieldDeclarationContext): void => {

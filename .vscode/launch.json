@@ -23,43 +23,5 @@
             "preLaunchTask": "tsc: watch",
             "trace": false
         },
-        {
-            "type": "node",
-            "request": "launch",
-            "name": "Launch ICU",
-            "program": "${workspaceFolder}/src/main-icu.ts",
-            "outFiles": [
-                "${workspaceFolder}/output/**/*.js"
-            ],
-            "sourceMaps": true,
-            "stopOnEntry": false,
-            "smartStep": true,
-            "args": [],
-            "runtimeArgs": [
-                "--nolazy"
-            ],
-            "console": "integratedTerminal",
-            "preLaunchTask": "tsc: watch",
-            "trace": false
-        },
-        {
-            "type": "node",
-            "request": "launch",
-            "name": "Launch JDK",
-            "program": "${workspaceFolder}/src/main-jdk.ts",
-            "outFiles": [
-                "${workspaceFolder}/output/**/*.js"
-            ],
-            "sourceMaps": true,
-            "stopOnEntry": false,
-            "smartStep": true,
-            "args": [],
-            "runtimeArgs": [
-                "--nolazy"
-            ],
-            "console": "integratedTerminal",
-            "preLaunchTask": "tsc: watch",
-            "trace": false
-        },
     ]
 }

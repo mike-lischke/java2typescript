@@ -106,11 +106,16 @@ export interface IConverterConfiguration {
      * The root folder of the package to convert. Only files in the file tree are automatically resolved
      * when importing symbols.
      * Package imports from outside (inclusive standard Java packages) need an explicit source resolver
-     * (@see options.importResolver).
+     * (@link options.importResolver).
      *
      * Note: Only Java files are actually transformed.
      */
     packageRoot: string;
+
+    /**
+     * The absolute path to the Java SDK polyfills root folder.
+     */
+    javaLib: string;
 
     /**
      * An optional inclusion filter for files found in the package. Only files matching this pattern are actually
@@ -144,8 +149,7 @@ export interface IConverterConfiguration {
 
 export class JavaToTypescriptConverter {
     public constructor(private configuration: IConverterConfiguration) {
-        PackageSourceManager.configure(configuration.options.importResolver, path.resolve(process.cwd(),
-            "./lib/java/java.ts"));
+        PackageSourceManager.configure(configuration.options.importResolver, configuration.javaLib);
 
         configuration.options.lib = path.join(process.cwd(), configuration.options.lib ?? "");
     }

@@ -11,18 +11,16 @@
     "author": "Mike Lischke",
     "license": "MIT",
     "dependencies": {
-        "antlr4-c3": "^2.2.0",
+        "antlr4-c3": "2.2.1",
         "antlr4ts": "0.5.0-alpha.4",
-        "fast-printf": "^1.6.9",
-        "glob": "^7.2.0",
-        "hash-sum": "^2.0.0",
-        "lodash": "^4.17.21",
+        "fast-printf": "1.6.9",
+        "glob": "8.0.3",
+        "hash-sum": "2.0.0",
         "printf": "^0.6.1"
     },
     "devDependencies": {
         "@types/glob": "^7.2.0",
         "@types/hash-sum": "^1.0.0",
-        "@types/lodash": "^4.14.178",
         "@typescript-eslint/eslint-plugin": "5.6.0",
         "@typescript-eslint/eslint-plugin-tslint": "5.6.0",
         "@typescript-eslint/parser": "5.6.0",
@@ -31,7 +29,7 @@
         "eslint-plugin-import": "2.25.3",
         "eslint-plugin-jsdoc": "37.2.0",
         "eslint-plugin-prefer-arrow": "1.2.3",
-        "typescript": "^4.5.3"
+        "typescript": "4.7.3"
     },
     "scripts": {
         "lint": "eslint \"./src/**/*.ts\"",

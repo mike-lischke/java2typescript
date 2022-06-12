@@ -7,12 +7,12 @@
 
 import printf from "printf";
 
-import { CodePoint, StringBuffer } from ".";
+import { CodePoint } from ".";
 import { CharSequence } from "./CharSequence";
 import { IndexOutOfBoundsException } from "./IndexOutOfBoundsException";
 
 type SourceDataType =
-    boolean | string | String | number | bigint | StringBuilder | StringBuffer | Uint32Array | CodePoint | unknown;
+    boolean | string | String | number | bigint | StringBuilder | Uint32Array | CodePoint | unknown;
 
 type SourceData = SourceDataType[];
 

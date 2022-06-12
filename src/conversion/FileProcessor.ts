@@ -11,7 +11,8 @@ import { ParseTree, TerminalNode } from "antlr4ts/tree";
 import fs from "fs";
 import path from "path";
 
-import { StringBuilder } from "../../lib/java/lang";
+import { StringBuilder } from "../../lib/java/lang/StringBuilder";
+import { Stack } from "../../lib/java/util/Stack";
 
 import { JavaLexer } from "../../java/generated/JavaLexer";
 import {
@@ -39,7 +40,6 @@ import {
 
 import { PackageSource } from "../PackageSource";
 import { IClassResolver, IConverterConfiguration } from "./JavaToTypeScript";
-import { Stack } from "../../lib/java/util";
 import { ClassSymbol, InterfaceSymbol, TypedSymbol } from "antlr4-c3";
 import { EnumSymbol } from "../parsing/JavaParseTreeWalker";
 import { PackageSourceManager } from "../PackageSourceManager";
@@ -526,7 +526,7 @@ export class FileProcessor {
         if (this.typeStack.length > 1) {
             // This is a nested class declaration. Convert it either to a class expression or a class factory function.
             if (modifier.includes("static")) {
-                builder.append(prefix, modifier, className, " =", localBuilder, ";\n");
+                builder.append(prefix, modifier, " ", className, " =", localBuilder, ";\n");
             } else {
                 builder.append(prefix, modifier, ` ${className} = (($outer) => {\nreturn `, localBuilder);
                 builder.append(`\n})(this);\n`);
@@ -2328,167 +2328,196 @@ export class FileProcessor {
         const firstChild = context.getChild(0);
         if (firstChild instanceof TerminalNode) {
             id = firstChild.symbol.type;
-        } else {
-            id = (firstChild as ParserRuleContext).ruleIndex;
-        }
 
-        switch (id) {
-            case JavaParser.RULE_block: {
-                this.processBlock(builder, context.block());
+            switch (id) {
+                case JavaParser.RULE_block: {
+                    this.processBlock(builder, context.block());
 
-                break;
-            }
-
-            case JavaLexer.ASSERT: {
-                this.getContent(builder, context, true);
-
-                break;
-            }
-
-            case JavaLexer.IF: {
-                this.getContent(builder, context.IF());
-                this.processParExpression(builder, context.parExpression());
-
-                let statement = context.statement(0);
-                const addBraces = !statement.block() && this.configuration.options.autoAddBraces;
-
-                if (addBraces) {
-                    builder.append(" {\n");
-                }
-                this.processStatement(builder, statement);
-                if (addBraces) {
-                    builder.append("\n", "}\n");
+                    break;
                 }
 
-                if (context.ELSE()) {
-                    this.getContent(builder, context.ELSE());
+                case JavaLexer.ASSERT: {
+                    this.getContent(builder, context, true);
 
-                    statement = context.statement(1);
+                    break;
+                }
+
+                case JavaLexer.IF: {
+                    this.getContent(builder, context.IF());
+                    this.processParExpression(builder, context.parExpression());
+
+                    let statement = context.statement(0);
                     const addBraces = !statement.block() && this.configuration.options.autoAddBraces;
 
                     if (addBraces) {
-                        builder.append(" {");
+                        builder.append(" {\n");
                     }
                     this.processStatement(builder, statement);
                     if (addBraces) {
-                        builder.append("\n}\n");
+                        builder.append("\n", "}\n");
                     }
+
+                    if (context.ELSE()) {
+                        this.getContent(builder, context.ELSE());
+
+                        statement = context.statement(1);
+                        const addBraces = !statement.block() && this.configuration.options.autoAddBraces;
+
+                        if (addBraces) {
+                            builder.append(" {");
+                        }
+                        this.processStatement(builder, statement);
+                        if (addBraces) {
+                            builder.append("\n}\n");
+                        }
+                    }
+
+                    break;
                 }
 
-                break;
-            }
+                case JavaLexer.FOR: {
+                    this.getContent(builder, context.FOR());
+                    this.getContent(builder, context.LPAREN());
+                    this.processForControl(builder, context.forControl());
+                    this.getContent(builder, context.RPAREN());
+                    this.processStatement(builder, context.statement(0));
 
-            case JavaLexer.FOR: {
-                this.getContent(builder, context.FOR());
-                this.getContent(builder, context.LPAREN());
-                this.processForControl(builder, context.forControl());
-                this.getContent(builder, context.RPAREN());
-                this.processStatement(builder, context.statement(0));
-
-                break;
-            }
-
-            case JavaLexer.WHILE: {
-                this.getContent(builder, context.WHILE());
-                this.processParExpression(builder, context.parExpression());
-                this.processStatement(builder, context.statement(0));
-                break;
-            }
-
-            case JavaLexer.DO: {
-                this.getContent(builder, context.DO());
-                this.processStatement(builder, context.statement(0));
-                this.processParExpression(builder, context.parExpression());
-
-                break;
-            }
-
-            case JavaLexer.TRY: {
-                this.getContent(builder, context.TRY());
-                this.processBlock(builder, context.block());
-
-                context.catchClause().forEach((clause) => {
-                    this.processCatchClause(builder, clause);
-                });
-
-                if (context.finallyBlock()) {
-                    this.processFinallyBlock(builder, context.finallyBlock());
+                    break;
                 }
 
-                break;
-            }
-
-            case JavaLexer.SWITCH: {
-                this.getContent(builder, context.SWITCH());
-                this.processParExpression(builder, context.parExpression());
-
-                // See if there's a default branch.
-                let hasDefault = false;
-                context.switchBlockStatementGroup().forEach((group) => {
-                    hasDefault ||= this.processSwitchBlockStatementGroup(builder, group);
-                });
-
-                context.switchLabel().forEach((label) => {
-                    hasDefault ||= this.processSwitchLabel(builder, label);
-                });
-
-                if (!hasDefault) {
-                    builder.append("\n\ndefault:\n");
+                case JavaLexer.WHILE: {
+                    this.getContent(builder, context.WHILE());
+                    this.processParExpression(builder, context.parExpression());
+                    this.processStatement(builder, context.statement(0));
+                    break;
                 }
 
-                this.getContent(builder, context.RBRACE());
+                case JavaLexer.DO: {
+                    this.getContent(builder, context.DO());
+                    this.processStatement(builder, context.statement(0));
+                    this.processParExpression(builder, context.parExpression());
 
-                break;
-            }
+                    break;
+                }
 
-            case JavaLexer.SYNCHRONIZED: {
-                this.getContent(builder, context.SYNCHRONIZED());
-                this.processParExpression(builder, context.parExpression());
-                this.processBlock(builder, context.block());
+                case JavaLexer.TRY: {
+                    this.getContent(builder, context.TRY());
+                    this.processBlock(builder, context.block());
 
-                break;
-            }
+                    context.catchClause().forEach((clause) => {
+                        this.processCatchClause(builder, clause);
+                    });
 
-            case JavaLexer.RETURN: {
-                this.getContent(builder, context.RETURN());
-                if (context.expression().length > 0) {
+                    if (context.finallyBlock()) {
+                        this.processFinallyBlock(builder, context.finallyBlock());
+                    }
+
+                    break;
+                }
+
+                case JavaLexer.SWITCH: {
+                    this.getContent(builder, context.SWITCH());
+                    this.processParExpression(builder, context.parExpression());
+
+                    // See if there's a default branch.
+                    let hasDefault = false;
+                    context.switchBlockStatementGroup().forEach((group) => {
+                        hasDefault ||= this.processSwitchBlockStatementGroup(builder, group);
+                    });
+
+                    context.switchLabel().forEach((label) => {
+                        hasDefault ||= this.processSwitchLabel(builder, label);
+                    });
+
+                    if (!hasDefault) {
+                        builder.append("\n\ndefault:\n");
+                    }
+
+                    this.getContent(builder, context.RBRACE());
+
+                    break;
+                }
+
+                case JavaLexer.SYNCHRONIZED: {
+                    this.getContent(builder, context.SYNCHRONIZED());
+                    this.processParExpression(builder, context.parExpression());
+                    this.processBlock(builder, context.block());
+
+                    break;
+                }
+
+                case JavaLexer.RETURN: {
+                    this.getContent(builder, context.RETURN());
+                    if (context.expression().length > 0) {
+                        this.processExpression(builder, context.expression(0));
+                    }
+
+                    this.getContent(builder, context.SEMI());
+
+                    break;
+                }
+
+                case JavaLexer.THROW: {
+                    this.getContent(builder, context.THROW());
                     this.processExpression(builder, context.expression(0));
+                    this.getContent(builder, context.SEMI());
+
+                    break;
                 }
 
-                this.getContent(builder, context.SEMI());
+                case JavaParser.RULE_expression: {
+                    this.processExpression(builder, context.expression(0));
+                    this.getContent(builder, context.SEMI());
 
-                break;
+                    break;
+                }
+
+                case JavaLexer.BREAK:
+                case JavaLexer.CONTINUE:
+                case JavaLexer.SEMI: {
+                    this.getContent(builder, context);
+                    break;
+                }
+
+                case JavaLexer.IDENTIFIER: {
+                    this.processStatement(builder, context.statement(0));
+
+                    break;
+                }
+
+                default:
             }
+        } else {
+            id = (firstChild as ParserRuleContext).ruleIndex;
 
-            case JavaLexer.THROW: {
-                this.getContent(builder, context.THROW());
-                this.processExpression(builder, context.expression(0));
-                this.getContent(builder, context.SEMI());
+            switch (id) {
+                case JavaParser.RULE_block: {
+                    this.processBlock(builder, firstChild as BlockContext);
+                    break;
+                }
 
-                break;
+                case JavaParser.RULE_expression: {
+                    this.processExpression(builder, firstChild as ExpressionContext);
+                    this.getContent(builder, context.SEMI());
+                    break;
+                }
+
+                case JavaParser.RULE_switchExpression: {
+                    // Java 17 feature, not supported here.
+                    //this.processSwitchExpression(builder, firstChild as SwitchExpressionContext);
+                    this.getContent(builder, context.SEMI());
+                    break;
+                }
+
+                case JavaParser.RULE_identifier: {
+                    this.getContent(builder, context.identifier());
+                    this.getContent(builder, context.COLON());
+                    this.processStatement(builder, context.statement(0));
+                    break;
+                }
+
+                default:
             }
-
-            case JavaParser.RULE_expression: {
-                this.processExpression(builder, context.expression(0));
-                this.getContent(builder, context.SEMI());
-
-                break;
-            }
-
-            case JavaLexer.BREAK:
-            case JavaLexer.CONTINUE:
-            case JavaLexer.SEMI: {
-                this.getContent(builder, context);
-                break;
-            }
-
-            case JavaLexer.IDENTIFIER: {
-                this.processStatement(builder, context.statement(0));
-
-                break;
-            }
-
-            default:
         }
     };
 
@@ -2803,6 +2832,7 @@ export class FileProcessor {
     /**
      * Processing of the individual body members. They may require reordering (static parts) or need a rewrite
      * (overloaded methods).
+     *
      * This is also the place where we add generated members.
      *
      * @param builder The target builder to write the final output to.
@@ -2830,286 +2860,8 @@ export class FileProcessor {
             switch (member.type) {
                 case MemberType.Constructor:
                 case MemberType.Method: {
-                    const name = member.name;
-
-                    // Certain methods cannot be overloaded. Static and non-static cannot be mixed and
-                    // abstract methods are not changed, as they have no body.
-                    const overloads = members.filter((candidate) => {
-                        return candidate.name === name && !candidate.modifier.includes("abstract");
-                    });
-
-                    if (overloads.length > 0) {
-                        overloads.unshift(member);
-
-                        const allStatic = overloads.every((candidate) => {
-                            return candidate.modifier.includes("static");
-                        });
-
-                        const allNonStatic = overloads.every((candidate) => {
-                            return !candidate.modifier.includes("static");
-                        });
-
-                        if (allStatic || allNonStatic) {
-                            // Remove the found overloads from the members list.
-                            members = members.filter((candidate) => {
-                                return candidate.name !== name;
-                            });
-
-                            // Constructors which call each other (explicit constructor invocation, aka. constructor
-                            // chaining) need a special construct (a closure and certain TS/ESlint error suppressions).
-                            let needClosure = false;
-                            overloads.forEach((overload) => {
-                                if (overload.type === MemberType.Constructor && overload.containsThisCall) {
-                                    needClosure = true;
-                                }
-                            });
-
-                            if (needClosure && needSuperCallSuppression) {
-                                // ESlint error suppression is done for the entire constructor block.
-                                builder.append(overloads[0].leadingWhitespace);
-                                overloads[0].leadingWhitespace = "";
-                                builder.append(
-                                    "/* eslint-disable constructor-super, @typescript-eslint/no-unsafe-call */\n",
-                                );
-                            }
-
-                            // Write the overload signatures.
-                            overloads.forEach((overload) => {
-                                const modifier = overload.type === MemberType.Constructor && publicConstructors
-                                    ? "public"
-                                    : overload.modifier;
-                                builder.append(overload.leadingWhitespace, modifier);
-
-                                // Remove the arrow style for overloading.
-                                let signature = overload.signatureContent.text;
-                                if (signature.startsWith(" = ") && signature.endsWith(" =>")) {
-                                    signature = signature.substring(3, signature.length - 3);
-                                }
-                                builder.append(overload.nameWhitespace, overload.name, signature, ";");
-                            });
-
-                            if (needClosure && this.configuration.options.suppressTSErrorsForECI
-                                && needSuperCallSuppression) {
-                                // Now one of the TS error suppressions, which we have done for ESlint above.
-                                builder.append("\n/* @ts-expect-error, because of the super() call in the closure. */");
-                            }
-
-                            // Construct the implementation signature.
-                            // Determine the largest number of parameters and get the set of possible return types.
-                            let maxParamCount = 0;
-                            const returnTypes = new Set<string>();
-                            overloads.forEach((overload) => {
-                                if (overload.signature.length > maxParamCount) {
-                                    maxParamCount = overload.signature.length;
-                                }
-
-                                if (member.type === MemberType.Method) {
-                                    returnTypes.add(overload.returnType);
-                                }
-                            });
-
-                            const combinedParameters: Array<IParameterInfo & { optional: boolean }> = [];
-                            let combinedParameterString = "";
-
-                            if (maxParamCount > 0) {
-                                for (let i = 0; i < maxParamCount; ++i) {
-                                    // These are sets to ignore duplicates.
-                                    const names = new Set<string>();
-                                    const types = new Set<string>();
-                                    let optional = false;
-                                    overloads.forEach((overload) => {
-                                        if (i < overload.signature.length) {
-                                            names.add(overload.signature[i].name);
-                                            types.add(overload.signature[i].type);
-                                        } else {
-                                            optional = true;
-                                        }
-                                    });
-
-                                    // Convert the found names (w/o duplicates) to an array to join them, after
-                                    // converting all names to title case (except the first one).
-                                    const nameArray = Array.from(names);
-                                    nameArray.forEach((name, index) => {
-                                        if (index > 0) {
-                                            nameArray[index] = name[0].toUpperCase() + name.substring(1);
-                                        }
-                                    });
-                                    const parameterName = nameArray.join("Or");
-
-                                    // Next construct a union type out of the found types.
-                                    const typeArray = Array.from(types);
-                                    const parameterType = typeArray.join(" | ");
-
-                                    combinedParameters[i] = { name: parameterName, type: parameterType, optional };
-                                }
-
-                                // Construct the implementation signature from the combined parameters.
-                                combinedParameters.forEach((parameter, index) => {
-                                    if (index > 0) {
-                                        combinedParameterString += ", ";
-                                    }
-
-                                    if (parameter.optional) {
-                                        combinedParameterString += parameter.name + "?: " + parameter.type;
-                                    } else {
-                                        combinedParameterString += parameter.name + ": " + parameter.type;
-                                    }
-                                });
-                            }
-
-                            if (member.type === MemberType.Constructor) {
-                                const modifier = publicConstructors ? "public" : member.modifier;
-                                builder.append(`\n${modifier}`, " constructor(", combinedParameterString, ") {\n");
-                            } else {
-                                const combinedReturnTypeString = Array.from(returnTypes).join(" | ");
-                                builder.append(`\n${member.leadingWhitespace}${member.modifier}` +
-                                    `${member.nameWhitespace}${member.name}${member.typeParameters ?? ""}(` +
-                                    `${combinedParameterString}): ${combinedReturnTypeString} {\n`);
-                            }
-
-                            // Add collected instance initializer code now, if there's any.
-                            if (member.type === MemberType.Constructor) {
-                                // There can only be one initializer entry.
-                                const index = generatedMembers.findIndex((candidate) => {
-                                    return candidate.type === MemberType.Initializer;
-                                });
-
-                                if (index > -1) {
-                                    const member = generatedMembers[index];
-                                    generatedMembers.splice(index, 1);
-                                    builder.append(member.bodyContent, "\n");
-                                }
-                            }
-
-                            // Finally add the body code for each overload, depending on the overload parameters.
-                            const bodyBuilder = new StringBuilder();
-                            overloads.forEach((overload, index) => {
-                                if (index > 0) {
-                                    bodyBuilder.append(" else ");
-                                }
-
-                                const nameAssignments: string[] = [];
-                                if (index < overloads.length - 1) {
-                                    let condition = "";
-                                    for (let i = 0; i < maxParamCount; ++i) {
-                                        if (i > 0) {
-                                            condition += " && ";
-                                        }
-
-                                        if (i < overload.signature.length) {
-                                            // There's a parameter at this position. Add a check for it.
-                                            const typeParts = overload.signature[i].type.split(".");
-                                            const typeName = typeParts.length === 1
-                                                ? typeParts[0]
-                                                : typeParts[typeParts.length - 1];
-                                            const isClass = typeName[0] === typeName[0].toUpperCase();
-
-                                            if (isClass) {
-                                                let type = overload.signature[i].type.trim();
-                                                const typeParamsCheck = type.match(/^[A-Z_.]+[ \t]*(<.+>)/i);
-                                                if (typeParamsCheck) {
-                                                    type = type.substring(0, type.length - typeParamsCheck[1].length);
-                                                }
-
-                                                condition += `${combinedParameters[i].name} instanceof ${type}`;
-                                            } else {
-                                                condition += `typeof ${combinedParameters[i].name} === ` +
-                                                    `"${overload.signature[i].type}"`;
-                                            }
-
-                                            if (overload.signature[i].name !== combinedParameters[i].name) {
-                                                nameAssignments.push(`const ${overload.signature[i].name} = ` +
-                                                    `${combinedParameters[i].name} as ${overload.signature[i].type};`);
-                                            }
-                                        } else {
-                                            // Overload parameter list exhausted. Add a check for the current parameter
-                                            // and stop the loop. After an optional parameter there can't be a
-                                            // non-optional one.
-                                            condition += `${combinedParameters[i].name} === undefined`;
-                                            break;
-                                        }
-                                    }
-                                    bodyBuilder.append(`if (${condition})`);
-                                } else {
-                                    // This is the last overload branch. No need for a condition, but we still need
-                                    // the name assignments.
-                                    for (let i = 0; i < overload.signature.length; ++i) {
-                                        if (overload.signature[i].name !== combinedParameters[i].name) {
-                                            // Intentionally using "let" here.
-                                            // Linters can convert to const, if required.
-                                            nameAssignments.push(`let ${overload.signature[i].name} = ` +
-                                                `${combinedParameters[i].name} as ${overload.signature[i].type};`);
-                                        }
-                                    }
-                                }
-
-                                let innerTSSuppression = "";
-                                if (needClosure && !overload.containsThisCall
-                                    && this.configuration.options.suppressTSErrorsForECI
-                                    && needSuperCallSuppression) {
-                                    // Because of the use of the constructor chain emulation closure we will end
-                                    // with `super()` calls in that closure, for which TS issues an error.
-                                    // This has to be suppressed.
-                                    // Note: the suppression does not work if the block contains code before the super()
-                                    //       call. This must be solved manually, by moving the suppression line.
-                                    innerTSSuppression =
-                                        "\n/* @ts-expect-error, because of the super() call in the closure. */";
-                                }
-
-                                // Before writing the body content, we also have to inject assignments with the original
-                                // parameter name (+ a cast), if it differs from the combined name, to allow using the
-                                // body content without change.
-                                let block = overload.bodyContent.text;
-                                if (nameAssignments.length > 0) {
-                                    const openCurlyIndex = block.indexOf("{");
-                                    if (openCurlyIndex > -1) { // Should always be true.
-                                        block = block.substring(0, openCurlyIndex + 1) + "\n" +
-                                            nameAssignments.join("\n") + innerTSSuppression +
-                                            block.substring(openCurlyIndex + 1);
-                                    }
-                                } else if (innerTSSuppression.length > 0) { // Only for constructors.
-                                    const openCurlyIndex = block.indexOf("{");
-                                    if (openCurlyIndex > -1) { // Should always be true.
-                                        block = block.substring(0, openCurlyIndex + 1) + "\n" + innerTSSuppression +
-                                            block.substring(openCurlyIndex + 1);
-                                    }
-
-                                }
-                                bodyBuilder.append(block, "\n");
-                            });
-
-                            if (needClosure) {
-                                // Create the closure and use the constructor body content as its body.
-                                builder.append(`const $this = (${combinedParameterString}): void => {\n`, bodyBuilder,
-                                    "};\n\n");
-
-                                // This call triggers the constructor chain.
-                                builder.append("$this(");
-                                combinedParameters.forEach((parameter, index) => {
-                                    if (index > 0) {
-                                        builder.append(", ");
-                                    }
-                                    builder.append(parameter.name);
-                                });
-
-                                builder.append(");\n");
-                            } else {
-                                builder.append(bodyBuilder);
-                            }
-
-                            builder.append("\n}\n");
-
-                            if (needClosure && needSuperCallSuppression) {
-                                // Re-enable the suppressed ESlint error.
-                                builder.append(
-                                    "/* eslint-enable constructor-super, @typescript-eslint/no-unsafe-call */");
-                            }
-                        }
-
-                    } else {
-                        builder.append(member.leadingWhitespace, member.modifier, member.nameWhitespace, member.name);
-                        builder.append(member.signatureContent, member.bodyContent);
-                    }
+                    members = this.processConstructorAndMethodMembers(builder, member, members,
+                        needSuperCallSuppression, publicConstructors, generatedMembers);
                     break;
                 }
 
@@ -3158,6 +2910,307 @@ export class FileProcessor {
             }
         });
     };
+
+    private processConstructorAndMethodMembers(builder: StringBuilder, member: IClassMemberDetails,
+        members: IClassMemberDetails[], needSuperCallSuppression: boolean, publicConstructors: boolean,
+        generatedMembers: IClassMemberDetails[]) {
+        const name = member.name;
+
+        // Certain methods cannot be overloaded. Static and non-static cannot be mixed and
+        // abstract methods are not changed, as they have no body.
+        const overloads = members.filter((candidate) => {
+            return candidate.name === name && !candidate.modifier.includes("abstract");
+        });
+
+        if (overloads.length > 0) {
+            overloads.unshift(member);
+
+            let staticCount = 0;
+            overloads.forEach((candidate) => {
+                if (candidate.modifier.includes("static")) {
+                    ++staticCount;
+                }
+            });
+
+            // All static overloads or no static overload.
+            if (staticCount === 0 || staticCount === overloads.length) {
+                // Remove the found overloads from the members list.
+                members = members.filter((candidate) => {
+                    return candidate.name !== name;
+                });
+
+                // Constructors which call each other (explicit constructor invocation, aka. constructor
+                // chaining) need a special construct (a closure and certain TS/ESlint error suppressions).
+                let needClosure = false;
+                overloads.forEach((overload) => {
+                    if (overload.type === MemberType.Constructor && overload.containsThisCall) {
+                        needClosure = true;
+                    }
+                });
+
+                if (needClosure && needSuperCallSuppression) {
+                    // ESlint error suppression is done for the entire constructor block.
+                    builder.append(overloads[0].leadingWhitespace);
+                    overloads[0].leadingWhitespace = "";
+                    builder.append(
+                        "/* eslint-disable constructor-super, @typescript-eslint/no-unsafe-call */\n",
+                    );
+                }
+
+                // Sort the overloads by increasing parameter count.
+                overloads.sort((a, b) => {
+                    return a.signature.length - b.signature.length;
+                });
+
+                // Write the overload signatures.
+                overloads.forEach((overload) => {
+                    const modifier = overload.type === MemberType.Constructor && publicConstructors
+                        ? "public"
+                        : overload.modifier;
+                    builder.append(overload.leadingWhitespace, modifier);
+
+                    // Remove the arrow style for overloading.
+                    let signature = overload.signatureContent.text;
+                    if (signature.startsWith(" = ") && signature.endsWith(" =>")) {
+                        signature = signature.substring(3, signature.length - 3);
+                    }
+                    builder.append(overload.nameWhitespace, overload.name, signature, ";");
+                });
+
+                if (needClosure && this.configuration.options.suppressTSErrorsForECI
+                    && needSuperCallSuppression) {
+                    // Now one of the TS error suppressions, which we have done for ESlint above.
+                    builder.append("\n/* @ts-expect-error, because of the super() call in the closure. */");
+                }
+
+                // Construct the implementation signature and get the set of possible return types.
+                const returnTypes = new Set<string>();
+                overloads.forEach((overload) => {
+                    if (member.type === MemberType.Method) {
+                        returnTypes.add(overload.returnType);
+                    }
+                });
+
+                const combinedParameters: Array<IParameterInfo & { optional: boolean; needTypeCheck: boolean }> = [];
+                let combinedParameterString = "";
+
+                const maxParamCount = overloads[overloads.length - 1].signature.length;
+                if (maxParamCount > 0) {
+                    for (let i = 0; i < maxParamCount; ++i) {
+                        // These are sets to ignore duplicates.
+                        const names = new Set<string>();
+                        const types = new Set<string>();
+                        let optional = false;
+                        overloads.forEach((overload) => {
+                            if (i < overload.signature.length) {
+                                names.add(overload.signature[i].name);
+                                types.add(overload.signature[i].type);
+                            } else {
+                                optional = true;
+                            }
+                        });
+
+                        // Convert the found names (w/o duplicates) to an array to join them, after
+                        // converting all names to title case (except the first one).
+                        const nameArray = Array.from(names);
+                        nameArray.forEach((name, index) => {
+                            if (index > 0) {
+                                nameArray[index] = name[0].toUpperCase() + name.substring(1);
+                            }
+                        });
+                        const parameterName = nameArray.join("Or");
+
+                        // Next construct a union type out of the found types.
+                        const typeArray = Array.from(types);
+                        const parameterType = typeArray.join(" | ");
+
+                        combinedParameters.push({
+                            name: parameterName,
+                            type: parameterType,
+                            optional,
+                            needTypeCheck: optional || types.size > 1,
+                        });
+                    }
+
+                    // Construct the implementation signature from the combined parameters.
+                    combinedParameters.forEach((parameter, index) => {
+                        if (index > 0) {
+                            combinedParameterString += ", ";
+                        }
+
+                        if (parameter.optional) {
+                            combinedParameterString += parameter.name + "?: " + parameter.type;
+                        } else {
+                            combinedParameterString += parameter.name + ": " + parameter.type;
+                        }
+                    });
+                }
+
+                // Check the combined parameters list to see if we really need a type check for the individual
+                // parameters. If a parameter exists in all overloads with the same time then there's no need to
+                // check its type.
+
+                if (member.type === MemberType.Constructor) {
+                    const modifier = publicConstructors ? "public" : member.modifier;
+                    builder.append(`\n${modifier}`, " constructor(", combinedParameterString, ") {\n");
+                } else {
+                    const combinedReturnTypeString = Array.from(returnTypes).join(" | ");
+                    builder.append(`\n${member.leadingWhitespace}${member.modifier}` +
+                        `${member.nameWhitespace}${member.name}${member.typeParameters ?? ""}(` +
+                        `${combinedParameterString}): ${combinedReturnTypeString} {\n`);
+                }
+
+                // Add collected instance initializer code now, if there's any.
+                if (member.type === MemberType.Constructor) {
+                    // There can only be one initializer entry.
+                    const index = generatedMembers.findIndex((candidate) => {
+                        return candidate.type === MemberType.Initializer;
+                    });
+
+                    if (index > -1) {
+                        const member = generatedMembers[index];
+                        generatedMembers.splice(index, 1);
+                        builder.append(member.bodyContent, "\n");
+                    }
+                }
+
+                // Add the body code for each overload, depending on the overload parameters.
+                const bodyBuilder = new StringBuilder();
+                overloads.forEach((overload, index) => {
+                    if (index > 0) {
+                        bodyBuilder.append(" else ");
+                    }
+
+                    // The nameAssignments list gets the helper assignments used to access the original parameter name
+                    // in the overload body code. Remember, the implementation signature uses parameter names
+                    // constructed from all parameter names at a given position in the parameter list of each overload.
+                    const nameAssignments: string[] = [];
+                    if (index < overloads.length - 1) {
+                        let condition = "";
+                        for (let i = 0; i < maxParamCount; ++i) {
+                            if (condition.length > 0) {
+                                condition += " && ";
+                            }
+
+                            if (i < overload.signature.length) {
+                                // There's a parameter at this position. Add a check for it, if needed.
+                                if (combinedParameters[i].needTypeCheck) {
+                                    const typeParts = overload.signature[i].type.split(".");
+                                    const typeName = typeParts.length === 1
+                                        ? typeParts[0]
+                                        : typeParts[typeParts.length - 1];
+                                    const isClass = typeName[0] === typeName[0].toUpperCase();
+
+                                    if (isClass) {
+                                        let type = overload.signature[i].type.trim();
+                                        const typeParamsCheck = type.match(/^[A-Z_.]+[ \t]*(<.+>)/i);
+                                        if (typeParamsCheck) {
+                                            type = type.substring(0, type.length - typeParamsCheck[1].length);
+                                        }
+
+                                        condition += `${combinedParameters[i].name} instanceof ${type}`;
+                                    } else {
+                                        condition += `typeof ${combinedParameters[i].name} === ` +
+                                            `"${overload.signature[i].type}"`;
+                                    }
+
+                                    if (overload.signature[i].name !== combinedParameters[i].name) {
+                                        nameAssignments.push(`const ${overload.signature[i].name} = ` +
+                                            `${combinedParameters[i].name} as ${overload.signature[i].type};`);
+                                    }
+                                }
+                            } else {
+                                // Overload parameter list exhausted. Add a check for the current parameter
+                                // and stop the loop. After an optional parameter there can't be a
+                                // non-optional one.
+                                condition += `${combinedParameters[i].name} === undefined`;
+                                break;
+                            }
+                        }
+                        bodyBuilder.append(`if (${condition})`);
+                    } else {
+                        // This is the last overload branch. No need for a condition, but we still need
+                        // the name assignments.
+                        for (let i = 0; i < overload.signature.length; ++i) {
+                            if (overload.signature[i].name !== combinedParameters[i].name) {
+                                // Intentionally using "let" here.
+                                // Linters can convert to const, if required.
+                                nameAssignments.push(`let ${overload.signature[i].name} = ` +
+                                    `${combinedParameters[i].name} as ${overload.signature[i].type};`);
+                            }
+                        }
+                    }
+
+                    let innerTSSuppression = "";
+                    if (needClosure && !overload.containsThisCall
+                        && this.configuration.options.suppressTSErrorsForECI
+                        && needSuperCallSuppression) {
+                        // Because of the use of the constructor chain emulation closure we will end
+                        // with `super()` calls in that closure, for which TS issues an error.
+                        // This has to be suppressed.
+                        // Note: the suppression does not work if the block contains code before the super()
+                        //       call. This must be solved manually, by moving the suppression line.
+                        innerTSSuppression =
+                            "\n/* @ts-expect-error, because of the super() call in the closure. */";
+                    }
+
+                    // Before writing the body content, we also have to inject assignments with the original
+                    // parameter name (+ a cast), if it differs from the combined name, to allow using the
+                    // body content without change.
+                    let block = overload.bodyContent.text;
+                    if (nameAssignments.length > 0) {
+                        const openCurlyIndex = block.indexOf("{");
+                        if (openCurlyIndex > -1) { // Should always be true.
+                            block = block.substring(0, openCurlyIndex + 1) + "\n" +
+                                nameAssignments.join("\n") + innerTSSuppression +
+                                block.substring(openCurlyIndex + 1);
+                        }
+                    } else if (innerTSSuppression.length > 0) { // Only for constructors.
+                        const openCurlyIndex = block.indexOf("{");
+                        if (openCurlyIndex > -1) { // Should always be true.
+                            block = block.substring(0, openCurlyIndex + 1) + "\n" + innerTSSuppression +
+                                block.substring(openCurlyIndex + 1);
+                        }
+
+                    }
+                    bodyBuilder.append(block, "\n");
+                });
+
+                if (needClosure) {
+                    // Create the closure and use the constructor body content as its body.
+                    builder.append(`const $this = (${combinedParameterString}): void => {\n`, bodyBuilder,
+                        "};\n\n");
+
+                    // This call triggers the constructor chain.
+                    builder.append("$this(");
+                    combinedParameters.forEach((parameter, index) => {
+                        if (index > 0) {
+                            builder.append(", ");
+                        }
+                        builder.append(parameter.name);
+                    });
+
+                    builder.append(");\n");
+                } else {
+                    builder.append(bodyBuilder);
+                }
+
+                builder.append("\n}\n");
+
+                if (needClosure && needSuperCallSuppression) {
+                    // Re-enable the suppressed ESlint error.
+                    builder.append(
+                        "/* eslint-enable constructor-super, @typescript-eslint/no-unsafe-call */");
+                }
+            }
+
+        } else {
+            builder.append(member.leadingWhitespace, member.modifier, member.nameWhitespace, member.name);
+            builder.append(member.signatureContent, member.bodyContent);
+        }
+
+        return members;
+    }
 
     /**
      * Returns all white spaces (including comments) between the current white space anchor and the first character
@@ -3326,4 +3379,5 @@ export class FileProcessor {
 
         return name;
     };
+
 }

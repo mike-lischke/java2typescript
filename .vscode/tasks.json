@@ -1,6 +1,6 @@
 {
-	"version": "2.0.0",
-	"tasks": [
+    "version": "2.0.0",
+    "tasks": [
         {
             "type": "typescript",
             "tsconfig": "tsconfig.json",
@@ -8,7 +8,10 @@
             "problemMatcher": [
                 "$tsc-watch"
             ],
-            "group": "build",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
             "label": "tsc: watch"
         }
     ]
