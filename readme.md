@@ -29,7 +29,7 @@ It's practically never the case that two languages have the same semantic concep
 - Java automatically converts between `long` and other integer type. TS uses `bigint` for 64 bit integer types and the `n` suffix for bigint literals. In Java these integer types can freely be mixed, but TS will complain if one tries to, say, shift a bigint using a standard number literal. This must be solved manually.
 - Annotations usually cannot be converted, except for a very few (like @final), which are then converted using decorators. The current implementation is however very basic. Don't expect much of that.
 - Generic constructors are not possible in Typescript. This must be solved manually.
-- The try-with-resources statement is currently not handled.
+- The try-with-resources statement is supported. See below for details.
 - Reflection is partially supported, by implementing `getClass()` and `.class` accessors. The package java.lang.reflect is not supported, however.
 - TS regular expressions do not support all features from Java regex, specifically these flags are not supported:
     - Pattern.CANON_EQ
@@ -88,6 +88,12 @@ Here's a real world example of the final form of a constructor, which uses overl
     }
     /* eslint-enable constructor-super, @typescript-eslint/no-unsafe-call */
 ```
+
+# Try With Resources
+
+Java 8 and higher support a construct which ensures that certain resources are automatically closed, regardless of errors. For this the try/catch/finally statement supports an additional expression between the `try` keyword and the opening curly brace. Any object that implements the AutoClosable interface is that automatically closed when the try block finished execution (with or w/o errors). To emulate this behavior a helper class is used (`AutoCloser`) which gets the created objects and tries to close them in the `finally` block. If no such block exists one is automatically added.
+
+To ensure all registered classes are closed, no error is allowed to interrupt the process (by catching and ignoring them). This differs, however, from the way Java handles exceptions: if both, the `try` block and any of the `close` methods threw an error, then the one from the `try` block is suppressed. In TS it's the other way around (the auto close error is suppressed/ignored). IMO this is the better way, as a close error might only be a follow up error because of something that went wrong in the `try` block, so the error from that block is more important.
 
 # Conversion Process
 

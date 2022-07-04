@@ -17,7 +17,7 @@ import { Stack } from "../../lib/java/util/Stack";
 import { JavaLexer } from "../../java/generated/JavaLexer";
 import {
     AnnotationContext, AnnotationTypeDeclarationContext, ArgumentsContext, ArrayInitializerContext, BlockContext,
-    BlockStatementContext, CatchClauseContext, CatchTypeContext, ClassBodyContext, ClassBodyDeclarationContext,
+    BlockStatementContext, CatchClauseContext, ClassBodyContext, ClassBodyDeclarationContext,
     ClassCreatorRestContext, ClassDeclarationContext, ClassOrInterfaceModifierContext, ClassOrInterfaceTypeContext,
     ClassTypeContext, CompilationUnitContext, ConstantDeclaratorContext, ConstDeclarationContext,
     ConstructorDeclarationContext, CreatedNameContext, CreatorContext, EnhancedForControlContext, EnumConstantContext,
@@ -32,7 +32,8 @@ import {
     LocalVariableDeclarationContext, MemberDeclarationContext, MethodBodyContext, MethodCallContext,
     MethodDeclarationContext, ModifierContext, NonWildcardTypeArgumentsContext,
     NonWildcardTypeArgumentsOrDiamondContext, ParExpressionContext, PrimaryContext, PrimitiveTypeContext,
-    StatementContext, SuperSuffixContext, SwitchBlockStatementGroupContext, SwitchLabelContext, TypeArgumentContext,
+    ResourceContext, ResourceSpecificationContext, StatementContext, SuperSuffixContext,
+    SwitchBlockStatementGroupContext, SwitchLabelContext, TypeArgumentContext,
     TypeArgumentsContext, TypeArgumentsOrDiamondContext, TypeBoundContext, TypeDeclarationContext, TypeListContext,
     TypeParameterContext, TypeParametersContext, TypeTypeContext, TypeTypeOrVoidContext, VariableDeclaratorContext,
     VariableDeclaratorIdContext, VariableDeclaratorsContext, VariableInitializerContext, VariableModifierContext,
@@ -154,6 +155,8 @@ export class FileProcessor {
 
     private static stringMethodMap = new Map<string, IMethodReplaceEntry>([
         ["length", { options: { parentheses: "remove" } }],
+        ["isEmpty", { replacement: "length === 0", options: { parentheses: "remove" } }],
+        ["equals", { replacement: " === ", options: { parentheses: "extract", removeDot: true } }],
     ]);
 
     private static mapMethodMap = new Map<string, IMethodReplaceEntry>([
@@ -175,7 +178,8 @@ export class FileProcessor {
 
     private whiteSpaceAnchor = 0;
 
-    private needDecorators?: boolean;
+    // Other imports from the tool (for helpers, decorators etc.).
+    private libraryImports = new Map<string, string[]>();
 
     // Keeps names of classes for which inner processing is going on. Sometimes it is necessary to know the name
     // for special processing (e.g. auto creating static initializer functions or type aliases).
@@ -334,10 +338,10 @@ export class FileProcessor {
         this.getContent(builder, context.EOF());
 
         header.append("\n");
-        if (this.needDecorators) {
-            const decorators = path.join(libPath, "Decorators");
-            header.append(`${this.getLeadingWhiteSpaces(context)}import { final } from "${decorators}";\n`);
-        }
+        this.libraryImports.forEach((entry, key) => {
+            const importPath = path.join(libPath, key);
+            header.append(`import { ${entry.join(",")} } from "${importPath}";\n`);
+        });
 
         builder.prepend(header);
     };
@@ -537,8 +541,14 @@ export class FileProcessor {
             // Add a type declaration for the nested class, so it can be used as a type.
             const exportPrefix = modifier.includes("public") ? "\nexport " : "\n";
             const typeOfText = modifier.includes("static") ? "typeof " : "";
+
+            let typeParameters = "";
+            if (context.typeParameters()) {
+                typeParameters = context.typeParameters().text;
+            }
             this.typeStack.tos.deferredDeclarations.append(exportPrefix,
-                `type ${className} = InstanceType<${typeOfText}${owner.name}["${className}"]>;\n`);
+                `type ${className}${typeParameters} = InstanceType<${typeOfText}${owner.name}.${className}` +
+                `${typeParameters}>;\n`);
         } else {
             // A top level class declaration.
             builder.append(prefix, containsAbstract ? "abstract " : "", localBuilder);
@@ -965,7 +975,7 @@ export class FileProcessor {
             }
         }
 
-        this.processBlock(details.bodyContent, context.block(), needSuperCall);
+        this.processBlock(details.bodyContent, context.block(), needSuperCall ? "super();\n" : undefined);
     };
 
     private processGenericConstructorDeclaration = (details: IClassMemberDetails,
@@ -1373,18 +1383,17 @@ export class FileProcessor {
         }
     };
 
-    private processBlock = (builder: StringBuilder, context: BlockContext, addSuperCall = false): void => {
+    private processBlock = (builder: StringBuilder, context: BlockContext, extra?: string): void => {
         this.getContent(builder, context.LBRACE());
 
-        if (addSuperCall) {
-            // This flag is set when we come here from a constructor declaration and did not find
-            // an existing `super()` call.
+        if (extra) {
+            // Add this string to the block before processing the rest.
             if (context.blockStatement().length > 0) {
                 builder.append(this.getLeadingWhiteSpaces(context.blockStatement(0)));
             } else {
                 builder.append(this.getLeadingWhiteSpaces(context.RBRACE()));
             }
-            builder.append("super();\n");
+            builder.append(extra);
         }
 
         context.blockStatement().forEach((child) => {
@@ -1586,8 +1595,14 @@ export class FileProcessor {
                 }
 
                 default: {
+                    // With a prefix operator here a tricky situation may come up. Because method calls are sometimes
+                    // transformed to native TS expressions (e.g. string.equals to string === "") we may produce invalid
+                    // code. To ensure  the outcome is actually valid, we have to add extra parentheses, even if that
+                    // means there are sometimes extraneous parentheses. Linters might fix that automatically.
                     this.getContent(builder, firstChild);
+                    builder.append("(");
                     this.processExpression(builder, context.expression(0));
+                    builder.append(")");
                 }
             }
         } else {
@@ -1851,11 +1866,13 @@ export class FileProcessor {
     };
 
     private processArguments = (builder: StringBuilder, context: ArgumentsContext): void => {
+        this.getContent(builder, context.LPAREN());
+
         if (context.expressionList()) {
             this.processExpressionList(builder, context.expressionList());
-        } else {
-            this.getContent(builder, context);
         }
+
+        this.getContent(builder, context.RPAREN());
     };
 
     private processNonWildcardTypeArgumentsOrDiamond = (builder: StringBuilder,
@@ -2401,15 +2418,35 @@ export class FileProcessor {
                 }
 
                 case JavaLexer.TRY: {
-                    this.getContent(builder, context.TRY());
-                    this.processBlock(builder, context.block());
+                    builder.append(this.getLeadingWhiteSpaces(context.TRY()));
+                    this.ignoreContent(context.TRY());
+
+                    const localBuilder = new StringBuilder();
+                    if (context.resourceSpecification()) {
+                        this.processResourceSpecification(localBuilder, context.resourceSpecification());
+                    }
+
+                    const needAutoClose = localBuilder.length > 0;
+                    if (needAutoClose) {
+                        this.libraryImports.set("AutoCloser", ["AutoCloser"]);
+                        builder.append("\tconst closeables = new AutoCloser();\n");
+                    }
+                    builder.append("try");
+
+                    this.processBlock(builder, context.block(), needAutoClose ? localBuilder.text : undefined);
 
                     context.catchClause().forEach((clause) => {
                         this.processCatchClause(builder, clause);
                     });
 
                     if (context.finallyBlock()) {
-                        this.processFinallyBlock(builder, context.finallyBlock());
+                        this.processFinallyBlock(builder, context.finallyBlock(),
+                            needAutoClose ? "closeables.close();\n" : "");
+                    } else {
+                        if (needAutoClose) {
+                            builder.append(" finally {\n  closeables.close();\n}\n");
+                        }
+
                     }
 
                     break;
@@ -2521,6 +2558,48 @@ export class FileProcessor {
         }
     };
 
+    private processResourceSpecification = (builder: StringBuilder, context: ResourceSpecificationContext): void => {
+        builder.append(this.getLeadingWhiteSpaces(context.LPAREN()));
+        this.ignoreContent(context.LPAREN());
+
+        this.processResources(builder, context.resources().resource());
+
+        this.ignoreContent(context.RPAREN());
+    };
+
+    private processResources = (builder: StringBuilder, resources: ResourceContext[]): void => {
+        resources.forEach((resource) => {
+            if (resource.identifier()) {
+                // For now ignore the identifier. How's that related to resources?
+                this.ignoreContent(resource.identifier());
+            } else {
+                const modifiers = resource.variableModifier();
+                if (modifiers.length > 0) {
+                    this.ignoreContent(modifiers[modifiers.length - 1]);
+                }
+
+                let identifier: string;
+                if (resource.VAR()) {
+                    builder.append(this.getLeadingWhiteSpaces(resource.VAR()), "const");
+                    identifier = resource.identifier().text;
+                } else {
+                    builder.append(this.getLeadingWhiteSpaces(resource.classOrInterfaceType()), "const");
+
+                    const localBuilder = new StringBuilder();
+                    this.processClassOrInterfaceType(localBuilder, resource.classOrInterfaceType());
+
+                    identifier = resource.variableDeclaratorId().identifier().text;
+                    this.getContent(builder, resource.variableDeclaratorId());
+                    builder.append(`: ${localBuilder.text} `);
+                }
+
+                this.getContent(builder, resource.ASSIGN());
+                this.processExpression(builder, resource.expression());
+                builder.append(`\n\tcloseables.add(${identifier});\n`);
+            }
+        });
+    };
+
     private processSwitchBlockStatementGroup = (builder: StringBuilder,
         context: SwitchBlockStatementGroupContext): boolean => {
 
@@ -2552,8 +2631,8 @@ export class FileProcessor {
         return false;
     };
 
-    private processFinallyBlock = (builder: StringBuilder, context: FinallyBlockContext): void => {
-        this.processBlock(builder, context.block());
+    private processFinallyBlock = (builder: StringBuilder, context: FinallyBlockContext, extra?: string): void => {
+        this.processBlock(builder, context.block(), extra);
     };
 
     private processCatchClause = (builder: StringBuilder, context: CatchClauseContext): void => {
@@ -2562,20 +2641,13 @@ export class FileProcessor {
             this.processVariableModifier(builder, modifier);
         });
 
-        const type = new StringBuilder();
-        this.processCatchType(type, context.catchType());
-        builder.append(this.checkExceptionType(context, type.text));
+        builder.append(this.getLeadingWhiteSpaces(context.catchType()));
+        this.ignoreContent(context.catchType());
 
         const ws = this.getLeadingWhiteSpaces(context.identifier());
         this.getContent(builder, context.identifier());
-        builder.append(":", ws, "unknown");
+        builder.append(`:${ws}unknown`);
         this.processBlock(builder, context.block());
-    };
-
-    private processCatchType = (builder: StringBuilder, context: CatchTypeContext): void => {
-        context.qualifiedName().forEach((name) => {
-            this.getContent(builder, name);
-        });
     };
 
     private processForControl = (builder: StringBuilder, context: ForControlContext): void => {
@@ -3278,10 +3350,6 @@ export class FileProcessor {
         this.whiteSpaceAnchor = stopIndex + 1;
 
         builder.append(`${ws}/* ${this.source.getText(interval)} */`);
-    };
-
-    private checkExceptionType = (context: ParseTree, name: string): ISymbolInfo | string => {
-        return this.resolveType(context, name);
     };
 
     /**

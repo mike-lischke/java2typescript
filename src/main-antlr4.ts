@@ -51,8 +51,7 @@ const convertAntlr4Runtime = async () => {
         packageRoot: path.resolve(process.cwd(), "../antlr4/runtime/Java/src"),
         javaLib: path.resolve(process.cwd(), "../a4tstool/lib/java/java.ts"),
         include: [
-            //"/PredictionContext.java",
-            "/FlexibleHashMap.java",
+            "/InterpreterDataReader.java",
         ],
         exclude: [
             //"DebugEventSocketProxy.java",
@@ -61,17 +60,17 @@ const convertAntlr4Runtime = async () => {
         options: {
             prefix: `
 /*
- eslint-disable @typescript-eslint/no-namespace, @typescript-eslint/naming-convention,
+ eslint-disable @typescript-eslint/no-namespace, @typescript-eslint/naming-convention, no-redeclare,
  max-classes-per-file, jsdoc/check-tag-names, @typescript-eslint/no-empty-function,
  @typescript-eslint/restrict-plus-operands, @typescript-eslint/unified-signatures, @typescript-eslint/member-ordering,
- no-underscore-dangle
+ no-underscore-dangle, max-len
 */
 
 /* cspell: disable */
 
 `,
             importResolver,
-            lib: "lib",
+            lib: path.resolve(process.cwd(), "../a4tstool/lib"),
             convertAnnotations: false,
             sourceMappings: [
             ],
@@ -80,16 +79,17 @@ const convertAntlr4Runtime = async () => {
             addIndexFiles: true,
             suppressTSErrorsForECI: true,
         },
-
-        /*debug: {
+        /*
+        debug: {
             pathForPosition: {
                 //filePattern: "TreeFilter.java",
                 position: {
-                    row: 661,
-                    column: 13,
+                    row: 39,
+                    column: 23,
                 },
             },
-        },*/
+        },
+        */
 
     };
 

@@ -150,8 +150,6 @@ export interface IConverterConfiguration {
 export class JavaToTypescriptConverter {
     public constructor(private configuration: IConverterConfiguration) {
         PackageSourceManager.configure(configuration.options.importResolver, configuration.javaLib);
-
-        configuration.options.lib = path.join(process.cwd(), configuration.options.lib ?? "");
     }
 
     public async startConversion(): Promise<void> {

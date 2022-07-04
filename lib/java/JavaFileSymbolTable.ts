@@ -11,8 +11,7 @@ import {
 import { ParseTree, ParseTreeWalker } from "antlr4ts/tree";
 
 import {
-    ClassDeclarationContext, CreatorContext, ExpressionContext, InterfaceDeclarationContext, MemberDeclarationContext,
-    TypeTypeContext,
+    ClassDeclarationContext, CreatorContext, ExpressionContext, InterfaceDeclarationContext, TypeTypeContext,
 } from "../../java/generated/JavaParser";
 import { ISymbolInfo } from "../../src/conversion/types";
 import { PackageSource } from "../../src/PackageSource";
@@ -49,7 +48,6 @@ export class JavaFileSymbolTable extends SymbolTable {
             while (true) {
                 context = context.parent;
                 if (!context || context instanceof ExpressionContext
-                    || context instanceof MemberDeclarationContext
                     || context instanceof ClassDeclarationContext
                 ) {
                     break;
@@ -107,14 +105,12 @@ export class JavaFileSymbolTable extends SymbolTable {
             // depending on certain conditions.
             // Non-static local class types either use `this` or the outer class as qualifier, depending on the
             // context in which they are used.
-            if (context instanceof MemberDeclarationContext) {
-                if (context.classDeclaration()) {
-                    // The class is used as base class for inheritance.
-                    return {
-                        symbol,
-                        qualifiedName: "this." + name,
-                    };
-                }
+            if (context instanceof ClassDeclarationContext) {
+                // The class is used as base class for inheritance.
+                return {
+                    symbol,
+                    qualifiedName: "this." + name,
+                };
             }
 
             if (context instanceof ExpressionContext) {

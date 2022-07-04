@@ -108,7 +108,8 @@ export class JavaParseTreeWalker implements JavaParserListener {
     };
 
     public enterClassDeclaration = (ctx: ClassDeclarationContext): void => {
-        this.pushNewScope(JavaClassSymbol, ctx.identifier().text, ctx);
+        const symbol = this.pushNewScope(JavaClassSymbol, ctx.identifier().text, ctx);
+        this.checkStatic(symbol);
     };
 
     public exitClassDeclaration = (): void => {

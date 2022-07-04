@@ -347,7 +347,7 @@ export class StringBuilder implements CharSequence {
 
             this.currentLength = requiredSize;
         } else {
-            const newData = new Uint32Array(additionalSize + this.data.length);
+            const newData = new Uint32Array(additionalSize + this.currentLength);
             if (position > 0) {
                 // Copy what's before the target position.
                 newData.set(this.data.subarray(0, position), 0);
