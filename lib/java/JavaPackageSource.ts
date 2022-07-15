@@ -53,12 +53,14 @@ export class JavaPackageSource extends PackageSource {
         { name: "java.lang.Appendable", isInterface: true },
         { name: "java.lang.Comparable", isInterface: true },
         { name: "java.lang.Readable", isInterface: true },
+        { name: "java.lang.StackTraceElement" },
 
         { name: "java.io.Closeable", isInterface: true },
         { name: "java.io.AutoCloseable", isInterface: true },
         { name: "java.io.Flushable", isInterface: true },
 
         { name: "java.io.File" },
+        { name: "java.io.InputStream", implements: ["java.io.Closable"] },
         { name: "java.io.OutputStream", implements: ["java.io.Closable", "java.io.AutoClosable", "java.io.Flushable"] },
         { name: "java.io.FileOutputStream", extends: "java.io.OutputStream" },
         { name: "java.io.FilterOutputStream", extends: "java.io.OutputStream" },
@@ -71,14 +73,18 @@ export class JavaPackageSource extends PackageSource {
 
         { name: "java.io.IOException", extends: "java.lang.Exception" },
         { name: "java.io.FileNotFoundException", extends: "java.lang.IOException" },
+        { name: "java.io.UnsupportedEncodingException", extends: "java.lang.IOException" },
 
+        { name: "java.nio.Buffer" },
         { name: "java.nio.CharBuffer", extends: "java.nio.Buffer" },
+        { name: "java.nio.ByteBuffer", extends: "java.nio.Buffer" },
         { name: "java.nio.InvalidMarkException", extends: "java.lang.IllegalStateException" },
         { name: "java.nio.BufferOverflowException", extends: "java.lang.RuntimeException" },
         { name: "java.nio.BufferUnderflowException", extends: "java.lang.RuntimeException" },
         { name: "java.nio.ReadOnlyBufferException", extends: "java.lang.RuntimeException" },
 
         { name: "java.nio.charset.Charset", implements: ["java.lang.Comparable"] },
+        { name: "java.nio.charset.StandardCharsets" },
 
         { name: "java.util.Collection", isInterface: true },
         { name: "java.util.Collections" },

@@ -92,6 +92,9 @@ interface ITypeInfo {
 interface IParameterInfo {
     name: string;
     type: string;
+
+    // Is this a rest parameter;
+    rest: boolean;
 }
 
 enum MemberType {
@@ -874,11 +877,15 @@ export class FileProcessor {
         const type = new StringBuilder();
         this.processTypeType(type, context.typeType());
 
+        let brackets = "";
         if (context instanceof LastFormalParameterContext) {
             context.annotation().forEach((annotation) => {
                 this.processAnnotation(builder, annotation);
             });
             this.getContent(builder, context.ELLIPSIS());
+
+            // Rest parameters in TS need an array notation.
+            brackets = "[]";
         }
 
         const identifier = context.variableDeclaratorId().identifier();
@@ -886,7 +893,7 @@ export class FileProcessor {
         builder.append(typeWs);
         this.getContent(builder, identifier);
         builder.append(":", nameWs);
-        builder.append(type);
+        builder.append(type, brackets);
 
         if (context.variableDeclaratorId().LBRACK().length > 0) {
             // Old array style given.
@@ -897,7 +904,7 @@ export class FileProcessor {
             }
         }
 
-        return { name: identifier.text, type: type.text };
+        return { name: identifier.text, type: type.text + brackets, rest: brackets.length > 0 };
     };
 
     private processMethodBody = (builder: StringBuilder, context: MethodBodyContext): void => {
@@ -1600,9 +1607,16 @@ export class FileProcessor {
                     // code. To ensure  the outcome is actually valid, we have to add extra parentheses, even if that
                     // means there are sometimes extraneous parentheses. Linters might fix that automatically.
                     this.getContent(builder, firstChild);
-                    builder.append("(");
-                    this.processExpression(builder, context.expression(0));
-                    builder.append(")");
+                    const expression = context.expression(0);
+
+                    // eslint-disable-next-line no-underscore-dangle
+                    if (expression._bop?.type === JavaLexer.DOT && expression.methodCall()) {
+                        builder.append("(");
+                        this.processExpression(builder, expression);
+                        builder.append(")");
+                    } else {
+                        this.processExpression(builder, expression);
+                    }
                 }
             }
         } else {
@@ -2569,16 +2583,16 @@ export class FileProcessor {
 
     private processResources = (builder: StringBuilder, resources: ResourceContext[]): void => {
         resources.forEach((resource) => {
+            let identifier: string;
             if (resource.identifier()) {
-                // For now ignore the identifier. How's that related to resources?
-                this.ignoreContent(resource.identifier());
+                // A single identifier. This specifies the name of a closable object.
+                identifier = resource.identifier().text;
             } else {
                 const modifiers = resource.variableModifier();
                 if (modifiers.length > 0) {
                     this.ignoreContent(modifiers[modifiers.length - 1]);
                 }
 
-                let identifier: string;
                 if (resource.VAR()) {
                     builder.append(this.getLeadingWhiteSpaces(resource.VAR()), "const");
                     identifier = resource.identifier().text;
@@ -2595,8 +2609,8 @@ export class FileProcessor {
 
                 this.getContent(builder, resource.ASSIGN());
                 this.processExpression(builder, resource.expression());
-                builder.append(`\n\tcloseables.add(${identifier});\n`);
             }
+            builder.append(`\n\tcloseables.add(${identifier});\n`);
         });
     };
 
@@ -2919,7 +2933,8 @@ export class FileProcessor {
         // See if we need the special TS error suppression for our unusual `super()` calls.
         let needSuperCallSuppression = false;
         const info = this.source.resolveType(this.typeStack.tos.name ?? "");
-        if (info && info.symbol instanceof ClassSymbol && info.symbol.extends.length > 0) {
+        if (info && (info.symbol instanceof ClassSymbol) &&
+            (info.symbol.extends.length > 0 || info.symbol.implements.length > 0)) {
             needSuperCallSuppression = true;
         }
 
@@ -3073,10 +3088,15 @@ export class FileProcessor {
                         const names = new Set<string>();
                         const types = new Set<string>();
                         let optional = false;
+                        let rest = false;
                         overloads.forEach((overload) => {
                             if (i < overload.signature.length) {
                                 names.add(overload.signature[i].name);
                                 types.add(overload.signature[i].type);
+
+                                if (overload.signature[i].rest) {
+                                    rest = true;
+                                }
                             } else {
                                 optional = true;
                             }
@@ -3092,14 +3112,20 @@ export class FileProcessor {
                         });
                         const parameterName = nameArray.join("Or");
 
-                        // Next construct a union type out of the found types.
-                        const typeArray = Array.from(types);
-                        const parameterType = typeArray.join(" | ");
+                        // Next construct a union type out of the found types or a generic rest parameter.
+                        let parameterType;
+                        if (rest) {
+                            parameterType = `unknown[]`;
+                        } else {
+                            const typeArray = Array.from(types);
+                            parameterType = typeArray.join(" | ");
+                        }
 
                         combinedParameters.push({
-                            name: parameterName,
+                            name: (rest ? "..." : "") + parameterName,
                             type: parameterType,
                             optional,
+                            rest,
                             needTypeCheck: optional || types.size > 1,
                         });
                     }
@@ -3119,9 +3145,8 @@ export class FileProcessor {
                 }
 
                 // Check the combined parameters list to see if we really need a type check for the individual
-                // parameters. If a parameter exists in all overloads with the same time then there's no need to
+                // parameters. If a parameter exists in all overloads with the same name then there's no need to
                 // check its type.
-
                 if (member.type === MemberType.Constructor) {
                     const modifier = publicConstructors ? "public" : member.modifier;
                     builder.append(`\n${modifier}`, " constructor(", combinedParameterString, ") {\n");
@@ -3160,18 +3185,20 @@ export class FileProcessor {
                     if (index < overloads.length - 1) {
                         let condition = "";
                         for (let i = 0; i < maxParamCount; ++i) {
-                            if (condition.length > 0) {
-                                condition += " && ";
-                            }
-
                             if (i < overload.signature.length) {
                                 // There's a parameter at this position. Add a check for it, if needed.
                                 if (combinedParameters[i].needTypeCheck) {
+                                    if (condition.length > 0) {
+                                        condition += " && ";
+                                    }
+
                                     const typeParts = overload.signature[i].type.split(".");
                                     const typeName = typeParts.length === 1
                                         ? typeParts[0]
                                         : typeParts[typeParts.length - 1];
+
                                     const isClass = typeName[0] === typeName[0].toUpperCase();
+                                    const isArray = typeName.endsWith("[]");
 
                                     if (isClass) {
                                         let type = overload.signature[i].type.trim();
@@ -3181,6 +3208,8 @@ export class FileProcessor {
                                         }
 
                                         condition += `${combinedParameters[i].name} instanceof ${type}`;
+                                    } else if (isArray) {
+                                        condition += `Array.isArray(${combinedParameters[i].name})`;
                                     } else {
                                         condition += `typeof ${combinedParameters[i].name} === ` +
                                             `"${overload.signature[i].type}"`;
@@ -3195,10 +3224,16 @@ export class FileProcessor {
                                 // Overload parameter list exhausted. Add a check for the current parameter
                                 // and stop the loop. After an optional parameter there can't be a
                                 // non-optional one.
+                                if (condition.length > 0) {
+                                    condition += " && ";
+                                }
+
                                 condition += `${combinedParameters[i].name} === undefined`;
+
                                 break;
                             }
                         }
+
                         bodyBuilder.append(`if (${condition})`);
                     } else {
                         // This is the last overload branch. No need for a condition, but we still need

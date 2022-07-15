@@ -3,6 +3,7 @@
     "words": [
         "antlr",
         "Appendable",
+        "Charsets",
         "Cloneable",
         "closeables",
         "Declarators",

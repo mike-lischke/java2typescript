@@ -39,7 +39,8 @@ It's practically never the case that two languages have the same semantic concep
 - Exception behavior (specifically the message text) for included JDK polyfills is not guaranteed to be what happens in the Java SDK. If you need exactly the same behavior write your own polyfills. Also it's not possible to get individual stack trace entries (see Java's StackTraceElement), because NodeJS stacktraces are simple strings.
 - Java supports automatic (un)boxing of built-in types (for example `Integer <-> int`). This behavior is not transformed to TS, so some manual work is required to make the conversion explicit.
 - Java class initializers are handled properly. However, static initializers require ECMA 2022 and non-static initializers are converted to a parameter-less constructor (which might then be merged with other constructor code if that creates a constructor overloading situation).
-- The java `char` type is represented as the type alias `CodePoint`, which represents a single numeric value in the Unicode range 0..0x1FFFF.
+- The java `char` type is defined as the type alias `CodePoint`, which represents a single numeric value in the Unicode range 0..0x1FFFF. Arrays of chars are transformed to `Uint32Array`.
+- Rest parameters are supported but need manual resolution in overloading scenarios, because the implementation signature becomes just a single rest parameter (which can represent any of the overload parameters).
 
 There are also certain things to consider for nested types. See below for more details.
 
