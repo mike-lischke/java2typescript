@@ -5,9 +5,10 @@
  * See LICENSE file for more info.
  */
 
-import { ClassSymbol, InterfaceSymbol, ScopedSymbol, SymbolTable } from "antlr4-c3";
+import { FieldSymbol, InterfaceSymbol, MethodSymbol, ScopedSymbol, SymbolTable } from "antlr4-c3";
 
 import { PackageSource } from "../../src/PackageSource";
+import { JavaClassSymbol } from "../../src/parsing/JavaClassSymbol";
 
 interface IClassHierarchyEntry {
     // Qualified name.
@@ -16,6 +17,8 @@ interface IClassHierarchyEntry {
 
     extends?: string;
     implements?: string[];
+    methods?: string[];
+    fields?: string[];
 }
 
 // A package source specifically for Java imports. It handles symbol resolution for known Java SDK packages.
@@ -29,7 +32,12 @@ export class JavaPackageSource extends PackageSource {
         { name: "java.lang.Integer" },
         { name: "java.lang.StringBuilder" },
         { name: "java.lang.StringBuffer", extends: "java.lang.StringBuilder" },
-        { name: "java.lang.Throwable" },
+        {
+            name: "java.lang.Throwable", methods: [
+                "addSuppressed", "fillInStackTrace", "getCause", "getLocalizedMessage", "getMessage", "getStackTrace",
+                "getSuppressed", "initCause", "printStackTrace", "setStackTrace", "toString",
+            ],
+        },
         { name: "java.lang.Exception", extends: "java.lang.Throwable" },
         { name: "java.lang.RuntimeException", extends: "java.lang.Exception" },
         { name: "java.lang.IllegalArgumentException", extends: "java.lang.RuntimeException" },
@@ -59,17 +67,28 @@ export class JavaPackageSource extends PackageSource {
         { name: "java.io.AutoCloseable", isInterface: true },
         { name: "java.io.Flushable", isInterface: true },
 
+        { name: "java.io.Serializable", isInterface: true },
         { name: "java.io.File" },
         { name: "java.io.InputStream", implements: ["java.io.Closable"] },
         { name: "java.io.OutputStream", implements: ["java.io.Closable", "java.io.AutoClosable", "java.io.Flushable"] },
+        { name: "java.io.FileInputStream", extends: "java.io.InputStream", implements: ["AutoCloseable"] },
         { name: "java.io.FileOutputStream", extends: "java.io.OutputStream" },
         { name: "java.io.FilterOutputStream", extends: "java.io.OutputStream" },
         { name: "java.io.BufferedOutputStream", extends: "java.io.FilteredOutputStream" },
         { name: "java.io.PrintStream", extends: "java.io.FilteredOutputStream" },
         { name: "java.io.Reader", implements: ["java.lang.Readable", "java.io.Closeable", "java.io.AutoCloseable"] },
+        {
+            name: "java.io.Writer",
+            implements: [
+                "java.io.Closeable", "java.io.Flushable", "java.lang.Appendable", "java.io.AutoCloseable",
+            ],
+        },
         { name: "java.io.BufferedReader", extends: "java.io.Reader" },
         { name: "java.io.InputStreamReader", extends: "java.io.Reader" },
         { name: "java.io.FileReader", extends: "java.io.InputStreamReader" },
+        { name: "java.io.BufferedWriter", extends: "java.io.Writer" },
+        { name: "java.io.OutputStreamWriter", extends: "java.io.Writer" },
+        { name: "java.io.FileWriter", extends: "java.io.OutputStreamWriter" },
 
         { name: "java.io.IOException", extends: "java.lang.Exception" },
         { name: "java.io.FileNotFoundException", extends: "java.lang.IOException" },
@@ -93,15 +112,23 @@ export class JavaPackageSource extends PackageSource {
         { name: "java.util.ListIterator", isInterface: true },
         { name: "java.util.ArrayListIterator", implements: ["java.util.ListIterator"] },
         { name: "java.util.Arrays" },
-        { name: "java.util.HashMap" },
+        {
+            name: "java.util.Map", isInterface: true, methods: [
+                "clear", "containsKey", "containsValue", "entrySet", "equals", "get", "hashCode", "isEmpty", "keySet",
+                "put", "putAll", "remove", "size", "values",
+            ],
+        },
+        { name: "java.util.HashMap", implements: ["java.util.Map"] },
         { name: "java.util.LinkedHashMap", extends: "java.util.HashMap" },
         { name: "java.util.Stack" },
         { name: "java.util.Comparator" },
-        { name: "java.util.Locale", implements: ["java.lang.Cloneable", "java.lang.Serializable"] },
+        { name: "java.util.Locale", implements: ["java.lang.Cloneable", "java.io.Serializable"] },
 
         { name: "java.util.regex.Pattern" },
         { name: "java.util.regex.MatchResult", isInterface: true },
         { name: "java.util.regex.Matcher", implements: ["java.util.regex.MatchResult"] },
+
+        { name: "java.util.concurrent.CancellationException", extends: "java.lang.IllegalStateException" },
     ];
 
     public constructor(packageId: string, targetFile: string) {
@@ -118,6 +145,7 @@ export class JavaPackageSource extends PackageSource {
         this.symbolTable.addNewNamespaceFromPathSync(this.symbolTable, "java.io", ".");
         this.symbolTable.addNewNamespaceFromPathSync(this.symbolTable, "java.nio", ".");
         this.symbolTable.addNewNamespaceFromPathSync(this.symbolTable, "java.util.regex", ".");
+        this.symbolTable.addNewNamespaceFromPathSync(this.symbolTable, "java.util.concurrent", ".");
 
         // Now all classes and interfaces.
         JavaPackageSource.javaClassHierarchy.forEach((entry) => {
@@ -135,11 +163,23 @@ export class JavaPackageSource extends PackageSource {
             const parts = entry.name.split(".");
             const name = parts.pop();
             const parent = this.symbolTable.symbolFromPath(parts.join(".")) as ScopedSymbol;
+
+            let mainSymbol: ScopedSymbol;
             if (entry.isInterface) {
-                this.symbolTable.addNewSymbolOfType(InterfaceSymbol, parent, name, extendsList, implementsList);
+                mainSymbol = this.symbolTable.addNewSymbolOfType(InterfaceSymbol, parent, name, extendsList,
+                    implementsList);
             } else {
-                this.symbolTable.addNewSymbolOfType(ClassSymbol, parent, name, extendsList, implementsList);
+                mainSymbol = this.symbolTable.addNewSymbolOfType(JavaClassSymbol, parent, name, extendsList,
+                    implementsList);
             }
+
+            entry.fields?.forEach((field) => {
+                this.symbolTable.addNewSymbolOfType(FieldSymbol, mainSymbol, field);
+            });
+
+            entry.methods?.forEach((method) => {
+                this.symbolTable.addNewSymbolOfType(MethodSymbol, mainSymbol, method);
+            });
         });
     };
 

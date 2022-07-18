@@ -508,7 +508,7 @@ export class FileProcessor {
                 const type = context.typeList(0).typeType(0);
                 if (type.classOrInterfaceType()) {
                     const name = type.classOrInterfaceType().identifier(0).text;
-                    if (name === "Set" || name === "Map") {
+                    if (name === "Set" || name === "Map" || "Serializable") {
                         convertToExtends = false;
                     }
                 }
@@ -1693,6 +1693,16 @@ export class FileProcessor {
                                                 case "valueOf": {
                                                     this.ignoreContent(context.methodCall().identifier());
                                                     builder.append("String");
+                                                    this.processMethodCallExpression(builder, context.methodCall());
+                                                    break;
+                                                }
+
+                                                case "format": {
+                                                    this.ignoreContent(context.methodCall().identifier());
+
+                                                    // Resolve the symbol to trigger the `java` import.
+                                                    this.resolveType(context, "StringBuilder");
+                                                    builder.append("java.lang.StringBuilder.format");
                                                     this.processMethodCallExpression(builder, context.methodCall());
                                                     break;
                                                 }

@@ -277,7 +277,14 @@ export class JavaFileSymbolTable extends SymbolTable {
             if (packageSymbols.length === 1) {
                 const importName = packageSymbols[0].name + "." + name;
                 for (const source of this.importList) {
-                    if (source.packageId === importName) {
+                    if (source.packageId === "java") {
+                        const info = source.resolveType(name);
+                        if (info) {
+                            add(info.symbol);
+
+                            break;
+                        }
+                    } else if (source.packageId === importName) {
                         add(source.resolveAndImport(name));
 
                         break;

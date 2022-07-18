@@ -7,7 +7,7 @@
         {
             "type": "node",
             "request": "launch",
-            "name": "Launch ANTLR4",
+            "name": "Launch converter",
             "program": "${workspaceFolder}/src/main-antlr4.ts",
             "outFiles": [
                 "${workspaceFolder}/output/**/*.js"
