@@ -1,3 +1,5 @@
+[![CircleCI](https://circleci.com/gh/mike-lischke/java2typescript/tree/master.svg?style=svg)](https://circleci.com/gh/mike-lischke/java2typescript/tree/master)
+
 # **java2typescript**
 A Node.js tool for converting Java source packages to Typescript
 
