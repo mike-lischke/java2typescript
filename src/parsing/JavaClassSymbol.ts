@@ -8,7 +8,7 @@
 import { ClassSymbol, Symbol } from "antlr4-c3";
 import { JavaFileSymbolTable } from "../../lib/java/JavaFileSymbolTable";
 
-// Extends the standard class symbol type by handling implemented types and adds symbol resolving for inherited members.
+/** Extends the standard class symbol type by handling implemented types and adds symbol resolving for inherited members. */
 export class JavaClassSymbol extends ClassSymbol {
 
     public resolveSync(name: string, localOnly?: boolean): Symbol | undefined {
