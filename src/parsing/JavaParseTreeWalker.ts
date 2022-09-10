@@ -21,6 +21,8 @@ import {
     ConstructorDeclarationContext, ClassBodyDeclarationContext, TypeDeclarationContext, InterfaceBodyDeclarationContext,
     InterfaceMethodDeclarationContext, JavaParser, LocalVariableDeclarationContext, FieldDeclarationContext,
     EnhancedForControlContext,
+    CatchClauseContext,
+    EnumConstantContext,
 } from "../../java/generated/JavaParser";
 import { JavaParserListener } from "../../java/generated/JavaParserListener";
 import { Stack } from "../../lib/java/util/Stack";
@@ -34,6 +36,7 @@ import { JavaClassSymbol } from "./JavaClassSymbol";
 export class FileSymbol extends ScopedSymbol { }
 export class AnnotationSymbol extends ScopedSymbol { }
 export class EnumSymbol extends ScopedSymbol { }
+export class EnumConstantSymbol extends Symbol { }
 export class ConstructorSymbol extends MethodSymbol { }
 
 export class ClassBodySymbol extends ScopedSymbol { }
@@ -184,6 +187,11 @@ export class JavaParseTreeWalker implements JavaParserListener {
         this.pushNewScope(EnumSymbol, ctx.identifier().text, ctx);
     };
 
+    public exitEnumConstant = (ctx: EnumConstantContext): void => {
+        const block = this.symbolStack.tos;
+        this.symbolTable.addNewSymbolOfType(EnumConstantSymbol, block, ctx.identifier().text);
+    };
+
     public exitEnumDeclaration = (): void => {
         this.symbolStack.pop();
     };
@@ -254,6 +262,19 @@ export class JavaParseTreeWalker implements JavaParserListener {
         const symbol = this.symbolTable.addNewSymbolOfType(ParameterSymbol, block, id, undefined, type);
         symbol.context = ctx;
         this.checkStatic(symbol);
+    };
+
+    public enterCatchClause = (ctx: CatchClauseContext): void => {
+        const block = this.pushNewScope(BlockSymbol, "#catch#", ctx);
+
+        const type = this.generateTypeRecord(ctx.catchType().text); // Can be a union type, but we ignore that here.
+        const id = ctx.identifier().text;
+        const symbol = this.symbolTable.addNewSymbolOfType(ParameterSymbol, block, id, undefined, type);
+        symbol.context = ctx;
+    };
+
+    public exitCatchClause = (): void => {
+        this.symbolStack.pop();
     };
 
     public visitTerminal = (_node: TerminalNode): void => { /**/ };

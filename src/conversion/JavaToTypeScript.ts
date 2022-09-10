@@ -50,7 +50,7 @@ export interface IConverterOptions {
     /** If true, functions/methods use the arrow syntax. */
     preferArrowFunctions?: boolean;
 
-    /** If true the processor will automatically add braces in IF/ELSE statements, if they are missing. */
+    /** If true the processor will automatically add braces in IF/ELSE/SWITCH statements, if they are missing. */
     autoAddBraces?: boolean;
 
     /**
@@ -166,6 +166,8 @@ export class JavaToTypescriptConverter {
             return;
         }
 
+        fs.mkdirSync(this.configuration.output, { recursive: true });
+
         console.log(`\nFound ${fileList.length} java files in ${this.configuration.packageRoot}`);
         const root = this.configuration.packageRoot;
         fileList.forEach((entry) => {
@@ -174,7 +176,7 @@ export class JavaToTypescriptConverter {
             const tsName = relativeSource.substring(0, relativeSource.length - 4) + "ts";
             const target = this.configuration.output + "/" + tsName;
 
-            const source = PackageSourceManager.fromFile(entry, path.join(currentDir, target), root);
+            const source = PackageSourceManager.fromFile(entry, path.resolve(currentDir, target), root);
             if (this.filterFile(entry, this.configuration.include, this.configuration.exclude)) {
                 toConvert.push(new FileProcessor(source, this.configuration));
             }
@@ -197,7 +199,7 @@ export class JavaToTypescriptConverter {
 
         if (this.configuration.options.addIndexFiles) {
             console.log("\nAdding index files...");
-            this.addIndexFile(path.join(currentDir, this.configuration.output));
+            this.addIndexFile(path.resolve(currentDir, this.configuration.output));
         }
 
         console.log("\nConversion finished");
@@ -256,7 +258,7 @@ export class JavaToTypescriptConverter {
 
         fs.writeFileSync(dir + "/index.ts",
             `// java2typescript: auto generated index file. Disable generation by setting the "addIndexFiles" ` +
-            `option to false.\n\n${dirList.join("\n")}\n${dirList.length > 0 ? "\n" : ""}` +
+            `option to false.\n${dirList.join("\n")}\n${dirList.length > 0 ? "\n" : ""}` +
             `${fileList.join("\n")}\n`);
     };
 }

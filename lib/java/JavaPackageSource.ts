@@ -93,6 +93,8 @@ export class JavaPackageSource extends PackageSource {
         { name: "java.io.IOException", extends: "java.lang.Exception" },
         { name: "java.io.FileNotFoundException", extends: "java.lang.IOException" },
         { name: "java.io.UnsupportedEncodingException", extends: "java.lang.IOException" },
+        { name: "java.io.ObjectStreamException", extends: "java.lang.IOException" },
+        { name: "java.io.InvalidClassException", extends: "java.lang.ObjectStreamException" },
 
         { name: "java.nio.Buffer" },
         { name: "java.nio.CharBuffer", extends: "java.nio.Buffer" },
@@ -144,6 +146,7 @@ export class JavaPackageSource extends PackageSource {
         this.symbolTable.addNewNamespaceFromPathSync(this.symbolTable, "java.lang", ".");
         this.symbolTable.addNewNamespaceFromPathSync(this.symbolTable, "java.io", ".");
         this.symbolTable.addNewNamespaceFromPathSync(this.symbolTable, "java.nio", ".");
+        this.symbolTable.addNewNamespaceFromPathSync(this.symbolTable, "java.nio.charset", ".");
         this.symbolTable.addNewNamespaceFromPathSync(this.symbolTable, "java.util.regex", ".");
         this.symbolTable.addNewNamespaceFromPathSync(this.symbolTable, "java.util.concurrent", ".");
 

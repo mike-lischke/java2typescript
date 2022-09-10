@@ -74,7 +74,7 @@ export class StringBuilder implements CharSequence {
         return this;
     }
 
-    public appendLine(text: string): this {
+    public appendLine(text?: string): this {
         this.append(text, "\n");
 
         return this;

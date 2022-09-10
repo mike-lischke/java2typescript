@@ -93,7 +93,7 @@ interface IParameterInfo {
     name: string;
     type: string;
 
-    // Is this a rest parameter;
+    // Set to true, if this is a rest parameter.
     rest: boolean;
 }
 
@@ -183,6 +183,9 @@ export class FileProcessor {
 
     // Other imports from the tool (for helpers, decorators etc.).
     private libraryImports = new Map<string, string[]>();
+
+    // Names of 3rd party modules/packages to import.
+    private moduleImports = new Set<string>();
 
     // Keeps names of classes for which inner processing is going on. Sometimes it is necessary to know the name
     // for special processing (e.g. auto creating static initializer functions or type aliases).
@@ -309,6 +312,11 @@ export class FileProcessor {
             this.processTypeDeclaration(builder, context.typeDeclaration());
             builder.append(this.typeStack.tos.deferredDeclarations);
 
+            this.moduleImports.forEach((name) => {
+                header.appendLine(`import * as ${name} from "${name}";`);
+            });
+            header.appendLine();
+
             this.source.importList.forEach((source) => {
                 const info = source.getImportInfo(target);
                 if (info[0].length > 0) {
@@ -343,7 +351,7 @@ export class FileProcessor {
         header.append("\n");
         this.libraryImports.forEach((entry, key) => {
             const importPath = path.join(libPath, key);
-            header.append(`import { ${entry.join(",")} } from "${importPath}";\n`);
+            header.append(`import { ${entry.join(", ")} } from "${importPath}";\n`);
         });
 
         builder.prepend(header);
@@ -395,7 +403,7 @@ export class FileProcessor {
             if (context.classDeclaration()) {
                 this.processClassDeclaration(builder, context.classDeclaration(), prefix, modifierBuilder.text);
             } else if (context.enumDeclaration()) {
-                this.processEnumDeclaration(builder, context.enumDeclaration(), prefix, doExport);
+                this.processEnumDeclaration(builder, context.enumDeclaration(), prefix);
             } else if (context.interfaceDeclaration()) {
                 this.processInterfaceDeclaration(builder, context.interfaceDeclaration(), prefix, doExport);
             } else { // annotationTypeDeclaration
@@ -523,7 +531,8 @@ export class FileProcessor {
             }
         }
 
-        const containsAbstract = this.processClassBody(localBuilder, context.classBody());
+        const mustBeAbstract = this.processClassBody(localBuilder, context.classBody())
+            || modifier.includes("abstract");
 
         // Conclude nested content within this class declaration.
         const nested = this.processNestedContent(modifier.includes("public"));
@@ -554,7 +563,7 @@ export class FileProcessor {
                 `${typeParameters}>;\n`);
         } else {
             // A top level class declaration.
-            builder.append(prefix, containsAbstract ? "abstract " : "", localBuilder);
+            builder.append(prefix, mustBeAbstract ? "abstract " : "", localBuilder);
         }
 
         this.typeStack.tos.deferredDeclarations.append(nested);
@@ -753,8 +762,7 @@ export class FileProcessor {
 
             case JavaParser.RULE_enumDeclaration: {
                 result.type = MemberType.Enum;
-                this.processEnumDeclaration(result.bodyContent, context.enumDeclaration(), prefix,
-                    modifier.includes("public"));
+                this.processEnumDeclaration(result.bodyContent, context.enumDeclaration(), prefix);
 
                 break;
             }
@@ -1205,8 +1213,7 @@ export class FileProcessor {
             }
 
             case JavaParser.RULE_enumDeclaration: {
-                this.processEnumDeclaration(result.bodyContent, firstChild as EnumDeclarationContext, prefix,
-                    modifier.includes("public"));
+                this.processEnumDeclaration(result.bodyContent, firstChild as EnumDeclarationContext, prefix);
 
                 break;
             }
@@ -1328,7 +1335,7 @@ export class FileProcessor {
     };
 
     private processEnumDeclaration = (builder: StringBuilder, context: EnumDeclarationContext,
-        prefix: string, doExport: boolean): void => {
+        prefix: string): void => {
         // Enum declarations always must be moved to an outer namespace.
         const localBuilder = new StringBuilder(prefix);
         this.getContent(localBuilder, context.identifier());
@@ -1351,7 +1358,7 @@ export class FileProcessor {
         }
 
         this.getContent(localBuilder, context.RBRACE());
-        this.typeStack.tos.deferredDeclarations.append(doExport ? "export " : "", localBuilder);
+        this.typeStack.tos.deferredDeclarations.append(localBuilder);
     };
 
     private processEnumConstants = (builder: StringBuilder, context: EnumConstantsContext): void => {
@@ -1521,10 +1528,12 @@ export class FileProcessor {
         builder.append(this.getLeadingWhiteSpaces(context.RBRACE()) + "]");
     };
 
-    private processParExpression = (builder: StringBuilder, context: ParExpressionContext): void => {
+    private processParExpression = (builder: StringBuilder, context: ParExpressionContext): ISymbolInfo | undefined => {
         this.getContent(builder, context.LPAREN());
-        this.processExpression(builder, context.expression());
+        const result = this.processExpression(builder, context.expression());
         this.getContent(builder, context.RPAREN());
+
+        return result;
     };
 
     /**
@@ -1700,9 +1709,8 @@ export class FileProcessor {
                                                 case "format": {
                                                     this.ignoreContent(context.methodCall().identifier());
 
-                                                    // Resolve the symbol to trigger the `java` import.
-                                                    this.resolveType(context, "StringBuilder");
-                                                    builder.append("java.lang.StringBuilder.format");
+                                                    this.moduleImports.add("util");
+                                                    builder.append("util.format");
                                                     this.processMethodCallExpression(builder, context.methodCall());
                                                     break;
                                                 }
@@ -1969,28 +1977,37 @@ export class FileProcessor {
 
             this.ignoreContent(context.identifier());
 
-            if (methodName === "getClass") {
+            if (!instance && methodName === "getClass") {
                 // Add a private implementation for that special method. This requires public constructors.
-                // Also add the `this` qualifier if not already there.
-                if (builder.length === 0) {
-                    builder.append("this.");
-                }
-                builder.append(ws);
+                // But only for this class (no instance info), not any other object.
 
-                this.typeStack.tos.needPublicConstructors = true;
-                const classType = `java.lang.Class<${this.typeStack.tos.name}>`;
-                const bodyContent = new StringBuilder(` {\n    // java2ts: auto generated\n    ` +
-                    `return new java.lang.Class(${this.typeStack.tos.name});\n}\n`);
-                this.typeStack.tos.generatedMembers.push({
-                    type: MemberType.Method,
-                    leadingWhitespace: "\n\n\t",
-                    modifier: "private",
-                    nameWhitespace: " ",
-                    name: "getClass",
-                    signatureContent: new StringBuilder(`(): ${classType}`),
-                    returnType: `${classType}`,
-                    bodyContent,
+                // But check first if we haven't added it already.
+                const existing = this.typeStack.tos.generatedMembers.find((details) => {
+                    return details.name === "getClass";
                 });
+
+                if (!existing) {
+                    // Also add the `this` qualifier if not already there.
+                    if (builder.length === 0) {
+                        builder.append("this.");
+                    }
+                    builder.append(ws);
+
+                    this.typeStack.tos.needPublicConstructors = true;
+                    const classType = `java.lang.Class<${this.typeStack.tos.name}>`;
+                    const bodyContent = new StringBuilder(` {\n    // java2ts: auto generated\n    ` +
+                        `return new java.lang.Class(${this.typeStack.tos.name});\n}\n`);
+                    this.typeStack.tos.generatedMembers.push({
+                        type: MemberType.Method,
+                        leadingWhitespace: "\n\n\t",
+                        modifier: "private",
+                        nameWhitespace: " ",
+                        name: "getClass",
+                        signatureContent: new StringBuilder(`(): ${classType}`),
+                        returnType: `${classType}`,
+                        bodyContent,
+                    });
+                }
             } else {
                 builder.append(ws);
             }
@@ -2442,35 +2459,38 @@ export class FileProcessor {
                 }
 
                 case JavaLexer.TRY: {
-                    builder.append(this.getLeadingWhiteSpaces(context.TRY()));
-                    this.ignoreContent(context.TRY());
+                    // With try-with-resource statements it can be there's neither a catch nor a finally clause.
+                    // If that's the case then we don't need the outer try block anymore.
+                    const hasCatchOrFinally = context.catchClause().length !== 0
+                        || context.finallyBlock() !== undefined;
 
-                    const localBuilder = new StringBuilder();
+                    if (hasCatchOrFinally) {
+                        this.getContent(builder, context.TRY());
+                    } else {
+                        builder.append(this.getLeadingWhiteSpaces(context.TRY()));
+                        this.ignoreContent(context.TRY());
+                    }
+
                     if (context.resourceSpecification()) {
-                        this.processResourceSpecification(localBuilder, context.resourceSpecification());
+                        this.libraryImports.set("helpers", ["closeResources", "handleResourceError",
+                            "throwResourceError"]);
+
+                        builder.append(" {\n// This holds the final error to throw (if any).\nlet error: " +
+                            "java.lang.Throwable | undefined;\n\n");
+                        const names = this.processResourceSpecification(builder, context.resourceSpecification());
+                        builder.append("\ntry {\n\ttry ");
+                        this.processBlock(builder, context.block());
+                        builder.append(`\n\tfinally {\n\terror = closeResources([${names.join(", ")}]);\n\t}\n`);
+                        builder.append("} catch(e) {\n\terror = handleResourceError(e, error);\n");
+                        builder.append("} finally {\n\tthrowResourceError(error);\n}\n}\n");
+                    } else {
+                        this.processBlock(builder, context.block());
                     }
 
-                    const needAutoClose = localBuilder.length > 0;
-                    if (needAutoClose) {
-                        this.libraryImports.set("AutoCloser", ["AutoCloser"]);
-                        builder.append("\tconst closeables = new AutoCloser();\n");
-                    }
-                    builder.append("try");
-
-                    this.processBlock(builder, context.block(), needAutoClose ? localBuilder.text : undefined);
-
-                    context.catchClause().forEach((clause) => {
-                        this.processCatchClause(builder, clause);
-                    });
+                    this.processCatchClauses(builder, context.catchClause());
 
                     if (context.finallyBlock()) {
-                        this.processFinallyBlock(builder, context.finallyBlock(),
-                            needAutoClose ? "closeables.close();\n" : "");
-                    } else {
-                        if (needAutoClose) {
-                            builder.append(" finally {\n  closeables.close();\n}\n");
-                        }
-
+                        this.processFinallyBlock(builder, context.finallyBlock());
                     }
 
                     break;
@@ -2500,8 +2520,10 @@ export class FileProcessor {
                 }
 
                 case JavaLexer.SYNCHRONIZED: {
+                    builder.append(this.getLeadingWhiteSpaces(context.SYNCHRONIZED()), "/* ");
                     this.getContent(builder, context.SYNCHRONIZED());
-                    this.processParExpression(builder, context.parExpression());
+                    this.getContent(builder, context.parExpression());
+                    builder.append(" */");
                     this.processBlock(builder, context.block());
 
                     break;
@@ -2582,16 +2604,21 @@ export class FileProcessor {
         }
     };
 
-    private processResourceSpecification = (builder: StringBuilder, context: ResourceSpecificationContext): void => {
+    private processResourceSpecification = (builder: StringBuilder,
+        context: ResourceSpecificationContext): string[] => {
         builder.append(this.getLeadingWhiteSpaces(context.LPAREN()));
         this.ignoreContent(context.LPAREN());
 
-        this.processResources(builder, context.resources().resource());
+        const names = this.processResources(builder, context.resources().resource());
 
         this.ignoreContent(context.RPAREN());
+
+        return names;
     };
 
-    private processResources = (builder: StringBuilder, resources: ResourceContext[]): void => {
+    private processResources = (builder: StringBuilder, resources: ResourceContext[]): string[] => {
+        const names: string[] = [];
+
         resources.forEach((resource) => {
             let identifier: string;
             if (resource.identifier()) {
@@ -2620,8 +2647,11 @@ export class FileProcessor {
                 this.getContent(builder, resource.ASSIGN());
                 this.processExpression(builder, resource.expression());
             }
-            builder.append(`\n\tcloseables.add(${identifier});\n`);
+
+            names.push(identifier);
         });
+
+        return names;
     };
 
     private processSwitchBlockStatementGroup = (builder: StringBuilder,
@@ -2632,9 +2662,21 @@ export class FileProcessor {
             hasDefault ||= this.processSwitchLabel(builder, label);
         });
 
+        const needBraces = context.blockStatement().length > 1 || !context.blockStatement(0).statement()
+            || !context.blockStatement(0).statement().block();
+        const addBraces = needBraces && this.configuration.options.autoAddBraces;
+
+        if (addBraces) {
+            builder.append("{");
+        }
+
         context.blockStatement().forEach((block) => {
             this.processBlockStatement(builder, block);
         });
+
+        if (addBraces) {
+            builder.append("\n}\n");
+        }
 
         return hasDefault;
     };
@@ -2659,19 +2701,54 @@ export class FileProcessor {
         this.processBlock(builder, context.block(), extra);
     };
 
-    private processCatchClause = (builder: StringBuilder, context: CatchClauseContext): void => {
-        this.getContent(builder, context.LPAREN());
-        context.variableModifier().forEach((modifier) => {
-            this.processVariableModifier(builder, modifier);
+    private processCatchClauses = (builder: StringBuilder, contexts: CatchClauseContext[]): void => {
+        if (contexts.length === 0) {
+            return;
+        }
+
+        // Construct a unique name from all catch error names.
+        const names = new Set<string>();
+        contexts.forEach((context) => {
+            names.add(context.identifier().text);
         });
 
-        builder.append(this.getLeadingWhiteSpaces(context.catchType()));
-        this.ignoreContent(context.catchType());
+        const nameArray = Array.from(names);
+        nameArray.forEach((name, index) => {
+            if (index > 0) {
+                nameArray[index] = name[0].toUpperCase() + name.substring(1);
+            }
+        });
+        const catchName = nameArray.join("Or");
 
-        const ws = this.getLeadingWhiteSpaces(context.identifier());
-        this.getContent(builder, context.identifier());
-        builder.append(`:${ws}unknown`);
-        this.processBlock(builder, context.block());
+        builder.append(` catch (${catchName}) {\n`);
+
+        contexts.forEach((context, index) => {
+            this.ignoreContent(context.LPAREN());
+            context.variableModifier().forEach((modifier) => {
+                this.ignoreContent(modifier);
+            });
+
+            builder.append(this.getLeadingWhiteSpaces(context.catchType()));
+            const typeChecks = context.catchType().qualifiedName().map((name) => {
+                let qualifiedName = name.text;
+                const info = this.resolveType(context, qualifiedName);
+                if (typeof info !== "string") {
+                    qualifiedName = info.qualifiedName;
+                }
+
+                return `${catchName} instanceof ${qualifiedName}`;
+            });
+
+            this.ignoreContent(context.RPAREN());
+            builder.append(`${index === 0 ? "" : "else "}if (${typeChecks.join(" || ")})`);
+
+            const currentName = context.identifier().text;
+            const assignment = currentName !== catchName ? `const ${context.identifier().text} = ${catchName};\n` : "";
+            this.processBlock(builder, context.block(), assignment);
+            builder.append(` else {\n\tthrow ${catchName};\n\t}\n`);
+        });
+
+        builder.append("}");
     };
 
     private processForControl = (builder: StringBuilder, context: ForControlContext): void => {
@@ -2772,8 +2849,7 @@ export class FileProcessor {
     private processTypeType = (builder: StringBuilder, context: TypeTypeContext): boolean => {
         builder.append(this.getLeadingWhiteSpaces(context.getChild(0) as ParserRuleContext));
 
-        // Processing annotations here is a bit complicated, because there are two places where annotations
-        // can appear, in 3 loops.
+        // Only consider leading annotations and ignore those associated to square brackets (if any).
         let index = 0;
         while (context.getChild(index) instanceof AnnotationContext) {
             this.processAnnotation(builder, context.getChild(index) as AnnotationContext);
@@ -2781,12 +2857,89 @@ export class FileProcessor {
         }
 
         let isPrimitiveType = false;
+        let ignoreBrackets = false;
+
         const child = context.getChild(index);
         if (child instanceof ClassOrInterfaceTypeContext) {
             this.processClassOrInterfaceType(builder, child);
         } else {
             isPrimitiveType = true;
-            this.processPrimitiveType(builder, context.getChild(index) as PrimitiveTypeContext);
+            const type = (child as PrimitiveTypeContext).start.type;
+            ignoreBrackets = context.LBRACK().length > 0;
+
+            switch (type) {
+                case JavaLexer.CHAR: {
+                    if (ignoreBrackets) {
+                        builder.append("Uint16Array");
+                    } else {
+                        this.resolveType(context, "CodePoint");
+                        builder.append("CodePoint");
+                    }
+                    break;
+                }
+
+                case JavaLexer.BYTE: {
+                    if (ignoreBrackets) {
+                        builder.append("Int8Array");
+                    } else {
+                        builder.append("number");
+                    }
+                    break;
+                }
+
+                case JavaLexer.SHORT: {
+                    if (ignoreBrackets) {
+                        builder.append("Int16Array");
+                    } else {
+                        builder.append("number");
+                    }
+                    break;
+                }
+
+                case JavaLexer.INT: {
+                    if (ignoreBrackets) {
+                        builder.append("Int32Array");
+                    } else {
+                        builder.append("number");
+                    }
+                    break;
+                }
+
+                case JavaLexer.LONG: {
+                    if (ignoreBrackets) {
+                        builder.append("Int64Array");
+                    } else {
+                        builder.append("number");
+                    }
+                    break;
+                }
+
+                case JavaLexer.FLOAT: {
+                    if (ignoreBrackets) {
+                        builder.append("Float64Array");
+                    } else {
+                        builder.append("number");
+                    }
+                    break;
+                }
+
+                case JavaLexer.DOUBLE: {
+                    if (ignoreBrackets) {
+                        builder.append("Float64Array");
+                    } else {
+                        builder.append("number");
+                    }
+                    break;
+                }
+
+                default: {
+                    if (ignoreBrackets) {
+                        builder.append("boolean[]");
+                    } else {
+                        builder.append("boolean");
+                    }
+                }
+            }
         }
         ++index;
 
@@ -2796,10 +2949,17 @@ export class FileProcessor {
                 ++index;
             }
 
-            // Optional square brackets.
+            // Array notation.
             if (index < context.childCount - 1) {
-                this.getContent(builder, context.getChild(index++) as TerminalNode);
-                this.getContent(builder, context.getChild(index++) as TerminalNode);
+                if (ignoreBrackets) {
+                    // Already handled above for the most inner bracket pair.
+                    ignoreBrackets = false;
+                    this.ignoreContent(context.getChild(index++) as TerminalNode);
+                    this.ignoreContent(context.getChild(index++) as TerminalNode);
+                } else {
+                    this.getContent(builder, context.getChild(index++) as TerminalNode);
+                    this.getContent(builder, context.getChild(index++) as TerminalNode);
+                }
             }
         }
 
