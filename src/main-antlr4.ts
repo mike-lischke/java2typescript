@@ -51,10 +51,15 @@ const convertAntlr4Runtime = async () => {
         packageRoot: path.resolve(process.cwd(), "../antlr4/runtime/Java/src"),
         javaLib: path.resolve(process.cwd(), "../a4tstool/lib/java/java.ts"),
         include: [
-            //"/LogManager.java",
+            "/DecisionInfo.java",
         ],
         exclude: [
-            //"DebugEventSocketProxy.java",
+            "AbstractEqualityComparator.java",
+            "NotNull.java",
+            "OrderedHashSet.java",
+            "OrderedHashMap.java",
+            "Pair.java",
+            "misc/TestRig.java",
         ],
         output: "../a4tstool/runtime",
         options: {
@@ -79,17 +84,15 @@ const convertAntlr4Runtime = async () => {
             addIndexFiles: true,
             suppressTSErrorsForECI: true,
         },
-        /*
+
         debug: {
             pathForPosition: {
-                //filePattern: "TreeFilter.java",
                 position: {
-                    row: 39,
-                    column: 23,
+                    row: 47,
+                    column: 13,
                 },
             },
         },
-        */
 
     };
 

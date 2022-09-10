@@ -12,13 +12,13 @@ import { CharStream, CharStreams, CommonTokenStream } from "antlr4ts";
 import { JavaLexer } from "../../java/generated/JavaLexer";
 import { JavaParser, CompilationUnitContext } from "../../java/generated/JavaParser";
 
-import { PackageSource } from "../../src/PackageSource";
+import { PackageSource } from "../PackageSource";
 import { JavaFileSymbolTable } from "./JavaFileSymbolTable";
-import { JavaErrorListener } from "../../src/parsing/JavaErrorListener";
+import { JavaErrorListener } from "../parsing/JavaErrorListener";
 import { ParseTree } from "antlr4ts/tree";
 import { Interval } from "antlr4ts/misc/Interval";
-import { printParseTreeStack } from "../../src/Utilities";
-import { ISymbolInfo } from "../../src/conversion/types";
+import { printParseTreeStack } from "../Utilities";
+import { ISymbolInfo } from "../conversion/types";
 
 // This interface keeps all concerned parsing parts together, to ensure they stay alive during the entire
 // processing time. Symbol tables and parse trees depend on that.

@@ -5,9 +5,9 @@
  * See LICENSE file for more info.
  */
 
-import { JavaFileSource } from "../lib/java/JavaFileSource";
+import { JavaFileSource } from "./java/JavaFileSource";
+import { JavaPackageSource } from "./java/JavaPackageSource";
 import { PackageSource } from "./PackageSource";
-import { JavaPackageSource } from "../lib/java/JavaPackageSource";
 
 // This is the hook for the application to provide custom package sources for symbol resolution.
 export type CustomImportResolver = (packageId: string) => PackageSource | undefined;

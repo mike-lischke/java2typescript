@@ -1,14 +1,16 @@
 /*
  * This file is released under the MIT license.
- * Copyright (c) 2021, Mike Lischke
+ * Copyright (c) 2021, 2022, Mike Lischke
  *
  * See LICENSE file for more info.
  */
 
 import { ClassSymbol, Symbol } from "antlr4-c3";
-import { JavaFileSymbolTable } from "../../lib/java/JavaFileSymbolTable";
+import { JavaFileSymbolTable } from "../java/JavaFileSymbolTable";
 
-/** Extends the standard class symbol type by handling implemented types and adds symbol resolving for inherited members. */
+/**
+ * Extends the standard class symbol type by handling implemented types and adds symbol resolving for inherited members.
+ */
 export class JavaClassSymbol extends ClassSymbol {
 
     public resolveSync(name: string, localOnly?: boolean): Symbol | undefined {

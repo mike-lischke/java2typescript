@@ -7,8 +7,8 @@
 
 import { FieldSymbol, InterfaceSymbol, MethodSymbol, ScopedSymbol, SymbolTable } from "antlr4-c3";
 
-import { PackageSource } from "../../src/PackageSource";
-import { JavaClassSymbol } from "../../src/parsing/JavaClassSymbol";
+import { PackageSource } from "../PackageSource";
+import { JavaClassSymbol } from "../parsing/JavaClassSymbol";
 
 interface IClassHierarchyEntry {
     // Qualified name.

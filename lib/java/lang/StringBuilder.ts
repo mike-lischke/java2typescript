@@ -2,22 +2,24 @@
  * This file is released under the MIT license.
  * Copyright (c) 2021, Mike Lischke
  *
- * See LICENSE file for more info.
+ * See LICENSE-MIT.txt file for more info.
  */
 
-import printf from "printf";
-
-import { CodePoint } from ".";
+import { CodePoint, StringBuffer } from ".";
 import { CharSequence } from "./CharSequence";
 import { IndexOutOfBoundsException } from "./IndexOutOfBoundsException";
 
+// Note: because there's no char type in JS/TS and we defined CodePoint as a number, there's no way here to tell them
+//       apart. This means a code point would be rendered as a number string. Use appendCodePoint to add a single code
+//       point.
 type SourceDataType =
-    boolean | string | String | number | bigint | StringBuilder | Uint32Array | CodePoint | unknown;
+    boolean | string | String | number | bigint | StringBuilder | StringBuffer | //Uint32Array |
+    CodePoint[] | CharSequence | unknown;
 
 type SourceData = SourceDataType[];
 
 export class StringBuilder implements CharSequence {
-    private data: Uint32Array = new Uint32Array();
+    private data = new Uint32Array();
 
     // The used length in data (which might be larger, due to removed parts).
     private currentLength = 0;
@@ -36,18 +38,6 @@ export class StringBuilder implements CharSequence {
         return this.data.buffer;
     }
 
-    /**
-     * A fill-in for Java's `String.format` function.
-     *
-     * @param format A string with a format specification (see also printf).
-     * @param args A number of arguments used for formatting the string.
-     *
-     * @returns A formatted string.
-     */
-    public static format(format: string, ...args: unknown[]): string {
-        return printf(format, args);
-    }
-
     public clear(): this {
         this.data = new Uint32Array();
         this.currentLength = 0;
@@ -62,14 +52,36 @@ export class StringBuilder implements CharSequence {
      *
      * @returns Itself for method chaining.
      */
-    public prepend(...newContent: SourceData): this {
-        this.insertData(0, ...newContent);
+    public prepend(...newContent: SourceData): this;
+    public prepend(buffer: CodePoint[] | CharSequence, start?: number, end?: number): this;
+    public prepend(...data: unknown[]): this {
+        if (data.length > 0) {
+            const candidate = data[0];
+            if (Array.isArray(candidate) || this.isCharSequence(candidate)) {
+                const start = data[1] as number;
+                const end = data[2] as number;
+                this.insertListData(0, candidate, start, end);
+            } else {
+                this.insertData(0, ...data);
+            }
+        }
 
         return this;
     }
 
-    public append(...newContent: SourceData): this {
-        this.insertData(this.currentLength, ...newContent);
+    public append(...newContent: SourceData): this;
+    public append(buffer: CodePoint[] | CharSequence, start?: number, end?: number): this;
+    public append(...data: unknown[]): this {
+        if (data.length > 0) {
+            const candidate = data[0];
+            if (Array.isArray(candidate) || this.isCharSequence(candidate)) {
+                const start = data[1] as number;
+                const end = data[2] as number;
+                this.insertListData(this.currentLength, candidate, start, end);
+            } else {
+                this.insertData(this.currentLength, ...data);
+            }
+        }
 
         return this;
     }
@@ -209,7 +221,7 @@ export class StringBuilder implements CharSequence {
     }
 
     // Returns the length (character count).
-    public get length(): number {
+    public length(): number {
         return this.currentLength;
     }
 
@@ -291,11 +303,15 @@ export class StringBuilder implements CharSequence {
         return this.text;
     }
 
+    public array(): Uint32Array {
+        return this.data.subarray(0, this.currentLength);
+    }
+
     // Attempts to reduce storage used for the character sequence.
     public trimToSize(): void {
         if (this.currentLength < this.data.length) {
             const newData = new Uint32Array(this.currentLength);
-            newData.set(this.data.subarray(0, this.currentLength + 1), 0); // End value is not inclusive.
+            newData.set(this.data.subarray(0, this.currentLength), 0);
 
             this.data = newData;
         }
@@ -319,9 +335,10 @@ export class StringBuilder implements CharSequence {
                 const text = entry.toString();
                 if (text.length > 0) {
                     const codePoints: number[] = [];
-                    for (let i = 0; i < text.length; ++i) {
-                        codePoints.push(text.codePointAt(i));
+                    for (const value of text) { // To correctly iterate UTF-16 surrogate pairs.
+                        codePoints.push(value.codePointAt(0));
                     }
+
                     const array = Uint32Array.from(codePoints);
                     additionalSize += array.length;
                     list.push(array);
@@ -347,7 +364,7 @@ export class StringBuilder implements CharSequence {
 
             this.currentLength = requiredSize;
         } else {
-            const newData = new Uint32Array(additionalSize + this.currentLength);
+            const newData = new Uint32Array(additionalSize + this.data.length);
             if (position > 0) {
                 // Copy what's before the target position.
                 newData.set(this.data.subarray(0, position), 0);
@@ -370,5 +387,67 @@ export class StringBuilder implements CharSequence {
         }
     }
 
+    /**
+     * A special version of the insertData method, which deals specifically with char arrays and sequences.
+     *
+     * @param position The position where to add the new content.
+     * @param data The content to add.
+     * @param start Optional start position in the source list.
+     * @param end Optional end position in the source list.
+     */
+    private insertListData(position: number, data: CodePoint[] | CharSequence, start?: number, end?: number): void {
+        let array: Uint32Array;
+        let additionalSize: number;
+
+        if (Array.isArray(data)) {
+            if (start) {
+                array = Uint32Array.from(data.slice(start, end));
+            } else {
+                array = Uint32Array.from(data);
+            }
+            additionalSize = data.length;
+        } else {
+            start ??= 0;
+            end ??= data.length();
+
+            additionalSize = end - start;
+            array = new Uint32Array(additionalSize);
+            for (let i = start; i < end; ++i) {
+                array[i] = data.charAt(i);
+            }
+        }
+
+        const requiredSize = this.currentLength + additionalSize;
+        if (requiredSize <= this.data.length) {
+            // No need to re-allocate. There's still room for the new data.
+            if (position < this.currentLength) {
+                this.data.copyWithin(additionalSize, position, this.currentLength);
+            }
+
+            this.data.set(array, position);
+            this.currentLength = requiredSize;
+        } else {
+            const newData = new Uint32Array(additionalSize + this.data.length);
+            if (position > 0) {
+                // Copy what's before the target position.
+                newData.set(this.data.subarray(0, position), 0);
+            }
+
+            // Add the new data.
+            newData.set(array, position);
+
+            if (position < this.currentLength) {
+                // Copy the rest from the original data.
+                newData.set(this.data.subarray(position, this.currentLength), position);
+            }
+
+            this.data = newData;
+            this.currentLength = newData.length;
+        }
+    }
+
+    private isCharSequence(candidate: unknown): candidate is CharSequence {
+        return (candidate as CharSequence).charAt !== undefined;
+    }
 }
 

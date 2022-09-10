@@ -1,6 +1,6 @@
 /*
  * This file is released under the MIT license.
- * Copyright (c) 2021, Mike Lischke
+ * Copyright (c) 2021, 2022, Mike Lischke
  *
  * See LICENSE file for more info.
  */
@@ -13,12 +13,12 @@ import { ParseTree, ParseTreeWalker } from "antlr4ts/tree";
 import {
     ClassDeclarationContext, CreatorContext, ExpressionContext, InterfaceDeclarationContext, TypeTypeContext,
 } from "../../java/generated/JavaParser";
-import { ISymbolInfo } from "../../src/conversion/types";
-import { PackageSource } from "../../src/PackageSource";
-import { JavaClassSymbol } from "../../src/parsing/JavaClassSymbol";
+import { ISymbolInfo } from "../conversion/types";
+import { PackageSource } from "../PackageSource";
+import { JavaClassSymbol } from "../parsing/JavaClassSymbol";
 import {
     ConstructorSymbol, EnumSymbol, JavaParseTreeWalker, PackageSymbol,
-} from "../../src/parsing/JavaParseTreeWalker";
+} from "../parsing/JavaParseTreeWalker";
 
 export class JavaFileSymbolTable extends SymbolTable {
 

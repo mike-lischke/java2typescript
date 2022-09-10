@@ -60,6 +60,8 @@ In addition to these considerations there's the fact that primitive types are al
 
 As a consequence of that it's very important to select the right JS/TS container replacement for a Java container. The SDK shims contain implementations for HashMap and HashSet, which follow the object equality semantic, and IdentityHashMap (using reference equality).
 
+> Note: `HashMap.keySet` and `HashMap.values` return copies of the keys and values, respectively. This differs from the behavior in Java, where these methods return updatable "views".
+
 # Nested Classes and Interfaces
 
 Nested classes and types are converted to local classes in Typescript by using either a class expression (for static nested classes) or class factory methods (for non-static nested classes). This concept allows non-static inner classes to access all members of the outer class (including private ones) and supports inheritance between local classes (and external use anyhow).
