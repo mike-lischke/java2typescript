@@ -447,7 +447,7 @@ export class StringBuilder implements CharSequence {
     }
 
     private isCharSequence(candidate: unknown): candidate is CharSequence {
-        return (candidate as CharSequence).charAt !== undefined;
+        return (candidate as CharSequence).subSequence !== undefined;
     }
 }
 

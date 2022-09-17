@@ -19,11 +19,12 @@
         "LPAREN",
         "RBRACK",
         "RPAREN",
-        "javax",
         "Xexact",
         "arraycopy",
+        "javax",
         "stringbuilder",
-        "stringtemplate"
+        "stringtemplate",
+        "ᬠᬣᬦᬪᬫᬬᬭ"
     ],
     "ignorePaths": [
         ".eslintrc.json"

@@ -12,6 +12,7 @@
         "src/**/*.ts",
         "lib/**/*.ts",
         "java/generated/**/*.ts",
-        "lib/Decorators.ts"
+        "lib/Decorators.ts",
+        "test/**/*.ts"
     ]
 }

@@ -20,9 +20,11 @@ export abstract class List<T> implements Iterable<T>, Collection<T> {
 
         return {
             next: () => {
+                const done = index + 1 === this.end;
+
                 return {
-                    done: index === this.end,
-                    value: this.get(index++),
+                    done,
+                    value: done ? this.get(index) : this.get(index++),
                 };
             },
         };

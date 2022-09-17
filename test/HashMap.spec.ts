@@ -19,16 +19,16 @@ class Test<K, V> implements java.util.Map<K, V> {
 
         return set;
     }
-    public equals(_o: unknown): boolean { return; }
+    public equals(_o: unknown): boolean { return false; }
     public get(_key: K): V | undefined { return; }
     public hashCode(): number { return 0; }
     public isEmpty(): boolean { return false; }
-    public keySet(): java.util.Set<K> { return; }
-    public put(_key: K, _value: V): V { return; }
+    public keySet(): java.util.Set<K> { return new java.util.HashSet<K>(); }
+    public put(_key: K, value: V): V { return value; }
     public putAll(_m: java.util.Map<K, V>): void { return; }
     public remove(_key: K): V | undefined { return; }
     public size(): number { return 0; }
-    public values(): java.util.Collection<V> { return; }
+    public values(): java.util.Collection<V> { return new java.util.HashSet<V>(); }
 }
 
 describe("HashMap Tests", () => {
@@ -63,7 +63,7 @@ describe("HashMap Tests", () => {
     });
 
     it("Hash Code and Equality", () => {
-        const m = new java.util.HashMap<string, string>(200);
+        const m = new java.util.HashMap<string | null, string | null>(200);
         expect(m.size()).toBe(0);
         m.put("", null);
         expect(m.get("")).toBeNull();
@@ -128,7 +128,7 @@ describe("HashMap Tests", () => {
         expect(m.containsValue(10)).toBeFalsy();
     });
 
-    it("Sub lists", () => {
+    it("Sub Lists", () => {
         const m = new java.util.HashMap<string, unknown>();
         m.put("lorem", 1);
         m.put("ipsum", null);

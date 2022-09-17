@@ -131,7 +131,7 @@ export class HashSet<T> implements java.lang.Cloneable<HashSet<T>>, java.io.Seri
             return false;
         }
 
-        if (o.size !== this.size) {
+        if (o.size() !== this.size()) {
             return false;
         }
 
@@ -181,8 +181,9 @@ export class HashSet<T> implements java.lang.Cloneable<HashSet<T>>, java.io.Seri
             return a;
         } else {
             if (a.length < this.size()) {
-                a = java.util.Arrays.copyOf(a, this.size());
+                a = new Array<U>(this.size());
             }
+            a.fill(undefined);
 
             let i = 0;
             for (const bucket of this.buckets) {
@@ -365,7 +366,7 @@ export class HashSet<T> implements java.lang.Cloneable<HashSet<T>>, java.io.Seri
                     buf.append(", ");
                 }
 
-                buf.append(o.toString());
+                buf.append(JSON.stringify(o));
             }
         }
         buf.append("}");

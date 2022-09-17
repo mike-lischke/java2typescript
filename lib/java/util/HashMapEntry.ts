@@ -10,6 +10,8 @@ import { IEquatable } from "../../types";
 import { java } from "../java";
 
 export class HashMapEntry<K, V> implements java.util.Map.Entry<K, V>, IEquatable {
+    private computedHash: number | undefined;
+
     public constructor(private key: K | null, private value: V | null) {
     }
 
@@ -22,18 +24,18 @@ export class HashMapEntry<K, V> implements java.util.Map.Entry<K, V>, IEquatable
         if (this.key === null) {
             if (o.key === null) {
                 keysEqual = true;
-            } else {
-                keysEqual = MurmurHash.valueHash(this.key) === MurmurHash.valueHash(o.key);
             }
+        } else if (o.key !== null) {
+            keysEqual = MurmurHash.valueHash(this.key) === MurmurHash.valueHash(o.key);
         }
 
         let valuesEqual = false;
         if (this.value === null) {
             if (o.value === null) {
                 valuesEqual = true;
-            } else {
-                valuesEqual = MurmurHash.valueHash(this.value) === MurmurHash.valueHash(o.value);
             }
+        } else if (o.value !== null) {
+            valuesEqual = MurmurHash.valueHash(this.value) === MurmurHash.valueHash(o.value);
         }
 
         return keysEqual && valuesEqual;
@@ -48,13 +50,18 @@ export class HashMapEntry<K, V> implements java.util.Map.Entry<K, V>, IEquatable
     }
 
     public hashCode(): number {
-        return (this.key === null ? 0 : MurmurHash.valueHash(this.key))
-            ^ (this.value === null ? 0 : MurmurHash.valueHash(this.value));
+        if (this.computedHash === undefined) {
+            this.computedHash = (this.key === null ? 0 : MurmurHash.valueHash(this.key))
+                ^ (this.value === null ? 0 : MurmurHash.valueHash(this.value));
+        }
+
+        return this.computedHash;
     }
 
     public setValue(value: V): V {
         const temp = this.value;
         this.value = value;
+        this.computedHash = undefined;
 
         return temp;
     }
