@@ -14,10 +14,14 @@ export class BufferedOutputStream extends FilterOutputStream {
     protected buf: Uint8Array;
     protected count = 0;
 
-    public constructor(out: OutputStream, size?: number) {
+    public constructor(out: OutputStream, size = 0xFFFF) {
         super(out);
 
-        this.buf = new Uint8Array(size ?? 0xFFFF);
+        if (size <= 0) {
+            throw new IllegalArgumentException();
+        }
+
+        this.buf = new Uint8Array(size);
     }
 
     public write(b: Uint8Array): void;
@@ -47,10 +51,6 @@ export class BufferedOutputStream extends FilterOutputStream {
             } else {
                 this.buf.set(data, this.count);
                 this.count += data.length;
-            }
-
-            if (this.count === this.buf.length) {
-                this.flush();
             }
         }
     }

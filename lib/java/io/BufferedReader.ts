@@ -144,7 +144,7 @@ export class BufferedReader extends Reader {
      */
     public readLine(ignoreLF = false, term?: boolean[]): string {
         let s: StringBuilder;
-        let startChar;
+        let startChar: number;
 
         this.ensureOpen();
         let omitLF = ignoreLF || this.skipLF;
@@ -168,7 +168,7 @@ export class BufferedReader extends Reader {
 
             let eol = false;
             let c = 0;
-            let i;
+            let i: number;
 
             /* Skip a leftover '\n', if necessary */
             if (omitLF && (this.cb[this.nextChar] === 0x13)) {
@@ -342,7 +342,7 @@ export class BufferedReader extends Reader {
             }
         }
 
-        let n;
+        let n: number;
         do {
             n = this.input.read(this.cb, dst, this.cb.length - dst);
         } while (n === 0);

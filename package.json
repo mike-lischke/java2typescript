@@ -52,10 +52,10 @@
         ],
         "coverageThreshold": {
             "global": {
-                "statements": 32,
-                "branch": 14,
-                "functions": 18,
-                "lines": 32
+                "statements": 34,
+                "branch": 17,
+                "functions": 20,
+                "lines": 34
             }
         },
         "preset": "ts-jest"

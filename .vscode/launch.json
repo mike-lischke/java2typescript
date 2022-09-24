@@ -5,19 +5,16 @@
             "type": "node",
             "request": "launch",
             "name": "Run selected Jest test",
-            "runtimeExecutable": "npm",
+            "program": "/usr/local/bin/node",
             "runtimeArgs": [
-                "run-script",
-                "test"
+                "./node_modules/.bin/jest",
+                "--runInBand",
+                "--watchAll=false ",
             ],
             "args": [
-                "--",
                 "-i",
-                "${file}",
-                "-t",
-                "--no-coverage"
-            ],
-            "console": "integratedTerminal",
+                "${file}"
+            ]
         },
         {
             "type": "node",
