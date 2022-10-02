@@ -12,7 +12,7 @@ import fs from "fs";
 import { FileProcessor } from "./FileProcessor";
 import { CustomImportResolver, PackageSourceManager } from "../PackageSourceManager";
 
-// A record for the class resolver map.
+/** A record for the class resolver map. */
 export interface IClassResolver {
     alias?: string;
     importPath: string;
@@ -66,9 +66,8 @@ export interface IConverterOptions {
     sourceMappings?: ISourceMapping[];
 
     /**
-     * A map that contains symbol source instances for each imported package in a Java file.
-     * It maps from a package id, e.g. "java.lang" to a symbol source that can deliver imports for polyfills
-     * that provide the necessary functionality (e.g. via node modules or plain JS APIs).
+     * A function that takes a package ID and returns a package source for it. Used usually to provide hard coded
+     * symbol information for packages/modules for which no Java source code is available.
      */
     importResolver?: CustomImportResolver;
 
@@ -119,7 +118,7 @@ export interface IConverterConfiguration {
 
     /**
      * An optional inclusion filter for files found in the package. Only files matching this pattern are actually
-     * processed and output generated. However, non-Java files are ignore, even if they are included here.
+     * processed and output generated. However, non-Java files are ignored, even if they are included here.
      *
      * Note: All Java files in the package have to be loaded once to get their symbols.
      *       However, they are only parsed if something is actually imported from them, saving so some parsing time.

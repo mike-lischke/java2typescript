@@ -9,10 +9,10 @@ import { JavaFileSource } from "./java/JavaFileSource";
 import { JavaPackageSource } from "./java/JavaPackageSource";
 import { PackageSource } from "./PackageSource";
 
-// This is the hook for the application to provide custom package sources for symbol resolution.
+/** This is the hook for the application to provide custom package sources for symbol resolution. */
 export type CustomImportResolver = (packageId: string) => PackageSource | undefined;
 
-// A class to hold package sources for use by the conversion process.
+/** A class to hold package sources for use by the conversion process. */
 export class PackageSourceManager {
     // A mapper function which can return a package source for a package ID.
     // Such a package source is usually not loaded from a file, but contains a symbol table constructed by
