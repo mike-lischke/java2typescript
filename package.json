@@ -35,7 +35,7 @@
         "typescript": "4.8.3"
     },
     "scripts": {
-        "test": "jest --testMatch [ \"**/test/**/*.spec.ts\" ] --no-coverage",
+        "test": "jest --runInBand --testMatch [ \"**/test/**/*.spec.ts\" ] --no-coverage",
         "test-coverage": "jest  --testMatch [ \"**/test/**/*.spec.ts\" ] --coverage",
         "lint": "eslint \"./src/**/*.ts\"",
         "antlr4ts": "antlr4ts -Xexact-output-dir ./java/JavaLexer.g4 ./java/JavaParser.g4 -visitor -o ./java/generated"
