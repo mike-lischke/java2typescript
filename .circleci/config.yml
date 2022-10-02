@@ -3,12 +3,12 @@ version: 2.1
 
 orbs:
   node: circleci/node@4.7.0
-  
+
 jobs:
   build_and_test:
     docker:
       - image: cimg/openjdk:17.0.2-node
-    resource_class: large
+    resource_class: xlarge
     steps:
       - checkout
       - run: java --version
@@ -18,9 +18,8 @@ jobs:
       - run:
           command: npm run test
           name: Run tests
-            
+
 workflows:
     validation:
         jobs:
             - build_and_test
-            
