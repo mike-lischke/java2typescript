@@ -6,4 +6,5 @@
     "jest.testExplorer": {
         "enabled": true
     },
+    "jest.showCoverageOnLoad": true,
 }

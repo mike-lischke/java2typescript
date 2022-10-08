@@ -7,152 +7,129 @@
 
 /* eslint-disable @typescript-eslint/naming-convention */
 
-import { Collection, ListIterator } from ".";
+import { java } from "../java";
 
-export abstract class List<T> implements Iterable<T>, Collection<T> {
-
-    // For list that represent ranges of other lists.
-    protected start = 0;
-    protected end = 0;
-
-    public [Symbol.iterator](): Iterator<T> {
-        let index = this.start;
-
-        return {
-            next: () => {
-                const done = index + 1 === this.end;
-
-                return {
-                    done,
-                    value: done ? this.get(index) : this.get(index++),
-                };
-            },
-        };
-    }
+export interface List<T> extends java.util.Collection<T> {
 
     /**
      * Appends the specified element to the end of this list.
      */
-    public abstract add(e: T): boolean;
+    add(e: T): boolean;
 
     /**
      * Inserts the specified element at the specified position in this list.
      */
-    public abstract add(index: number, element: T): void;
+    add(index: number, element: T): void;
 
     /**
      * Appends all of the elements in the specified collection to the end of this list, in the order that they are
      * returned by the specified collection's iterator.
      */
-    public abstract addAll(c: Collection<T>): boolean;
+    addAll(c: java.util.Collection<T>): boolean;
 
     /**
      * Inserts all of the elements in the specified collection into this list at the specified position.
      */
-    public abstract addAll(index: number, c: Collection<T>): boolean;
+    addAll(index: number, c: java.util.Collection<T>): boolean;
 
     /**
      * Removes all of the elements from this list.
      */
-    public abstract clear(): void;
+    clear(): void;
 
     /**
      * Returns true if this list contains the specified element.
      */
-    public abstract contains(element: T): boolean;
+    contains(element: T): boolean;
 
     /**
      * Returns true if this list contains all of the elements of the specified collection.
      */
-    public abstract containsAll(c: Collection<T>): boolean;
+    containsAll(c: java.util.Collection<T>): boolean;
 
     /**
      * Compares the specified object with this list for equality.
      */
-    public abstract equals(other: List<T>): boolean;
+    equals(other: unknown): boolean;
 
     /**
      * Returns the element at the specified position in this list.
      */
-    public abstract get(index: number): T;
+    get(index: number): T;
 
     /**
      * Returns the hash code value for this list.
      */
-    public abstract hashCode(): number;
+    hashCode(): number;
 
     /**
      * Returns the index of the first occurrence of the specified element in this list, or -1 if this list does not
      * contain the element.
      */
-    public abstract indexOf(o: T): number;
+    indexOf(o: T): number;
 
     /**
      * Returns true if this list contains no elements.
      */
-    public abstract isEmpty(): boolean;
+    isEmpty(): boolean;
 
     /**
      * Returns an iterator over the elements in this list in proper sequence.
      */
-    public abstract iterator(): Iterator<T>;
+    iterator(): java.util.Iterator<T>;
 
     /**
      * Returns the index of the last occurrence of the specified element in this list, or -1 if this list does not
      * contain the element.
      */
-    public abstract lastIndexOf(o: T): number;
+    lastIndexOf(o: T): number;
 
     /**
      * Returns a list iterator over the elements in this list (in proper sequence), starting at the specified
      * position in the list (or 0 if no index is given).
      */
-    public abstract listIterator(index?: number): ListIterator<T>;
+    listIterator(index?: number): java.util.ListIterator<T>;
 
     /**
      * Removes the element at the specified position in this list.
      */
-    public abstract remove(index: number): T;
-
-    /**
-     * Removes the first occurrence of the specified element from this list, if it is present.
-     */
-    public abstract remove(o: T): boolean;
+    remove(index: number): T | undefined;
+    remove(o: unknown): boolean;
 
     /**
      * Removes from this list all of its elements that are contained in the specified collection.
      */
-    public abstract removeAll(c: Collection<T>): boolean;
+    removeAll(c: java.util.Collection<T>): boolean;
 
     /**
      * Retains only the elements in this list that are contained in the specified collection.
      */
-    public abstract retainAll(c: Collection<T>): boolean;
+    retainAll(c: java.util.Collection<T>): boolean;
 
     /**
      * Replaces the element at the specified position in this list with the specified element.
      */
-    public abstract set(index: number, element: T): T;
+    set(index: number, element: T): T;
 
     /**
      * Returns the number of elements in this list.
      */
-    public abstract size(): number;
+    size(): number;
 
     /**
      * Returns a view of the portion of this list between the specified fromIndex, inclusive, and toIndex, exclusive.
      */
-    public abstract subList(fromIndex: number, toIndex: number): List<T>;
+    subList(fromIndex: number, toIndex: number): List<T>;
 
     /**
      * Returns an array containing all of the elements in this list in proper sequence (from first to last element).
      */
-    public abstract toArray(): T[];
+    toArray(): T[];
 
     /**
      * Returns an array containing all of the elements in this list in proper sequence (from first to last element);
      * the runtime type of the returned array is that of the specified array.
      */
-    public abstract toArray<T2>(a: T2[]): T2[];
+    toArray<T2>(a: T2[]): T2[];
 
 }

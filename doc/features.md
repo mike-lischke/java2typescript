@@ -16,7 +16,7 @@ Enums in Java are objects with compiler synthesized methods, which can only part
 
 ## Iterators
 
-Java Iterators differ significantly from their counterpart in TS and hence cannot automatically be converted. Instead they are implemented like normal Java code and cannot be used like native TS iterators. However, the JDK shims for maps and sets support both types of iterators, to allow direct use of them in TS iterations.
+Both the `Iterator` and the `Iterable` interfaces are supported in Java as well as in TS. However, the `Iterator` interface in Java supports additional functionality (namely mandatory `hasNext()` and optional `remove()`), which is not available in TS. Hence an own implementation is used instead, but that supports the `Iterable` interface, to allow direct translation of `for` loops with iterable objects.
 
 ## Methods, Rest Parameters and Overloading
 

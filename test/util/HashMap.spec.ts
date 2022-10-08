@@ -145,7 +145,24 @@ describe("HashMap Tests", () => {
         expect(keys.contains("mike")).toBeFalsy();
 
         const values = m.values();
-        expect(values.size()).toBe(3);
+        expect(values.size()).toBe(5);
         expect(values.contains(null)).toBeTruthy();
+
+        values.remove(null);
+        expect(values.size()).toBe(3);
+        expect(m.size()).toBe(3);
+        expect(values.contains(null)).toBeFalsy();
+
+        m.put("xyz", "abc");
+        expect(values.size()).toBe(4);
+        expect(keys.size()).toBe(4);
+        expect(set.size()).toBe(4);
+        expect(m.size()).toBe(4);
+
+        const setList1 = [...set];
+        const setList2 = set.toArray();
+        const setList3 = set.toArray(new Array<HashMapEntry<string, unknown>>());
+        expect(setList1).toEqual(setList2);
+        expect(setList1).toEqual(setList3);
     });
 });

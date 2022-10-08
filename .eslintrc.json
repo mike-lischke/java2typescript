@@ -39,6 +39,7 @@
         "no-explicit-any": "off",
         "no-use-before-define": "off",
         "no-shadow": "off",
+        "no-array-constructor": "off",
         "array-callback-return": [
             "warn"
         ],
@@ -57,9 +58,6 @@
             "smart"
         ],
         "new-parens": "error",
-        "no-array-constructor": [
-            "warn"
-        ],
         "no-caller": "error",
         "no-cond-assign": "error",
         "no-const-assign": [
@@ -464,6 +462,7 @@
             "never"
         ],
         "indent": "off",
+        "@typescript-eslint/no-array-constructor": "error",
         "@typescript-eslint/no-unused-vars": [
             "warn",
             {

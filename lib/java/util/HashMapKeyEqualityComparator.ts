@@ -13,11 +13,9 @@ import { HashMapEntry } from "./HashMapEntry";
 import { IEquatable } from "../../types";
 
 /**
- * A specialized comparator implementation for hash maps. It only takes key values in the entries into account.
+ * A specialized comparator implementation for hash maps. It only takes keys of map entries into account.
  */
-export class HashMapEqualityComparator<K, V> implements JavaEqualityComparator<HashMapEntry<K, V>> {
-    public static readonly instance = new HashMapEqualityComparator();
-
+export class HashMapKeyEqualityComparator<K, V> implements JavaEqualityComparator<HashMapEntry<K, V>> {
     /**
      * Computes the hash code of the key of the given hash map entry.
      *
@@ -60,35 +58,6 @@ export class HashMapEqualityComparator<K, V> implements JavaEqualityComparator<H
         }
 
         return this.hashCode(a) === this.hashCode(b);
-    };
-
-    /**
-     * A variation of the normal equals method to compare a hash map entry's value against a given value.
-     *
-     * @param a The has map entry to compare.
-     * @param value The value for comparison.
-     *
-     * @returns True if the entry's value equals the given value, otherwise false.
-     */
-    public equalsValue = (a: HashMapEntry<K, V>, value: V): boolean => {
-        const value1 = a.getValue();
-        if (value1 === value) {
-            return true;
-        }
-
-        if (typeof value1 === "boolean" || typeof value1 === "number" || typeof value1 === "string") {
-            return false;
-        }
-
-        if (this.isEquatable(value1) && this.isEquatable(value)) {
-            return value1.equals(value);
-        }
-
-        if (Array.isArray(value1) && Array.isArray(value)) {
-            return java.util.Arrays.equals(value1 as HashableArray, value as HashableArray);
-        }
-
-        return MurmurHash.valueHash(value1) === MurmurHash.valueHash(value);
     };
 
     private isEquatable(candidate: unknown): candidate is IEquatable {

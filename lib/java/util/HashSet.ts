@@ -8,17 +8,17 @@
 
 import { java } from "../java";
 
-import { Collection } from "./Collection";
 import { DefaultJavaEqualityComparator } from "../../DefaultJavaEqualityComparator";
 import { MurmurHash } from "../../MurmurHash";
 import { JavaEqualityComparator } from "../../JavaEqualityComparator";
+import { ArrayListIterator } from "./ArrayListIterator";
 
 /**
  * This implementation was taken from the ANTLR4 Array2DHashSet implementation and adjusted to fulfill the
  * more general Java HashSet implementation (supporting null as valid value).
  */
-export class HashSet<T> implements java.lang.Cloneable<HashSet<T>>, java.io.Serializable,
-    Collection<T>, Iterable<T>, java.util.Set<T> {
+export class HashSet<T> implements java.lang.Cloneable<HashSet<T>>, java.io.Serializable, java.util.Collection<T>,
+    java.util.Set<T> {
 
     public static readonly initialCapacity = 16; // Must be a power of 2.
     public static readonly defaultLoadFactor = 0.75;
@@ -34,9 +34,9 @@ export class HashSet<T> implements java.lang.Cloneable<HashSet<T>>, java.io.Seri
     private threshold: number;
     private loadFactor: number;
 
-    public constructor(c?: Collection<T>);
+    public constructor(c?: java.util.Collection<T>);
     public constructor(initialCapacity: number, loadFactor?: number);
-    public constructor(cOrInitialCapacity?: Collection<T> | number, loadFactor?: number) {
+    public constructor(cOrInitialCapacity?: java.util.Collection<T> | number, loadFactor?: number) {
         let initialCapacity = HashSet.initialCapacity;
 
         if (cOrInitialCapacity === undefined) {
@@ -68,23 +68,28 @@ export class HashSet<T> implements java.lang.Cloneable<HashSet<T>>, java.io.Seri
     }
 
     /**
-     * Add `o` to set if not there; return existing value if already
+     * Add `o` to set if not there. Return existing value if already
      * there. This method performs the same operation as {@link add} aside from
      * the return value.
      *
      * @param o The element to add.
      *
-     * @returns The passed in object.
+     * @returns Either the passed in object (if it wasn't there yet) or the stored object which is equal to the given
+     *          object.
      */
-    public getOrAdd(o: T): T {
-        if (this.n > this.threshold) {
-            this.expand();
-        }
-
+    public findOrAdd(o: T): T {
         return this.getOrAddImpl(o);
     }
 
-    public get(o: T): T | undefined {
+    /**
+     * Find method based on equality of the current comparator. Might find an object with a different reference,
+     * but the same properties as in `o` (object equality).
+     *
+     * @param o The value/object to search for.
+     *
+     * @returns If found the stored value is returned otherwise undefined is returned.
+     */
+    public find(o: T): T | undefined {
         if (o === undefined) {
             return o;
         }
@@ -135,11 +140,11 @@ export class HashSet<T> implements java.lang.Cloneable<HashSet<T>>, java.io.Seri
             return false;
         }
 
-        return this.containsAll(o);
+        return this.containsAll(o as HashSet<T>);
     }
 
     public add(t: T): boolean {
-        return t === this.getOrAdd(t);
+        return t === this.findOrAdd(t);
     }
 
     public size(): number {
@@ -150,12 +155,16 @@ export class HashSet<T> implements java.lang.Cloneable<HashSet<T>>, java.io.Seri
         return this.n === 0;
     }
 
+    public iterator(): java.util.Iterator<T> {
+        return new ArrayListIterator(this.toArray(), false);
+    }
+
     public contains(o: T): boolean {
         if (o === undefined) {
             return false;
         }
 
-        return this.get(o) !== undefined;
+        return this.find(o) !== undefined;
     }
 
     public toArray(): T[];
@@ -270,7 +279,7 @@ export class HashSet<T> implements java.lang.Cloneable<HashSet<T>>, java.io.Seri
     public addAll(c: java.util.Collection<T>): boolean {
         let changed = false;
         for (const o of c) {
-            const existing = this.getOrAdd(o);
+            const existing = this.findOrAdd(o);
             if (existing === o) {
                 changed = true;
             }
@@ -337,7 +346,7 @@ export class HashSet<T> implements java.lang.Cloneable<HashSet<T>>, java.io.Seri
 
     /** @returns a shallow copy of this HashSet instance: the elements themselves are not cloned. */
     public clone(): HashSet<T> {
-        const result = new HashSet<T>(this);
+        const result = new HashSet<T>(this as HashSet<T>);
 
         return result;
     }
@@ -375,6 +384,10 @@ export class HashSet<T> implements java.lang.Cloneable<HashSet<T>>, java.io.Seri
     }
 
     protected getOrAddImpl(o: T): T {
+        if (this.n > this.threshold) {
+            this.expand();
+        }
+
         const b = this.getBucketIndex(o);
         const bucket = this.buckets[b];
 

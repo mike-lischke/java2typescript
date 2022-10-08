@@ -9,6 +9,7 @@ export * from "./Arrays";
 export * from "./ArrayListIterator";
 export * from "./ArrayList";
 export * from "./List";
+export * from "./Iterator";
 export * from "./ListIterator";
 export * from "./Collection";
 export * from "./Collections";

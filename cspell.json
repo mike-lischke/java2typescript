@@ -16,6 +16,7 @@
     ],
     "ignoreWords": [
         "COLONCOLON",
+        "Harwell",
         "LBRACK",
         "LPAREN",
         "RBRACK",

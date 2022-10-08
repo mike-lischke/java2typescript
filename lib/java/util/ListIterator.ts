@@ -5,9 +5,11 @@
  * See LICENSE-MIT.txt file for more info.
  */
 
+import { java } from "../java";
+
 /* eslint-disable @typescript-eslint/naming-convention */
 
-export interface ListIterator<T> {
+export interface ListIterator<T> extends java.util.Iterator<T> {
     /**
      * Inserts the specified element into the list (optional operation).
      */

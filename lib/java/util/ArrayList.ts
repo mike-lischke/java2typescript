@@ -5,18 +5,18 @@
  * See LICENSE-MIT.txt file for more info.
  */
 
-import { List } from "./List";
-import { ArrayListIterator, Collection, ListIterator } from ".";
-import { IndexOutOfBoundsException } from "../lang";
+import { java } from "../java";
+
+import { ArrayListIterator } from ".";
 import { MurmurHash } from "../../MurmurHash";
 
-export class ArrayList<T> extends List<T> {
+export class ArrayList<T> implements java.util.List<T> {
 
     private buffer: T[];
+    private start: number;
+    private end: number;
 
-    public constructor(input?: Collection<T> | T[] | Set<T> | number) {
-        super();
-
+    public constructor(input?: java.util.Collection<T> | T[] | Set<T> | number) {
         if (input === undefined) {
             this.buffer = [];
         } else if (typeof input === "number") {
@@ -32,6 +32,10 @@ export class ArrayList<T> extends List<T> {
         this.end = this.buffer.length;
     }
 
+    public *[Symbol.iterator](): IterableIterator<T> {
+        yield* this.buffer;
+    }
+
     public add(element: T): boolean;
     public add(index: number, element: T): void;
     public add(indexOrElement: number | T, element?: T): void | boolean {
@@ -45,9 +49,9 @@ export class ArrayList<T> extends List<T> {
         }
     }
 
-    public addAll(c: Collection<T>): boolean;
-    public addAll(index: number, c: Collection<T>): boolean;
-    public addAll(indexOrCollection: number | Collection<T>, c?: Collection<T>): boolean {
+    public addAll(c: java.util.Collection<T>): boolean;
+    public addAll(index: number, c: java.util.Collection<T>): boolean;
+    public addAll(indexOrCollection: number | java.util.Collection<T>, c?: java.util.Collection<T>): boolean {
         const a = c.toArray();
         this.end += a.length;
         if (typeof indexOrCollection === "number") {
@@ -76,7 +80,7 @@ export class ArrayList<T> extends List<T> {
         return this.buffer.includes(element, this.start);
     }
 
-    public containsAll(c: Collection<T>): boolean {
+    public containsAll(c: java.util.Collection<T>): boolean {
         let target = this.buffer;
         if (this.end < this.buffer.length) {
             target = this.buffer.slice(this.start, this.end);
@@ -107,7 +111,7 @@ export class ArrayList<T> extends List<T> {
 
     public get(index: number): T {
         if (index < this.start || index >= this.end) {
-            throw new IndexOutOfBoundsException();
+            throw new java.lang.IndexOutOfBoundsException();
         }
 
         return this.buffer[index];
@@ -131,8 +135,8 @@ export class ArrayList<T> extends List<T> {
         return this.end - this.start <= 0;
     }
 
-    public iterator(): Iterator<T> {
-        return this[Symbol.iterator]();
+    public iterator(): java.util.Iterator<T> {
+        return new ArrayListIterator(this.buffer);
     }
 
     public lastIndexOf(element: T): number {
@@ -149,12 +153,12 @@ export class ArrayList<T> extends List<T> {
         return this.buffer.lastIndexOf(element, this.end - 1);
     }
 
-    public listIterator(index?: number): ListIterator<T> {
+    public listIterator(index?: number): java.util.ListIterator<T> {
         if (this.start > 0 || this.end < this.buffer.length) {
-            return new ArrayListIterator(this.buffer.slice(this.start, this.end), index);
+            return new ArrayListIterator(this.buffer.slice(this.start, this.end), true, index, this.end);
         }
 
-        return new ArrayListIterator(this.buffer, index);
+        return new ArrayListIterator(this.buffer, true, index);
     }
 
     public remove(index: number): T;
@@ -177,7 +181,7 @@ export class ArrayList<T> extends List<T> {
         }
     }
 
-    public removeAll(c: Collection<T>): boolean {
+    public removeAll(c: java.util.Collection<T>): boolean {
         let result = false;
 
         for (const element of c) {
@@ -192,7 +196,7 @@ export class ArrayList<T> extends List<T> {
         return result;
     }
 
-    public retainAll(c: Collection<T>): boolean {
+    public retainAll(c: java.util.Collection<T>): boolean {
         if (c.size() === 0) {
             return false;
         }
@@ -221,7 +225,7 @@ export class ArrayList<T> extends List<T> {
 
     public set(index: number, element: T): T {
         if (index - this.start < 0 || this.start + index >= this.end) {
-            throw new IndexOutOfBoundsException();
+            throw new java.lang.IndexOutOfBoundsException();
         }
 
         return this.buffer.splice(this.start + index, 1, element)[0];
@@ -231,7 +235,7 @@ export class ArrayList<T> extends List<T> {
         return this.end - this.start;
     }
 
-    public subList(fromIndex: number, toIndex: number): List<T> {
+    public subList(fromIndex: number, toIndex: number): java.util.List<T> {
         const list = new ArrayList<T>();
         list.buffer = this.buffer;
         list.start = fromIndex;

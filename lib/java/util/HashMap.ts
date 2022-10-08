@@ -8,21 +8,23 @@ import { java } from "../java";
 
 import { HashSet } from "./HashSet";
 import { HashMapEntry } from "./HashMapEntry";
-import { HashMapEqualityComparator } from "./HashMapEqualityComparator";
+import { HashMapKeyEqualityComparator } from "./HashMapKeyEqualityComparator";
+import { MapKeyView } from "./MapKeyView";
+import { MapValueView } from "./MapValueView";
+import { HashMapValueEqualityComparator } from "./HashMapValueEqualityComparator";
 
 /**
  * This implementation was taken from the ANTLR4 Array2DHashMap implementation and adjusted to fulfill the
  * more general Java HashMap implementation.
  */
-export class HashMap<K, V> implements java.lang.Cloneable<HashMap<K, V>>, java.io.Serializable,
-    Iterable<java.util.Map.Entry<K, V>>, java.util.Map<K, V> {
+export class HashMap<K, V> implements java.lang.Cloneable<HashMap<K, V>>, java.io.Serializable, java.util.Map<K, V> {
 
     // eslint-disable-next-line @typescript-eslint/naming-convention
     private HashSetBackingStore = class extends HashSet<HashMapEntry<K, V>> {
         public constructor(initialCapacity?: number, loadFactor?: number) {
             super(initialCapacity, loadFactor);
 
-            this.comparator = HashMapEqualityComparator.instance;
+            this.comparator = new HashMapKeyEqualityComparator();
         }
     };
 
@@ -60,9 +62,10 @@ export class HashMap<K, V> implements java.lang.Cloneable<HashMap<K, V>>, java.i
     }
 
     public containsValue(value: V): boolean {
-        const comparator = new HashMapEqualityComparator<K, V>();
+        const comparator = new HashMapValueEqualityComparator<K, V>();
+        const entry = new HashMapEntry<K, V>(null, value);
         for (const e of this) {
-            if (comparator.equalsValue(e as HashMapEntry<K, V>, value)) {
+            if (comparator.equals(e as HashMapEntry<K, V>, entry)) {
                 return true;
             }
         }
@@ -76,7 +79,7 @@ export class HashMap<K, V> implements java.lang.Cloneable<HashMap<K, V>>, java.i
 
     public get(key: K): V | undefined {
         const entry = new HashMapEntry<K, V>(key, null);
-        const bucket = this.backingStore.get(entry);
+        const bucket = this.backingStore.find(entry);
         if (!bucket) {
             return undefined;
         }
@@ -89,17 +92,12 @@ export class HashMap<K, V> implements java.lang.Cloneable<HashMap<K, V>>, java.i
     }
 
     public keySet(): java.util.Set<K> {
-        const result = new java.util.HashSet<K>();
-        for (const e of this) {
-            result.add(e.getKey());
-        }
-
-        return result;
+        return new MapKeyView<K, V>(this, new HashMapKeyEqualityComparator());
     }
 
     public put(key: K, value: V): V | undefined {
         const entry = new HashMapEntry(key, value);
-        const element = this.backingStore.get(entry);
+        const element = this.backingStore.find(entry);
         let result: V | undefined;
         if (!element) {
             this.backingStore.add(entry);
@@ -124,7 +122,7 @@ export class HashMap<K, V> implements java.lang.Cloneable<HashMap<K, V>>, java.i
     public remove(key: K): V | undefined {
         const entry = new HashMapEntry<K, V>(key, null);
 
-        const result = this.backingStore.get(entry);
+        const result = this.backingStore.find(entry);
         if (result) {
             this.backingStore.remove(result);
 
@@ -151,11 +149,6 @@ export class HashMap<K, V> implements java.lang.Cloneable<HashMap<K, V>>, java.i
     }
 
     public values(): java.util.Collection<V> {
-        const result = new java.util.HashSet<V>();
-        for (const e of this) {
-            result.add(e.getValue());
-        }
-
-        return result;
+        return new MapValueView(this, new HashMapValueEqualityComparator());
     }
 }

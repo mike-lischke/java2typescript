@@ -83,19 +83,19 @@ describe("HashSet Tests", () => {
         expect(set2.size()).toBe(2);
 
         // Search is based on hash code, so even with the wrong value for b we will find the first entry.
-        const entry1 = set2.get(new Test(1, "2"));
+        const entry1 = set2.find(new Test(1, "2"));
         expect(entry1).toBeDefined();
         expect(entry1.a).toBe(1);
         expect(entry1.b).toBe("1");
 
-        expect(set2.get(undefined)).toBeUndefined();
-        expect(set2.get(new Test(3, "2"))).toBeUndefined();
+        expect(set2.find(undefined)).toBeUndefined();
+        expect(set2.find(new Test(3, "2"))).toBeUndefined();
 
         set2.remove(new Test(1, "4"));
         expect(set2.size()).toBe(1);
         set2.remove(new Test(14, "4"));
         expect(set2.size()).toBe(1);
-        expect(set2.get(new Test(2, ""))).toBeDefined();
+        expect(set2.find(new Test(2, ""))).toBeDefined();
 
         const set3 = new java.util.HashSet<Test>();
         set3.add(new Test(1, "1"));
@@ -104,7 +104,7 @@ describe("HashSet Tests", () => {
 
         set3.retainAll(set2);
         expect(set2.size()).toBe(1);
-        expect(set2.get(new Test(2, ""))).toBeDefined();
+        expect(set2.find(new Test(2, ""))).toBeDefined();
 
         const set4 = new java.util.HashSet<Test>();
         set4.add(new Test(1, "1"));
@@ -113,7 +113,7 @@ describe("HashSet Tests", () => {
 
         set4.removeAll(set2);
         expect(set4.size()).toBe(2);
-        expect(set4.get(new Test(2, ""))).toBeUndefined();
+        expect(set4.find(new Test(2, ""))).toBeUndefined();
 
         set4.clear();
         expect(set4.size()).toBe(0);

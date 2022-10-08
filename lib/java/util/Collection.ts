@@ -5,10 +5,12 @@
  * See LICENSE-MIT.txt file for more info.
  */
 
+import { java } from "../java";
+
 /* eslint-disable @typescript-eslint/naming-convention */
 
-export interface Collection<T> {
-    [Symbol.iterator](): Iterator<T>;
+export interface Collection<T> extends Iterable<T> {
+    [Symbol.iterator](): IterableIterator<T>;
 
     /**
      * Ensures that this collection contains the specified element.
@@ -38,7 +40,7 @@ export interface Collection<T> {
     /**
      * Compares the specified object with this collection for equality.
      */
-    equals(other: Collection<T>): boolean;
+    equals(other: unknown): boolean;
 
     /**
      * Returns the hash code value for this collection.
@@ -50,10 +52,13 @@ export interface Collection<T> {
      */
     isEmpty(): boolean;
 
+    /** Returns an iterator over the elements in this collection. */
+    iterator(): java.util.Iterator<T>;
+
     /**
      * Removes a single instance of the specified element from this collection, if it is present.
      */
-    remove(o: T): boolean;
+    remove(o: unknown): boolean;
 
     /**
      * Removes all of this collection's elements that are also contained in the specified collection.

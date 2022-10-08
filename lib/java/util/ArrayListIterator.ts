@@ -5,24 +5,26 @@
  * See LICENSE-MIT.txt file for more info.
  */
 
-import { ListIterator } from ".";
-import { IndexOutOfBoundsException, NoSuchElementException } from "../lang";
+import { java } from "../java";
 
-export class ArrayListIterator<T> implements ListIterator<T> {
-
-    private nextBufferIndex = 0;
+export class ArrayListIterator<T> implements java.util.ListIterator<T> {
 
     // Holds the direction we navigated last (either by calling next() or previous()).
-    private movedForward = false;
+    private movedForward: boolean | undefined;
 
-    public constructor(private buffer: T[], startIndex?: number) {
-        if (startIndex !== undefined) {
-            if (startIndex < 0 || startIndex >= buffer.length) {
-                throw new IndexOutOfBoundsException();
-            }
+    // The current index in the iteration.
+    private index: number;
 
-            this.nextBufferIndex = startIndex;
+    public constructor(
+        private buffer: T[],
+        private supportRemoval = true,
+        private start = 0,
+        private end = buffer.length) {
+        if (start < 0 || end < 0 || start + end >= buffer.length) {
+            throw new java.lang.IndexOutOfBoundsException();
         }
+
+        this.index = start;
     }
 
     public add(element: T): void {
@@ -30,58 +32,66 @@ export class ArrayListIterator<T> implements ListIterator<T> {
     }
 
     public hasNext(): boolean {
-        return this.nextBufferIndex < this.buffer.length;
+        return this.index < this.end;
     }
 
     public hasPrevious(): boolean {
-        return this.nextBufferIndex > 0;
+        return this.index > this.start;
     }
 
     public next(): T {
-        if (this.nextBufferIndex === this.buffer.length) {
-            throw new NoSuchElementException();
+        if (this.index === this.end) {
+            throw new java.lang.NoSuchElementException();
         }
 
         this.movedForward = true;
 
-        return this.buffer[this.nextBufferIndex++];
+        return this.buffer[this.index++];
     }
 
     public nextIndex(): number {
-        return this.nextBufferIndex;
+        return this.index;
     }
 
     public previous(): T {
-        if (this.nextBufferIndex === 0) {
-            throw new NoSuchElementException();
+        if (this.index === this.start) {
+            throw new java.lang.NoSuchElementException();
         }
 
         this.movedForward = false;
 
-        return this.buffer[--this.nextBufferIndex];
+        return this.buffer[--this.index];
     }
 
     public previousIndex(): number {
-        return this.nextBufferIndex - 1;
+        return this.index - 1;
     }
 
     public remove(): void {
-        if (this.movedForward) {
-            // Index was moved to next element.
-            this.buffer.splice(this.nextBufferIndex - 1, 1);
+        if (this.supportRemoval) {
+            if (this.movedForward === undefined) {
+                throw new java.lang.IllegalStateException();
+            }
+
+            if (this.movedForward) {
+                // Index was moved to next element.
+                this.buffer.splice(this.index - 1, 1);
+            } else {
+                // Index at last returned element.
+                this.buffer.splice(this.index, 1);
+            }
         } else {
-            // Index at last returned element.
-            this.buffer.splice(this.nextBufferIndex, 1);
+            throw new java.lang.UnsupportedOperationException();
         }
     }
 
     public set(element: T): void {
         if (this.movedForward) {
             // Index was moved to next element.
-            this.buffer[this.nextBufferIndex - 1] = element;
+            this.buffer[this.index - 1] = element;
         } else {
             // Index at last returned element.
-            this.buffer[this.nextBufferIndex] = element;
+            this.buffer[this.index] = element;
         }
     }
 
