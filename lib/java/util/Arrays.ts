@@ -7,6 +7,7 @@
 
 import { ArrayList, List } from ".";
 import { HashableArray, MurmurHash } from "../../MurmurHash";
+import { IEquatable } from "../../types";
 
 export type ComparableValueType = number | bigint | string;
 
@@ -40,7 +41,7 @@ export class Arrays {
      *
      * @returns True if both arrays are equal, false otherwise.
      */
-    public static equals(a?: HashableArray, a2?: HashableArray): boolean {
+    public static equals(a?: IEquatable[], a2?: IEquatable[]): boolean {
         if (a === a2) {
             return true; // Same object or both null/undefined.
         }
@@ -53,10 +54,13 @@ export class Arrays {
             return false;
         }
 
-        const hash1 = this.hashCode(a);
-        const hash2 = this.hashCode(a2);
+        for (let i = 0; i < a.length; ++i) {
+            if (!a[i].equals(a2[i])) {
+                return false;
+            }
+        }
 
-        return hash1 === hash2;
+        return true;
     }
 
     /**

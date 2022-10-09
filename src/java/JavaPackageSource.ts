@@ -61,6 +61,7 @@ export class JavaPackageSource extends PackageSource {
         { name: "java.lang.Appendable", isInterface: true },
         { name: "java.lang.Comparable", isInterface: true },
         { name: "java.lang.Readable", isInterface: true },
+        { name: "java.lang.CodePoint", isInterface: true }, // Type alias which is not part of the JDK.
         { name: "java.lang.StackTraceElement" },
 
         { name: "java.io.Closeable", isInterface: true },
@@ -121,7 +122,8 @@ export class JavaPackageSource extends PackageSource {
             ],
         },
         { name: "java.util.HashMap", implements: ["java.util.Map"] },
-        { name: "java.util.LinkedHashMap", extends: "java.util.HashMap" },
+        { name: "java.util.HashSet", implements: ["java.util.Set"] },
+        { name: "java.util.IdentityHashMap", implements: ["java.util.Map"] },
         { name: "java.util.Stack" },
         { name: "java.util.Comparator" },
         { name: "java.util.Locale", implements: ["java.lang.Cloneable", "java.io.Serializable"] },

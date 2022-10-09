@@ -13,12 +13,12 @@ import { NotImplementedError } from "../../NotImplementedError";
 export class IdentityHashMap<K, V> implements java.lang.Cloneable<IdentityHashMap<K, V>>, java.io.Serializable,
     java.util.Map<K, V> {
 
-    private backingStore: Map<K, V>;
+    // Since we are using reference equality in this map, we can just let TS map do the heavy lifting.
+    private backingStore = new Map<K, V>();
 
     public constructor(expectedMaxSize?: number);
     public constructor(map: java.util.Map<K, V>);
     public constructor(expectedMaxSizeOrMap?: number | java.util.Map<K, V>) {
-        this.backingStore = new Map<K, V>();
         if (expectedMaxSizeOrMap && typeof expectedMaxSizeOrMap !== "number") {
             if (expectedMaxSizeOrMap) {
                 this.putAll(expectedMaxSizeOrMap);
@@ -41,9 +41,8 @@ export class IdentityHashMap<K, V> implements java.lang.Cloneable<IdentityHashMa
     }
 
     public containsValue(value: V): boolean {
-        const valueHash = MurmurHash.valueHash(value);
         for (const e of this.backingStore) {
-            if (MurmurHash.valueHash(e[0]) === valueHash) {
+            if (e[1] === value) {
                 return true;
             }
         }
@@ -75,8 +74,8 @@ export class IdentityHashMap<K, V> implements java.lang.Cloneable<IdentityHashMa
     }
 
     public putAll(map: java.util.Map<K, V>): void {
-        if (map instanceof IdentityHashMap) {
-            this.backingStore.forEach((value, key) => {
+        if (map instanceof IdentityHashMap<K, V>) {
+            (map.backingStore as Map<K, V>).forEach((value, key) => {
                 this.backingStore.set(key, value);
             });
         } else {
@@ -128,12 +127,6 @@ export class IdentityHashMap<K, V> implements java.lang.Cloneable<IdentityHashMa
     }
 
     public values(): java.util.Collection<V> {
-        const result = new java.util.ArrayList<V>();
-
-        for (const value of this.backingStore.values()) {
-            result.add(value);
-        }
-
-        return result;
+        throw new NotImplementedError();
     }
 }

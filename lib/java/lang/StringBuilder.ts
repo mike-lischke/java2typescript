@@ -5,20 +5,18 @@
  * See LICENSE-MIT.txt file for more info.
  */
 
-import { CodePoint, StringBuffer } from ".";
-import { CharSequence } from "./CharSequence";
-import { IndexOutOfBoundsException } from "./IndexOutOfBoundsException";
+import { java } from "../java";
 
 // Note: because there's no char type in JS/TS and we defined CodePoint as a number, there's no way here to tell them
 //       apart. This means a code point would be rendered as a number string. Use appendCodePoint to add a single code
 //       point.
 type SourceDataType =
-    boolean | string | String | number | bigint | StringBuilder | StringBuffer | //Uint32Array |
-    CodePoint[] | CharSequence | unknown;
+    boolean | string | String | number | bigint | StringBuilder | java.lang.StringBuffer | //Uint32Array |
+    java.lang.CodePoint[] | java.lang.CharSequence | unknown;
 
 type SourceData = SourceDataType[];
 
-export class StringBuilder implements CharSequence {
+export class StringBuilder implements java.lang.CharSequence, java.lang.Appendable {
     private data = new Uint32Array();
 
     // The used length in data (which might be larger, due to removed parts).
@@ -53,11 +51,11 @@ export class StringBuilder implements CharSequence {
      * @returns Itself for method chaining.
      */
     public prepend(...newContent: SourceData): this;
-    public prepend(buffer: CodePoint[] | CharSequence, start?: number, end?: number): this;
+    public prepend(buffer: java.lang.CodePoint[] | java.lang.CharSequence, start?: number, end?: number): this;
     public prepend(...data: unknown[]): this {
         if (data.length > 0) {
             const candidate = data[0];
-            if (Array.isArray(candidate) || this.isCharSequence(candidate)) {
+            if (Array.isArray(candidate) || (this.isCharSequence(candidate) && typeof data[1] === "number")) {
                 const start = data[1] as number;
                 const end = data[2] as number;
                 this.insertListData(0, candidate, start, end);
@@ -70,11 +68,11 @@ export class StringBuilder implements CharSequence {
     }
 
     public append(...newContent: SourceData): this;
-    public append(buffer: CodePoint[] | CharSequence, start?: number, end?: number): this;
+    public append(buffer: java.lang.CodePoint[] | java.lang.CharSequence, start?: number, end?: number): this;
     public append(...data: unknown[]): this {
         if (data.length > 0) {
             const candidate = data[0];
-            if (Array.isArray(candidate) || this.isCharSequence(candidate)) {
+            if (Array.isArray(candidate) || (this.isCharSequence(candidate) && typeof data[1] === "number")) {
                 const start = data[1] as number;
                 const end = data[2] as number;
                 this.insertListData(this.currentLength, candidate, start, end);
@@ -87,12 +85,12 @@ export class StringBuilder implements CharSequence {
     }
 
     public appendLine(text?: string): this {
-        this.append(text, "\n");
+        this.append(text ?? "", "\n");
 
         return this;
     }
 
-    public appendCodePoint(c: CodePoint): this {
+    public appendCodePoint(c: java.lang.CodePoint): this {
         this.append(String.fromCodePoint(c));
 
         return this;
@@ -104,27 +102,27 @@ export class StringBuilder implements CharSequence {
     }
 
     // Returns the char value in this sequence at the specified index.
-    public charAt(index: number): CodePoint {
+    public charAt(index: number): java.lang.CodePoint {
         if (index < 0 || index >= this.currentLength) {
-            throw new IndexOutOfBoundsException();
+            throw new java.lang.IndexOutOfBoundsException();
         }
 
         return this.data.at(index);
     }
 
     // Returns the character (Unicode code point) at the specified index.
-    public codePointAt(index: number): CodePoint {
+    public codePointAt(index: number): java.lang.CodePoint {
         if (index < 0 || index >= this.currentLength) {
-            throw new IndexOutOfBoundsException();
+            throw new java.lang.IndexOutOfBoundsException();
         }
 
         return this.data.at(index);
     }
 
     // Returns the character (Unicode code point) before the specified index.
-    public codePointBefore(index: number): CodePoint {
+    public codePointBefore(index: number): java.lang.CodePoint {
         if (index < 1 || index >= this.currentLength) {
-            throw new IndexOutOfBoundsException();
+            throw new java.lang.IndexOutOfBoundsException();
         }
 
         return this.data.at(index - 1);
@@ -133,15 +131,15 @@ export class StringBuilder implements CharSequence {
     // Returns the number of Unicode code points in the specified text range of this sequence.
     public codePointCount(beginIndex: number, endIndex: number): number {
         if (beginIndex < 0 || beginIndex >= this.currentLength) {
-            throw new IndexOutOfBoundsException();
+            throw new java.lang.IndexOutOfBoundsException();
         }
 
         if (endIndex < 0 || endIndex >= this.currentLength) {
-            throw new IndexOutOfBoundsException();
+            throw new java.lang.IndexOutOfBoundsException();
         }
 
         if (beginIndex > endIndex) {
-            throw new IndexOutOfBoundsException();
+            throw new java.lang.IndexOutOfBoundsException();
         }
 
         return endIndex - beginIndex - 1;
@@ -150,15 +148,15 @@ export class StringBuilder implements CharSequence {
     // Removes the characters in a substring of this sequence.
     public delete(start: number, end: number): this {
         if (start < 0 || start >= this.currentLength) {
-            throw new IndexOutOfBoundsException();
+            throw new java.lang.IndexOutOfBoundsException();
         }
 
         if (end < 0 || end >= this.currentLength) {
-            throw new IndexOutOfBoundsException();
+            throw new java.lang.IndexOutOfBoundsException();
         }
 
         if (start > end) {
-            throw new IndexOutOfBoundsException();
+            throw new java.lang.IndexOutOfBoundsException();
         }
 
         this.data.copyWithin(start, end);
@@ -188,15 +186,15 @@ export class StringBuilder implements CharSequence {
     // Characters are copied from this sequence into the destination character array dst.
     public getChars(srcBegin: number, srcEnd: number, dst: Uint32Array, dstBegin: number): void {
         if (srcBegin < 0 || dstBegin < 0) {
-            throw new IndexOutOfBoundsException();
+            throw new java.lang.IndexOutOfBoundsException();
         }
 
         if (srcBegin > srcEnd || srcEnd > this.currentLength) {
-            throw new IndexOutOfBoundsException();
+            throw new java.lang.IndexOutOfBoundsException();
         }
 
         if (dstBegin + srcEnd - srcBegin > dst.length) {
-            throw new IndexOutOfBoundsException();
+            throw new java.lang.IndexOutOfBoundsException();
         }
 
         dst.set(this.data.subarray(srcBegin, srcEnd), dstBegin);
@@ -228,15 +226,15 @@ export class StringBuilder implements CharSequence {
     // Returns the index within this sequence that is offset from the given index by codePointOffset code points.
     public offsetByCodePoints(index: number, codePointOffset: number): number {
         if (index < 0 || index >= this.currentLength) {
-            throw new IndexOutOfBoundsException();
+            throw new java.lang.IndexOutOfBoundsException();
         }
 
         if (codePointOffset >= 0 && index + codePointOffset >= this.currentLength) {
-            throw new IndexOutOfBoundsException();
+            throw new java.lang.IndexOutOfBoundsException();
         }
 
         if (index + codePointOffset < 0) {
-            throw new IndexOutOfBoundsException();
+            throw new java.lang.IndexOutOfBoundsException();
         }
 
         return index + codePointOffset;
@@ -258,9 +256,9 @@ export class StringBuilder implements CharSequence {
     }
 
     // The character at the specified index is set to ch.
-    public setCharAt(index: number, ch: CodePoint): void {
+    public setCharAt(index: number, ch: java.lang.CodePoint): void {
         if (index < 0 || index >= this.currentLength) {
-            throw new IndexOutOfBoundsException();
+            throw new java.lang.IndexOutOfBoundsException();
         }
 
         this.data.set([ch], index);
@@ -395,7 +393,8 @@ export class StringBuilder implements CharSequence {
      * @param start Optional start position in the source list.
      * @param end Optional end position in the source list.
      */
-    private insertListData(position: number, data: CodePoint[] | CharSequence, start?: number, end?: number): void {
+    private insertListData(position: number, data: java.lang.CodePoint[] | java.lang.CharSequence, start?: number,
+        end?: number): void {
         let array: Uint32Array;
         let additionalSize: number;
 
@@ -446,8 +445,8 @@ export class StringBuilder implements CharSequence {
         }
     }
 
-    private isCharSequence(candidate: unknown): candidate is CharSequence {
-        return (candidate as CharSequence).subSequence !== undefined;
+    private isCharSequence(candidate: unknown): candidate is java.lang.CharSequence {
+        return (candidate as java.lang.CharSequence).subSequence !== undefined;
     }
 }
 

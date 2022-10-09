@@ -8,7 +8,7 @@
 import { java } from "../java";
 
 import { JavaEqualityComparator } from "../../JavaEqualityComparator";
-import { HashableArray, MurmurHash } from "../../MurmurHash";
+import { MurmurHash } from "../../MurmurHash";
 import { HashMapEntry } from "./HashMapEntry";
 import { IEquatable } from "../../types";
 
@@ -53,7 +53,7 @@ export class HashMapValueEqualityComparator<K, V> implements JavaEqualityCompara
         }
 
         if (Array.isArray(value1) && Array.isArray(value2)) {
-            return java.util.Arrays.equals(value1 as HashableArray, value2 as HashableArray);
+            return java.util.Arrays.equals(value1 as IEquatable[], value2 as IEquatable[]);
         }
 
         return false;

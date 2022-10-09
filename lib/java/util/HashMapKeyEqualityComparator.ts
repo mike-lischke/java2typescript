@@ -8,7 +8,7 @@
 import { java } from "../java";
 
 import { JavaEqualityComparator } from "../../JavaEqualityComparator";
-import { HashableArray, MurmurHash } from "../../MurmurHash";
+import { MurmurHash } from "../../MurmurHash";
 import { HashMapEntry } from "./HashMapEntry";
 import { IEquatable } from "../../types";
 
@@ -53,8 +53,8 @@ export class HashMapKeyEqualityComparator<K, V> implements JavaEqualityComparato
         }
 
         if (Array.isArray(key1) && Array.isArray(key2)) {
-            // Assuming here arrays were given which can be hashed.
-            return java.util.Arrays.equals(key1 as HashableArray, key2 as HashableArray);
+            // Assuming here arrays were given with elements that can be compared.
+            return java.util.Arrays.equals(key1 as IEquatable[], key2 as IEquatable[]);
         }
 
         return this.hashCode(a) === this.hashCode(b);

@@ -535,7 +535,7 @@ export class FileProcessor {
             || modifier.includes("abstract");
 
         // Conclude nested content within this class declaration.
-        const nested = this.processNestedContent(modifier.includes("public"));
+        const nested = this.processNestedContent(modifier.includes("export"));
         const className = context.identifier().text;
 
         // Check if this declaration itself is nested.
@@ -551,16 +551,21 @@ export class FileProcessor {
             const owner = this.typeStack.tos;
 
             // Add a type declaration for the nested class, so it can be used as a type.
-            const exportPrefix = modifier.includes("public") ? "\nexport " : "\n";
             const typeOfText = modifier.includes("static") ? "typeof " : "";
 
             let typeParameters = "";
             if (context.typeParameters()) {
                 typeParameters = context.typeParameters().text;
             }
-            this.typeStack.tos.deferredDeclarations.append(exportPrefix,
-                `type ${className}${typeParameters} = InstanceType<${typeOfText}${owner.name}.${className}` +
-                `${typeParameters}>;\n`);
+
+            // Add a comment to suppress Typescript's error for non-public nested types, if necessary.
+            let suppression = "";
+            if (!modifier.includes("public")) {
+                suppression = "\t// @ts-expect-error, because of protected inner class.\n";
+            }
+
+            this.typeStack.tos.deferredDeclarations.append(`${suppression}\texport type ${className}` +
+                `${typeParameters} = InstanceType<${typeOfText}${owner.name}.${className}${typeParameters}>;\n`);
         } else {
             // A top level class declaration.
             builder.append(prefix, mustBeAbstract ? "abstract " : "", localBuilder);
@@ -3380,7 +3385,7 @@ export class FileProcessor {
                                     const isClass = typeName[0] === typeName[0].toUpperCase();
                                     const isArray = typeName.endsWith("[]");
 
-                                    if (isClass) {
+                                    if (isClass && !isArray) {
                                         let type = overload.signature[i].type.trim();
                                         const typeParamsCheck = type.match(/^[A-Z_.]+[ \t]*(<.+>)/i);
                                         if (typeParamsCheck) {

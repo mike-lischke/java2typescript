@@ -120,9 +120,9 @@ describe("HashMap Tests", () => {
         // Insertion order is not maintained!
         expect(keys).not.toEqual([10000, 10, 1000000]);
 
-        // Instead they are inserted (and enumerated) based on their bucket position (which in turn depends on the
+        // Instead entries are inserted (and enumerated) based on their bucket position (which in turn depends on the
         // key's hash code).
-        expect(keys).not.toEqual([1000000, 10000, 10]);
+        expect(keys).toEqual([100000, 10000, 10]);
 
         expect(m.containsValue(1)).toBeTruthy();
         expect(m.containsValue(10)).toBeFalsy();
@@ -136,8 +136,8 @@ describe("HashMap Tests", () => {
         m.put("sit", 1);
         m.put("amet", null);
 
-        const set = m.entrySet();
-        expect(set.size()).toBe(5);
+        const entries = m.entrySet();
+        expect(entries.size()).toBe(5);
 
         const keys = m.keySet();
         expect(keys.size()).toBe(5);
@@ -153,16 +153,31 @@ describe("HashMap Tests", () => {
         expect(m.size()).toBe(3);
         expect(values.contains(null)).toBeFalsy();
 
+        expect(() => { values.add(1); }).toThrowError(java.lang.UnsupportedOperationException);
+        expect(() => { values.addAll(values); }).toThrowError(java.lang.UnsupportedOperationException);
+
         m.put("xyz", "abc");
         expect(values.size()).toBe(4);
         expect(keys.size()).toBe(4);
-        expect(set.size()).toBe(4);
+        expect(entries.size()).toBe(4);
         expect(m.size()).toBe(4);
 
-        const setList1 = [...set];
-        const setList2 = set.toArray();
-        const setList3 = set.toArray(new Array<HashMapEntry<string, unknown>>());
+        const setList1 = [...entries];
+        const setList2 = entries.toArray();
+        const setList3 = entries.toArray(new Array<HashMapEntry<string, unknown>>());
         expect(setList1).toEqual(setList2);
         expect(setList1).toEqual(setList3);
+
+        const valuesList1 = [...values];
+        const valuesList2 = values.toArray();
+        const valuesList3 = values.toArray(new Array<HashMapEntry<string, unknown>>());
+        expect(valuesList1).toEqual(valuesList2);
+        expect(valuesList1).toEqual(valuesList3);
+
+        values.clear();
+        expect(m.size()).toBe(0);
+        expect(values.size()).toBe(0);
+        expect(entries.size()).toBe(0);
+        expect(keys.size()).toBe(0);
     });
 });

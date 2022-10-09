@@ -91,6 +91,8 @@ Nested classes and types are converted to local classes in Typescript by using e
 
 To allow use of such local classes as a type, a namespace declaration is automatically added at the end of the generated file.
 
+> Note: in opposition to Java it is not possible for the outer class to access non-public members of nested classes. You have to convert all members that are required outside of the nested class to be publicly accessible. This shouldn't cause any trouble if the nested class itself is defined as non-public.
+
 ## Constructors
 
 Constructors are mostly handled like methods (including overloading), but need a bit more attention. Usually linters require that constructors are listed at the beginning of a class definition, so they will be moved to that position in the converted file (if not there already).

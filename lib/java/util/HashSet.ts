@@ -72,6 +72,8 @@ export class HashSet<T> implements java.lang.Cloneable<HashSet<T>>, java.io.Seri
      * there. This method performs the same operation as {@link add} aside from
      * the return value.
      *
+     * Note: this method is not part of the Java API for HashSet, but was added for convenience.
+     *
      * @param o The element to add.
      *
      * @returns Either the passed in object (if it wasn't there yet) or the stored object which is equal to the given
@@ -84,6 +86,8 @@ export class HashSet<T> implements java.lang.Cloneable<HashSet<T>>, java.io.Seri
     /**
      * Find method based on equality of the current comparator. Might find an object with a different reference,
      * but the same properties as in `o` (object equality).
+     *
+     * Note: this method is not part of the Java API for HashSet, but was added for convenience.
      *
      * @param o The value/object to search for.
      *
