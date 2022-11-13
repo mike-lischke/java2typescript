@@ -37,7 +37,8 @@ export class JavaFileSource extends PackageSource {
     // Only set if a file was parsed.
     public fileParseInfo?: IFileParseInfo;
 
-    public constructor(packageId: string, sourceFile: string, targetFile: string, private packageRoot: string) {
+    public constructor(packageId: string, sourceFile: string, targetFile: string, private packageRoot: string,
+        private replacements?: Map<RegExp, string>) {
         super(packageId, sourceFile, targetFile);
     }
 
@@ -61,7 +62,7 @@ export class JavaFileSource extends PackageSource {
     };
 
     protected textFromInterval = (interval: Interval): string => {
-        return this.fileParseInfo?.inputStream.getText(interval);
+        return this.fileParseInfo?.inputStream.getText(interval) ?? "";
     };
 
     private parse = (): void => {
@@ -71,7 +72,11 @@ export class JavaFileSource extends PackageSource {
             return;
         }
 
-        const content = fs.readFileSync(this.sourceFile, "utf-8");
+        let content = fs.readFileSync(this.sourceFile, "utf-8");
+        this.replacements?.forEach((value, pattern) => {
+            content = content.replace(pattern, value);
+        });
+
         const inputStream = CharStreams.fromString(content);
         const lexer = new JavaLexer(inputStream);
         const tokenStream = new CommonTokenStream(lexer);

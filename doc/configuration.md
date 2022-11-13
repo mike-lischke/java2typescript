@@ -13,6 +13,10 @@ Note: this setting has no influence on which files are parsed, only which are ge
 
 * **output** (string, mandatory): specifies where generated files have to be written to. This path can be relative to the current path and gets the same folder structure as found in the package root path.
 
+* **sourceReplace** (map, optional): Specifies patterns for string replacements to be done in a Java file before it is parsed.
+
+* **targetReplace** (map, optional): Specifies patterns for string replacements to be done in the generated TS file.
+
 * **options** (object with configuration options, mandatory): see below for a description of the possible values.
 
 * **debug** (object with debug configuration options, optional): see below for a description of the possible values.

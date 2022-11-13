@@ -23,9 +23,10 @@ import {
     EnhancedForControlContext,
     CatchClauseContext,
     EnumConstantContext,
+    InterfaceCommonBodyDeclarationContext,
 } from "../../java/generated/JavaParser";
 import { JavaParserListener } from "../../java/generated/JavaParserListener";
-import { Stack } from "../../lib/java/util/Stack";
+import { Stack } from "../lib/java/util/Stack";
 
 import { EnhancedTypeKind } from "../conversion/types";
 import { PackageSource } from "../PackageSource";
@@ -40,10 +41,13 @@ export class EnumConstantSymbol extends Symbol { }
 export class ConstructorSymbol extends MethodSymbol { }
 
 export class ClassBodySymbol extends ScopedSymbol { }
+export class JavaInterfaceSymbol extends InterfaceSymbol {
+    public isTypescriptCompatible = false;
+}
 export class InterfaceBodySymbol extends ScopedSymbol { }
 
 export class InitializerBlockSymbol extends ScopedSymbol {
-    public isStatic: boolean;
+    public isStatic = false;
 }
 
 export class TypeSymbol extends Symbol { }
@@ -127,7 +131,7 @@ export class JavaParseTreeWalker implements JavaParserListener {
     };
 
     public exitClassBodyDeclaration = (): void => {
-        if (this.symbolStack.tos.name === "#initializer#") {
+        if (this.symbolStack.tos?.name === "#initializer#") {
             this.symbolStack.pop();
         }
     };
@@ -168,7 +172,33 @@ export class JavaParseTreeWalker implements JavaParserListener {
     };
 
     public enterInterfaceDeclaration = (ctx: InterfaceDeclarationContext): void => {
-        this.pushNewScope(InterfaceSymbol, ctx.identifier().text, ctx);
+        const symbol = this.pushNewScope(JavaInterfaceSymbol, ctx.identifier().text, ctx);
+
+        // Check the interface if it is compatible with Typescript.
+        symbol.isTypescriptCompatible = true;
+        ctx.interfaceBody().interfaceBodyDeclaration().forEach((context) => {
+            // Entries without any content can be ignored.
+            if (!context.SEMI() && symbol.isTypescriptCompatible) {
+                const memberContext = context.interfaceMemberDeclaration();
+
+                // The Java interface is compatible with TS if:
+                // - there are only (generic) method declarations
+                // - these methods have no body.
+                let commonBodyDeclaration: InterfaceCommonBodyDeclarationContext | undefined;
+                if (memberContext?.interfaceMethodDeclaration()) {
+                    commonBodyDeclaration = memberContext.interfaceMethodDeclaration()!
+                        .interfaceCommonBodyDeclaration();
+                } else if (memberContext?.genericInterfaceMethodDeclaration()) {
+                    commonBodyDeclaration = memberContext.genericInterfaceMethodDeclaration()!
+                        .interfaceCommonBodyDeclaration();
+                }
+
+                if (!commonBodyDeclaration || commonBodyDeclaration.methodBody().block() != null) {
+                    symbol.isTypescriptCompatible = false;
+                }
+            }
+        });
+
     };
 
     public exitInterfaceDeclaration = (): void => {
@@ -211,7 +241,7 @@ export class JavaParseTreeWalker implements JavaParserListener {
 
         if (ctx.typeType()) {
             // Explicit type.
-            const type = this.generateTypeRecord(ctx.typeType().text);
+            const type = this.generateTypeRecord(ctx.typeType()!.text);
 
             const id = ctx.variableDeclaratorId().identifier().text;
             const symbol = this.symbolTable.addNewSymbolOfType(VariableSymbol, block, id, undefined, type);
@@ -279,7 +309,8 @@ export class JavaParseTreeWalker implements JavaParserListener {
 
     public visitTerminal = (_node: TerminalNode): void => { /**/ };
 
-    private pushNewScope = <T extends ScopedSymbol>(t: new (...args: unknown[]) => T, name: string,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    private pushNewScope = <T extends ScopedSymbol>(t: new (...args: any[]) => T, name: string,
         ctx?: ParserRuleContext): T => {
         const parent = this.symbolStack.length === 0 ? undefined : this.symbolStack.tos;
 
@@ -298,7 +329,7 @@ export class JavaParseTreeWalker implements JavaParserListener {
      */
     private checkStatic = (symbol: Symbol): void => {
         let found = false;
-        let run = symbol.context as ParserRuleContext;
+        let run: ParserRuleContext | undefined = symbol.context as ParserRuleContext;
         while (run && !found) {
             switch (run.ruleIndex) {
                 case JavaParser.RULE_typeDeclaration: {
@@ -314,7 +345,7 @@ export class JavaParseTreeWalker implements JavaParserListener {
 
                 case JavaParser.RULE_classBodyDeclaration: {
                     (run as ClassBodyDeclarationContext).modifier().forEach((modifier) => {
-                        if (modifier.classOrInterfaceModifier() && modifier.classOrInterfaceModifier().STATIC()) {
+                        if (modifier.classOrInterfaceModifier() && modifier.classOrInterfaceModifier()!.STATIC()) {
                             symbol.modifiers.add(Modifier.Static);
                         }
                     });
@@ -325,7 +356,7 @@ export class JavaParseTreeWalker implements JavaParserListener {
 
                 case JavaParser.RULE_interfaceBodyDeclaration: {
                     (run as InterfaceBodyDeclarationContext).modifier().forEach((modifier) => {
-                        if (modifier.classOrInterfaceModifier() && modifier.classOrInterfaceModifier().STATIC()) {
+                        if (modifier.classOrInterfaceModifier() && modifier.classOrInterfaceModifier()!.STATIC()) {
                             symbol.modifiers.add(Modifier.Static);
                         }
                     });

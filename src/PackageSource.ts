@@ -20,7 +20,7 @@ import { ISymbolInfo } from "./conversion/types";
 // Java imports to JS/TS imports and to expand partial type specifiers to their fully qualified name.
 export class PackageSource {
     // Available symbols from the associated file or package.
-    public symbolTable?: SymbolTable;
+    public symbolTable: SymbolTable;
 
     // The set of sources imported by this source. Might contain unused imports.
     public importList = new Set<PackageSource>();
@@ -29,11 +29,13 @@ export class PackageSource {
     // file being converted. Hence those names comprise the TS import list.
     protected importedSymbols = new Set<string>();
 
-    public constructor(public packageId: string, public sourceFile: string, public targetFile: string) {
+    public constructor(public packageId: string, public sourceFile: string, public targetFile?: string) {
         if (packageId !== "java") {
             // In Java only java.lang is implicitly imported, but we do that for all Java classes here.
             this.importList.add(PackageSourceManager.fromPackageId("java"));
         }
+
+        this.symbolTable = this.createSymbolTable();
     }
 
     public get parseTree(): CompilationUnitContext | undefined {
@@ -82,7 +84,7 @@ export class PackageSource {
      * @returns A tuple containing a list of imported names and the relative import path.
      */
     public getImportInfo = (importingFile: string): [string[], string] => {
-        if (this.importedSymbols.size > 0) {
+        if (this.targetFile && this.importedSymbols.size > 0) {
             const names = Array.from(this.importedSymbols.values());
             let importPath: string;
             if (this.targetFile.startsWith("/") || this.targetFile.startsWith(".")) {
@@ -162,15 +164,23 @@ export class PackageSource {
         // Touch the parse tree, to trigger a parse run of this source, if not yet done.
         void this.parseTree;
 
-        const symbol = this.symbolTable.resolveSync(name, true); // Only look locally.
-        if (symbol) {
-            this.importedSymbols.add(symbol.name);
+        if (this.symbolTable) {
+            const symbol = this.symbolTable.resolveSync(name, true); // Only look locally.
+            if (symbol) {
+                this.importedSymbols.add(symbol.name);
+            }
+
+            return symbol;
         }
 
-        return symbol;
+        return undefined;
     };
 
     protected textFromInterval = (_interval: Interval): string => {
         return "";
     };
+
+    protected createSymbolTable(): SymbolTable {
+        return new SymbolTable("default", {});
+    }
 }

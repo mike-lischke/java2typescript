@@ -7,12 +7,17 @@
         "esModuleInterop": true,
         "experimentalDecorators": true,
         "moduleResolution": "Node",
+        "strict": true,
     },
     "include": [
         "src/**/*.ts",
-        "lib/**/*.ts",
+        "src/lib/**/*.ts",
         "java/generated/**/*.ts",
-        "lib/Decorators.ts",
-        "test/**/*.ts"
+        "src/lib/Decorators.ts",
+        "src/test/**/*.ts"
+    ],
+    "exclude": [
+        "node_modules/**/*.*",
+        "output/**/*.*"
     ]
 }

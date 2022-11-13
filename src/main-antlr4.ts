@@ -51,7 +51,7 @@ const convertAntlr4Runtime = async () => {
         packageRoot: path.resolve(process.cwd(), "../antlr4/runtime/Java/src"),
         javaLib: path.resolve(process.cwd(), "../a4tstool/lib/java/java.ts"),
         include: [
-            "/LexerATNSimulator.java",
+            //"DecisionInfo.java",
         ],
         exclude: [
             "AbstractEqualityComparator.java",
@@ -84,6 +84,11 @@ const convertAntlr4Runtime = async () => {
             addIndexFiles: true,
             suppressTSErrorsForECI: true,
         },
+        sourceReplace: new Map([
+            [/\n\s+\* {@inheritDoc}/g, ""],
+            [/\* @return /g, " @returns "],
+            [/\* @since[^\n*]*/g, "*"],
+        ]),
 
         /*debug: {
             pathForPosition: {
@@ -108,7 +113,6 @@ const convertAntlr4Runtime = async () => {
     }*/
 
     await convertAntlr4Runtime();
-
 })().catch((e: Error) => {
-    console.error("\nError during conversion: " + e.stack);
+    console.error("\nError during conversion: " + (e.stack ?? ""));
 });

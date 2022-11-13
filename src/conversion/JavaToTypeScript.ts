@@ -135,6 +135,12 @@ export interface IConverterConfiguration {
      */
     output: string;
 
+    /** Specifies patterns for string replacements to be done in a Java file before it is parsed. */
+    sourceReplace?: Map<RegExp, string>;
+
+    /** Specifies patterns for string replacements to be done in the generated TS file. */
+    targetReplace?: Map<RegExp, string>;
+
     /**
      * Options for the conversion process.
      */
@@ -148,7 +154,7 @@ export interface IConverterConfiguration {
 
 export class JavaToTypescriptConverter {
     public constructor(private configuration: IConverterConfiguration) {
-        PackageSourceManager.configure(configuration.options.importResolver, configuration.javaLib);
+        PackageSourceManager.configure(configuration.javaLib, configuration.options.importResolver);
     }
 
     public async startConversion(): Promise<void> {
@@ -175,18 +181,19 @@ export class JavaToTypescriptConverter {
             const tsName = relativeSource.substring(0, relativeSource.length - 4) + "ts";
             const target = this.configuration.output + "/" + tsName;
 
-            const source = PackageSourceManager.fromFile(entry, path.resolve(currentDir, target), root);
+            const source = PackageSourceManager.fromFile(entry, path.resolve(currentDir, target), root,
+                this.configuration.sourceReplace);
             if (this.filterFile(entry, this.configuration.include, this.configuration.exclude)) {
                 toConvert.push(new FileProcessor(source, this.configuration));
             }
         });
 
         // Load also all files given by a source mapping. These are never converted, however.
-        for (const { sourcePath, importPath } of this.configuration.options.sourceMappings) {
+        for (const { sourcePath, importPath } of this.configuration.options.sourceMappings ?? []) {
             const list = glob.sync(sourcePath + "/**/*.java");
             console.log(`\nFound ${list.length} java files in ${sourcePath}`);
             list.forEach((entry) => {
-                PackageSourceManager.fromFile(entry, importPath, sourcePath);
+                PackageSourceManager.fromFile(entry, importPath, sourcePath, this.configuration.sourceReplace);
             });
         }
 

@@ -17,7 +17,7 @@ export class PackageSourceManager {
     // A mapper function which can return a package source for a package ID.
     // Such a package source is usually not loaded from a file, but contains a symbol table constructed by
     // other means (e.g. hard coded values).
-    private static customImportResolver: CustomImportResolver;
+    private static customImportResolver?: CustomImportResolver;
 
     // A special path holding the JDK polyfills.
     private static javaTargetRoot: string;
@@ -25,7 +25,7 @@ export class PackageSourceManager {
     // The list of all known package sources.
     private static sources = new Map<string, PackageSource>();
 
-    public static configure = (customImportResolver: CustomImportResolver, javaTargetRoot: string): void => {
+    public static configure = (javaTargetRoot: string, customImportResolver?: CustomImportResolver): void => {
         this.customImportResolver = customImportResolver;
         this.javaTargetRoot = javaTargetRoot;
 
@@ -44,10 +44,12 @@ export class PackageSourceManager {
      *               generated or may contain a reference to some other source like a node module.
      * @param packageRoot The path to the root of the package where the given file is in. Used to resolve
      *                    relative file paths for imports.
+     * @param replacements Patterns for string replacements in the source file, before it is parsed.
      *
      * @returns A package source instance. An error is thrown if the source could not be read.
      */
-    public static fromFile = (source: string, target: string, packageRoot: string): PackageSource => {
+    public static fromFile = (source: string, target: string, packageRoot: string,
+        replacements?: Map<RegExp, string>): PackageSource => {
         // Construct a package name for lookup from the given paths.
         if (!source.startsWith(packageRoot)) {
             throw new Error("The full path must specify a file within the given package root.");
@@ -68,7 +70,7 @@ export class PackageSourceManager {
             return packageSource;
         }
 
-        packageSource = new JavaFileSource(packageId, source, target, packageRoot);
+        packageSource = new JavaFileSource(packageId, source, target, packageRoot, replacements);
         this.sources.set(packageId, packageSource);
 
         return packageSource;

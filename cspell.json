@@ -17,15 +17,19 @@
     "ignoreWords": [
         "COLONCOLON",
         "Harwell",
+        "Hashtable",
         "LBRACK",
         "LPAREN",
         "RBRACK",
         "RPAREN",
         "Xexact",
         "arraycopy",
+        "bitness",
         "javax",
         "stringbuilder",
         "stringtemplate",
+        "unmappable",
+        "uxxxx",
         "ᬠᬣᬦᬪᬫᬬᬭ"
     ],
     "ignorePaths": [

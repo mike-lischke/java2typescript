@@ -5,10 +5,11 @@
  * See LICENSE file for more info.
  */
 
-import { FieldSymbol, InterfaceSymbol, MethodSymbol, ScopedSymbol, SymbolTable } from "antlr4-c3";
+import { Symbol, FieldSymbol, MethodSymbol, ScopedSymbol, SymbolTable } from "antlr4-c3";
 
 import { PackageSource } from "../PackageSource";
 import { JavaClassSymbol } from "../parsing/JavaClassSymbol";
+import { JavaInterfaceSymbol } from "../parsing/JavaParseTreeWalker";
 
 interface IClassHierarchyEntry {
     // Qualified name.
@@ -30,6 +31,7 @@ export class JavaPackageSource extends PackageSource {
         { name: "java.lang.Character" },
         { name: "java.lang.Class" },
         { name: "java.lang.Integer" },
+        { name: "java.lang.Boolean" },
         { name: "java.lang.StringBuilder" },
         { name: "java.lang.StringBuffer", extends: "java.lang.StringBuilder" },
         {
@@ -48,6 +50,7 @@ export class JavaPackageSource extends PackageSource {
         { name: "java.lang.NoSuchElementException", extends: "java.lang.RuntimeException" },
         { name: "java.lang.NullPointerException", extends: "java.lang.RuntimeException" },
         { name: "java.lang.UnsupportedOperationException", extends: "java.lang.RuntimeException" },
+        { name: "java.lang.NegativeArraySizeException", extends: "java.lang.RuntimeException" },
 
         { name: "java.lang.Error", extends: "java.lang.Throwable" },
         { name: "java.lang.LinkageError", extends: "java.lang.Error" },
@@ -61,7 +64,11 @@ export class JavaPackageSource extends PackageSource {
         { name: "java.lang.Appendable", isInterface: true },
         { name: "java.lang.Comparable", isInterface: true },
         { name: "java.lang.Readable", isInterface: true },
-        { name: "java.lang.CodePoint", isInterface: true }, // Type alias which is not part of the JDK.
+        {
+            name: "java.lang.String", implements: [
+                "java.io.Serializable", "java.lang.CharSequence", "java.lang.Comparable",
+            ],
+        },
         { name: "java.lang.StackTraceElement" },
 
         { name: "java.io.Closeable", isInterface: true },
@@ -100,6 +107,7 @@ export class JavaPackageSource extends PackageSource {
         { name: "java.nio.Buffer" },
         { name: "java.nio.CharBuffer", extends: "java.nio.Buffer" },
         { name: "java.nio.ByteBuffer", extends: "java.nio.Buffer" },
+        { name: "java.nio.ByteOrder" },
         { name: "java.nio.InvalidMarkException", extends: "java.lang.IllegalStateException" },
         { name: "java.nio.BufferOverflowException", extends: "java.lang.RuntimeException" },
         { name: "java.nio.BufferUnderflowException", extends: "java.lang.RuntimeException" },
@@ -121,6 +129,14 @@ export class JavaPackageSource extends PackageSource {
                 "put", "putAll", "remove", "size", "values",
             ],
         },
+        {
+            name: "java.util.Set", isInterface: true, methods: [
+                "add", "addAll", "clear", "contains", "containsAll", "equals", "hashCode", "isEmpty", "iterator",
+                "remove", "removeAll", "retainAll", "size", "toArray",
+            ],
+        },
+        { name: "java.util.BitSet", implements: ["java.io.Serializable", "java.lang.Cloneable"] },
+        { name: "java.util.Properties", extends: "java.lang.Map" },
         { name: "java.util.HashMap", implements: ["java.util.Map"] },
         { name: "java.util.HashSet", implements: ["java.util.Set"] },
         { name: "java.util.IdentityHashMap", implements: ["java.util.Map"] },
@@ -135,57 +151,60 @@ export class JavaPackageSource extends PackageSource {
         { name: "java.util.concurrent.CancellationException", extends: "java.lang.IllegalStateException" },
     ];
 
-    public constructor(packageId: string, targetFile: string) {
-        super(packageId, "", targetFile);
-
-        this.createSymbolTable();
-    }
-
-    private createSymbolTable = (): void => {
-        this.symbolTable = new SymbolTable("Java", { allowDuplicateSymbols: false });
+    protected createSymbolTable = (): SymbolTable => {
+        const symbolTable = new SymbolTable("Java", { allowDuplicateSymbols: false });
 
         // Start by adding all supported namespaces.
-        this.symbolTable.addNewNamespaceFromPathSync(this.symbolTable, "java.lang", ".");
-        this.symbolTable.addNewNamespaceFromPathSync(this.symbolTable, "java.io", ".");
-        this.symbolTable.addNewNamespaceFromPathSync(this.symbolTable, "java.nio", ".");
-        this.symbolTable.addNewNamespaceFromPathSync(this.symbolTable, "java.nio.charset", ".");
-        this.symbolTable.addNewNamespaceFromPathSync(this.symbolTable, "java.util.regex", ".");
-        this.symbolTable.addNewNamespaceFromPathSync(this.symbolTable, "java.util.concurrent", ".");
+        symbolTable.addNewNamespaceFromPathSync(symbolTable, "java.lang", ".");
+        symbolTable.addNewNamespaceFromPathSync(symbolTable, "java.io", ".");
+        symbolTable.addNewNamespaceFromPathSync(symbolTable, "java.nio", ".");
+        symbolTable.addNewNamespaceFromPathSync(symbolTable, "java.nio.charset", ".");
+        symbolTable.addNewNamespaceFromPathSync(symbolTable, "java.util.regex", ".");
+        symbolTable.addNewNamespaceFromPathSync(symbolTable, "java.util.concurrent", ".");
 
         // Now all classes and interfaces.
         JavaPackageSource.javaClassHierarchy.forEach((entry) => {
             const extendsList = [];
-            const implementsList = [];
+            const implementsList: Symbol[] = [];
 
             if (entry.extends) {
-                extendsList.push(this.symbolTable.symbolFromPath(entry.extends));
+                extendsList.push(symbolTable.symbolFromPath(entry.extends));
             }
 
             entry.implements?.forEach((name) => {
-                implementsList.push(this.symbolTable.symbolFromPath(name));
+                const symbol = symbolTable.symbolFromPath(name);
+                if (symbol) {
+                    implementsList.push(symbol);
+                }
             });
 
             const parts = entry.name.split(".");
             const name = parts.pop();
-            const parent = this.symbolTable.symbolFromPath(parts.join(".")) as ScopedSymbol;
+            const parent = symbolTable.symbolFromPath(parts.join(".")) as ScopedSymbol;
 
             let mainSymbol: ScopedSymbol;
             if (entry.isInterface) {
-                mainSymbol = this.symbolTable.addNewSymbolOfType(InterfaceSymbol, parent, name, extendsList,
+                const symbol = symbolTable.addNewSymbolOfType(JavaInterfaceSymbol, parent, name, extendsList,
                     implementsList);
+
+                // All registered interfaces are implemented as native interfaces.
+                symbol.isTypescriptCompatible = true;
+                mainSymbol = symbol;
             } else {
-                mainSymbol = this.symbolTable.addNewSymbolOfType(JavaClassSymbol, parent, name, extendsList,
+                mainSymbol = symbolTable.addNewSymbolOfType(JavaClassSymbol, parent, name, extendsList,
                     implementsList);
             }
 
             entry.fields?.forEach((field) => {
-                this.symbolTable.addNewSymbolOfType(FieldSymbol, mainSymbol, field);
+                symbolTable.addNewSymbolOfType(FieldSymbol, mainSymbol, field);
             });
 
             entry.methods?.forEach((method) => {
-                this.symbolTable.addNewSymbolOfType(MethodSymbol, mainSymbol, method);
+                symbolTable.addNewSymbolOfType(MethodSymbol, mainSymbol, method);
             });
         });
+
+        return symbolTable;
     };
 
 }
