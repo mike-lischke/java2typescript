@@ -5,16 +5,22 @@
             "type": "node",
             "request": "launch",
             "name": "Run current Jest test",
-            "runtimeExecutable": "node",
+            "runtimeExecutable": null,
             "runtimeArgs": [
                 "--inspect-brk",
                 "${workspaceRoot}/node_modules/.bin/jest",
-                "--runInBand"
-            ],
-            "args": [
-                "${fileBasename}"
+                "--runInBand",
+                "${fileBasenameNoExtension}.js",
             ],
             "console": "integratedTerminal",
+            "stopOnEntry": false,
+            "preLaunchTask": "tsc",
+            "outFiles": [
+                "${workspaceFolder}/output/src/**/*.js"
+            ],
+            "env": {
+                "NODE_ENV": "testing"
+            }
         },
         {
             "type": "node",

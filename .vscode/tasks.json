@@ -2,6 +2,26 @@
     "version": "2.0.0",
     "tasks": [
         {
+            "command": "tsc",
+            "label": "tsc",
+            "type": "shell",
+            "args": [
+                "-w",
+                "-p",
+                "."
+            ],
+            "isBackground": true,
+            "problemMatcher": "$tsc-watch",
+            "presentation": {
+                "echo": true,
+                "reveal": "silent",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": true,
+                "clear": false
+            }
+        },
+        {
             "type": "typescript",
             "tsconfig": "tsconfig.json",
             "option": "watch",

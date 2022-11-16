@@ -32,8 +32,8 @@
         "typescript": "^4.9.3"
     },
     "scripts": {
-        "build:sourcemap": "tsc --sourceMap",
-        "test": "jest --no-cache --runInBand --testMatch [ \"**/src/test/**/*.spec.ts\" ] --no-coverage --watchAll=false",
+        "build": "tsc",
+        "test": "jest --testMatch [ \"**/src/test/**/*.spec.ts\" ] --no-coverage --watchAll=false",
         "test-coverage": "jest  --testMatch [ \"**/src/test/**/*.spec.ts\" ] --coverage",
         "lint": "eslint \"./src/**/*.ts\"",
         "antlr4ts": "antlr4ts -Xexact-output-dir ./java/JavaLexer.g4 ./java/JavaParser.g4 -visitor -o ./java/generated"
@@ -42,12 +42,8 @@
         "testEnvironment": "node",
         "preset": "ts-jest",
         "verbose": false,
-        "transform": {
-            "^.+\\.ts$": "ts-jest"
-        },
         "testPathIgnorePatterns": [
-            "/output/",
-            "/node_modules/"
+            "node_modules"
         ],
         "moduleFileExtensions": [
             "ts",
@@ -57,7 +53,8 @@
             "/output/.+\\.js"
         ],
         "collectCoverageFrom": [
-            "lib/**/*.ts"
+            "src/**/*.ts",
+            "!src/test/**"
         ],
         "coverageReporters": [
             "json",
