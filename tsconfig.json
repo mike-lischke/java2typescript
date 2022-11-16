@@ -2,22 +2,27 @@
     "compilerOptions": {
         "target": "ES2022",
         "module": "CommonJS",
-        "outDir": "output",
+        "outDir": "./output",
         "sourceMap": true,
         "esModuleInterop": true,
+        "isolatedModules": true,
         "experimentalDecorators": true,
         "moduleResolution": "Node",
         "strict": true,
+        "noImplicitAny": true,
+        "strictNullChecks": true,
+        "strictPropertyInitialization": true,
+        "rootDirs": [
+            "src",
+            "java/generated"
+        ]
     },
     "include": [
         "src/**/*.ts",
-        "src/lib/**/*.ts",
         "java/generated/**/*.ts",
-        "src/lib/Decorators.ts",
-        "src/test/**/*.ts"
     ],
     "exclude": [
         "node_modules/**/*.*",
         "output/**/*.*"
-    ]
+    ],
 }

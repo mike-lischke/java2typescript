@@ -5,6 +5,8 @@
  * See LICENSE-MIT.txt file for more info.
  */
 
+export { };
+
 describe("Tests", () => {
     it("Base", () => {
         //

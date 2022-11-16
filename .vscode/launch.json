@@ -4,17 +4,17 @@
         {
             "type": "node",
             "request": "launch",
-            "name": "Run selected Jest test",
-            "program": "/usr/local/bin/node",
+            "name": "Run current Jest test",
+            "runtimeExecutable": "node",
             "runtimeArgs": [
-                "./node_modules/.bin/jest",
-                "--runInBand",
-                "--watchAll=false ",
+                "--inspect-brk",
+                "${workspaceRoot}/node_modules/.bin/jest",
+                "--runInBand"
             ],
             "args": [
-                "-i",
-                "${file}"
-            ]
+                "${fileBasename}"
+            ],
+            "console": "integratedTerminal",
         },
         {
             "type": "node",

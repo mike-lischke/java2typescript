@@ -40,7 +40,6 @@ class KeyEntry implements IEquatable {
 
 describe("HashMapKeyEqualityComparator Tests", () => {
     it("Base", () => {
-        debugger;
         const comparator = new HashMapKeyEqualityComparator<string, number>();
 
         const entry1 = new HashMapEntry("lorem ipsum", 42);
