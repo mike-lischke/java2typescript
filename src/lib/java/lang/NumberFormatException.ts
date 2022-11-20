@@ -7,8 +7,5 @@
 
 import { IllegalArgumentException } from "./IllegalArgumentException";
 
-/**
- * @deprecated Don't use this exception. It is never thrown when converting strings to numbers.
- */
 export class NumberFormatException extends IllegalArgumentException {
 }

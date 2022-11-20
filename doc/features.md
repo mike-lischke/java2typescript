@@ -40,7 +40,14 @@ Typescript does not support multi-dimensional array creation with array sizes (i
 
 ## Numbers
 
-Single numbers are always converted to `number`, whether they are integers or floating point Java types. To match Java semantics better there's one exception: `long`, which is converted to `bigint` (64bit). This creates a problem on TS side. There's no automatic conversion between a number and a bigint, like there is in Java. This must be solved manually, just like cases where Java does automatic boxing and unboxing of primitive types from/to their object type (e.g. `Integer` <-> `int`)
+Single primitive numbers (byte, int, short, long, float, double) are always converted to `number`. To match Java semantics better there's one exception: `long`, which is converted to `bigint` (64bit). This creates a problem on TS side. There's no automatic conversion between a number and a bigint, like there is in Java. This must be solved manually, just like cases where Java does automatic boxing and unboxing of primitive types from/to their object type (e.g. `Integer` <-> `int`). To ease the process numerical classes (e.g. `Integer`) contain support for primitive coercion, which nonetheless must be triggered explicitly:
+
+```typescript
+const i = new Integer(1);
+console.log(1 + +i); // Or alternatively: `1 + Number(i)`
+```
+
+(note the extra `+` in front of `i`). The explicit coercion is not auto generated.
 
 Numbers in arrays are converted directly according to their Java type. For example `int[]` is converted to `Uint32Array`.
 

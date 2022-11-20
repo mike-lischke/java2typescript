@@ -6,11 +6,12 @@
  */
 
 import { final } from "../../Decorators";
-import { Cloneable } from "../lang";
+
+import { java } from "../java";
 
 /** This class has no meaningful implementation and exist only to satisfy call signatures. */
 @final
-export class Locale implements Cloneable<Locale> {
+export class Locale implements java.lang.Cloneable<Locale> {
     public static getDefault(): Locale {
         return new Locale();
     }

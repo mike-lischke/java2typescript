@@ -1,11 +1,11 @@
 /*
  * This file is released under the MIT license.
- * Copyright (c) 2021, Mike Lischke
+ * Copyright (c) 2021, 2022, Mike Lischke
  *
  * See LICENSE-MIT.txt file for more info.
  */
 
-/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-argument */
 
 export const final = <T extends new (...args: any[]) => object>(target: T): T => {
     return class Final extends target {
@@ -14,7 +14,6 @@ export const final = <T extends new (...args: any[]) => object>(target: T): T =>
                 throw new Error("Cannot inherit from final class");
             }
 
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
             super(...args);
         }
     };

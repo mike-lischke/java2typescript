@@ -13,7 +13,8 @@
     "dependencies": {
         "antlr4-c3": "2.2.1",
         "antlr4ts": "0.5.0-alpha.4",
-        "glob": "8.0.3"
+        "glob": "8.0.3",
+        "unicode-properties": "^1.4.1"
     },
     "devDependencies": {
         "@types/glob": "^8.0.0",
@@ -23,7 +24,7 @@
         "@typescript-eslint/eslint-plugin-tslint": "^5.43.0",
         "@typescript-eslint/parser": "^5.43.0",
         "antlr4ts-cli": "^0.5.0-alpha.4",
-        "eslint": "^8.27.0",
+        "eslint": "^8.28.0",
         "eslint-plugin-import": "^2.26.0",
         "eslint-plugin-jsdoc": "^39.6.2",
         "eslint-plugin-prefer-arrow": "^1.2.3",
@@ -33,7 +34,7 @@
     },
     "scripts": {
         "build": "tsc",
-        "test": "jest --testMatch [ \"**/src/test/**/*.spec.ts\" ] --no-coverage --watchAll=false",
+        "test": "jest --testMatch [ \"**/output/src/test/**/*.spec.js\" ] --no-coverage --watchAll=false",
         "test-coverage": "jest  --testMatch [ \"**/src/test/**/*.spec.ts\" ] --coverage",
         "lint": "eslint \"./src/**/*.ts\"",
         "antlr4ts": "antlr4ts -Xexact-output-dir ./java/JavaLexer.g4 ./java/JavaParser.g4 -visitor -o ./java/generated"
@@ -53,8 +54,7 @@
             "/output/.+\\.js"
         ],
         "collectCoverageFrom": [
-            "src/**/*.ts",
-            "!src/test/**"
+            "src/lib/java/**/*.ts"
         ],
         "coverageReporters": [
             "json",
@@ -64,10 +64,10 @@
         ],
         "coverageThreshold": {
             "global": {
-                "statements": 35,
-                "branch": 18,
-                "functions": 20,
-                "lines": 35
+                "statements": 30,
+                "branch": 15,
+                "functions": 15,
+                "lines": 30
             }
         }
     }

@@ -11,7 +11,7 @@ import { final } from "../../Decorators";
 import { java } from "../java";
 
 @final
-export class BooleanImpl implements java.io.Serializable, java.lang.Comparable<BooleanImpl> {
+export class Boolean implements java.io.Serializable, java.lang.Comparable<Boolean> {
 
     public static readonly TRUE: Boolean;
     public static readonly FALSE: Boolean;
@@ -58,8 +58,9 @@ export class BooleanImpl implements java.io.Serializable, java.lang.Comparable<B
      *
      * @returns tbd
      */
-    public static valueOf(value?: boolean | string): BooleanImpl {
-        return new BooleanImpl(value);
+    public static valueOf(value?: boolean | string): Boolean {
+        // eslint-disable-next-line no-new-wrappers
+        return new Boolean(value);
     }
 
     /**
@@ -105,8 +106,8 @@ export class BooleanImpl implements java.io.Serializable, java.lang.Comparable<B
      *
      * @returns tbd
      */
-    public compareTo(b: BooleanImpl): number {
-        return BooleanImpl.compare(this.value, b.value);
+    public compareTo(b: Boolean): number {
+        return Boolean.compare(this.value, b.value);
     }
 
     /**
@@ -122,7 +123,7 @@ export class BooleanImpl implements java.io.Serializable, java.lang.Comparable<B
             return true;
         }
 
-        if (obj instanceof BooleanImpl) {
+        if (obj instanceof Boolean) {
             return this.value === obj.value;
         }
 
@@ -143,5 +144,3 @@ export class BooleanImpl implements java.io.Serializable, java.lang.Comparable<B
         return this.value;
     }
 }
-
-export const Boolean = BooleanImpl as unknown as new (value: boolean | string) => boolean;
