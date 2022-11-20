@@ -33,7 +33,7 @@
         "typescript": "^4.9.3"
     },
     "scripts": {
-        "build": "tsc",
+        "build": "npm run antlr4ts && tsc",
         "test": "jest --testMatch [ \"**/output/src/test/**/*.spec.js\" ] --no-coverage --watchAll=false",
         "test-coverage": "jest  --testMatch [ \"**/src/test/**/*.spec.ts\" ] --coverage",
         "lint": "eslint \"./src/**/*.ts\"",
