@@ -6,13 +6,7 @@ The converter avoids extending existing classes (like `String`), which means cer
 
 ## Interfaces
 
-Java interfaces are one of the most incompatible objects between the two languages. Java interfaces can have initialized fields and method implementations, which is not supported in Typescript. Hence all interfaces are converted to abstract TS classes.
-
-Fortunately, TS allows that a class `implements` another class, not only an interface. Using `implements` is however not always a good solution (especially when referencing symbols from the base class). An effort is made to use `extends` in simple cases (no existing `extends` clause and only one type in the `implements` clause) instead. Using `extends` for all classes in general is not possible, as that might lead to multiple inheritance, which is not supported by TS/JS.
-
-## Object
-
-All Java types are implicitly based off `java.lang.Object`. This concept is currently not used for the generated TS code. That also means that no generated class supports any of the `java.lang.Object` methods (`clone`, `finalize`, `getClass`, `notify`, `notifyAll`, `wait`). See also the reflection section.
+Java interfaces are one of the most incompatible objects between the two languages. Java interfaces can have initialized fields and method implementations, which is not supported in Typescript. Therefore all interfaces are converted to abstract TS classes, unless they are simple and only contain supported language features, in which case they are translated to TS interfaces.
 
 ## Enumerations
 
@@ -20,7 +14,7 @@ Enums in Java are objects with compiler synthesized methods, which can only part
 
 ## Iterators
 
-Both the `Iterator` and the `Iterable` interfaces are supported in Java as well as in TS. However, the `Iterator` interface in Java supports additional functionality (namely mandatory `hasNext()` and optional `remove()`), which is not available in TS. Hence an own implementation is used instead, but that supports the `Iterable` interface, to allow direct translation of `for` loops with iterable objects.
+Both the `Iterator` and the `Iterable` interfaces are supported in Java as well as in TS. However, the `Iterator` interface in Java supports additional functionality (namely the mandatory `hasNext()` and optional `remove()` methods), which is not available in TS. For this reason an own implementation is used instead, but that supports the `Iterable` interface, to allow direct translation of `for` loops with iterable objects.
 
 ## Methods, Rest Parameters and Overloading
 
