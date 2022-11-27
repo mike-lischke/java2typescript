@@ -30,7 +30,7 @@ export class PackageSourceManager {
         this.javaTargetRoot = javaTargetRoot;
 
         // All JDK sources are always known.
-        const source = new JavaPackageSource("java", this.javaTargetRoot);
+        const source = new JavaPackageSource("java", "", this.javaTargetRoot);
         this.sources.set("java", source);
     };
 

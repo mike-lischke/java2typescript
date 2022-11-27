@@ -216,7 +216,7 @@ export class CharBuffer extends Buffer<Uint16Array> implements java.lang.Appenda
      * @returns < 0 if this buffer is less than the given buffer, 0 for equality and > 0 if larger.
      */
     public compareTo(that: CharBuffer): number {
-        return this.buffer.toString().localeCompare(that.toString());
+        return this.buffer.toString().localeCompare(`${that.toString()}`);
     }
 
     /**
@@ -244,7 +244,7 @@ export class CharBuffer extends Buffer<Uint16Array> implements java.lang.Appenda
      */
     public equals(ob: unknown): boolean {
         if (ob instanceof CharBuffer) {
-            return this === ob || this.buffer.toString() === ob.toString();
+            return this === ob || this.buffer.toString().valueOf() === ob.toString().valueOf();
         }
 
         return false;
@@ -450,8 +450,9 @@ export class CharBuffer extends Buffer<Uint16Array> implements java.lang.Appenda
     }
 
     /** @returns a string containing the characters in this buffer. */
-    public toString(): string {
-        return String.fromCharCode(...this.buffer.subarray(this.currentPosition, this.currentLimit));
+    public toString(): java.lang.String {
+        return new java.lang.String(
+            String.fromCharCode(...this.buffer.subarray(this.currentPosition, this.currentLimit)));
     }
 
 }

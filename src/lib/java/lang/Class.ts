@@ -5,26 +5,36 @@
  * See LICENSE-MIT.txt file for more info.
  */
 
-/** A partial implementation of Java's Class type. */
-export class Class<T> extends Object {
+import { JavaObject } from "./Object";
 
-    public constructor(private ctor: abstract new (...args: never[]) => T) {
+/** A partial implementation of Java's Class type. */
+export class Class extends JavaObject {
+
+    private static classes = new Map<typeof JavaObject, Class>();
+
+    private constructor(private c: typeof JavaObject) {
         super();
     }
 
+    public static fromConstructor(c: typeof JavaObject): Class {
+        let clazz = Class.classes.get(c);
+        if (!clazz) {
+            clazz = new Class(c);
+            Class.classes.set(c, clazz);
+        }
+
+        return clazz;
+    }
+
     public getName(): string {
-        return this.ctor.name;
+        return this.c.name;
     }
 
     public isInstance(o: unknown): boolean {
-        if (!(o instanceof Object)) {
-            return false;
-        }
-
-        return o instanceof this.ctor;
+        return o instanceof this.c;
     }
 
-    public cast(o: unknown): T {
-        return o as T;
+    public cast(o: unknown): typeof this.c {
+        return o as typeof this.c;
     }
 }

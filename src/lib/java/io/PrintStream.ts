@@ -78,7 +78,7 @@ export class PrintStream extends FilterOutputStream {
         } else {
             start = start ?? 0;
             end = end ?? cOrSOrCsq.length();
-            text = cOrSOrCsq.subSequence(start, end).toString();
+            text = `${cOrSOrCsq.subSequence(start, end).toString()}`;
         }
 
         const buffer = Buffer.from(text, this.encoding);

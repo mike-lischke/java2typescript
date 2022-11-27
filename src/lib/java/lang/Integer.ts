@@ -5,27 +5,28 @@
  * See LICENSE-MIT.txt file for more info.
  */
 
-import { final } from "../../Decorators";
 import { MurmurHash } from "../../MurmurHash";
 
 import { java } from "../java";
+import { JavaObject } from "./Object";
 
 /* eslint-disable @typescript-eslint/naming-convention */
 
-@final
-export class Integer implements java.io.Serializable, java.lang.Comparable<Integer>  {
+export class Integer extends JavaObject implements java.io.Serializable, java.lang.Comparable<Integer>  {
     public static readonly MAX_VALUE = 0x7FFFFFFF;
     public static readonly MIN_VALUE = 0x80000000;
     public static readonly SIZE = 32;
-    public static readonly TYPE: java.lang.Class<Integer>;
+    public static readonly TYPE: java.lang.Class;
 
     private static byte = new Int8Array(1);
     private static short = new Int16Array(1);
 
-    private value: number;
+    private value: number; // Can use number here, as it uses 52 bit for the mantissa, while we only need 32 bit.
 
     // Constructs a newly allocated Integer object that represents the specified int or string value.
     public constructor(value: number | string) {
+        super();
+
         if (typeof value === "string") {
             this.value = parseInt(value, 10);
         } else if (Number.isInteger(value)) {
@@ -418,7 +419,7 @@ export class Integer implements java.io.Serializable, java.lang.Comparable<Integ
      * @returns True if obj is an instance of java.lang.Integer and both represent the same numerical value,
      *          otherwise false.
      */
-    public equals(obj?: unknown): boolean {
+    public equals(obj?: java.lang.Object): boolean {
         if (obj instanceof Integer) {
             return this.value === obj.value;
         }
@@ -458,15 +459,15 @@ export class Integer implements java.io.Serializable, java.lang.Comparable<Integ
     }
 
     // Returns a String object representing this Integer's value.
-    public toString(): string {
-        return this.value.toString();
+    public toString(): java.lang.String {
+        return new java.lang.String(this.value.toString());
     }
 
     private [Symbol.toPrimitive](hint: string) {
         if (hint === "number") {
             return this.value;
         } else if (hint === "string") {
-            return this.toString();
+            return this.value.toString();
         }
 
         return null;
@@ -476,7 +477,7 @@ export class Integer implements java.io.Serializable, java.lang.Comparable<Integ
         // Defer initializing the TYPE field, to ensure the Class class is loaded before using it.
         setTimeout(() => {
             /* @ts-expect-error */
-            Integer.TYPE = new java.lang.Class(Integer);
+            Integer.TYPE = java.lang.Class.fromConstructor(Integer);
             Object.freeze(Integer);
         }, 0);
     }

@@ -268,7 +268,7 @@ export class FileProcessor {
 
                 try {
                     fs.mkdirSync(path.dirname(this.source.targetFile), { recursive: true });
-                    fs.writeFileSync(this.source.targetFile, builder.toString());
+                    fs.writeFileSync(this.source.targetFile, `${builder.toString()}`);
                     console.log(" done");
                 } catch (e) {
                     console.log("failed");
@@ -406,7 +406,8 @@ export class FileProcessor {
             }
 
             if (context.classDeclaration()) {
-                this.processClassDeclaration(builder, context.classDeclaration(), prefix, modifierBuilder.toString());
+                this.processClassDeclaration(builder, context.classDeclaration(), prefix,
+                    `${modifierBuilder.toString()}`);
             } else if (context.enumDeclaration()) {
                 this.processEnumDeclaration(builder, context.enumDeclaration(), prefix);
             } else if (context.interfaceDeclaration()) {
@@ -520,6 +521,8 @@ export class FileProcessor {
         if (context.EXTENDS() && context.typeType()) {
             this.getContent(localBuilder, context.EXTENDS());
             this.processTypeType(localBuilder, context.typeType());
+        } else {
+            localBuilder.append(" extends java.lang.Object");
         }
 
         if (context.IMPLEMENTS()) {
@@ -562,7 +565,8 @@ export class FileProcessor {
             if (modifier.includes("static")) {
                 builder.append(`${prefix}${modifier} ${className} = ${localBuilder.toString()};\n`);
             } else {
-                builder.append(`${prefix}${modifier} ${className} = (($outer) => {\nreturn ${localBuilder.toString()}`);
+                builder.append(`${prefix}${modifier} ${className} = (($outer) => ` +
+                    `{\nreturn ${localBuilder.toString()}`);
                 builder.append(`\n})(this);\n`);
             }
 
@@ -688,7 +692,7 @@ export class FileProcessor {
 
                 if (context.memberDeclaration()) {
                     const details = this.processMemberDeclaration(context.memberDeclaration(), ws,
-                        modifierBuilder.toString());
+                        `${modifierBuilder.toString()}`);
 
                     if (details && details.bodyContent.length() > 0) {
                         // The content is empty if the member was converted to a (nested) namespace
@@ -829,7 +833,7 @@ export class FileProcessor {
 
         details.signatureContent = new java.lang.StringBuilder();
         details.signature = [];
-        details.returnType = returnType.toString();
+        details.returnType = `${returnType.toString()}`;
 
         if (this.configuration.options.preferArrowFunctions) {
             details.signatureContent.append(details.modifier.includes("abstract") ? ": " : " = ");
@@ -956,7 +960,7 @@ export class FileProcessor {
             }
         }
 
-        return { name: identifier.text, type: type.toString() + brackets, rest: brackets.length > 0 };
+        return { name: identifier.text, type: `${type.toString()}${brackets}`, rest: brackets.length > 0 };
     };
 
     private processMethodBody = (builder: java.lang.StringBuilder, context: MethodBodyContext): void => {
@@ -976,7 +980,7 @@ export class FileProcessor {
 
         const params = new java.lang.StringBuilder();
         this.processTypeParameters(params, context.typeParameters());
-        details.typeParameters = params.toString();
+        details.typeParameters = `${params.toString()}`;
 
         return this.processMethodDeclaration(details, context.methodDeclaration(), params);
     };
@@ -1236,7 +1240,7 @@ export class FileProcessor {
                 }
 
                 const details = this.processInterfaceMemberDeclaration(context.interfaceMemberDeclaration(), ws,
-                    modifierBuilder.toString());
+                    `${modifierBuilder.toString()}`);
 
                 if (details) {
                     if (isTypescriptCompatible) {
@@ -1334,7 +1338,8 @@ export class FileProcessor {
         let index = 1;
         while (true) {
             let child = context.getChild(index++);
-            this.processConstantDeclarator(details.bodyContent, child as ConstantDeclaratorContext, type.toString());
+            this.processConstantDeclarator(details.bodyContent, child as ConstantDeclaratorContext,
+                `${type.toString()}`);
 
             child = context.getChild(index++);
             this.getContent(details.bodyContent, child as TerminalNode); // Comma or semicolon.
@@ -1382,7 +1387,7 @@ export class FileProcessor {
 
         const typeParameters = new java.lang.StringBuilder();
         this.processTypeParameters(typeParameters, context.typeParameters());
-        details.typeParameters = typeParameters.toString();
+        details.typeParameters = `${typeParameters.toString()}`;
 
         this.processInterfaceCommonBodyDeclaration(details, context.interfaceCommonBodyDeclaration());
     };
@@ -1398,7 +1403,7 @@ export class FileProcessor {
 
         const returnType = new java.lang.StringBuilder();
         this.processTypeTypeOrVoid(returnType, context.typeTypeOrVoid());
-        details.returnType = returnType.toString();
+        details.returnType = `${returnType.toString()}`;
 
         const isAbstract = context.methodBody().SEMI() !== undefined;
         if (isAbstract) {
@@ -1546,7 +1551,7 @@ export class FileProcessor {
         this.processTypeType(type, context.typeType());
 
         // What's matched as type can be the special form of `var a = 1`.
-        if (type.toString() === "var") {
+        if (type.toString().valueOf() === "var") {
             type.clear();
         }
 
@@ -1708,7 +1713,7 @@ export class FileProcessor {
 
                     // Replace casts that can be better expressed.
                     const rightWs = this.getLeadingWhiteSpaces(context.RPAREN());
-                    switch (type.toString()) {
+                    switch (type.toString().valueOf()) {
                         case "string": {
                             const expression = new java.lang.StringBuilder();
                             this.processExpression(expression, context.expression(0));
@@ -1824,7 +1829,7 @@ export class FileProcessor {
                                     if (call) {
                                         // A method called on a specific class instance or a static method call
                                         // on an object. Handle String methods separately.
-                                        if (firstExpression.toString() === "string") {
+                                        if (firstExpression.toString().valueOf() === "string") {
                                             const methodName = call.identifier()?.text;
                                             switch (methodName) {
                                                 case "valueOf": {
@@ -3018,7 +3023,7 @@ export class FileProcessor {
             this.processTypeType(type, context.getChild(index++) as TypeTypeContext);
 
             let ignoreNext = false;
-            if (type.toString().trim() !== "Serializable") {
+            if (`${type.toString()}`.trim() !== "Serializable") {
                 list.push(type);
             } else {
                 // Remove the last added builder too (which must be comma text).
@@ -3472,7 +3477,7 @@ export class FileProcessor {
                     builder.append(modifier);
 
                     // Remove the arrow style for overloading.
-                    let signature = overload.signatureContent?.toString() ?? "";
+                    let signature = `${overload.signatureContent?.toString()}` ?? "";
                     if (signature.startsWith(" = ") && signature.endsWith(" =>")) {
                         signature = signature.substring(3, signature.length - 3);
                     }
@@ -3496,7 +3501,7 @@ export class FileProcessor {
                     }
                 });
 
-                const combinedParameters: Array<IParameterInfo & { optional: boolean; needTypeCheck: boolean }> = [];
+                const combinedParameters: Array<IParameterInfo & { optional: boolean; needTypeCheck: boolean; }> = [];
                 let combinedParameterString = "";
 
                 const maxParamCount = (overloads[overloads.length - 1].signature ?? []).length;
@@ -3684,7 +3689,7 @@ export class FileProcessor {
                     // Before writing the body content, we also have to inject assignments with the original
                     // parameter name (+ a cast), if it differs from the combined name, to allow using the
                     // body content without change.
-                    let block = overload.bodyContent.toString();
+                    let block = `${overload.bodyContent.toString()}`;
                     if (nameAssignments.length > 0) {
                         const openCurlyIndex = block.indexOf("{");
                         if (openCurlyIndex > -1) { // Should always be true.
@@ -3881,14 +3886,6 @@ export class FileProcessor {
 
         // 2. Replace primitive and certain other types to native JS/TS types.
         switch (name) {
-            case "Object": {
-                // Object in Java is not the same as a JS object, but semantically stands for anything,
-                // which is not a primitive value. So the proper translation would be `unknown`. But that produces
-                // problems when a type is checked (for example in method overloads). So we stay with the
-                // imperfect `object` type here.
-                return "object";
-            }
-
             default:
         }
 

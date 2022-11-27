@@ -95,9 +95,9 @@ export class OutputStreamWriter extends Writer {
             this.write(cOrCsq);
         } else {
             if (start !== undefined && end !== undefined) {
-                this.write(cOrCsq.subSequence(start, end).toString());
+                this.write(`${cOrCsq.subSequence(start, end).toString()}`);
             } else {
-                this.write(cOrCsq.toString());
+                this.write(`${cOrCsq.toString()}`);
             }
         }
 

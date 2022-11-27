@@ -6,14 +6,15 @@
  */
 
 import { java } from "../java";
+import { JavaObject } from "./Object";
 
 type SourceDataType =
-    boolean | number | string | bigint | StringBuilder | Uint16Array | java.lang.CharSequence | Object |
+    boolean | number | string | bigint | StringBuilder | Uint16Array | java.lang.CharSequence | java.lang.Object |
     java.lang.StringBuffer;
 
 type SourceData = SourceDataType[];
 
-export class StringBuilder implements java.lang.CharSequence, java.lang.Appendable {
+export class StringBuilder extends JavaObject implements java.lang.CharSequence, java.lang.Appendable {
     private static readonly surrogateOffset = 0x10000 - (0xD800 << 10) - 0xDC00;
 
     private data: Uint16Array;
@@ -24,6 +25,8 @@ export class StringBuilder implements java.lang.CharSequence, java.lang.Appendab
     public constructor(capacity?: number);
     public constructor(content: string | java.lang.CharSequence);
     public constructor(capacityOrContent?: number | string | java.lang.CharSequence) {
+        super();
+
         if (typeof capacityOrContent === "number") {
             if (capacityOrContent < 0) {
                 throw new java.lang.NegativeArraySizeException();
@@ -280,19 +283,14 @@ export class StringBuilder implements java.lang.CharSequence, java.lang.Appendab
     public indexOf(str: string, fromIndex?: number): number {
         const text = this.toString();
 
-        return text.indexOf(str, fromIndex);
+        return `${text}`.indexOf(str, fromIndex);
     }
 
-    /**
-     * Inserts the string representation of the boolean argument into this sequence.
-     *
-     * @param offset tbd
-     * @param b tbd
-     *
-     * @returns this
-     */
+    /** Inserts the string representation of the given value to the sequence. */
     public insert(index: number, value: SourceDataType): this;
+    /** Appends the string representation of the sub char array argument to this sequence. */
     public insert(index: number, str: Uint16Array, offset: number, len: number): this;
+    /** Appends the string representation of the sub char array argument to this sequence. */
     // eslint-disable-next-line @typescript-eslint/unified-signatures
     public insert(index: number, s: java.lang.CharSequence, start: number, end: number): this;
     public insert(index: number, valueOrStrOrS: SourceDataType | Uint16Array | java.lang.CharSequence,
@@ -316,7 +314,7 @@ export class StringBuilder implements java.lang.CharSequence, java.lang.Appendab
     public lastIndexOf(str: string, fromIndex?: number): number {
         const text = this.toString();
 
-        return text.lastIndexOf(str, fromIndex);
+        return `${text}`.lastIndexOf(str, fromIndex);
     }
 
     /** @returns the length (character count). */
@@ -458,9 +456,9 @@ export class StringBuilder implements java.lang.CharSequence, java.lang.Appendab
         return String.fromCharCode(...this.data.subarray(start, end));
     }
 
-    /** @returns a string representing the data in this sequence. */
-    public toString(): string {
-        return String.fromCharCode(...this.data.subarray(0, this.currentLength));
+    /** @returns a string representing of the data in this sequence. */
+    public toString(): java.lang.String {
+        return new java.lang.String(String.fromCharCode(...this.data.subarray(0, this.currentLength)));
     }
 
     public array(): Uint16Array {
@@ -482,21 +480,29 @@ export class StringBuilder implements java.lang.CharSequence, java.lang.Appendab
         let additionalSize = 0;
         newContent.forEach((entry) => {
             if (entry instanceof StringBuilder) {
-                if (entry.data.length > 0) {
-                    list.push(entry.data);
-                    additionalSize += entry.data.length;
+                if (entry.currentLength > 0) {
+                    list.push(entry.data.subarray(0, entry.currentLength));
+                    additionalSize += entry.currentLength;
                 }
-            } else if (entry instanceof Uint16Array) {
+            } else if (typeof entry === "string") {
                 if (entry.length > 0) {
-                    list.push(entry);
-                    additionalSize += entry.length;
+                    const chars: java.lang.char[] = [];
+
+                    for (let i = 0; i < entry.length; ++i) {
+                        chars.push(entry.charCodeAt(i));
+                    }
+
+                    const array = Uint16Array.from(chars);
+                    additionalSize += array.length;
+                    list.push(array);
                 }
-            } else if (entry) {
-                const text = entry.toString();
+            } else {
+                const text = `${entry.toString()}`;
                 if (text.length > 0) {
                     const chars: java.lang.char[] = [];
-                    for (const value of text) {
-                        chars.push(value.charCodeAt(0));
+
+                    for (let i = 0; i < text.length; ++i) {
+                        chars.push(text.charCodeAt(i));
                     }
 
                     const array = Uint16Array.from(chars);
@@ -506,15 +512,11 @@ export class StringBuilder implements java.lang.CharSequence, java.lang.Appendab
             }
         });
 
-        if (list.length === 0) {
-            return;
-        }
-
         const requiredSize = this.currentLength + additionalSize;
         if (requiredSize <= this.data.length) {
             // No need to re-allocate. There's still room for the new data.
             if (position < this.currentLength) {
-                this.data.copyWithin(additionalSize, position, this.currentLength);
+                this.data.copyWithin(position + additionalSize, position, this.currentLength);
             }
 
             list.forEach((data) => {
@@ -525,7 +527,7 @@ export class StringBuilder implements java.lang.CharSequence, java.lang.Appendab
             this.currentLength = requiredSize;
         } else {
             // Reallocate at least by half of the current buffer size.
-            const newData = new Uint16Array(Math.max(requiredSize, this.data.length / 2));
+            const newData = new Uint16Array(Math.max(requiredSize, this.data.length * 1.5));
             if (position > 0) {
                 // Copy what's before the target position.
                 newData.set(this.data.subarray(0, position), 0);
@@ -592,7 +594,7 @@ export class StringBuilder implements java.lang.CharSequence, java.lang.Appendab
             this.data.set(array, position);
             this.currentLength = requiredSize;
         } else {
-            const newData = new Uint16Array(additionalSize + this.data.length);
+            const newData = new Uint16Array(Math.max(requiredSize, this.data.length * 1.5));
             if (position > 0) {
                 // Copy what's before the target position.
                 newData.set(this.data.subarray(0, position), 0);
@@ -603,15 +605,20 @@ export class StringBuilder implements java.lang.CharSequence, java.lang.Appendab
 
             if (position < this.currentLength) {
                 // Copy the rest from the original data.
-                newData.set(this.data.subarray(position, this.currentLength), position);
+                newData.set(this.data.subarray(position, this.currentLength), position + additionalSize);
             }
 
             this.data = newData;
-            this.currentLength = newData.length;
+            this.currentLength = requiredSize;
         }
     }
 
     private isCharSequence(candidate: unknown): candidate is java.lang.CharSequence {
+        if (candidate instanceof StringBuilder) {
+            // A StringBuilder is also a char sequence, but we use an optimized path for it.
+            return false;
+        }
+
         return (candidate as java.lang.CharSequence).subSequence !== undefined;
     }
 
@@ -621,6 +628,10 @@ export class StringBuilder implements java.lang.CharSequence, java.lang.Appendab
 
     private isLowSurrogate(code?: number): boolean {
         return code !== undefined && code >= 0xDC00 && code <= 0xDFFF;
+    }
+
+    private [Symbol.toPrimitive]() {
+        return `${this.toString()}`;
     }
 }
 
