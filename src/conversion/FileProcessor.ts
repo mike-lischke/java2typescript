@@ -45,7 +45,6 @@ import { IClassResolver, IConverterConfiguration } from "./JavaToTypeScript";
 import { EnumSymbol, JavaInterfaceSymbol } from "../parsing/JavaParseTreeWalker";
 import { PackageSourceManager } from "../PackageSourceManager";
 import { EnhancedTypeKind, ISymbolInfo } from "./types";
-import {validateHeaderName} from "http";
 
 enum ModifierType {
     None,
