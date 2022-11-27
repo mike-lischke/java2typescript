@@ -158,6 +158,8 @@ export class JavaToTypescriptConverter {
     public constructor(private configuration: IConverterConfiguration) {
         PackageSourceManager.configure(configuration.javaLib, configuration.options.importResolver);
 
+        configuration.packageRoot = path.resolve(configuration.packageRoot);
+
         const prefix = configuration.options.prefix;
         configuration.options.prefix =
             typeof prefix === 'function'
