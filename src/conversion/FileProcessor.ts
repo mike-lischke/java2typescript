@@ -45,6 +45,7 @@ import { IClassResolver, IConverterConfiguration } from "./JavaToTypeScript";
 import { EnumSymbol, JavaInterfaceSymbol } from "../parsing/JavaParseTreeWalker";
 import { PackageSourceManager } from "../PackageSourceManager";
 import { EnhancedTypeKind, ISymbolInfo } from "./types";
+import {validateHeaderName} from "http";
 
 enum ModifierType {
     None,
@@ -267,8 +268,13 @@ export class FileProcessor {
                 this.processCompilationUnit(builder, this.source.targetFile, libPath, this.source.parseTree);
 
                 try {
+                    let converted = builder.toString();
+                    this.configuration.targetReplace?.forEach((to: string, pattern: RegExp) => {
+                        converted = converted.replace(pattern, to)
+                    });
+
                     fs.mkdirSync(path.dirname(this.source.targetFile), { recursive: true });
-                    fs.writeFileSync(this.source.targetFile, builder.toString());
+                    fs.writeFileSync(this.source.targetFile, converted);
                     console.log(" done");
                 } catch (e) {
                     console.log("failed");
