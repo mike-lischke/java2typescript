@@ -51,7 +51,7 @@ const convertAntlr4Runtime = async () => {
         packageRoot: path.resolve(process.cwd(), "../antlr4/runtime/Java/src"),
         javaLib: path.resolve(process.cwd(), "../a4tstool/lib/java/java.ts"),
         include: [
-            //"DecisionInfo.java",
+            //"AbstractPredicateTransition.java",
         ],
         exclude: [
             "AbstractEqualityComparator.java",

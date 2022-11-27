@@ -7,19 +7,20 @@
 
 /* eslint-disable @typescript-eslint/naming-convention */
 
-import { final } from "../../Decorators";
 import { java } from "../java";
+import { JavaObject } from "./Object";
 
-@final
-export class Boolean implements java.io.Serializable, java.lang.Comparable<Boolean> {
+export class Boolean extends JavaObject implements java.io.Serializable, java.lang.Comparable<Boolean> {
 
     public static readonly TRUE: Boolean;
     public static readonly FALSE: Boolean;
-    public static TYPE: java.lang.Class<Boolean>;
+    public static readonly TYPE: java.lang.Class;
 
     private value = false;
 
     public constructor(value?: boolean | string) {
+        super();
+
         if (value !== undefined) {
             if (typeof value === "boolean") {
                 this.value = value;
@@ -136,11 +137,31 @@ export class Boolean implements java.io.Serializable, java.lang.Comparable<Boole
     }
 
     /** @returns a string representing this Boolean's value. */
-    public toString(): string {
+    public toString(): java.lang.String {
+        return this.value ? new java.lang.String("true") : new java.lang.String("false");
+    }
+
+    private [Symbol.toPrimitive](hint: string) {
+        if (hint === "number") {
+            return this.value ? 1 : 0;
+        }
+
         return this.value ? "true" : "false";
     }
 
-    public valueOf(): boolean {
-        return this.value;
+    static {
+        // Defer initializing the TYPE field, to ensure the Class class is loaded before using it.
+        setTimeout(() => {
+            /* @ts-expect-error */
+            Boolean.TRUE = new java.lang.Boolean(true);
+
+            /* @ts-expect-error */
+            Boolean.FALSE = new java.lang.Boolean(false);
+
+            /* @ts-expect-error */
+            Boolean.TYPE = java.lang.Class.fromConstructor(Boolean);
+            Object.freeze(Boolean);
+        }, 0);
     }
+
 }

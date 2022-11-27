@@ -8,5 +8,7 @@
 import { RuntimeException } from "./RuntimeException";
 
 export class NegativeArraySizeException extends RuntimeException {
-
+    public constructor(message?: string) {
+        super(message ?? "A negative array size is invalid.");
+    }
 }

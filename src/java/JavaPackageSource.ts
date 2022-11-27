@@ -28,14 +28,15 @@ export class JavaPackageSource extends PackageSource {
     // Definition of the part of the Java class hierarchy, we support here.
     // The symbol table is created from this array.
     private static readonly javaClassHierarchy: IClassHierarchyEntry[] = [
-        { name: "java.lang.Character" },
-        { name: "java.lang.Class" },
-        { name: "java.lang.Integer" },
-        { name: "java.lang.Boolean" },
-        { name: "java.lang.StringBuilder" },
+        { name: "java.lang.Object" },
+        { name: "java.lang.Character", extends: "java.lang.Object" },
+        { name: "java.lang.Class", extends: "java.lang.Object" },
+        { name: "java.lang.Integer", extends: "java.lang.Object" },
+        { name: "java.lang.Boolean", extends: "java.lang.Object" },
+        { name: "java.lang.StringBuilder", extends: "java.lang.Object" },
         { name: "java.lang.StringBuffer", extends: "java.lang.StringBuilder" },
         {
-            name: "java.lang.Throwable", methods: [
+            name: "java.lang.Throwable", extends: "java.lang.Object", methods: [
                 "addSuppressed", "fillInStackTrace", "getCause", "getLocalizedMessage", "getMessage", "getStackTrace",
                 "getSuppressed", "initCause", "printStackTrace", "setStackTrace", "toString",
             ],
@@ -65,28 +66,35 @@ export class JavaPackageSource extends PackageSource {
         { name: "java.lang.Comparable", isInterface: true },
         { name: "java.lang.Readable", isInterface: true },
         {
-            name: "java.lang.String", implements: [
+            name: "java.lang.String", extends: "java.lang.Object", implements: [
                 "java.io.Serializable", "java.lang.CharSequence", "java.lang.Comparable",
             ],
         },
-        { name: "java.lang.StackTraceElement" },
+        { name: "java.lang.StackTraceElement", extends: "java.lang.Object" },
 
         { name: "java.io.Closeable", isInterface: true },
         { name: "java.io.AutoCloseable", isInterface: true },
         { name: "java.io.Flushable", isInterface: true },
 
         { name: "java.io.Serializable", isInterface: true },
-        { name: "java.io.File" },
-        { name: "java.io.InputStream", implements: ["java.io.Closable"] },
-        { name: "java.io.OutputStream", implements: ["java.io.Closable", "java.io.AutoClosable", "java.io.Flushable"] },
+        { name: "java.io.File", extends: "java.lang.Object" },
+        { name: "java.io.InputStream", extends: "java.lang.Object", implements: ["java.io.Closable"] },
+        {
+            name: "java.io.OutputStream", extends: "java.lang.Object",
+            implements: ["java.io.Closable", "java.io.AutoClosable", "java.io.Flushable"],
+        },
         { name: "java.io.FileInputStream", extends: "java.io.InputStream", implements: ["AutoCloseable"] },
         { name: "java.io.FileOutputStream", extends: "java.io.OutputStream" },
         { name: "java.io.FilterOutputStream", extends: "java.io.OutputStream" },
         { name: "java.io.BufferedOutputStream", extends: "java.io.FilteredOutputStream" },
         { name: "java.io.PrintStream", extends: "java.io.FilteredOutputStream" },
-        { name: "java.io.Reader", implements: ["java.lang.Readable", "java.io.Closeable", "java.io.AutoCloseable"] },
+        {
+            name: "java.io.Reader", extends: "java.lang.Object",
+            implements: ["java.lang.Readable", "java.io.Closeable", "java.io.AutoCloseable"],
+        },
         {
             name: "java.io.Writer",
+            extends: "java.lang.Object",
             implements: [
                 "java.io.Closeable", "java.io.Flushable", "java.lang.Appendable", "java.io.AutoCloseable",
             ],
@@ -104,25 +112,25 @@ export class JavaPackageSource extends PackageSource {
         { name: "java.io.ObjectStreamException", extends: "java.lang.IOException" },
         { name: "java.io.InvalidClassException", extends: "java.lang.ObjectStreamException" },
 
-        { name: "java.nio.Buffer" },
+        { name: "java.nio.Buffer", extends: "java.lang.Object" },
         { name: "java.nio.CharBuffer", extends: "java.nio.Buffer" },
         { name: "java.nio.ByteBuffer", extends: "java.nio.Buffer" },
-        { name: "java.nio.ByteOrder" },
+        { name: "java.nio.ByteOrder", extends: "java.lang.Object" },
         { name: "java.nio.InvalidMarkException", extends: "java.lang.IllegalStateException" },
         { name: "java.nio.BufferOverflowException", extends: "java.lang.RuntimeException" },
         { name: "java.nio.BufferUnderflowException", extends: "java.lang.RuntimeException" },
         { name: "java.nio.ReadOnlyBufferException", extends: "java.lang.RuntimeException" },
 
-        { name: "java.nio.charset.Charset", implements: ["java.lang.Comparable"] },
-        { name: "java.nio.charset.StandardCharsets" },
+        { name: "java.nio.charset.Charset", extends: "java.lang.Object", implements: ["java.lang.Comparable"] },
+        { name: "java.nio.charset.StandardCharsets", extends: "java.lang.Object" },
 
         { name: "java.util.Collection", isInterface: true },
-        { name: "java.util.Collections" },
+        { name: "java.util.Collections", extends: "java.lang.Object" },
         { name: "java.util.List", isInterface: true, implements: ["java.util.Collection"] },
-        { name: "java.util.ArrayList", implements: ["java.util.List"] },
+        { name: "java.util.ArrayList", extends: "java.lang.Object", implements: ["java.util.List"] },
         { name: "java.util.ListIterator", isInterface: true },
-        { name: "java.util.ArrayListIterator", implements: ["java.util.ListIterator"] },
-        { name: "java.util.Arrays" },
+        { name: "java.util.ArrayListIterator", extends: "java.lang.Object", implements: ["java.util.ListIterator"] },
+        { name: "java.util.Arrays", extends: "java.lang.Object" },
         {
             name: "java.util.Map", isInterface: true, methods: [
                 "clear", "containsKey", "containsValue", "entrySet", "equals", "get", "hashCode", "isEmpty", "keySet",
@@ -135,23 +143,29 @@ export class JavaPackageSource extends PackageSource {
                 "remove", "removeAll", "retainAll", "size", "toArray",
             ],
         },
-        { name: "java.util.BitSet", implements: ["java.io.Serializable", "java.lang.Cloneable"] },
+        {
+            name: "java.util.BitSet", extends: "java.lang.Object",
+            implements: ["java.io.Serializable", "java.lang.Cloneable"],
+        },
         { name: "java.util.Properties", extends: "java.lang.Map" },
-        { name: "java.util.HashMap", implements: ["java.util.Map"] },
-        { name: "java.util.HashSet", implements: ["java.util.Set"] },
-        { name: "java.util.IdentityHashMap", implements: ["java.util.Map"] },
-        { name: "java.util.Stack" },
-        { name: "java.util.Comparator" },
-        { name: "java.util.Locale", implements: ["java.lang.Cloneable", "java.io.Serializable"] },
+        { name: "java.util.HashMap", extends: "java.lang.Object", implements: ["java.util.Map"] },
+        { name: "java.util.HashSet", extends: "java.lang.Object", implements: ["java.util.Set"] },
+        { name: "java.util.IdentityHashMap", extends: "java.lang.Object", implements: ["java.util.Map"] },
+        { name: "java.util.Stack", extends: "java.lang.Object" },
+        { name: "java.util.Comparator", extends: "java.lang.Object" },
+        {
+            name: "java.util.Locale", extends: "java.lang.Object",
+            implements: ["java.lang.Cloneable", "java.io.Serializable"],
+        },
 
-        { name: "java.util.regex.Pattern" },
+        { name: "java.util.regex.Pattern", extends: "java.lang.Object" },
         { name: "java.util.regex.MatchResult", isInterface: true },
-        { name: "java.util.regex.Matcher", implements: ["java.util.regex.MatchResult"] },
+        { name: "java.util.regex.Matcher", extends: "java.lang.Object", implements: ["java.util.regex.MatchResult"] },
 
         { name: "java.util.concurrent.CancellationException", extends: "java.lang.IllegalStateException" },
     ];
 
-    protected createSymbolTable = (): SymbolTable => {
+    protected createSymbolTable(): SymbolTable {
         const symbolTable = new SymbolTable("Java", { allowDuplicateSymbols: false });
 
         // Start by adding all supported namespaces.
@@ -205,6 +219,6 @@ export class JavaPackageSource extends PackageSource {
         });
 
         return symbolTable;
-    };
+    }
 
 }

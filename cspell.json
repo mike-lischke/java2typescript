@@ -10,8 +10,10 @@
         "Hashable",
         "instanceof",
         "misformatted",
+        "NONSPACING",
         "signum",
         "subfolders",
+        "TITLECASE",
         "whitespaces"
     ],
     "ignoreWords": [
@@ -25,7 +27,9 @@
         "Xexact",
         "arraycopy",
         "bitness",
+        "clazz",
         "javax",
+        "nanos",
         "stringbuilder",
         "stringtemplate",
         "unmappable",
