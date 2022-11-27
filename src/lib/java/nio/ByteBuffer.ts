@@ -10,22 +10,21 @@
 
 import { MurmurHash } from "../../MurmurHash";
 
-import { Buffer, BufferOverflowException, ReadOnlyBufferException } from ".";
-import { Comparable, IllegalArgumentException, IndexOutOfBoundsException } from "../lang";
-import { ByteOrder } from "./ByteOrder";
-import { BufferUnderflowException } from "./BufferUnderflowException";
+import { java } from "../java";
 
-export class ByteBuffer extends Buffer<Uint8Array> implements Comparable<ByteBuffer> {
+import { Buffer } from ".";
+
+export class ByteBuffer extends Buffer<Uint8Array> implements java.lang.Comparable<ByteBuffer> {
     private buffer: Uint8Array;
 
     private readOnly = false;
-    private byteOrder: ByteOrder;
+    private byteOrder: java.nio.ByteOrder;
 
     private constructor(capacity: number);
     private constructor(buffer: Uint8Array, offset?: number, length?: number);
     private constructor(capacityOrBuffer: number | Uint8Array, offset?: number, length?: number) {
         super();
-        this.byteOrder = ByteOrder.byteOrder;
+        this.byteOrder = java.nio.ByteOrder.byteOrder;
 
         const start = offset ?? 0;
 
@@ -188,13 +187,13 @@ export class ByteBuffer extends Buffer<Uint8Array> implements Comparable<ByteBuf
     public get(indexOrDst?: number | Uint8Array, offset?: number, length?: number): this | number {
         if (indexOrDst === undefined) {
             if (this.currentPosition >= this.currentLimit) {
-                throw new BufferUnderflowException();
+                throw new java.nio.BufferUnderflowException();
             }
 
             return this.buffer[this.currentPosition++];
         } else if (typeof indexOrDst === "number") {
             if (indexOrDst >= this.currentLimit) {
-                throw new IndexOutOfBoundsException();
+                throw new java.lang.IndexOutOfBoundsException();
             }
 
             return this.buffer[indexOrDst];
@@ -203,11 +202,11 @@ export class ByteBuffer extends Buffer<Uint8Array> implements Comparable<ByteBuf
             length ??= indexOrDst.length;
 
             if (length > this.remaining()) {
-                throw new BufferUnderflowException();
+                throw new java.nio.BufferUnderflowException();
             }
 
             if (offset < 0 || length < 0 || offset + length >= indexOrDst.length) {
-                throw new IndexOutOfBoundsException();
+                throw new java.lang.IndexOutOfBoundsException();
             }
 
             indexOrDst.set(this.buffer.slice(this.currentPosition, this.currentPosition + length), offset);
@@ -274,12 +273,12 @@ export class ByteBuffer extends Buffer<Uint8Array> implements Comparable<ByteBuf
     // abstract isDirect(): boolean;
 
     /** Retrieves this buffer's byte order. */
-    public get order(): ByteOrder {
+    public get order(): java.nio.ByteOrder {
         return this.byteOrder;
     }
 
     /** Modifies this buffer's byte order. */
-    public set order(bo: ByteOrder) {
+    public set order(bo: java.nio.ByteOrder) {
         this.byteOrder = bo;
     }
 
@@ -295,31 +294,31 @@ export class ByteBuffer extends Buffer<Uint8Array> implements Comparable<ByteBuf
     public put(src: ByteBuffer): this;
     public put(bOrIndexOrSrc: number | Uint8Array | ByteBuffer, bOrOffset?: number, length?: number): this {
         if (this.readOnly) {
-            throw new ReadOnlyBufferException();
+            throw new java.nio.ReadOnlyBufferException();
         }
 
         if (typeof bOrIndexOrSrc === "number") {
             if (bOrOffset === undefined) {
                 if (this.remaining() === 0) {
-                    throw new BufferOverflowException();
+                    throw new java.nio.BufferOverflowException();
                 }
 
                 this.buffer[this.currentPosition++] = bOrIndexOrSrc & 0xFF;
             } else {
                 if (bOrIndexOrSrc < 0 || bOrIndexOrSrc >= this.currentLimit) {
-                    throw new IndexOutOfBoundsException();
+                    throw new java.lang.IndexOutOfBoundsException();
                 }
 
                 this.buffer[bOrIndexOrSrc] = bOrOffset & 0xFF;
             }
         } else if (bOrIndexOrSrc instanceof ByteBuffer) {
             if (bOrIndexOrSrc === this) {
-                throw new IllegalArgumentException();
+                throw new java.lang.IllegalArgumentException();
             }
 
             const count = bOrIndexOrSrc.remaining();
             if (this.remaining() < count) {
-                throw new BufferOverflowException();
+                throw new java.nio.BufferOverflowException();
             }
 
             this.buffer.set(bOrIndexOrSrc.buffer.subarray(bOrIndexOrSrc.currentPosition, bOrIndexOrSrc.currentLimit),
@@ -333,11 +332,11 @@ export class ByteBuffer extends Buffer<Uint8Array> implements Comparable<ByteBuf
             length ??= array.length;
 
             if (offset < 0 || length < 0 || offset + length >= array.length) {
-                throw new IndexOutOfBoundsException();
+                throw new java.lang.IndexOutOfBoundsException();
             }
 
             if (length > this.remaining()) {
-                throw new BufferOverflowException();
+                throw new java.nio.BufferOverflowException();
             }
 
             this.buffer.set(array.subarray(offset, offset + length), this.currentPosition);
@@ -387,8 +386,8 @@ export class ByteBuffer extends Buffer<Uint8Array> implements Comparable<ByteBuf
     // abstract slice(): ByteBuffer;
 
     /** Returns a string summarizing the state of this buffer. */
-    public toString(): string {
-        return this.buffer.subarray(this.currentPosition, this.currentLimit).toString();
+    public toString(): java.lang.String {
+        return new java.lang.String(this.buffer.subarray(this.currentPosition, this.currentLimit).toString());
     }
 
 }

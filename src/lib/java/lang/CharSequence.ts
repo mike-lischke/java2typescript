@@ -5,12 +5,12 @@
  * See LICENSE-MIT.txt file for more info.
  */
 
-import { char } from ".";
+import { java } from "../java";
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
 export interface CharSequence {
     /** Returns the 16 bit char value at the specified index. */
-    charAt(index: number): char | undefined;
+    charAt(index: number): java.lang.char | undefined;
 
     /** Returns the length of this character sequence. */
     length(): number;
@@ -19,5 +19,5 @@ export interface CharSequence {
     subSequence(start: number, end: number): CharSequence;
 
     /** Returns a string containing the characters in this sequence in the same order as this sequence. */
-    toString(): string;
+    toString(): java.lang.String;
 }

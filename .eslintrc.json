@@ -498,19 +498,7 @@
             }
         ],
         "@typescript-eslint/interface-name-prefix": "off",
-        "@typescript-eslint/member-delimiter-style": [
-            "error",
-            {
-                "multiline": {
-                    "delimiter": "semi",
-                    "requireLast": true
-                },
-                "singleline": {
-                    "delimiter": "semi",
-                    "requireLast": false
-                }
-            }
-        ],
+        "@typescript-eslint/member-delimiter-style": "off",
         "@typescript-eslint/member-ordering": [
             "error",
             {
@@ -654,6 +642,7 @@
                 ]
             }
         ],
+        "@typescript-eslint/restrict-template-expressions": "off",
         "jsdoc/check-alignment": "error",
         "jsdoc/check-indentation": "off",
         "jsdoc/newline-after-description": "error",

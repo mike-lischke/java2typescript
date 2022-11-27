@@ -8,11 +8,15 @@
 /* eslint-disable jsdoc/require-returns */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
+import { java } from "../java";
+import { JavaObject } from "./Object";
 import { StackTraceElement } from "./StackTraceElement";
 
-export class Throwable extends Error { // This is the JS Error object, not that of the Java polyfills!
+export class Throwable extends JavaObject {
     private elements: StackTraceElement[] = [];
     private suppressed: Throwable[] = [];
+
+    private jsError: Error;
 
     public constructor(message?: string, cause?: Throwable);
     // This constructor is protected in Java, but in TS we cannot mix different modifiers in overloading.
@@ -32,8 +36,9 @@ export class Throwable extends Error { // This is the JS Error object, not that 
             options = { cause: messageOrCause };
         }
 
-        super(message, options);
+        super();
 
+        this.jsError = new Error(message, options);
         this.fillInStackTrace();
     }
 
@@ -72,8 +77,8 @@ export class Throwable extends Error { // This is the JS Error object, not that 
 
     /** Fills in the execution stack trace. */
     public fillInStackTrace(): Throwable {
-        if (this.stack) {
-            const lines = this.stack.split("\n").slice(1);
+        if (this.jsError.stack) {
+            const lines = this.jsError.stack.split("\n").slice(1);
 
             this.elements = lines.map((line) => {
                 return new StackTraceElement(line);
@@ -87,17 +92,17 @@ export class Throwable extends Error { // This is the JS Error object, not that 
 
     /** Returns the cause of this throwable or null if the cause is nonexistent or unknown. */
     public getCause(): Throwable | undefined {
-        return this.cause as Throwable;
+        return this.jsError.cause as Throwable;
     }
 
     /** Creates a localized description of this throwable. */
     public getLocalizedMessage(): string | undefined {
-        return this.message;
+        return this.jsError.message;
     }
 
     /** Returns the detail message string of this throwable. */
     public getMessage(): string | undefined {
-        return this.message;
+        return this.jsError.message;
     }
 
     /** Provides programmatic access to the stack trace information printed by printStackTrace(). */
@@ -119,7 +124,7 @@ export class Throwable extends Error { // This is the JS Error object, not that 
      * @param cause tbd
      */
     public initCause(cause: Throwable): this {
-        this.cause = cause;
+        this.jsError.cause = cause;
 
         return this;
     }
@@ -130,7 +135,7 @@ export class Throwable extends Error { // This is the JS Error object, not that 
      * @param s tbd
      */
     public printStackTrace(s?: unknown): void {
-        console.error(this.stack);
+        console.error(this.jsError.stack);
     }
 
     /**
@@ -144,13 +149,16 @@ export class Throwable extends Error { // This is the JS Error object, not that 
     }
 
     /** Returns a short description of this throwable. */
-    public toString(): string {
+    public toString(): java.lang.String {
         const message = this.getLocalizedMessage();
         if (!message) {
-            return this.name;
+            return new java.lang.String(this.jsError.name);
         }
 
-        return this.name + ": " + message;
+        return new java.lang.String(this.constructor.name + ": " + message);
     }
 
+    private [Symbol.toPrimitive]() {
+        return `${this.toString()}`;
+    }
 }

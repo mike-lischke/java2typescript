@@ -340,9 +340,9 @@ export class HashSet<T> implements java.lang.Cloneable<HashSet<T>>, java.io.Seri
         return result;
     }
 
-    public toString(): string {
+    public toString(): java.lang.String {
         if (this.size() === 0) {
-            return "{}";
+            return new java.lang.String("{}");
         }
 
         const buf = new java.lang.StringBuilder();

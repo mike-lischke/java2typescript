@@ -34,3 +34,4 @@ To support iterative conversions (running the tool several times with the same s
 For details of the supported Java language features and things to consider after conversion read the [feature documentation](doc/features.md).
 
 A detailed description of the conversion configuration can be found in the [configuration documentation](doc/configuration.md).
+

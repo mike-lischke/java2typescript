@@ -186,7 +186,7 @@ describe("Tests", () => {
         expect(java.lang.Integer.toHexString(77)).toBe("4d");
 
         const i = new java.lang.Integer(77);
-        expect(i.toString()).toBe("77");
+        expect(`${i.toString()}`).toBe("77");
     });
 
     it("Parsing numbers", () => {
@@ -251,6 +251,10 @@ describe("Tests", () => {
         expect(i1.compareTo(i1)).toBe(0);
         expect(i3.compareTo(i2)).toBeLessThan(0);
         expect(i2.compareTo(i3)).toBeGreaterThan(0);
+
+        const c = i1.getClass();
+        expect(c.isInstance(i2)).toBe(true);
+        expect(c.getName()).toBe("Integer");
 
         // Unboxing/explicit coercion.
         expect(3 - +i1).toBe(-120);

@@ -40,14 +40,14 @@ Typescript does not support multi-dimensional array creation with array sizes (i
 
 ## Numbers
 
-Single primitive numbers (byte, int, short, long, float, double) are always converted to `number`. To match Java semantics better there's one exception: `long`, which is converted to `bigint` (64bit). This creates a problem on TS side. There's no automatic conversion between a number and a bigint, like there is in Java. This must be solved manually, just like cases where Java does automatic boxing and unboxing of primitive types from/to their object type (e.g. `Integer` <-> `int`). To ease the process numerical classes (e.g. `Integer`) contain support for primitive coercion, which nonetheless must be triggered explicitly:
+Single primitive numbers (byte, int, short, long, float, double) are always converted to `number`. To match Java semantics better there's one exception: `long`, which is converted to `bigint` (64bit). This creates a problem on TS side. There's no automatic conversion between a number and a bigint, like there is in Java. This must be solved manually, just like cases where Java does automatic boxing and unboxing of primitive types from/to their object type (e.g. `Integer` <-> `int`). To ease the process classes which wrap primitive values (e.g. `Integer`) contain support for primitive type coercion, which nonetheless must be triggered explicitly:
 
 ```typescript
 const i = new Integer(1);
 console.log(1 + +i); // Or alternatively: `1 + Number(i)`
 ```
 
-(note the extra `+` in front of `i`). The explicit coercion is not auto generated.
+(note the extra `+` in front of `i`). The explicit type coercion is not auto generated.
 
 Numbers in arrays are converted directly according to their Java type. For example `int[]` is converted to `Uint32Array`.
 
@@ -80,11 +80,19 @@ Java class initializers are handled properly, however, static initializers requi
 
 ## Char and String
 
-Strings in Java and TS are pretty similar. TS automatically does boxing and unboxing of string literals and string objects (just like Java). For this reason all parameters of `String` (the object type) are converted to type `string`, which allows to pass in either a TS string object or literal and a Java string object.
+Strings in Java and TS are pretty similar (at least in their respective realm). TS automatically does boxing and unboxing of string literals and string objects (just like Java). However, the Java `String` type has much more functionality, so it is translated like any other class instead of converting occurrences to the TS `string` type. This makes handling the actual strings in a TS context a bit more inconvenient, because this way the auto (un)boxing does not work as easy as between TS `String`, `string` and string literals:
 
-In both languages strings are stored in UTF16 (two bytes per character) and use surrogates for values > 0xFFFF. However, there's no simple `char` type in TS, so we can only use `number` for it. To better distinguish a char type from an ordinary number a type alias is used in TS (`java.lang.char`) for any occurrence of a single `char` (and uses a number as base type, with only the lowest 16 bits). This type is treated as value from the Unicode basic multilingual pane (BMP) and uses surrogate pairs to form values beyond 0xFFFF. However, using a number for a char is all but optimal, so arrays of chars are converted to `Uint16Array` instead, which is as efficient as the Java implementation.
+- `java.lang.String` supports auto unboxing by implementing primitive type coercion (via `[Symbol.toPrimitive]`).
+- It is not possible to auto box a string literal to a `java.lang.String` instance.
+- All Java shims support `toString()` like TS objects, but return a `java.lang.String` object instead. This may lead to unexpected results when used like TS `Object.toString()` (which returns a TS string). To make this work do an explicit type coercion:
 
-Where both string implementations differ are the implemented interfaces. Particularly there's no way to implement `CharSequence` and `Comparable` interfaces, without extending the built-in `String` type. A manual resolution is necessary in cases where this is used.
+```typescript
+    const buffer = new java.lang.StringBuffer("abc");
+    const s1: string = `${javaString.toString()}`;
+    const s2: string = "" + javaString.toString();
+ ```
+
+In both languages strings are stored in UTF-16 (two bytes per character) and use surrogates for values > 0xFFFF. However, there's no simple `char` type in TS, so we can only use `number` for it. To better distinguish a char type from an ordinary number a type alias is used in TS (`java.lang.char`) for any occurrence of a single `char` (and uses a number as base type, with only the lowest 16 bits). However, using a number for a char is all but optimal, so arrays of chars are converted to `Uint16Array` instead, which should be as efficient as the Java implementation.
 
 ## Containers and Equality
 

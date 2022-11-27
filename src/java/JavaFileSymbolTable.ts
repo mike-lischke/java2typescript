@@ -23,9 +23,15 @@ import {
 export class JavaFileSymbolTable extends SymbolTable {
 
     private referencesResolved = false;
+    private objectSymbol: ClassSymbol | undefined;
 
     public constructor(private source: PackageSource, packageRoot: string, private importList: Set<PackageSource>) {
         super("fileSymbolTable", { allowDuplicateSymbols: true });
+
+        const [java] = [...this.importList];
+        if (java && java.packageId === "java") {
+            this.objectSymbol = java.resolveType("java.lang.Object")?.symbol as ClassSymbol;
+        }
 
         if (source.parseTree) {
             ParseTreeWalker.DEFAULT.walk(new JavaParseTreeWalker(this, packageRoot, importList), source.parseTree);
@@ -240,6 +246,9 @@ export class JavaFileSymbolTable extends SymbolTable {
                                 }
                             });
                         }
+                    } else if (this.objectSymbol) {
+                        // Make the implicit derivation from java.lang.Object explicit.
+                        classSymbol.extends.push(this.objectSymbol);
                     }
 
                     if (candidate.IMPLEMENTS()) {

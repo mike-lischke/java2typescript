@@ -7,10 +7,11 @@
 
 /* eslint-disable @typescript-eslint/unified-signatures */
 
-import { charCodesToString, codePointsToString } from ".";
+import { charCodesToString, codePointsToString, Object } from ".";
 import { java } from "../java";
 
-export class StringImpl implements java.io.Serializable, java.lang.CharSequence, java.lang.Comparable<StringImpl> {
+export class String extends Object
+    implements java.io.Serializable, java.lang.CharSequence, java.lang.Comparable<String> {
     private value: string;
 
     /** Initializes a newly created String object so that it represents an empty character sequence. */
@@ -65,6 +66,8 @@ export class StringImpl implements java.io.Serializable, java.lang.CharSequence,
         lengthOrCount?: number,
         charSetOrCharsetName?: java.nio.charset.Charset | string,
     ) {
+        super();
+
         let offset: number | undefined;
         if (typeof charsetOrCharsetNameOrOffset === "number") {
             offset = charsetOrCharsetNameOrOffset;
@@ -93,14 +96,30 @@ export class StringImpl implements java.io.Serializable, java.lang.CharSequence,
             charset ??= java.nio.charset.Charset.defaultCharset;
 
             this.value = charset.decode(java.nio.ByteBuffer.wrap(input, offset ?? 0, lengthOrCount ?? input.length))
-                .toString();
+                .toString()[Symbol.toPrimitive]();
         } else if (input instanceof Uint16Array) {
             this.value = charCodesToString(input.subarray(offset, lengthOrCount));
         } else if (input instanceof Uint32Array) {
             this.value = codePointsToString(input);
         } else {
-            this.value = input.toString();
+            this.value = input.toString().value;
         }
+    }
+
+    public static valueOf(v: unknown): String {
+        if (v instanceof Uint16Array) {
+            return new java.lang.String(v);
+        }
+
+        if (v === null) {
+            return new java.lang.String("null");
+        }
+
+        if (v === undefined) {
+            return new java.lang.String("undefined");
+        }
+
+        return new java.lang.String(v.toString());
     }
 
     public charAt(index: number): java.lang.char {
@@ -111,26 +130,32 @@ export class StringImpl implements java.io.Serializable, java.lang.CharSequence,
         return this.value.charCodeAt(index);
     }
 
+    public codePointAt(index: number): number {
+        if (index < 0 || index >= this.value.length) {
+            throw new java.lang.IndexOutOfBoundsException();
+        }
+
+        return this.value.codePointAt(index) ?? NaN;
+    }
+
     public length(): number {
         return this.value.length;
     }
 
     public subSequence(start: number, end: number): java.lang.CharSequence {
-        return new java.lang.StringImpl(this.value.substring(start, end));
+        return new java.lang.String(this.value.substring(start, end));
     }
 
-    public toString(): string {
-        return this.value;
+    public toString(): String {
+        return this;
     }
 
-    public compareTo(o: StringImpl): number {
+    public compareTo(o: String): number {
         return this.value.localeCompare(o.value);
     }
 
-    public valueOf(): string {
+    private [Symbol.toPrimitive]() {
         return this.value;
     }
-}
 
-// eslint-disable-next-line @typescript-eslint/naming-convention
-export const String = StringImpl as unknown as new () => string;
+}

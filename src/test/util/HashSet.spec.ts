@@ -198,7 +198,7 @@ describe("HashSet Tests", () => {
         expect(a2.length).toBe(3);
         expect(a1[1].hashCode()).toBe(new Test(7, "7").hashCode());
 
-        expect(set.toString()).toBe("{{\"a\":1,\"b\":\"1\"}, {\"a\":7,\"b\":\"7\"}, {\"a\":13,\"b\":\"13\"}}");
-        expect(new HashSet().toString()).toBe("{}");
+        expect(`${set.toString()}`).toBe("{{\"a\":1,\"b\":\"1\"}, {\"a\":7,\"b\":\"7\"}, {\"a\":13,\"b\":\"13\"}}");
+        expect(`${new HashSet().toString()}`).toBe("{}");
     });
 });

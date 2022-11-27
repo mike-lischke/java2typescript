@@ -5,13 +5,15 @@
  * See LICENSE-MIT.txt file for more info.
  */
 
+import { java } from "../java";
+import { JavaObject } from "../lang/Object";
+
 import { MurmurHash } from "../../MurmurHash";
-import { IllegalArgumentException } from "../lang";
 import { InvalidMarkException } from "./InvalidMarkException";
 
 /* eslint-disable jsdoc/require-returns */
 
-export abstract class Buffer<T> {
+export abstract class Buffer<T> extends JavaObject {
     protected currentCapacity = 0;
     protected currentPosition = 0;
     protected currentLimit = 0;
@@ -57,7 +59,7 @@ export abstract class Buffer<T> {
      */
     public set limit(newLimit: number) {
         if (newLimit < 0 || newLimit > this.currentCapacity) {
-            throw new IllegalArgumentException();
+            throw new java.lang.IllegalArgumentException();
         }
 
         this.currentLimit = newLimit;
@@ -88,7 +90,7 @@ export abstract class Buffer<T> {
      */
     public set position(newPosition: number) {
         if (newPosition > this.currentLimit || newPosition < 0) {
-            throw new IllegalArgumentException();
+            throw new java.lang.IllegalArgumentException();
         }
 
         if (this.currentMark > newPosition) {

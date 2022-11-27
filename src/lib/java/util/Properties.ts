@@ -82,7 +82,7 @@ export class Properties extends HashMap<string, string> {
 
                 builder.append(codePoint);
             }
-            text = builder.toString();
+            text = `${builder.toString()}`;
         } else {
             const buffer = new Uint16Array(10000);
             const builder = new java.lang.StringBuilder();
@@ -91,7 +91,7 @@ export class Properties extends HashMap<string, string> {
             while ((count = input.read(buffer)) > 0) {
                 builder.append(buffer, 0, count);
             }
-            text = builder.toString();
+            text = `${builder.toString()}`;
         }
 
         // Normalize line breaks.

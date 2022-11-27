@@ -9,6 +9,7 @@
 // eslint-disable-next-line @typescript-eslint/naming-convention
 export type char = number;
 
+export { JavaObject as Object } from "./Object";
 export * from "./StringBuilder";
 export * from "./StringBuffer";
 export * from "./Character";
@@ -39,6 +40,7 @@ export * from "./NoSuchMethodError";
 export * from "./VirtualMachineError";
 export * from "./OutOfMemoryError";
 export * from "./NegativeArraySizeException";
+export * from "./CloneNotSupportedException";
 
 export * from "./System";
 export * from "./StackTraceElement";

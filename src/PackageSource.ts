@@ -16,8 +16,10 @@ import { CompilationUnitContext } from "../java/generated/JavaParser";
 import { PackageSourceManager } from "./PackageSourceManager";
 import { ISymbolInfo } from "./conversion/types";
 
-// A class to provide symbol information for a single package or source file. It allows to convert
-// Java imports to JS/TS imports and to expand partial type specifiers to their fully qualified name.
+/**
+ * A class to provide symbol information for a single package or source file. It allows to convert
+ * Java imports to JS/TS imports and to expand partial type specifiers to their fully qualified name.
+ */
 export class PackageSource {
     // Available symbols from the associated file or package.
     public symbolTable: SymbolTable;
@@ -29,7 +31,7 @@ export class PackageSource {
     // file being converted. Hence those names comprise the TS import list.
     protected importedSymbols = new Set<string>();
 
-    public constructor(public packageId: string, public sourceFile: string, public targetFile?: string) {
+    public constructor(public packageId: string, public sourceFile: string, public targetFile: string) {
         if (packageId !== "java") {
             // In Java only java.lang is implicitly imported, but we do that for all Java classes here.
             this.importList.add(PackageSourceManager.fromPackageId("java"));
@@ -50,7 +52,7 @@ export class PackageSource {
      * @param position.row The character row (one-based).
      */
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    public printParseTreeForPosition = (position: { column: number; row: number }): void => {
+    public printParseTreeForPosition = (position: { column: number; row: number; }): void => {
         // Overridden by descendants.
     };
 

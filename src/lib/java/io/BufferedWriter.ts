@@ -171,7 +171,7 @@ export class BufferedWriter extends Writer {
             start ??= 0;
             end ??= cOrCsq.length();
 
-            this.write(cOrCsq.subSequence(start, end).toString());
+            this.write(`${cOrCsq.subSequence(start, end).toString()}`);
         }
 
         return this;
