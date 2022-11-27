@@ -162,9 +162,9 @@ export class JavaToTypescriptConverter {
 
         const prefix = configuration.options.prefix;
         configuration.options.prefix =
-            typeof prefix === 'function'
+            typeof prefix === "function"
                 ? prefix
-                : () => prefix as string ?? '';
+                : () => {return prefix ?? "";};
     }
 
     public async startConversion(): Promise<void> {

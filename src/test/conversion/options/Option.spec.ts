@@ -1,13 +1,11 @@
 import { JavaToTypescriptConverter } from "../../../conversion/JavaToTypeScript";
-import fs from 'fs/promises';
-
-export {}
+import fs from "fs/promises";
 
 describe("Options Tests", () => {
     it("Prefix", async () => {
         const rand = Math.random();
 
-        const outDir = `${__dirname}/../generated`
+        const outDir = `${__dirname}/../generated`;
 
         const converter = new JavaToTypescriptConverter({
             packageRoot: `${__dirname}/../java-sources/org`,
@@ -22,7 +20,7 @@ describe("Options Tests", () => {
  ${rand}
  Auto generated from ${sourcePath}
  ${new Date().toString()}
-*/`
+*/`;
                 },
                 preferArrowFunctions: true,
                 convertAnnotations: false,
@@ -33,9 +31,10 @@ describe("Options Tests", () => {
         });
         await converter.startConversion();
 
-        const targetFile = await fs.readFile(`${__dirname}/../generated/java2typescript/options/OptionSpec.ts`, { encoding: 'utf-8' });
+        const targetFile = await fs.readFile(`${__dirname}/../generated/java2typescript/options/OptionSpec.ts`,
+            { encoding: "utf-8" });
         expect(targetFile).toContain(`/*
  ${rand}
- Auto generated from`)
+ Auto generated from`);
     });
 });
