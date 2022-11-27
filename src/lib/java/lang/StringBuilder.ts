@@ -603,7 +603,7 @@ export class StringBuilder implements java.lang.CharSequence, java.lang.Appendab
 
             if (position < this.currentLength) {
                 // Copy the rest from the original data.
-                newData.set(this.data.subarray(position, this.currentLength), position);
+                newData.set(this.data.subarray(position, this.currentLength), additionalSize);
             }
 
             this.data = newData;
