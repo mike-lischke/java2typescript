@@ -267,8 +267,13 @@ export class FileProcessor {
                 this.processCompilationUnit(builder, this.source.targetFile, libPath, this.source.parseTree);
 
                 try {
+                    let converted: string = String.fromCharCode(...builder.array());
+                    this.configuration.targetReplace?.forEach((to: string, pattern: RegExp) => {
+                        converted = converted.replace(pattern, to);
+                    });
+
                     fs.mkdirSync(path.dirname(this.source.targetFile), { recursive: true });
-                    fs.writeFileSync(this.source.targetFile, `${builder.toString()}`);
+                    fs.writeFileSync(this.source.targetFile, converted);
                     console.log(" done");
                 } catch (e) {
                     console.log("failed");
