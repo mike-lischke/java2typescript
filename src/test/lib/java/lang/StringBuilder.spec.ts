@@ -7,8 +7,6 @@
 
 import { java } from "../../../../lib/java/java";
 
-export { };
-
 describe("Tests", () => {
     it("Construction", () => {
         expect(new java.lang.StringBuilder().length() === 0);
@@ -94,5 +92,30 @@ describe("Tests", () => {
         b.insert(b.length(), i);   // JavaObject
 
         expect(`${b.toString()}`).toBe("String Builder-1String Builder-2123\n3true-4Another string-5-456");
+    });
+
+    it("Delete content", () => {
+        const b0 = new java.lang.StringBuilder("1234");
+        b0.deleteCharAt(0);
+        expect(`${b0.toString()}`).toBe("234");
+
+        const b1 = new java.lang.StringBuilder("1234");
+        b1.deleteCharAt(1);
+        expect(`${b1.toString()}`).toBe("134");
+
+        const b2 = new java.lang.StringBuilder("1234");
+        b2.deleteCharAt(2);
+        expect(`${b2.toString()}`).toBe("124");
+
+        const b3 = new java.lang.StringBuilder("1234");
+        b3.deleteCharAt(3);
+        expect(`${b3.toString()}`).toBe("123");
+
+        try {
+            const b4 = new java.lang.StringBuilder("1234");
+            b4.deleteCharAt(4);
+        } catch (e) {
+            expect(e).toBeInstanceOf(java.lang.IndexOutOfBoundsException);
+        }
     });
 });
