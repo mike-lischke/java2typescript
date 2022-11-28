@@ -207,7 +207,7 @@ export class StringBuilder extends JavaObject implements java.lang.CharSequence,
             throw new java.lang.IndexOutOfBoundsException();
         }
 
-        if (end < 0 || end >= this.currentLength) {
+        if (end < 0 || end > this.currentLength) {
             throw new java.lang.IndexOutOfBoundsException();
         }
 
