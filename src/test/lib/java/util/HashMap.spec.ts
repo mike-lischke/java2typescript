@@ -5,8 +5,8 @@
  * See LICENSE-MIT.txt file for more info.
  */
 
-import { java } from "../../lib/java/java";
-import { HashMapEntry } from "../../lib/java/util/HashMapEntry";
+import { java } from "../../../../lib/java/java";
+import { HashMapEntry } from "../../../../lib/java/util/HashMapEntry";
 
 // A test class which is not a HashMap but implements the Map interface.
 class Test<K, V> implements java.util.Map<K, V> {

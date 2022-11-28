@@ -5,9 +5,9 @@
  * See LICENSE-MIT.txt file for more info.
  */
 
-import { java } from "../../lib/java/java";
-import { ArrayList, HashSet } from "../../lib/java/util";
-import { IEquatable } from "../../lib/types";
+import { java } from "../../../../lib/java/java";
+import { ArrayList, HashSet } from "../../../../lib/java/util";
+import { IEquatable } from "../../../../lib/types";
 
 // Object which does not conform to IEquatable.
 interface ITest1 {

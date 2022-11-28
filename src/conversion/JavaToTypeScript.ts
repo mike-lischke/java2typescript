@@ -160,11 +160,9 @@ export class JavaToTypescriptConverter {
 
         configuration.packageRoot = path.resolve(configuration.packageRoot);
 
+        // Convert all prefix field variants to a function, so we don't have to test this again later.
         const prefix = configuration.options.prefix;
-        configuration.options.prefix =
-            typeof prefix === "function"
-                ? prefix
-                : () => {return prefix ?? "";};
+        configuration.options.prefix = typeof prefix === "function" ? prefix : () => { return prefix ?? ""; };
     }
 
     public async startConversion(): Promise<void> {

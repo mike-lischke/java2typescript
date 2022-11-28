@@ -5,7 +5,7 @@
  * See LICENSE-MIT.txt file for more info.
  */
 
-import { java } from "../../lib/java/java";
+import { java } from "../../../../lib/java/java";
 
 class TestOutputStream extends java.io.OutputStream {
     public output = new Uint8Array(1000);

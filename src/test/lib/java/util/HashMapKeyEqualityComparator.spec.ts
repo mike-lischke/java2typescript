@@ -5,10 +5,10 @@
  * See LICENSE-MIT.txt file for more info.
  */
 
-import { HashMapEntry } from "../../lib/java/util/HashMapEntry";
-import { HashMapKeyEqualityComparator } from "../../lib/java/util/HashMapKeyEqualityComparator";
-import { MurmurHash } from "../../lib/MurmurHash";
-import { IEquatable } from "../../lib/types";
+import { HashMapEntry } from "../../../../lib/java/util/HashMapEntry";
+import { HashMapKeyEqualityComparator } from "../../../../lib/java/util/HashMapKeyEqualityComparator";
+import { MurmurHash } from "../../../../lib/MurmurHash";
+import { IEquatable } from "../../../../lib/types";
 
 class KeyEntry implements IEquatable {
     public a: string;
@@ -67,7 +67,7 @@ describe("HashMapKeyEqualityComparator Tests", () => {
         expect(comparator1.equals(entry11, entry41)).toBeTruthy();
 
         // Standard TS objects.
-        const comparator2 = new HashMapKeyEqualityComparator<{ a: string; b: boolean; c: null }, string>();
+        const comparator2 = new HashMapKeyEqualityComparator<{ a: string; b: boolean; c: null; }, string>();
 
         const entry12 = new HashMapEntry({ a: "Dolor Sit", b: true, c: null }, "Lorem Ipsum");
         const entry22 = new HashMapEntry({ a: "Dolor Sit", b: false, c: null }, "Lorem Ipsum");

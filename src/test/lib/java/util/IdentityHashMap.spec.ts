@@ -7,8 +7,8 @@
 
 /* eslint-disable no-new-wrappers */
 
-import { java } from "../../lib/java/java";
-import { NotImplementedError } from "../../lib/NotImplementedError";
+import { java } from "../../../../lib/java/java";
+import { NotImplementedError } from "../../../../lib/NotImplementedError";
 
 describe("HashMap Tests", () => {
     it("Basic Map Operations", () => {

@@ -5,7 +5,7 @@
  * See LICENSE-MIT.txt file for more info.
  */
 
-import { java } from "../../lib/java/java";
+import { java } from "../../../../lib/java/java";
 
 describe("Tests", () => {
     it("Base", () => {

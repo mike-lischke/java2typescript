@@ -61,8 +61,10 @@ enum ModifierType {
     Transient,
     Volatile,
 
-    // Special value to indicate that the modifier (usually an annotation) was ignored and so must the following
-    // whitespaces.
+    /**
+     * Special value to indicate that the modifier (usually an annotation) was ignored and so must the following
+     * whitespaces.
+     */
     Ignored,
 }
 
@@ -74,18 +76,18 @@ enum RelatedElement {
     File,
 }
 
-// A description of a type for nested structures.
+/** A description of a type for nested structures. */
 interface ITypeInfo {
-    // The name of the type. Not assigned for anonymous types.
+    /** The name of the type. Not assigned for anonymous types. */
     name?: string;
 
-    // Generated type members.
+    /** Generated type members. */
     generatedMembers: IClassMemberDetails[];
 
-    // Certain constructs require the constructor(s) of the type (if there are any) to be public.
+    /** Certain constructs require the constructor(s) of the type (if there are any) to be public. */
     needPublicConstructors: boolean;
 
-    // Generated or special declarations that have to be added after the main content.
+    /** Generated or special declarations that have to be added after the main content. */
     deferredDeclarations: java.lang.StringBuilder;
 }
 
@@ -93,7 +95,7 @@ interface IParameterInfo {
     name: string;
     type: string;
 
-    // Set to true, if this is a rest parameter.
+    /** Set to true, if this is a rest parameter. */
     rest: boolean;
 }
 
@@ -112,36 +114,40 @@ enum MemberType {
     Empty,
 }
 
-// Holds certain details of each member of a class. Required for method overloading and instance initialization.
+/** Holds certain details of each member of a class. Required for method overloading and instance initialization. */
 interface IClassMemberDetails {
     type: MemberType;
 
-    // All whitespaces + comments before the modifier.
+    /** All whitespaces + comments before the modifier. */
     leadingWhitespace: string;
 
-    // Visibility/read only modifier.
+    /** Visibility/read only modifier. */
     modifier: string;
 
-    // Name + optional type parameters of the member (only for methods + constructors).
+    /** Name + optional type parameters of the member (only for methods + constructors). */
     nameWhitespace?: string;
     name?: string;
     typeParameters?: string;
 
-    // Separated name + TS type of all parameters (only for methods + constructors).
+    /** Separated name + TS type of all parameters (only for methods + constructors). */
     signature?: IParameterInfo[];
 
-    // Separate return type for methods.
+    /** Separate return type for methods. */
     returnType?: string;
 
-    // The converted signature TS code, including leading whitespaces.
+    /** The converted signature TS code, including leading whitespaces. */
     signatureContent?: java.lang.StringBuilder;
 
-    // The converted body block for methods + constructor or the full converted code for any other type,
-    // including leading whitespaces.
+    /**
+     * The converted body block for methods + constructor or the full converted code for any other type,
+     * including leading whitespaces.
+     */
     bodyContent: java.lang.StringBuilder;
 
-    // Only valid for constructors, to indicate that they do explicit constructor invocation, which requires special
-    // handling in the generated code.
+    /**
+     * Only valid for constructors, to indicate that they do explicit constructor invocation, which requires special
+     * handling in the generated code.
+     */
     containsThisCall?: boolean;
 }
 
@@ -153,7 +159,7 @@ interface IMethodReplaceEntry {
     };
 }
 
-// Converts the given Java file to Typescript.
+/** Converts the given Java file to Typescript. */
 export class FileProcessor {
 
     private static stringMethodMap = new Map<string | undefined, IMethodReplaceEntry>([
