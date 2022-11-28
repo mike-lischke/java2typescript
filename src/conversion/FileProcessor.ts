@@ -267,9 +267,9 @@ export class FileProcessor {
                 this.processCompilationUnit(builder, this.source.targetFile, libPath, this.source.parseTree);
 
                 try {
-                    let converted = builder.toString();
+                    let converted: string = String.fromCharCode(...builder.array());
                     this.configuration.targetReplace?.forEach((to: string, pattern: RegExp) => {
-                        converted = converted.replace(pattern, to)
+                        converted = converted.replace(pattern, to);
                     });
 
                     fs.mkdirSync(path.dirname(this.source.targetFile), { recursive: true });
