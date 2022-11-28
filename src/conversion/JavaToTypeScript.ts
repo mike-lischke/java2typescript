@@ -35,9 +35,11 @@ export interface ISourceMapping {
     importPath: string;
 }
 
+export type ConverterOptionsPrefixFunc = (sourcePath: string, targetPath?: string) => string;
+
 export interface IConverterOptions {
     /** Anything to go before the first code line (e.g. linter settings). */
-    prefix?: string;
+    prefix?: ConverterOptionsPrefixFunc | string;
 
     /** If true then Java annotations are converted to Typescript decorators. */
     convertAnnotations?: boolean;
@@ -155,6 +157,14 @@ export interface IConverterConfiguration {
 export class JavaToTypescriptConverter {
     public constructor(private configuration: IConverterConfiguration) {
         PackageSourceManager.configure(configuration.javaLib, configuration.options.importResolver);
+
+        configuration.packageRoot = path.resolve(configuration.packageRoot);
+
+        const prefix = configuration.options.prefix;
+        configuration.options.prefix =
+            typeof prefix === "function"
+                ? prefix
+                : () => {return prefix ?? "";};
     }
 
     public async startConversion(): Promise<void> {

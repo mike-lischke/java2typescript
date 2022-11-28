@@ -41,7 +41,7 @@ import {
 } from "../../java/generated/JavaParser";
 
 import { PackageSource } from "../PackageSource";
-import { IClassResolver, IConverterConfiguration } from "./JavaToTypeScript";
+import { ConverterOptionsPrefixFunc, IClassResolver, IConverterConfiguration } from "./JavaToTypeScript";
 import { EnumSymbol, JavaInterfaceSymbol } from "../parsing/JavaParseTreeWalker";
 import { PackageSourceManager } from "../PackageSourceManager";
 import { EnhancedTypeKind, ISymbolInfo } from "./types";
@@ -292,12 +292,11 @@ export class FileProcessor {
 
         const firstChild = context.getChild(0);
         const header = new java.lang.StringBuilder();
+        const prefix = this.configuration.options.prefix as ConverterOptionsPrefixFunc;
         if (firstChild instanceof ParserRuleContext) {
             header.append(this.getLeadingWhiteSpaces(firstChild));
 
-            if (this.configuration.options.prefix) {
-                header.append(this.configuration.options.prefix);
-            }
+            header.append(prefix(this.source.sourceFile, this.source.targetFile));
 
             if (context.packageDeclaration()) {
                 this.ignoreContent(context.packageDeclaration());
