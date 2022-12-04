@@ -5,6 +5,7 @@
  * See LICENSE-MIT.txt file for more info.
  */
 
+import { S } from "../../templates";
 import { MurmurHash } from "../../MurmurHash";
 
 import { java } from "../java";
@@ -13,22 +14,29 @@ import { JavaObject } from "./Object";
 /* eslint-disable @typescript-eslint/naming-convention */
 
 export class Integer extends JavaObject implements java.io.Serializable, java.lang.Comparable<Integer>  {
-    public static readonly MAX_VALUE = 0x7FFFFFFF;
-    public static readonly MIN_VALUE = 0x80000000;
+    public static readonly MAX_VALUE = 2147483647;
+    public static readonly MIN_VALUE = -2147483648;
     public static readonly SIZE = 32;
     public static readonly TYPE: java.lang.Class;
 
+    // All number types are signed in Java.
     private static byte = new Int8Array(1);
     private static short = new Int16Array(1);
 
     private value: number; // Can use number here, as it uses 52 bit for the mantissa, while we only need 32 bit.
 
-    // Constructs a newly allocated Integer object that represents the specified int or string value.
-    public constructor(value: number | string) {
+    /**
+     * Constructs a newly allocated Integer object that represents the specified int or string value.
+     *
+     * @param value A primitive type to wrap in this instance.
+     */
+    public constructor(value: number | string | java.lang.String) {
         super();
 
         if (typeof value === "string") {
             this.value = parseInt(value, 10);
+        } else if (value instanceof java.lang.String) {
+            this.value = parseInt(`${value}`, 10);
         } else if (Number.isInteger(value)) {
             this.value = value;
         } else {
@@ -76,7 +84,7 @@ export class Integer extends JavaObject implements java.io.Serializable, java.la
      * @returns A new Integer with the converted value.
      */
     public static decode(nm: string): Integer {
-        let n = nm.trim().toLowerCase();
+        const n = nm.trim().toLowerCase();
         if (n.length === 0) {
             throw new java.lang.NumberFormatException();
         }
@@ -84,24 +92,29 @@ export class Integer extends JavaObject implements java.io.Serializable, java.la
         try {
             // The function parseInt does not support octal numbers, so we have to handle that case manually.
             let sign = "";
+            let start = 0;
             if (n[0] === "+" || n[0] === "-") {
                 sign = n[0];
-                n = n.substring(1);
+                ++start;
             }
 
             let radix = 10;
-            if (n[0] === "0" && n.length > 1) {
-                // Octal or hexadecimal.
-                n = n.substring(1);
-                if (n[0] === "x") {
+            if (n.length - start > 1) {
+                if (n[start] === "#") {
+                    ++start;
                     radix = 16;
-                    n = n.substring(1);
-                } else {
-                    radix = 8;
+                } else if (n[start] === "0") {
+                    ++start;
+                    if (n[start] === "x") {
+                        radix = 16;
+                        ++start;
+                    } else {
+                        radix = 8;
+                    }
                 }
             }
 
-            return new java.lang.Integer(parseInt(sign + n, radix));
+            return new java.lang.Integer(parseInt(sign + n.substring(start), radix));
         } catch (reason) {
             throw new java.lang.NumberFormatException(undefined, java.lang.Throwable.fromError(reason));
         }
@@ -375,17 +388,20 @@ export class Integer extends JavaObject implements java.io.Serializable, java.la
     public static valueOf(i: number): Integer;
     public static valueOf(s: string, radix?: number): Integer;
     public static valueOf(value: number | string, radix?: number): Integer {
-        if (typeof value === "number") {
+        if (!radix || typeof value === "number") {
             return new Integer(value);
         }
 
-        const i = parseInt(value, radix);
-
-        return new Integer(i);
+        return new Integer(parseInt(value, radix));
     }
 
     public static parseInt(s: string, radix = 10): number {
-        return parseInt(s, radix);
+        const result = parseInt(s, radix);
+        if (isNaN(result) || result > Integer.MAX_VALUE || result < Integer.MIN_VALUE) {
+            throw new java.lang.NumberFormatException();
+        }
+
+        return result;
     }
 
     /** @returns the value of this Integer as a byte. */
@@ -460,17 +476,19 @@ export class Integer extends JavaObject implements java.io.Serializable, java.la
 
     // Returns a String object representing this Integer's value.
     public toString(): java.lang.String {
-        return new java.lang.String(this.value.toString());
+        return S`${this.value}`;
     }
 
-    private [Symbol.toPrimitive](hint: string) {
-        if (hint === "number") {
-            return this.value;
-        } else if (hint === "string") {
+    public valueOf(): number {
+        return this.value;
+    }
+
+    protected [Symbol.toPrimitive](hint: string): number | string | null {
+        if (hint === "string") {
             return this.value.toString();
         }
 
-        return null;
+        return this.value;
     }
 
     static {

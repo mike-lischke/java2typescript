@@ -162,18 +162,6 @@ interface IMethodReplaceEntry {
 /** Converts the given Java file to Typescript. */
 export class FileProcessor {
 
-    private static stringMethodMap = new Map<string | undefined, IMethodReplaceEntry>([
-        ["length", { options: { parentheses: "remove" } }],
-        ["isEmpty", { replacement: "length === 0", options: { parentheses: "remove" } }],
-        ["equals", { replacement: " === ", options: { parentheses: "extract", removeDot: true } }],
-    ]);
-
-    private static mapMethodMap = new Map<string | undefined, IMethodReplaceEntry>([
-        ["put", { replacement: "set", options: {} }],
-        ["remove", { replacement: "delete", options: {} }],
-        ["containsKey", { replacement: "has", options: {} }],
-    ]);
-
     private static arrayMethodMap = new Map<string | undefined, IMethodReplaceEntry>([
         ["set", { replacement: "", options: { parentheses: "indexed", removeDot: true } }],
         ["get", { replacement: "", options: { parentheses: "indexed", removeDot: true } }],
@@ -2146,41 +2134,7 @@ export class FileProcessor {
             const ws = this.getLeadingWhiteSpaces(context.identifier());
 
             this.ignoreContent(context.identifier());
-
-            if (!instance && methodName === "getClass") {
-                // Add a private implementation for that special method. This requires public constructors.
-                // But only for this class (no instance info), not any other object.
-
-                // But check first if we haven't added it already.
-                const existing = this.typeStack.tos?.generatedMembers.find((details) => {
-                    return details.name === "getClass";
-                });
-
-                if (!existing && this.typeStack.tos) {
-                    // Also add the `this` qualifier if not already there.
-                    if (builder.length() === 0) {
-                        builder.append("this.");
-                    }
-                    builder.append(ws);
-
-                    this.typeStack.tos.needPublicConstructors = true;
-                    const classType = `java.lang.Class<${this.typeStack.tos.name ?? "unknown"}>`;
-                    const bodyContent = new java.lang.StringBuilder(` {\n    // java2ts: auto generated\n    ` +
-                        `return new java.lang.Class(${this.typeStack.tos.name ?? "unknown"});\n}\n`);
-                    this.typeStack.tos.generatedMembers.push({
-                        type: MemberType.Method,
-                        leadingWhitespace: "\n\n\t",
-                        modifier: "private",
-                        nameWhitespace: " ",
-                        name: "getClass",
-                        signatureContent: new java.lang.StringBuilder(`(): ${classType}`),
-                        returnType: `${classType}`,
-                        bodyContent,
-                    });
-                }
-            } else {
-                builder.append(ws);
-            }
+            builder.append(ws);
 
             let transformed = false; // Was the call completely transformed?
 
@@ -2189,20 +2143,8 @@ export class FileProcessor {
                 let transform: IMethodReplaceEntry | undefined;
 
                 switch (instance.symbol.type.kind as unknown as EnhancedTypeKind) {
-                    case EnhancedTypeKind.String: {
-                        transform = FileProcessor.stringMethodMap.get(methodName);
-
-                        break;
-                    }
-
                     case EnhancedTypeKind.Array: {
                         transform = FileProcessor.arrayMethodMap.get(methodName);
-
-                        break;
-                    }
-
-                    case EnhancedTypeKind.Map: {
-                        transform = FileProcessor.mapMethodMap.get(methodName);
 
                         break;
                     }
@@ -3903,7 +3845,11 @@ export class FileProcessor {
         // 3. Is it a symbol from this file or a base class/interface?
         const info = this.source.getQualifiedSymbol(context, name);
         if (info) {
-            return info;
+            // If the resolved symbol is a class from a different package continue resolving to handle
+            // imports properly.
+            if (!(info.symbol instanceof ClassSymbol) || info.qualifiedName !== info.symbol.name) {
+                return info;
+            }
         }
 
         // 4. Is it an imported type?

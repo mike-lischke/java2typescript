@@ -20,8 +20,10 @@ import { Interval } from "antlr4ts/misc/Interval";
 import { printParseTreeStack } from "../Utilities";
 import { ISymbolInfo } from "../conversion/types";
 
-// This interface keeps all concerned parsing parts together, to ensure they stay alive during the entire
-// processing time. Symbol tables and parse trees depend on that.
+/**
+ * This interface keeps all concerned parsing parts together, to ensure they stay alive during the entire
+ * processing time. Symbol tables and parse trees depend on that.
+ */
 interface IFileParseInfo {
     content: string;
     inputStream: CharStream;
@@ -31,10 +33,10 @@ interface IFileParseInfo {
     tree: CompilationUnitContext;
 }
 
-// A source class for a single Java source file.
+/** A source class for a single Java source file. */
 export class JavaFileSource extends PackageSource {
 
-    // Only set if a file was parsed.
+    /** Only set if a file was parsed. */
     public fileParseInfo?: IFileParseInfo;
 
     public constructor(packageId: string, sourceFile: string, targetFile: string, private packageRoot: string,
@@ -54,7 +56,7 @@ export class JavaFileSource extends PackageSource {
         return (this.symbolTable as JavaFileSymbolTable).getQualifiedSymbol(context, name);
     };
 
-    public printParseTreeForPosition = (position: { column: number; row: number }): void => {
+    public printParseTreeForPosition = (position: { column: number; row: number; }): void => {
         if (this.fileParseInfo) {
             printParseTreeStack(this.sourceFile, this.fileParseInfo.tree, this.fileParseInfo.parser.ruleNames,
                 position);

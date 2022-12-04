@@ -5,6 +5,7 @@
  * See LICENSE-MIT.txt file for more info.
  */
 
+import { S } from "../../templates";
 import { java } from "../java";
 
 /** Implements the Java Object semantics. */
@@ -12,10 +13,10 @@ export class JavaObject {
     private static nextId = 0;
 
     // Represents the default hash code of a Java object. Using a running number here.
-    private readonly id;
+    readonly #id;
 
     protected constructor() {
-        this.id = JavaObject.nextId++;
+        this.#id = JavaObject.nextId++;
     }
 
     /**
@@ -36,7 +37,7 @@ export class JavaObject {
 
     /** @returns a hash code value for the object. */
     public hashCode(): number {
-        return this.id;
+        return this.#id;
     }
 
     /** Wakes up a single thread that is waiting on this object's monitor. */
@@ -51,7 +52,7 @@ export class JavaObject {
 
     /** @returns a string representation of the object. */
     public toString(): java.lang.String {
-        return new java.lang.String(`${this.constructor.name}@${this.id.toString(16)}`);
+        return S`${this.constructor.name}@${this.#id.toString(16)}`;
     }
 
     /**
@@ -68,6 +69,10 @@ export class JavaObject {
     /** Creates and returns a copy of this object. */
     protected clone(): JavaObject {
         throw new java.lang.CloneNotSupportedException();
+    }
+
+    protected [Symbol.toPrimitive](_hint: string): bigint | number | boolean | string | null {
+        return `${this.toString()}`;
     }
 
 }

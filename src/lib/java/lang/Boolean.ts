@@ -141,7 +141,7 @@ export class Boolean extends JavaObject implements java.io.Serializable, java.la
         return this.value ? new java.lang.String("true") : new java.lang.String("false");
     }
 
-    private [Symbol.toPrimitive](hint: string) {
+    protected [Symbol.toPrimitive](hint: string): number | string | null {
         if (hint === "number") {
             return this.value ? 1 : 0;
         }

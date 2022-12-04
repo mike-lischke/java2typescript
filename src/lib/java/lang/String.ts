@@ -7,10 +7,11 @@
 
 /* eslint-disable @typescript-eslint/unified-signatures */
 
-import { charCodesToString, codePointsToString, Object } from ".";
+import { charCodesToString, codePointsToString } from ".";
 import { java } from "../java";
+import { JavaObject } from "./Object";
 
-export class String extends Object
+export class String extends JavaObject
     implements java.io.Serializable, java.lang.CharSequence, java.lang.Comparable<String> {
     private value: string;
 
@@ -95,8 +96,8 @@ export class String extends Object
 
             charset ??= java.nio.charset.Charset.defaultCharset;
 
-            this.value = charset.decode(java.nio.ByteBuffer.wrap(input, offset ?? 0, lengthOrCount ?? input.length))
-                .toString()[Symbol.toPrimitive]();
+            this.value = `${charset.decode(java.nio.ByteBuffer.wrap(input, offset ?? 0, lengthOrCount ?? input.length))
+                .toString()}`;
         } else if (input instanceof Uint16Array) {
             this.value = charCodesToString(input.subarray(offset, lengthOrCount));
         } else if (input instanceof Uint32Array) {
@@ -154,7 +155,7 @@ export class String extends Object
         return this.value.localeCompare(o.value);
     }
 
-    private [Symbol.toPrimitive]() {
+    protected [Symbol.toPrimitive](_hint: string): string {
         return this.value;
     }
 

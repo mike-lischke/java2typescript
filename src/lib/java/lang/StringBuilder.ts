@@ -399,7 +399,7 @@ export class StringBuilder extends JavaObject implements java.lang.CharSequence,
             throw new java.lang.IndexOutOfBoundsException();
         }
 
-        this.data.set([ch], index);
+        this.data.set([ch & 0xFFFF], index);
     }
 
     /**
@@ -628,10 +628,6 @@ export class StringBuilder extends JavaObject implements java.lang.CharSequence,
 
     private isLowSurrogate(code?: number): boolean {
         return code !== undefined && code >= 0xDC00 && code <= 0xDFFF;
-    }
-
-    private [Symbol.toPrimitive]() {
-        return `${this.toString()}`;
     }
 }
 

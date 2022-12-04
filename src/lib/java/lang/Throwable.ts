@@ -13,10 +13,13 @@ import { JavaObject } from "./Object";
 import { StackTraceElement } from "./StackTraceElement";
 
 export class Throwable extends JavaObject {
-    private elements: StackTraceElement[] = [];
-    private suppressed: Throwable[] = [];
+    #message: string;
+    #name: string;
+    #cause?: Throwable;
+    #elements: StackTraceElement[] = [];
+    #suppressed: Throwable[] = [];
 
-    private jsError: Error;
+    private stack?: string;
 
     public constructor(message?: string, cause?: Throwable);
     // This constructor is protected in Java, but in TS we cannot mix different modifiers in overloading.
@@ -24,21 +27,21 @@ export class Throwable extends JavaObject {
     public constructor(cause: Throwable);
     public constructor(messageOrCause?: string | Throwable, cause?: Throwable, _enableSuppression?: boolean,
         _writableStackTrace?: boolean) {
-
-        let message;
-        let options: ErrorOptions;
-
-        if (typeof messageOrCause === "string") {
-            message = messageOrCause;
-            options = { cause };
-        } else {
-            message = "";
-            options = { cause: messageOrCause };
-        }
-
         super();
 
-        this.jsError = new Error(message, options);
+        if (typeof messageOrCause === "string") {
+            this.#message = messageOrCause;
+            this.#cause = cause;
+        } else {
+            this.#message = "";
+            this.#cause = messageOrCause;
+        }
+        this.#name = this.constructor.name;
+
+        if (Error.captureStackTrace) {
+            Error.captureStackTrace(this, Throwable);
+        }
+
         this.fillInStackTrace();
     }
 
@@ -72,19 +75,19 @@ export class Throwable extends JavaObject {
      * @param exception tbd
      */
     public addSuppressed(exception: Throwable): void {
-        this.suppressed.push(exception);
+        this.#suppressed.push(exception);
     }
 
     /** Fills in the execution stack trace. */
     public fillInStackTrace(): Throwable {
-        if (this.jsError.stack) {
-            const lines = this.jsError.stack.split("\n").slice(1);
+        if (this.stack) {
+            const lines = this.stack.split("\n").slice(1);
 
-            this.elements = lines.map((line) => {
+            this.#elements = lines.map((line) => {
                 return new StackTraceElement(line);
             });
         } else {
-            this.elements = [];
+            this.#elements = [];
         }
 
         return this;
@@ -92,22 +95,22 @@ export class Throwable extends JavaObject {
 
     /** Returns the cause of this throwable or null if the cause is nonexistent or unknown. */
     public getCause(): Throwable | undefined {
-        return this.jsError.cause as Throwable;
+        return this.#cause;
     }
 
     /** Creates a localized description of this throwable. */
     public getLocalizedMessage(): string | undefined {
-        return this.jsError.message;
+        return this.#message;
     }
 
     /** Returns the detail message string of this throwable. */
     public getMessage(): string | undefined {
-        return this.jsError.message;
+        return this.#message;
     }
 
     /** Provides programmatic access to the stack trace information printed by printStackTrace(). */
     public getStackTrace(): StackTraceElement[] {
-        return this.elements;
+        return this.#elements;
     }
 
     /**
@@ -115,7 +118,7 @@ export class Throwable extends JavaObject {
      * statement, in order to deliver this exception.
      */
     public getSuppressed(): Throwable[] {
-        return this.suppressed;
+        return this.#suppressed;
     }
 
     /**
@@ -124,7 +127,7 @@ export class Throwable extends JavaObject {
      * @param cause tbd
      */
     public initCause(cause: Throwable): this {
-        this.jsError.cause = cause;
+        this.#cause = cause;
 
         return this;
     }
@@ -135,7 +138,7 @@ export class Throwable extends JavaObject {
      * @param s tbd
      */
     public printStackTrace(s?: unknown): void {
-        console.error(this.jsError.stack);
+        console.error(this.stack);
     }
 
     /**
@@ -145,20 +148,21 @@ export class Throwable extends JavaObject {
      * @param stackTrace tbd
      */
     public setStackTrace(stackTrace: StackTraceElement[]): void {
-        this.elements = stackTrace;
+        this.#elements = stackTrace;
     }
 
     /** Returns a short description of this throwable. */
     public toString(): java.lang.String {
         const message = this.getLocalizedMessage();
         if (!message) {
-            return new java.lang.String(this.jsError.name);
+            return new java.lang.String(this.stack ?? "");
         }
 
         return new java.lang.String(this.constructor.name + ": " + message);
     }
 
-    private [Symbol.toPrimitive]() {
+    protected [Symbol.toPrimitive](): string {
         return `${this.toString()}`;
     }
+
 }

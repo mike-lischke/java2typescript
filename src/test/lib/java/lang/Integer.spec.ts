@@ -7,15 +7,15 @@
 
 import { java } from "../../../../lib/java/java";
 
-describe("Tests", () => {
+describe("java.lang.Integer Tests", () => {
     it("Base", () => {
         const i = new java.lang.Integer(0);
         expect(i.equals(new java.lang.Integer(0))).toBe(true);
         expect(i.equals(new java.lang.Integer("0"))).toBe(true);
         expect(i.equals(new java.lang.Integer(1))).toBe(false);
 
-        expect(java.lang.Integer.MAX_VALUE).toBe(0x7FFFFFFF);
-        expect(java.lang.Integer.MIN_VALUE).toBe(0x80000000);
+        expect(java.lang.Integer.MAX_VALUE).toBe(2147483647);
+        expect(java.lang.Integer.MIN_VALUE).toBe(-2147483648);
 
         expect(() => { new java.lang.Integer(1.2); }).toThrowError();
     });
@@ -207,8 +207,19 @@ describe("Tests", () => {
         expect(i).toBeInstanceOf(java.lang.Integer);
         expect(i.intValue()).toBe(967);
 
-        // Integer.parseInt directly uses global parseInt, so it makes no sense to test this much.
         expect(java.lang.Integer.parseInt("88")).toBe(88);
+        expect(java.lang.Integer.parseInt("0", 10)).toBe(0);
+        expect(java.lang.Integer.parseInt("473", 10)).toBe(473);
+        expect(java.lang.Integer.parseInt("+42", 10)).toBe(42);
+        expect(java.lang.Integer.parseInt("-0", 10)).toBe(-0);
+        expect(java.lang.Integer.parseInt("-FF", 16)).toBe(-255);
+        expect(java.lang.Integer.parseInt("1100110", 2)).toBe(102);
+        expect(java.lang.Integer.parseInt("2147483647", 10)).toBe(2147483647);
+        expect(java.lang.Integer.parseInt("-2147483648", 10)).toBe(-2147483648);
+        expect(() => { java.lang.Integer.parseInt("2147483648", 10); }).toThrowError(java.lang.NumberFormatException);
+        expect(() => { java.lang.Integer.parseInt("99", 8); }).toThrowError(java.lang.NumberFormatException);
+        expect(() => { java.lang.Integer.parseInt("Kona", 10); }).toThrowError(java.lang.NumberFormatException);
+        expect(java.lang.Integer.parseInt("Kona", 27)).toBe(411787);
     });
 
     it("Miscellaneous", () => {

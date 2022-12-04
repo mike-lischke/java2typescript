@@ -5,10 +5,10 @@
  * See LICENSE-MIT.txt file for more info.
  */
 
-import { CharBuffer } from "../nio";
+import { java } from "../java";
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
 export interface Readable {
     /** Attempts to read characters into the specified character buffer. */
-    read(cb: CharBuffer): number;
+    read(cb: java.nio.CharBuffer): number;
 }
