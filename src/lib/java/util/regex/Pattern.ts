@@ -5,12 +5,13 @@
  * See LICENSE-MIT.txt file for more info.
  */
 
-import { Matcher } from ".";
+import { java } from "../../java";
+import { JavaObject } from "../../lang/Object";
 
 /* eslint-disable @typescript-eslint/naming-convention */
 /* cSpell: ignore DOTALL */
 
-export class Pattern {
+export class Pattern extends JavaObject {
     // Enables canonical equivalence.
     public static readonly CANON_EQ = 1 >> 0;
 
@@ -40,7 +41,9 @@ export class Pattern {
 
     private regex: RegExp;
 
-    private constructor(private source: string, private sourceFlags: number) {
+    private constructor(private source: java.lang.String, private sourceFlags: number) {
+        super();
+
         let flags = "dy"; // Sticky indexes are used, not a global search, to better match Java's regex behavior.
         if (sourceFlags & Pattern.DOTALL) {
             flags += "s";
@@ -55,7 +58,7 @@ export class Pattern {
             flags += "u";
         }
 
-        this.regex = new RegExp(source, flags);
+        this.regex = new RegExp(source.valueOf(), flags);
     }
 
     // Returns a literal pattern string for the specified string.
@@ -71,7 +74,7 @@ export class Pattern {
     };
 
     // Compiles the given regular expression into a pattern.
-    public static compile = (regex: string, flags?: number): Pattern => {
+    public static compile = (regex: java.lang.String, flags?: number): Pattern => {
         return new Pattern(regex, flags ?? 0);
     };
 
@@ -81,14 +84,14 @@ export class Pattern {
     };
 
     // Creates a matcher that will match the given input against this pattern.
-    public matcher = (input: string): Matcher => {
-        return new Matcher(this, this.regex, input);
+    public matcher = (input: string): java.util.regex.Matcher => {
+        return new java.util.regex.Matcher(this, this.regex, input);
     };
 
     // Returns the regular expression from which this pattern was compiled.
-    public pattern = (): string => {
+    public pattern(): java.lang.String {
         return this.source;
-    };
+    }
 
     // Splits the given input sequence around matches of this pattern.
     public split = (input: string, limit?: number): string[] => {
@@ -96,9 +99,9 @@ export class Pattern {
     };
 
     // Returns the string representation of this pattern.
-    public toString = (): string => {
+    public toString(): java.lang.String {
         return this.source;
-    };
+    }
 
 }
 

@@ -5,7 +5,6 @@
  * See LICENSE-MIT.txt file for more info.
  */
 
-import { S } from "../../templates";
 import { java } from "../java";
 
 /** Implements the Java Object semantics. */
@@ -52,7 +51,7 @@ export class JavaObject {
 
     /** @returns a string representation of the object. */
     public toString(): java.lang.String {
-        return S`${this.constructor.name}@${this.#id.toString(16)}`;
+        return new java.lang.String(`${this.constructor.name}@${this.#id.toString(16)}`);
     }
 
     /**

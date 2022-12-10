@@ -6,8 +6,9 @@
  */
 
 import { java } from "../java";
+import { JavaObject } from "../lang/Object";
 
-export class ArrayListIterator<T> implements java.util.ListIterator<T> {
+export class ArrayListIterator<T> extends JavaObject implements java.util.ListIterator<T> {
 
     // Holds the direction we navigated last (either by calling next() or previous()).
     private movedForward: boolean | undefined;
@@ -20,6 +21,7 @@ export class ArrayListIterator<T> implements java.util.ListIterator<T> {
         private supportRemoval = true,
         private start = 0,
         private end = buffer.length) {
+        super();
         if (start < 0 || end < 0 || start + end >= buffer.length) {
             throw new java.lang.IndexOutOfBoundsException();
         }

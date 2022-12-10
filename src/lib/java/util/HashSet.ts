@@ -7,18 +7,18 @@
 /* eslint-disable jsdoc/require-returns */
 
 import { java } from "../java";
+import { JavaObject } from "../lang/Object";
 
 import { DefaultJavaEqualityComparator } from "../../DefaultJavaEqualityComparator";
 import { MurmurHash } from "../../MurmurHash";
 import { JavaEqualityComparator } from "../../JavaEqualityComparator";
-import { ArrayListIterator } from "./ArrayListIterator";
 
 /**
  * This implementation was taken from the ANTLR4 Array2DHashSet implementation and adjusted to fulfill the
  * more general Java HashSet implementation (supporting null as valid value).
  */
-export class HashSet<T> implements java.lang.Cloneable<HashSet<T>>, java.io.Serializable, java.util.Collection<T>,
-    java.util.Set<T> {
+export class HashSet<T> extends JavaObject implements java.lang.Cloneable<HashSet<T>>, java.io.Serializable,
+    java.util.Collection<T>, java.util.Set<T> {
 
     public static readonly initialCapacity = 16; // Must be a power of 2.
     public static readonly defaultLoadFactor = 0.75;
@@ -37,6 +37,8 @@ export class HashSet<T> implements java.lang.Cloneable<HashSet<T>>, java.io.Seri
     public constructor(c?: java.util.Collection<T>);
     public constructor(initialCapacity: number, loadFactor?: number);
     public constructor(cOrInitialCapacity?: java.util.Collection<T> | number, loadFactor?: number) {
+        super();
+
         let initialCapacity = HashSet.initialCapacity;
 
         if (cOrInitialCapacity === undefined) {
@@ -160,7 +162,7 @@ export class HashSet<T> implements java.lang.Cloneable<HashSet<T>>, java.io.Seri
     }
 
     public iterator(): java.util.Iterator<T> {
-        return new ArrayListIterator(this.toArray(), false);
+        return new java.util.ArrayListIterator(this.toArray(), false);
     }
 
     public contains(o: T): boolean {

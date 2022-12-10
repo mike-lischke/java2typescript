@@ -10,10 +10,11 @@
 import * as fs from "fs/promises";
 
 import { Throwable } from "../lang";
+import { JavaObject } from "../lang/Object";
 import { Closeable } from "./Closeable";
 import { IOException } from "./IOException";
 
-export class FileDescriptor {
+export class FileDescriptor extends JavaObject {
     private parent?: Closeable;
     private otherParents: Closeable[] = [];
     private closed = false;
@@ -21,6 +22,8 @@ export class FileDescriptor {
     private fileHandle?: fs.FileHandle;
 
     public constructor(fd?: fs.FileHandle) {
+        super();
+
         this.fileHandle = fd;
     }
 

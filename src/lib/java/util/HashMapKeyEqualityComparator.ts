@@ -23,9 +23,9 @@ export class HashMapKeyEqualityComparator<K, V> implements JavaEqualityComparato
      *
      * @returns The computed hash code.
      */
-    public hashCode = (value: HashMapEntry<K, V>): number => {
+    public hashCode(value: HashMapEntry<K, V>): number {
         return MurmurHash.valueHash(value.getKey());
-    };
+    }
 
     /**
      * Determines the equality of two hash map entries (considering only their keys).
@@ -35,7 +35,7 @@ export class HashMapKeyEqualityComparator<K, V> implements JavaEqualityComparato
      *
      * @returns True if both are equal, otherwise false.
      */
-    public equals = (a: HashMapEntry<K, V>, b: HashMapEntry<K, V>): boolean => {
+    public equals(a: HashMapEntry<K, V>, b: HashMapEntry<K, V>): boolean {
         const key1 = a.getKey();
         const key2 = b.getKey();
         if (a === b || key1 === key2) {
@@ -57,5 +57,5 @@ export class HashMapKeyEqualityComparator<K, V> implements JavaEqualityComparato
         }
 
         return this.hashCode(a) === this.hashCode(b);
-    };
+    }
 }

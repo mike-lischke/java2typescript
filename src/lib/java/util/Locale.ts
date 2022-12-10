@@ -5,13 +5,11 @@
  * See LICENSE-MIT.txt file for more info.
  */
 
-import { final } from "../../Decorators";
-
 import { java } from "../java";
+import { JavaObject } from "../lang/Object";
 
 /** This class has no meaningful implementation and exist only to satisfy call signatures. */
-@final
-export class Locale implements java.lang.Cloneable<Locale> {
+export class Locale extends JavaObject implements java.lang.Cloneable<Locale> {
     public static getDefault(): Locale {
         return new Locale();
     }

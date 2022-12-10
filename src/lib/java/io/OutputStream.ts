@@ -6,8 +6,15 @@
  */
 
 import { java } from "../java";
+import { JavaObject } from "../lang/Object";
 
-export abstract class OutputStream implements java.io.Closeable, java.io.Flushable, java.io.AutoCloseable {
+export abstract class OutputStream extends JavaObject
+    implements java.io.Closeable, java.io.Flushable, java.io.AutoCloseable {
+
+    public constructor() {
+        super();
+    }
+
     public abstract close(): void;
     public abstract flush(): void;
 

@@ -174,7 +174,7 @@ export class FileProcessor {
 
     private whiteSpaceAnchor = 0;
 
-    // Other imports from the tool (for helpers, decorators etc.).
+    // Imports from within the library path (helpers, direct imports of Java classes etc.).
     private libraryImports = new Map<string, string[]>();
 
     // Names of 3rd party modules/packages to import.
@@ -521,7 +521,8 @@ export class FileProcessor {
             this.getContent(localBuilder, context.EXTENDS());
             this.processTypeType(localBuilder, context.typeType());
         } else {
-            localBuilder.append(" extends java.lang.Object");
+            localBuilder.append(" extends JavaObject");
+            this.libraryImports.set("java/lang/Object", ["JavaObject"]);
         }
 
         if (context.IMPLEMENTS()) {

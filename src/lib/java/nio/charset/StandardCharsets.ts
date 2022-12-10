@@ -5,11 +5,12 @@
  * See LICENSE-MIT.txt file for more info.
  */
 
+import { JavaObject } from "../../lang/Object";
 import { Charset } from "./Charset";
 
 /* eslint-disable @typescript-eslint/naming-convention */
 
-export class StandardCharsets {
+export class StandardCharsets extends JavaObject {
     /** ISO Latin Alphabet No. */
     public static readonly ISO_8859_1 = Charset.forName("ISO-8859-1");
 
@@ -28,4 +29,7 @@ export class StandardCharsets {
     /** Eight-bit UCS Transformation Format */
     public static readonly UTF_8 = Charset.forName("UTF-8");
 
+    public constructor() {
+        super();
+    }
 }

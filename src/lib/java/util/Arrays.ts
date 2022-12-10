@@ -5,13 +5,15 @@
  * See LICENSE-MIT.txt file for more info.
  */
 
-import { ArrayList, List } from ".";
+import { java } from "../java";
+import { JavaObject } from "../lang/Object";
+
 import { isEquatable } from "../../helpers";
 import { MurmurHash } from "../../MurmurHash";
 
 export type ComparableValueType = number | bigint | string;
 
-export class Arrays {
+export class Arrays extends JavaObject {
     public static sort<T>(list: T[]): void {
         list.sort((a, b) => {
             if (a < b) {
@@ -26,8 +28,8 @@ export class Arrays {
         });
     }
 
-    public static asList<T>(...list: T[]): List<T> {
-        return new ArrayList<T>(list);
+    public static asList<T>(...list: T[]): java.util.List<T> {
+        return new java.util.ArrayList<T>(list);
     }
 
     /**

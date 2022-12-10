@@ -6,12 +6,13 @@
  */
 
 import { java } from "../java";
+import { JavaObject } from "../lang/Object";
 
 import { MurmurHash } from "../../MurmurHash";
 import { NotImplementedError } from "../../NotImplementedError";
 
-export class IdentityHashMap<K, V> implements java.lang.Cloneable<IdentityHashMap<K, V>>, java.io.Serializable,
-    java.util.Map<K, V> {
+export class IdentityHashMap<K, V> extends JavaObject implements java.lang.Cloneable<IdentityHashMap<K, V>>,
+    java.io.Serializable, java.util.Map<K, V> {
 
     // Since we are using reference equality in this map, we can just let TS map do the heavy lifting.
     private backingStore = new Map<K, V>();
@@ -19,6 +20,8 @@ export class IdentityHashMap<K, V> implements java.lang.Cloneable<IdentityHashMa
     public constructor(expectedMaxSize?: number);
     public constructor(map: java.util.Map<K, V>);
     public constructor(expectedMaxSizeOrMap?: number | java.util.Map<K, V>) {
+        super();
+
         if (expectedMaxSizeOrMap && typeof expectedMaxSizeOrMap !== "number") {
             if (expectedMaxSizeOrMap) {
                 this.putAll(expectedMaxSizeOrMap);

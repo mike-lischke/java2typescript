@@ -3,13 +3,17 @@
  * Licensed under the BSD-3-Clause license. See LICENSE file in the project root for license information.
  */
 
+import { JavaObject } from "../lang/Object";
+
 // The code in this file was taken from the antlr4ts package.
 
-export class BitSetIterator implements IterableIterator<number> {
+export class BitSetIterator extends JavaObject implements IterableIterator<number> {
     private index = 0;
     private mask = 0xFFFF;
 
-    public constructor(private data: Uint16Array) { }
+    public constructor(private data: Uint16Array) {
+        super();
+    }
 
     public next(): IteratorResult<number> {
         while (this.index < this.data.length) {

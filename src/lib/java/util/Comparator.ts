@@ -5,7 +5,9 @@
  * See LICENSE-MIT.txt file for more info.
  */
 
-export abstract class Comparator<T> {
+import { JavaObject } from "../lang/Object";
+
+export abstract class Comparator<T> extends JavaObject {
     public abstract compare: (o1: T, o2: T) => number;
     public abstract equals: (obj: unknown) => boolean;
 }

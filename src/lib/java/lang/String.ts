@@ -151,6 +151,15 @@ export class String extends JavaObject
         return this;
     }
 
+    /**
+     * Not part of the Java API, but here to ease primitive value access.
+     *
+     * @returns the primitive string value of this instance.
+     */
+    public valueOf(): string {
+        return this.value;
+    }
+
     public compareTo(o: String): number {
         return this.value.localeCompare(o.value);
     }

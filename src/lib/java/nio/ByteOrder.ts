@@ -9,14 +9,18 @@
 
 import { endianness } from "os";
 import { MurmurHash } from "../../MurmurHash";
+import { java } from "../java";
+import { JavaObject } from "../lang/Object";
 
-export class ByteOrder {
+export class ByteOrder extends JavaObject {
     public static readonly BIG_ENDIAN = new ByteOrder(true);
     public static readonly LITTLE_ENDIAN = new ByteOrder(false);
 
     private bigEndian: boolean;
 
     private constructor(flag: boolean) {
+        super();
+
         this.bigEndian = flag;
     }
 
@@ -24,17 +28,17 @@ export class ByteOrder {
         return new ByteOrder(endianness() === "BE");
     }
 
-    public toString(): string {
+    public toString(): java.lang.String {
         if (this.bigEndian) {
-            return "BIG_ENDIAN";
+            return new java.lang.String("BIG_ENDIAN");
         }
 
-        return "LITTLE_ENDIAN";
+        return new java.lang.String("LITTLE_ENDIAN");
     }
 
     public hashCode(): number {
         let hash = MurmurHash.initialize();
-        hash = MurmurHash.update(hash, this.bigEndian ? 1 : 0);
+        hash = MurmurHash.update(hash, this.bigEndian);
         hash = MurmurHash.finish(hash, 1);
 
         return hash;

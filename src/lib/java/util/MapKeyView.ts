@@ -6,15 +6,17 @@
  */
 
 import { java } from "../java";
+import { JavaObject } from "../lang/Object";
 
 import { JavaEqualityComparator } from "../../JavaEqualityComparator";
-import { ArrayListIterator } from "./ArrayListIterator";
 
 /** This support class provides a view on a map's keys. It allows to modify the map for which it was created. */
-export class MapKeyView<K, V> implements java.util.Set<K> {
+export class MapKeyView<K, V> extends JavaObject implements java.util.Set<K> {
     public constructor(
         private map: java.util.HashMap<K, V>,
-        private comparator: JavaEqualityComparator<java.util.Map.Entry<K, V>>) { }
+        private comparator: JavaEqualityComparator<java.util.Map.Entry<K, V>>) {
+        super();
+    }
 
     public *[Symbol.iterator](): IterableIterator<K> {
         yield* this.toArray();
@@ -83,7 +85,7 @@ export class MapKeyView<K, V> implements java.util.Set<K> {
     }
 
     public iterator(): java.util.Iterator<K> {
-        return new ArrayListIterator(this.toArray(), false);
+        return new java.util.ArrayListIterator(this.toArray(), false);
     }
 
     public remove(o: K): boolean {

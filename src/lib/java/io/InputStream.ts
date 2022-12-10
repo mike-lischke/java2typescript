@@ -12,15 +12,18 @@
 
 /* cspell: ignore readlimit */
 
-import { NotImplementedError } from "../../NotImplementedError";
-import { IndexOutOfBoundsException } from "../lang";
+import { JavaObject } from "../lang/Object";
 import { Closeable } from "./Closeable";
 import { IOException } from "./IOException";
 
-export abstract class InputStream implements Closeable {
+export abstract class InputStream extends JavaObject implements Closeable {
     // MAX_SKIP_BUFFER_SIZE is used to determine the maximum buffer size to
     // use when skipping.
     private static readonly MAX_SKIP_BUFFER_SIZE = 2048;
+
+    public constructor() {
+        super();
+    }
 
     /**
      * Returns an estimate of the number of bytes that can be read (or skipped over) from this input stream without

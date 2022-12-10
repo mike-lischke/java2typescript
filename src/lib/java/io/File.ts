@@ -13,8 +13,9 @@ import path from "path";
 import fs from "fs";
 
 import { java } from "../java";
+import { JavaObject } from "../lang/Object";
 
-export class File implements java.lang.Comparable<File> {
+export class File extends JavaObject implements java.lang.Comparable<File> {
     public static readonly separator = path.delimiter;
     public static readonly separatorChar = path.delimiter;
     public static readonly pathSeparator = path.sep;
@@ -28,6 +29,8 @@ export class File implements java.lang.Comparable<File> {
     public constructor(parent: string | undefined, child: string);
     public constructor(uri: URL);
     public constructor(pathNameOrParentUri: string | File | URL | undefined, child?: string) {
+        super();
+
         if (!pathNameOrParentUri && !child) {
             throw new java.lang.NullPointerException();
         } else if (!pathNameOrParentUri) {

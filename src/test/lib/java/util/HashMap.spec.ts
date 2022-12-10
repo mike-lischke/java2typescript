@@ -6,10 +6,15 @@
  */
 
 import { java } from "../../../../lib/java/java";
+import { JavaObject } from "../../../../lib/java/lang/Object";
 import { HashMapEntry } from "../../../../lib/java/util/HashMapEntry";
 
 // A test class which is not a HashMap but implements the Map interface.
-class Test<K, V> implements java.util.Map<K, V> {
+class Test<K, V> extends JavaObject implements java.util.Map<K, V> {
+    public constructor() {
+        super();
+    }
+
     public clear(): void { /**/ }
     public containsKey(_key: K): boolean { return true; }
     public containsValue(_value: V): boolean { return true; }
@@ -87,8 +92,6 @@ describe("HashMap Tests", () => {
 
         m2.put("Some", "more");
         expect(m.equals(m2)).toBeFalsy();
-
-        expect(m.equals(Math)).toBeFalsy();
     });
 
     it("Load Test", () => {

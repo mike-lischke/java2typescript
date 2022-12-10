@@ -5,6 +5,4 @@
  * See LICENSE-MIT.txt file for more info.
  */
 
-/* eslint-disable @typescript-eslint/no-namespace */
-
 export * as java from "./index";

@@ -8,15 +8,11 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
 import { NotImplementedError } from "../../NotImplementedError";
-import { char, IllegalArgumentException } from "../lang";
-import { Readable } from "../lang/Readable";
-import { CharBuffer } from "../nio/CharBuffer";
-import { ReadOnlyBufferException } from "../nio/ReadOnlyBufferException";
-import { AutoCloseable } from "./AutoCloseable";
-import { Closeable } from "./Closeable";
-import { IOException } from "./IOException";
+import { java } from "../java";
+import { JavaObject } from "../lang/Object";
 
-export abstract class Reader implements Closeable, AutoCloseable, Readable {
+export abstract class Reader extends JavaObject implements java.io.Closeable, java.io.AutoCloseable,
+    java.lang.Readable {
     // Maximum skip-buffer size.
     private static readonly maxSkipBufferSize = 8192;
 
@@ -29,7 +25,7 @@ export abstract class Reader implements Closeable, AutoCloseable, Readable {
      * @param readAheadLimit tbd
      */
     public mark(readAheadLimit: number): void {
-        throw new IOException("mark() not supported");
+        throw new java.io.IOException("mark() not supported");
     }
 
     /**
@@ -41,9 +37,9 @@ export abstract class Reader implements Closeable, AutoCloseable, Readable {
         return false;
     }
 
-    public read(target?: Uint16Array | CharBuffer): char;
+    public read(target?: Uint16Array | java.nio.CharBuffer): java.lang.char;
     public /* abstract */ read(target: Uint16Array, offset: number, length: number): number;
-    public read(target?: Uint16Array | CharBuffer, offset?: number, length?: number): number {
+    public read(target?: Uint16Array | java.nio.CharBuffer, offset?: number, length?: number): number {
         if (target === undefined) {
             // Reads a single character.
             const temp = new Uint16Array(1);
@@ -61,7 +57,7 @@ export abstract class Reader implements Closeable, AutoCloseable, Readable {
         } else {
             // Attempts to read characters into the specified character buffer.
             if (target.isReadOnly()) {
-                throw new ReadOnlyBufferException();
+                throw new java.nio.ReadOnlyBufferException();
             }
 
             let readCount = 0;
@@ -95,13 +91,13 @@ export abstract class Reader implements Closeable, AutoCloseable, Readable {
 
     // Resets the stream.
     public reset(): void {
-        throw new IOException("reset() not supported");
+        throw new java.io.IOException("reset() not supported");
     }
 
     // Skips characters.
     public skip(n: number): number {
         if (n < 0) {
-            throw new IllegalArgumentException("skip value is negative");
+            throw new java.lang.IllegalArgumentException("skip value is negative");
         }
 
         const nn = Math.min(n, Reader.maxSkipBufferSize);

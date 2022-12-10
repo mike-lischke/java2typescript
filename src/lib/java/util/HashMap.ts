@@ -5,6 +5,7 @@
  */
 
 import { java } from "../java";
+import { JavaObject } from "../lang/Object";
 
 import { HashSet } from "./HashSet";
 import { HashMapEntry } from "./HashMapEntry";
@@ -17,7 +18,7 @@ import { HashMapValueEqualityComparator } from "./HashMapValueEqualityComparator
  * This implementation was taken from the ANTLR4 Array2DHashMap implementation and adjusted to fulfill the
  * more general Java HashMap implementation.
  */
-export class HashMap<K, V> implements java.lang.Cloneable<HashMap<K, V>>, java.io.Serializable,
+export class HashMap<K, V> extends JavaObject implements java.lang.Cloneable<HashMap<K, V>>, java.io.Serializable,
     java.util.Map<K, V> {
 
     // eslint-disable-next-line @typescript-eslint/naming-convention
@@ -38,6 +39,8 @@ export class HashMap<K, V> implements java.lang.Cloneable<HashMap<K, V>>, java.i
     public constructor(initialCapacity?: number, loadFactor?: number);
     public constructor(map: java.util.Map<K, V>);
     public constructor(initialCapacityOrMap?: number | java.util.Map<K, V>, loadFactor?: number) {
+        super();
+
         if (typeof initialCapacityOrMap === "number") {
             this.backingStore = new this.HashSetBackingStore(initialCapacityOrMap, loadFactor);
         } else {
@@ -145,7 +148,7 @@ export class HashMap<K, V> implements java.lang.Cloneable<HashMap<K, V>>, java.i
         return this.backingStore.hashCode();
     }
 
-    public equals(o: unknown): boolean {
+    public equals(o: java.lang.Object): boolean {
         if (!(o instanceof HashMap)) {
             return false;
         }

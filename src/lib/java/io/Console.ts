@@ -5,6 +5,8 @@
  * See LICENSE-MIT.txt file for more info.
  */
 
-export class Console {
+import { JavaObject } from "../lang/Object";
+
+export class Console extends JavaObject {
 
 }

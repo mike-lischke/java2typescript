@@ -5,9 +5,10 @@
  * See LICENSE-MIT.txt file for more info.
  */
 
-import { Pattern } from ".";
+import { java } from "../../java";
+import { JavaObject } from "../../lang/Object";
+
 import { NotImplementedError } from "../../../NotImplementedError";
-import { IllegalStateException, IndexOutOfBoundsException, StringBuffer } from "../../lang";
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
 export interface MatchResult {
@@ -24,12 +25,14 @@ export interface MatchResult {
     start(group?: number): number;
 }
 
-export class Matcher implements MatchResult {
+export class Matcher extends JavaObject implements MatchResult {
 
     private regexResults: RegExpExecArray | null;
     private appendPosition = 0;
 
-    public constructor(private owner: Pattern, private regex: RegExp, private input: string) {
+    public constructor(private owner: java.util.regex.Pattern, private regex: RegExp, private input: string) {
+        super();
+
         this.regexResults = regex.exec(input);
     }
 
@@ -50,7 +53,7 @@ export class Matcher implements MatchResult {
      *
      * @returns tbd
      */
-    public appendReplacement = (sb: StringBuffer, replacement: string): Matcher => {
+    public appendReplacement = (sb: java.lang.StringBuffer, replacement: string): Matcher => {
 
         // Note: in Java the replacement value may contain references to groups in the last match.
         //       However, here we ignore those currently.
@@ -68,7 +71,7 @@ export class Matcher implements MatchResult {
      *
      * @returns tbd
      */
-    public appendTail = (sb: StringBuffer): StringBuffer => {
+    public appendTail = (sb: java.lang.StringBuffer): java.lang.StringBuffer => {
         sb.append(this.input.substring(this.appendPosition));
 
         return sb;
@@ -87,11 +90,11 @@ export class Matcher implements MatchResult {
         }
 
         if (this.regexResults === null) {
-            throw new IllegalStateException();
+            throw new java.lang.IllegalStateException();
         }
 
         if (group < 0 || group >= this.regexResults.length) {
-            throw new IndexOutOfBoundsException();
+            throw new java.lang.IndexOutOfBoundsException();
         }
 
         throw new NotImplementedError();
@@ -122,7 +125,7 @@ export class Matcher implements MatchResult {
      */
     public groupCount = (): number => {
         if (this.regexResults === null) {
-            throw new IllegalStateException();
+            throw new java.lang.IllegalStateException();
         }
 
         return this.regexResults.length - 1;
@@ -144,7 +147,7 @@ export class Matcher implements MatchResult {
      */
     public hitEnd = (): boolean => {
         if (this.regexResults === null) {
-            throw new IllegalStateException();
+            throw new java.lang.IllegalStateException();
         }
 
         return this.regex.lastIndex >= this.input.length - 1;
@@ -163,7 +166,7 @@ export class Matcher implements MatchResult {
     /**
      * @returns the pattern that is interpreted by this matcher.
      */
-    public pattern = (): Pattern => {
+    public pattern = (): java.util.regex.Pattern => {
         return this.owner;
     };
 
@@ -247,7 +250,7 @@ export class Matcher implements MatchResult {
      *
      * @param _newPattern tbd
      */
-    public usePattern = (_newPattern: Pattern): Matcher => {
+    public usePattern = (_newPattern: java.util.regex.Pattern): Matcher => {
         throw new NotImplementedError();
     };
 

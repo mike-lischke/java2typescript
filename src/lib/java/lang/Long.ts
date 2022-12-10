@@ -37,7 +37,7 @@ export class Long extends JavaObject implements java.io.Serializable, java.lang.
     }
 
     /**
-     * @returns The number of one-bits in the two's complement binary representation of the specified int value.
+     * @returns The number of one-bits in the two's complement binary representation of the specified bigint value.
      *
      * @param i The value to examine.
      */

@@ -6,17 +6,19 @@
  */
 
 import { java } from "../java";
+import { JavaObject } from "../lang/Object";
 
-import { ArrayListIterator } from ".";
 import { MurmurHash } from "../../MurmurHash";
 
-export class ArrayList<T> implements java.util.List<T> {
+export class ArrayList<T> extends JavaObject implements java.util.List<T> {
 
     private buffer: T[];
     private start: number;
     private end: number;
 
     public constructor(input?: java.util.Collection<T> | T[] | Set<T> | number) {
+        super();
+
         if (input === undefined) {
             this.buffer = [];
         } else if (typeof input === "number") {
@@ -139,7 +141,7 @@ export class ArrayList<T> implements java.util.List<T> {
     }
 
     public iterator(): java.util.Iterator<T> {
-        return new ArrayListIterator(this.buffer);
+        return new java.util.ArrayListIterator(this.buffer);
     }
 
     public lastIndexOf(element: T): number {
@@ -158,10 +160,10 @@ export class ArrayList<T> implements java.util.List<T> {
 
     public listIterator(index?: number): java.util.ListIterator<T> {
         if (this.start > 0 || this.end < this.buffer.length) {
-            return new ArrayListIterator(this.buffer.slice(this.start, this.end), true, index, this.end);
+            return new java.util.ArrayListIterator(this.buffer.slice(this.start, this.end), true, index, this.end);
         }
 
-        return new ArrayListIterator(this.buffer, true, index);
+        return new java.util.ArrayListIterator(this.buffer, true, index);
     }
 
     public remove(index: number): T;

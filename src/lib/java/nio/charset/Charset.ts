@@ -8,15 +8,15 @@
 /* eslint-disable jsdoc/require-returns-check, @typescript-eslint/no-unused-vars */
 
 import { java } from "../../java";
+import { JavaObject } from "../../lang/Object";
 
 import { NotImplementedError } from "../../../NotImplementedError";
-import { Comparable } from "../../lang";
 
 /**
  * A simplified charset implementation without provider support. Instead there's a fixed set of supported encodings
  * provided by the Node.js Buffer API, which supports all Java standard charsets, except UTF-16LE.
  */
-export class Charset implements Comparable<Charset> {
+export class Charset extends JavaObject implements java.lang.Comparable<Charset> {
     public static readonly defaultCharset: Charset;
 
     // Supported encoding names + their aliases.
@@ -35,6 +35,8 @@ export class Charset implements Comparable<Charset> {
     private alternatives: Set<string>;
 
     protected constructor(private canonicalName: BufferEncoding) {
+        super();
+
         const alts = Charset.supportedEncodings.get(canonicalName);
         if (!alts) {
             throw new java.nio.charset.IllegalCharsetNameException();
@@ -321,7 +323,7 @@ export class Charset implements Comparable<Charset> {
      *
      * @returns  A string describing this charset
      */
-    public toString(): string {
+    public toString(): java.lang.String {
         throw new NotImplementedError();
     }
 

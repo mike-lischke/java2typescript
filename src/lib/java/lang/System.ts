@@ -11,13 +11,14 @@ import { SystemOutputStream } from "../io/SystemOutputStream";
 import { Console } from "../io/Console";
 import { PrintStream } from "../io/PrintStream";
 import { Properties } from "../util/Properties";
+import { JavaObject } from "./Object";
 
 /** User agent client hints are still experimental and hence there's no type definition yet. */
 
 type EntropyHintType = "architecture" | "bitness" | "model" | "platform" | "platformVersion" | "fullVersionList";
 
 interface IStandardHintValues {
-    readonly brands: Array<{ brand: string; version: string }>;
+    readonly brands: Array<{ brand: string; version: string; }>;
     readonly mobile: boolean;
     readonly platform: string;
 }
@@ -27,7 +28,7 @@ interface IEntropyHintValues extends IStandardHintValues {
     readonly bitness?: string;
     readonly model?: string;
     readonly platformVersion?: string;
-    readonly fullVersionList?: Array<{ brand: string; version: string }>;
+    readonly fullVersionList?: Array<{ brand: string; version: string; }>;
 }
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
@@ -41,7 +42,7 @@ interface IUANavigator extends Navigator {
 }
 
 /** A partial implementation of Java's System type. */
-export class System {
+export class System extends JavaObject {
     private static consoleInstance: java.io.Console;
     private static errorStream: java.io.PrintStream;
     private static outputStream: java.io.PrintStream;

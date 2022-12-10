@@ -8,9 +8,8 @@
 import { java } from "../java";
 
 import { MurmurHash } from "../../MurmurHash";
-import { IEquatable } from "../../types";
 
-export class HashMapEntry<K, V> implements java.util.Map.Entry<K, V>, IEquatable {
+export class HashMapEntry<K, V> implements java.util.Map.Entry<K, V> {
     private computedHash: number | undefined;
 
     public constructor(private key: K | null, private value: V | null) {

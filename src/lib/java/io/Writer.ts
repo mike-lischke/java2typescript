@@ -7,12 +7,11 @@
 
 /* eslint-disable @typescript-eslint/naming-convention, @typescript-eslint/unified-signatures */
 
-import { Appendable, CharSequence, char } from "../lang";
-import { AutoCloseable } from "./AutoCloseable";
-import { Closeable } from "./Closeable";
-import { Flushable } from "./Flushable";
+import { java } from "../java";
+import { JavaObject } from "../lang/Object";
 
-export abstract class Writer implements Closeable, Flushable, Appendable, AutoCloseable {
+export abstract class Writer extends JavaObject implements java.io.Closeable, java.io.Flushable, java.lang.Appendable,
+    java.io.AutoCloseable {
     /**
      * The object used to synchronize operations on this stream.  For
      * efficiency, a character-stream object may use an object other than
@@ -30,6 +29,8 @@ export abstract class Writer implements Closeable, Flushable, Appendable, AutoCl
      * @param  lock Object to synchronize on (not used in the TS implementation).
      */
     protected constructor(lock?: unknown) {
+        super();
+
         this.lock = lock ?? this;
     }
 
@@ -47,7 +48,7 @@ export abstract class Writer implements Closeable, Flushable, Appendable, AutoCl
      * @throws  IOException
      *          If an I/O error occurs
      */
-    public abstract write(c: char): void;
+    public abstract write(c: java.lang.char): void;
 
     /**
      * Writes an array of characters.
@@ -122,11 +123,11 @@ export abstract class Writer implements Closeable, Flushable, Appendable, AutoCl
      */
     public abstract write(str: string, off: number, len: number): void;
 
-    public abstract append(c: char): this;
+    public abstract append(c: java.lang.char): this;
 
-    public abstract append(csq: CharSequence): this;
+    public abstract append(csq: java.lang.CharSequence): this;
 
-    public abstract append(csq: CharSequence, start: number, end: number): this;
+    public abstract append(csq: java.lang.CharSequence, start: number, end: number): this;
 
     /**
      * Flushes the stream.  If the stream has saved any characters from the

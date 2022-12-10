@@ -6,13 +6,14 @@
 import util from "util";
 
 import { java } from "../java";
+import { JavaObject } from "../lang/Object";
 
 import { MurmurHash } from "../../MurmurHash";
 import { BitSetIterator } from "./BitSetIterator";
 
 // The code in this file was taken from the antlr4ts package.
 
-export class BitSet implements java.io.Serializable, java.lang.Cloneable<BitSet> {
+export class BitSet extends JavaObject implements java.io.Serializable, java.lang.Cloneable<BitSet> {
     /**
      * Private empty array used to construct empty BitSets.
      */
@@ -42,6 +43,8 @@ export class BitSet implements java.io.Serializable, java.lang.Cloneable<BitSet>
     // eslint-disable-next-line @typescript-eslint/unified-signatures
     public constructor(numbers: Iterable<number>);
     public constructor(arg?: number | Iterable<number>) {
+        super();
+
         if (!arg) {
             // covering the case of unspecified and bitCount===0
             this.data = BitSet.emptyData;
@@ -700,7 +703,7 @@ export class BitSet implements java.io.Serializable, java.lang.Cloneable<BitSet>
      *
      * Now `drPepper.toString()` returns `"{2, 4, 10}"`.
      */
-    public toString(): string {
+    public toString(): java.lang.String {
         let result = "{";
 
         let first = true;
@@ -716,7 +719,7 @@ export class BitSet implements java.io.Serializable, java.lang.Cloneable<BitSet>
 
         result += "}";
 
-        return result;
+        return new java.lang.String(result);
     }
 
     // static valueOf(bytes: Int8Array): BitSet;
