@@ -12,7 +12,7 @@ import { MurmurHash } from "../../MurmurHash";
 export class HashMapEntry<K, V> implements java.util.Map.Entry<K, V> {
     private computedHash: number | undefined;
 
-    public constructor(private key: K | null, private value: V | null) {
+    public constructor(private key: K, private value: V) {
     }
 
     public equals(o: unknown): boolean {
@@ -41,11 +41,11 @@ export class HashMapEntry<K, V> implements java.util.Map.Entry<K, V> {
         return keysEqual && valuesEqual;
     }
 
-    public getKey(): K | null {
+    public getKey(): K {
         return this.key;
     }
 
-    public getValue(): V | null {
+    public getValue(): V {
         return this.value;
     }
 
@@ -58,7 +58,7 @@ export class HashMapEntry<K, V> implements java.util.Map.Entry<K, V> {
         return this.computedHash;
     }
 
-    public setValue(value: V | null): V | null {
+    public setValue(value: V): V {
         const temp = this.value;
         this.value = value;
         this.computedHash = undefined;

@@ -5,22 +5,20 @@
  * See LICENSE-MIT.txt file for more info.
  */
 
+import { JavaIterator } from "../../JavaIterator";
+
 import { java } from "../java";
 import { JavaObject } from "../lang/Object";
+import { IHashMapViewBackend } from "./HashMap";
 
-import { JavaEqualityComparator } from "../../JavaEqualityComparator";
-import { HashMapEntry } from "./HashMapEntry";
-
-/** This support class provides a view on a map's keys. It allows to modify the map for which it was created. */
+/** This support class provides a view on a map's values. It allows to modify the map for which it was created. */
 export class MapValueView<K, V> extends JavaObject implements java.util.Set<V> {
-    public constructor(
-        private map: java.util.HashMap<K, V>,
-        private comparator: JavaEqualityComparator<java.util.Map.Entry<K, V>>) {
+    public constructor(private sharedBackend: IHashMapViewBackend<K, V>) {
         super();
     }
 
     public *[Symbol.iterator](): IterableIterator<V> {
-        yield* this.toArray();
+        yield* this.sharedBackend.backend.values();
     }
 
     public add(_e: unknown): boolean {
@@ -32,16 +30,16 @@ export class MapValueView<K, V> extends JavaObject implements java.util.Set<V> {
     }
 
     public clear(): void {
-        this.map.clear();
+        this.sharedBackend.backend = this.sharedBackend.backend.clear();
     }
 
     public contains(o: V): boolean {
-        return this.map.containsValue(o);
+        return this.sharedBackend.backend.includes(o);
     }
 
     public containsAll(c: java.util.Collection<V>): boolean {
         for (const entry of c) {
-            if (!this.map.containsValue(entry)) {
+            if (!this.sharedBackend.backend.includes(entry)) {
                 return false;
             }
         }
@@ -58,90 +56,98 @@ export class MapValueView<K, V> extends JavaObject implements java.util.Set<V> {
             return false;
         }
 
-        if (this.map.size !== o.map.size) {
-            return false;
-        }
-
-        for (const entry of o.map as java.util.HashMap<K, V>) {
-            if (!this.map.containsValue(entry.getValue()!)) {
-                return false;
-            }
-        }
-
-        return true;
+        return this.sharedBackend.backend.equals(o.sharedBackend.backend);
     }
 
     public hashCode(): number {
-        let hash = 0;
-        for (const e of this.map) {
-            hash += this.comparator.hashCode(e);
-        }
-
-        return hash;
+        return this.sharedBackend.backend.hashCode();
     }
 
     public isEmpty(): boolean {
-        return this.map.isEmpty();
+        return this.sharedBackend.backend.isEmpty();
     }
 
     public iterator(): java.util.Iterator<V> {
-        return new java.util.ArrayListIterator<V>(this.toArray(), false);
+        return new JavaIterator(this.sharedBackend.backend.values());
     }
 
     public remove(o: V): boolean {
-        const entry = new HashMapEntry(null, o);
-        const candidates: Array<java.util.Map.Entry<K | null, V | null>> = [];
-        for (const e of this.map) {
-            if (this.comparator.equals(e, entry)) {
-                candidates.push(e);
+        const m = this.sharedBackend.backend.withMutations((map) => {
+            const candidates: K[] = [];
+            for (const e of map) {
+                if (e[1] === o) {
+                    candidates.push(e[0]);
+                }
             }
+
+            for (const k of candidates) {
+                map.remove(k);
+            }
+        });
+
+        if (m !== this.sharedBackend.backend) {
+            this.sharedBackend.backend = m;
+
+            return true;
         }
 
-        for (const e of candidates) {
-            this.map.remove(e.getKey());
-        }
-
-        return candidates.length > 0;
+        return false;
     }
 
     public removeAll(c: java.util.Collection<V>): boolean {
-        let changed = false;
-        for (const o of c) {
-            changed ||= this.remove(o);
+        const m = this.sharedBackend.backend.withMutations((map) => {
+            const candidates: K[] = [];
+            for (const e of map) {
+                if (c.contains(e[1])) {
+                    candidates.push(e[0]);
+                }
+            }
+
+            for (const k of candidates) {
+                map.remove(k);
+            }
+        });
+
+        if (m !== this.sharedBackend.backend) {
+            this.sharedBackend.backend = m;
+
+            return true;
         }
 
-        return changed;
+        return false;
     }
 
-    public retainAll(c: java.util.Collection<V | null>): boolean {
-        const candidates: Array<java.util.Map.Entry<K | null, V | null>> = [];
-        for (const e of this.map) {
-            if (!c.contains(e.getValue())) {
-                candidates.push(e);
+    public retainAll(c: java.util.Collection<V>): boolean {
+        const m = this.sharedBackend.backend.withMutations((map) => {
+            const candidates: K[] = [];
+            for (const e of map) {
+                if (!c.contains(e[1])) {
+                    candidates.push(e[0]);
+                }
             }
+
+            for (const k of candidates) {
+                map.remove(k);
+            }
+        });
+
+        if (m !== this.sharedBackend.backend) {
+            this.sharedBackend.backend = m;
+
+            return true;
         }
 
-        for (const e of candidates) {
-            this.map.remove(e.getKey());
-        }
-
-        return candidates.length > 0;
+        return false;
     }
 
     public size(): number {
-        return this.map.size();
+        return this.sharedBackend.backend.count();
     }
 
     public toArray(): V[];
     public toArray<U extends V>(a: U[]): U[];
     public toArray<U extends V>(a?: U[]): V[] | U[] {
-        const result: V[] = [];
-        for (const e of this.map) {
-            // The implicit nullability in Java creates a problem here with strict typing, which requires
-            // explicit nullability. Hence we apply a non-null assertion here, knowing well that we also can
-            // have null values.
-            result.push(e.getValue()!);
-        }
+        const result = [...this.sharedBackend.backend.values()];
 
         return a ? result as U[] : result;
     }

@@ -19,15 +19,15 @@ describe("HashMapEntry Tests", () => {
         expect(entry.getValue()).toBe(false);
         expect(entry.hashCode()).toBe(-138013709);
 
-        const entry2 = new HashMapEntry<number, string>(17, null);
+        const entry2 = new HashMapEntry<number, string>(17, "");
         expect(entry2.getKey()).toBe(17);
-        expect(entry2.getValue()).toBe(null);
-        expect(entry2.hashCode()).toBe(2069664403);
+        expect(entry2.getValue()).toBe("");
+        expect(entry2.hashCode()).toBe(-596637667);
 
-        const entry3 = new HashMapEntry<number, string>(null, "def");
-        expect(entry3.getKey()).toBe(null);
+        const entry3 = new HashMapEntry<number, string>(-1, "def");
+        expect(entry3.getKey()).toBe(-1);
         expect(entry3.getValue()).toBe("def");
-        expect(entry3.hashCode()).toBe(-1923930399);
+        expect(entry3.hashCode()).toBe(-425202676);
     });
 
     it("Equality", () => {

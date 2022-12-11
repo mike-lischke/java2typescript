@@ -263,11 +263,11 @@ export class Properties extends HashMap<string, string> {
 
         for (const entry of this) {
             // Escape all space characters and some other special characters in the key string.
-            let key = entry.getKey()!.replaceAll(/ /g, "\\ ");
+            let key = entry[0].replaceAll(/ /g, "\\ ");
             key = key.replaceAll(/[#!=]/g, "\\$&");
 
             // Escape only leading space characters and the same special characters in the value string.
-            const value = entry.getValue()!;
+            const value = entry[1];
             let trimmed = value.trimStart();
             if (value.length !== trimmed.length) {
                 trimmed = "\\ ".repeat(value.length - trimmed.length) + trimmed;
@@ -300,18 +300,14 @@ export class Properties extends HashMap<string, string> {
         const result = new java.util.HashSet<string>(this.size());
 
         if (this.defaults) {
-            for (const entry of this.defaults) {
-                const key = entry.getKey();
-                const value = entry.getValue();
+            for (const [key, value] of this.defaults) {
                 if (typeof key === "string" && typeof value === "string") {
                     result.add(key);
                 }
             }
         }
 
-        for (const entry of this) {
-            const key = entry.getKey();
-            const value = entry.getValue();
+        for (const [key, value] of this) {
             if (typeof key === "string" && typeof value === "string") {
                 result.add(key);
             }

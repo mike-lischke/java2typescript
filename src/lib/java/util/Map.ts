@@ -20,7 +20,7 @@ export interface Map<K, V> {
     containsValue(value: V): boolean;
 
     /** Returns a Set view of the mappings contained in this map. */
-    entrySet(): java.util.Set<Map.Entry<K | null, V | null>>;
+    entrySet(): java.util.Set<Map.Entry<K, V>>;
 
     /** Compares the specified object with this map for equality. */
     equals(o: unknown): boolean;
@@ -60,15 +60,15 @@ export namespace Map {
         public abstract equals(o: unknown): boolean;
 
         /** Returns the key corresponding to this entry. */
-        public abstract getKey(): K | null;
+        public abstract getKey(): K;
 
         /** Returns the value corresponding to this entry. */
-        public abstract getValue(): V | null;
+        public abstract getValue(): V;
 
         /** Returns the hash code value for this map entry. */
         public abstract hashCode(): number;
 
         /** Replaces the value corresponding to this entry with the specified value (optional operation). */
-        public abstract setValue(value: V | null): V | null;
+        public abstract setValue(value: V): V;
     }
 }

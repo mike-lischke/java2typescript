@@ -4,264 +4,138 @@
  * can be found in the LICENSE.txt file in the project root.
  */
 
-/* eslint-disable jsdoc/require-returns */
-
 import { java } from "../java";
 import { JavaObject } from "../lang/Object";
 
-import { DefaultJavaEqualityComparator } from "../../DefaultJavaEqualityComparator";
-import { MurmurHash } from "../../MurmurHash";
-import { JavaEqualityComparator } from "../../JavaEqualityComparator";
+import { Set } from "immutable";
+import { JavaIterator } from "../../JavaIterator";
 
-/**
- * This implementation was taken from the ANTLR4 Array2DHashSet implementation and adjusted to fulfill the
- * more general Java HashSet implementation (supporting null as valid value).
- */
 export class HashSet<T> extends JavaObject implements java.lang.Cloneable<HashSet<T>>, java.io.Serializable,
     java.util.Collection<T>, java.util.Set<T> {
 
-    public static readonly initialCapacity = 16; // Must be a power of 2.
-    public static readonly defaultLoadFactor = 0.75;
-
-    protected comparator: JavaEqualityComparator<T> = DefaultJavaEqualityComparator.instance;
-
-    // How many elements in set.
-    private n = 0;
-
-    private buckets: T[][];
-
-    // When to expand.
-    private threshold: number;
-    private loadFactor: number;
+    private backend: Set<T> = Set<T>([]);
 
     public constructor(c?: java.util.Collection<T>);
     public constructor(initialCapacity: number, loadFactor?: number);
-    public constructor(cOrInitialCapacity?: java.util.Collection<T> | number, loadFactor?: number) {
+    public constructor(cOrInitialCapacity?: java.util.Collection<T> | number, _loadFactor?: number) {
         super();
 
-        let initialCapacity = HashSet.initialCapacity;
-
-        if (cOrInitialCapacity === undefined) {
-            loadFactor ??= HashSet.defaultLoadFactor;
-
-            this.buckets = new Array(initialCapacity);
-        } else if (typeof cOrInitialCapacity === "number") {
-            if (!loadFactor || loadFactor < 0 || loadFactor > 1) {
-                loadFactor = HashSet.defaultLoadFactor;
-            }
-
-            // Make the initial capacity a power of 2.
-            initialCapacity = Math.pow(2, Math.ceil(Math.log2(cOrInitialCapacity)));
-            this.buckets = new Array(initialCapacity);
-        } else {
-            initialCapacity = cOrInitialCapacity.size();
-            loadFactor = HashSet.defaultLoadFactor;
-            this.buckets = new Array(initialCapacity);
-
+        // The load factor is ignored in this implementation.
+        if (cOrInitialCapacity && typeof cOrInitialCapacity !== "number") {
             this.addAll(cOrInitialCapacity);
         }
-
-        this.loadFactor = loadFactor;
-        this.threshold = Math.floor(initialCapacity * loadFactor);
     }
 
     public *[Symbol.iterator](): IterableIterator<T> {
-        yield* this.toArray();
+        yield* this.backend[Symbol.iterator]();
     }
 
-    /**
-     * Add `o` to set if not there. Return existing value if already
-     * there. This method performs the same operation as {@link add} aside from
-     * the return value.
-     *
-     * Note: this method is not part of the Java API for HashSet, but was added for convenience.
-     *
-     * @param o The element to add.
-     *
-     * @returns Either the passed in object (if it wasn't there yet) or the stored object which is equal to the given
-     *          object.
-     */
-    public findOrAdd(o: T): T {
-        return this.getOrAddImpl(o);
-    }
-
-    /**
-     * Find method based on equality of the current comparator. Might find an object with a different reference,
-     * but the same properties as in `o` (object equality).
-     *
-     * Note: this method is not part of the Java API for HashSet, but was added for convenience.
-     *
-     * @param o The value/object to search for.
-     *
-     * @returns If found the stored value is returned otherwise undefined is returned.
-     */
-    public find(o: T | null): T | null {
-        if (o == null) {
-            return o;
-        }
-
-        const index = this.getBucketIndex(o);
-        const bucket = this.buckets[index];
-        if (bucket === undefined) {
-            return null;
-        }
-
-        for (const e of bucket) {
-            if (e === undefined) {
-                // Empty slot; not there.
-                return null;
-            }
-
-            if (this.comparator.equals(e, o)) {
-                return e;
-            }
-        }
-
-        return null;
-    }
-
-    /**
-     * @returns the hash code value for this set. The hash code of a set is defined to be the sum of the hash codes
-     *          of the elements in the set, where the hash code of a null element is defined to be zero.
-     */
     public hashCode(): number {
-        let hash = 0;
-        for (const e of this) {
-            hash += MurmurHash.valueHash(e);
-        }
-
-        return hash;
+        return this.backend.hashCode();
     }
 
     public equals(o: unknown): boolean {
-        if (o === this) {
-            return true;
-        }
-
         if (!(o instanceof HashSet)) {
             return false;
         }
 
-        if (o.size() !== this.size()) {
-            return false;
-        }
-
-        return this.containsAll(o as HashSet<T>);
+        return this.backend.equals(o.backend);
     }
 
+    /**
+     * Adds the specified element to this set if it is not already present.
+     *
+     * @param t The value to add.
+     *
+     * @returns True if the value was actually added (i.e. wasn't member of this set yet), otherwise false.
+     */
     public add(t: T): boolean {
-        return t === this.findOrAdd(t);
-    }
+        const set = this.backend.add(t);
+        if (set !== this.backend) {
+            this.backend = set;
 
-    public size(): number {
-        return this.n;
-    }
-
-    public isEmpty(): boolean {
-        return this.n === 0;
-    }
-
-    public iterator(): java.util.Iterator<T> {
-        return new java.util.ArrayListIterator(this.toArray(), false);
-    }
-
-    public contains(o: T): boolean {
-        if (o === undefined) {
-            return false;
-        }
-
-        return this.find(o) != null;
-    }
-
-    public toArray(): T[];
-    public toArray<U extends T>(a: U[]): U[];
-    public toArray<U extends T>(a?: U[]): T[] | U[] {
-        if (a === undefined) {
-            const a = new Array<T>(this.size());
-            let i = 0;
-            for (const bucket of this.buckets) {
-                if (bucket === undefined) {
-                    continue;
-                }
-
-                for (const o of bucket) {
-                    if (o === undefined) {
-                        break;
-                    }
-
-                    a[i++] = o;
-                }
-            }
-
-            return a;
-        } else {
-            if (a.length < this.size()) {
-                a = new Array<U>(this.size());
-            }
-
-            let i = 0;
-            for (const bucket of this.buckets) {
-                if (bucket === undefined) {
-                    continue;
-                }
-
-                for (const o of bucket) {
-                    if (o === undefined) {
-                        break;
-                    }
-
-                    a[i++] = o as U;
-                }
-            }
-
-            return a;
-        }
-    }
-
-    public remove(obj: T): boolean {
-        if (obj === undefined) {
-            return false;
-        }
-
-        const index = this.getBucketIndex(obj);
-        const bucket = this.buckets[index];
-        if (bucket === undefined) {
-            // no bucket
-            return false;
-        }
-
-        for (let i = 0; i < bucket.length; i++) {
-            const e = bucket[i];
-            if (e === undefined) {
-                // Empty slot - not there.
-                return false;
-            }
-
-            if (this.comparator.equals(e, obj)) {
-                bucket.splice(i, 1);
-                --this.n;
-
-                return true;
-            }
+            return true;
         }
 
         return false;
     }
 
+    /** @returns the number of elements in this set (its cardinality). */
+    public size(): number {
+        return this.backend.count();
+    }
+
+    /** @returns true if this set contains no elements. */
+    public isEmpty(): boolean {
+        return this.backend.isEmpty();
+    }
+
+    /** @returns an iterator over the elements in this set. */
+    public iterator(): java.util.Iterator<T> {
+        return new JavaIterator(this.backend[Symbol.iterator]());
+    }
+
+    /**
+     * @param o The value to check.
+     *
+     * @returns true if this set contains the specified element.
+     */
+    public contains(o: T): boolean {
+        return this.backend.has(o);
+    }
+
+    /** @returns an array containing all of the elements in this collection. */
+    public toArray(): T[];
+    public toArray<U extends T>(a: U[]): U[];
+    public toArray<U extends T>(a?: U[]): T[] | U[] {
+        if (a === undefined) {
+            return this.backend.toArray();
+        } else {
+            return this.backend.toArray() as U[];
+        }
+    }
+
+    /**
+     * Removes the specified element from this set if it is present.
+     *
+     * @param obj The value to remove.
+     *
+     * @returns True if the value was part of this set (i.e. the set has been changed by this call), otherwise false.
+     */
+    public remove(obj: T): boolean {
+        if (obj === undefined) {
+            return false;
+        }
+
+        const s = this.backend.delete(obj);
+        if (this.backend !== s) {
+            this.backend = s;
+
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * @param collection The values to check.
+     *
+     * @returns true if this collection contains all of the elements in the specified collection.
+     */
     public containsAll(collection: java.util.Collection<T>): boolean {
         if (collection instanceof HashSet) {
-            const s = collection as HashSet<T>;
-            for (const bucket of s.buckets) {
-                if (bucket === undefined) {
-                    continue;
+            let allFound = true;
+            collection.backend.forEach((value) => {
+                if (!this.backend.contains(value as T)) {
+                    allFound = false;
+
+                    return false;
                 }
 
-                for (const o of bucket) {
-                    if (!this.contains(o)) {
-                        return false;
-                    }
-                }
-            }
+                return true;
+            });
+
+            return allFound;
         } else {
             for (const o of collection) {
                 if (!this.contains(o)) {
@@ -274,70 +148,76 @@ export class HashSet<T> extends JavaObject implements java.lang.Cloneable<HashSe
     }
 
     public addAll(c: java.util.Collection<T>): boolean {
-        let changed = false;
-        for (const o of c) {
-            const existing = this.findOrAdd(o);
-            if (existing === o) {
-                changed = true;
+        const s = this.backend.withMutations((set) => {
+            if (c instanceof HashSet) {
+                c.backend.forEach((value) => {
+                    set.add(value as T);
+                });
+            } else {
+                for (const o of c) {
+                    set.add(o);
+                }
             }
+        });
+
+        if (s !== this.backend) {
+            this.backend = s;
+
+            return true;
         }
 
-        return changed;
+        return false;
     }
 
-    public retainAll(c: java.util.Collection<unknown>): boolean {
-        let newSize = 0;
-        for (const bucket of this.buckets) {
-            if (bucket === undefined) {
-                continue;
-            }
+    /**
+     * Retains only the elements in this collection that are contained in the specified collection (optional operation).
+     *
+     * @param c The collection with the elements to retain.
+     *
+     * @returns True if this set was changed by this method, otherwise false.
+     */
+    public retainAll(c: java.util.Collection<T>): boolean {
+        const s = this.backend.intersect(c);
+        if (s !== this.backend) {
+            this.backend = s;
 
-            let i: number;
-            let j: number;
-            for (i = 0, j = 0; i < bucket.length; i++) {
-                if (!c.contains(bucket[i])) {
-                    // removed
-                    continue;
-                }
-
-                // keep
-                if (i !== j) {
-                    bucket[j] = bucket[i];
-                }
-
-                j++;
-                newSize++;
-            }
-
-            newSize += j;
-            if (j < i) {
-                bucket.splice(j, i - j);
-            }
+            return true;
         }
 
-        const changed = newSize !== this.n;
-        this.n = newSize;
-
-        return changed;
+        return false;
     }
 
+    /**
+     * Removes from this set all of its elements that are contained in the specified collection (optional operation).
+     *
+     * @param c The collection with the elements to remove.
+     *
+     * @returns True if this set was changed by this method, otherwise false.
+     */
     public removeAll(c: java.util.Collection<T>): boolean {
-        let changed = false;
-        for (const o of c) {
-            changed ||= this.remove(o);
+        const s = this.backend.withMutations((set) => {
+            for (const o of c) {
+                set.delete(o);
+            }
+        });
+
+        if (this.backend !== s) {
+            this.backend = s;
+
+            return true;
         }
 
-        return changed;
+        return false;
     }
 
+    /** Removes all of the elements from this set. */
     public clear(): void {
-        this.buckets = new Array(this.buckets.length);
-        this.n = 0;
+        this.backend = this.backend.clear();
     }
 
     /** @returns a shallow copy of this HashSet instance: the elements themselves are not cloned. */
     public clone(): HashSet<T> {
-        const result = new HashSet<T>(this as HashSet<T>);
+        const result = new HashSet<T>(this);
 
         return result;
     }
@@ -350,89 +230,17 @@ export class HashSet<T> extends JavaObject implements java.lang.Cloneable<HashSe
         const buf = new java.lang.StringBuilder();
         buf.append("{");
         let first = true;
-        for (const bucket of this.buckets) {
-            if (bucket === undefined) {
-                continue;
+        this.backend.forEach((value) => {
+            if (first) {
+                first = false;
+            } else {
+                buf.append(", ");
             }
 
-            for (const o of bucket) {
-                if (o === undefined) {
-                    break;
-                }
-
-                if (first) {
-                    first = false;
-                } else {
-                    buf.append(", ");
-                }
-
-                buf.append(JSON.stringify(o));
-            }
-        }
+            buf.append(JSON.stringify(value));
+        });
         buf.append("}");
 
         return buf.toString();
-    }
-
-    protected getOrAddImpl(o: T): T {
-        if (this.n > this.threshold) {
-            this.expand();
-        }
-
-        const b = this.getBucketIndex(o);
-        const bucket = this.buckets[b];
-
-        if (bucket === undefined) {
-            // New bucket.
-            this.buckets[b] = [o];
-            ++this.n;
-
-            return o;
-        }
-
-        // Look for it in the bucket.
-        for (const existing of bucket) {
-            if (this.comparator.equals(existing, o)) {
-                return existing; // found existing, quit
-            }
-        }
-
-        // Full bucket, expand and add to end.
-        bucket.push(o);
-        ++this.n;
-
-        return o;
-    }
-
-    protected getBucketIndex(o: T): number {
-        return this.comparator.hashCode(o) & (this.buckets.length - 1);
-    }
-
-    protected expand(): void {
-        const old = this.buckets;
-
-        const newCapacity = 2 * this.buckets.length;
-        this.buckets = new Array(newCapacity);
-        this.threshold = newCapacity * this.loadFactor;
-
-        // Rehash all existing entries.
-        for (const bucket of old) {
-            if (!bucket) {
-                continue;
-            }
-
-            for (const o of bucket) {
-                if (o) {
-                    const b = this.getBucketIndex(o);
-                    let newBucket = this.buckets[b];
-                    if (!newBucket) {
-                        newBucket = [];
-                        this.buckets[b] = newBucket;
-                    }
-
-                    newBucket.push(o);
-                }
-            }
-        }
     }
 }

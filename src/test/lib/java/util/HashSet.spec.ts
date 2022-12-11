@@ -6,8 +6,7 @@
  */
 
 import { java } from "../../../../lib/java/java";
-import { ArrayList, HashSet } from "../../../../lib/java/util";
-import { IEquatable } from "../../../../lib/types";
+import { JavaObject } from "../../../../lib/java/lang/Object";
 
 // Object which does not conform to IEquatable.
 interface ITest1 {
@@ -15,8 +14,10 @@ interface ITest1 {
     b: string;
 }
 
-class Test implements IEquatable {
-    public constructor(public a: number, public b: string) { }
+class Test extends JavaObject {
+    public constructor(public a: number, public b: string) {
+        super();
+    }
 
     public hashCode(): number {
         return this.a;
@@ -36,44 +37,20 @@ class Test implements IEquatable {
 }
 
 describe("HashSet Tests", () => {
-    const getBucketSize = (set: java.util.HashSet<unknown>): number => {
-        // @ts-expect-error because of accessing an private field.
-        return set.buckets.length;
-    };
-
     it("Set Creation", () => {
         const set1 = new java.util.HashSet<string>();
-
-        expect(getBucketSize(set1)).toBe(16);
         expect(set1.size()).toBe(0);
 
-        const set2 = new java.util.HashSet<number>(22);
-
-        expect(getBucketSize(set2)).toBe(32);
-        expect(set2.size()).toBe(0);
-
-        const set3 = new java.util.HashSet<number>(1);
-        expect(getBucketSize(set3)).toBe(1);
-        expect(set3.size()).toBe(0);
-
-        // This addition will expand the set 4 times (with default load factor).
+        const set2 = new java.util.HashSet<number>();
         for (let i = 0; i < 10; ++i) {
-            set3.add(i);
+            set2.add(i);
         }
-        expect(getBucketSize(set3)).toBe(16);
 
-        const set4 = new java.util.HashSet<number>(1, 0.25);
-        expect(getBucketSize(set4)).toBe(1);
+        const set3 = set2.clone(); // Uses set4 as constructor parameter for set5.
+        expect(set3.size()).toBe(10);
+
+        const set4 = set1.clone();
         expect(set4.size()).toBe(0);
-
-        // This addition will expand the set 6 times (with load factor 0.25).
-        for (let i = 0; i < 10; ++i) {
-            set4.add(i);
-        }
-        expect(getBucketSize(set4)).toBe(64);
-
-        const set5 = set4.clone(); // Uses set4 as constructor parameter for set5.
-        expect(set5.size()).toBe(10);
     });
 
     it("Set Manipulation", () => {
@@ -82,27 +59,22 @@ describe("HashSet Tests", () => {
         set1.add({ a: 1, b: "1" });
         set1.add({ a: 2, b: "2" });
 
-        // Only the first entry is added as we used an object which does not support IEquatable, so the same
-        // hash code is generated for all 3 objects.
-        expect(set1.size()).toBe(1);
+        // All 3 objects are added as they are considered different, even though 2 have the same members,
+        // as they do not conform to the ValueObject interface.
+        expect(set1.size()).toBe(3);
 
-        const set2 = new java.util.HashSet<Test | null>();
+        const set2 = new java.util.HashSet<Test>();
         set2.add(new Test(1, "1"));
         set2.add(new Test(1, "1"));
         set2.add(new Test(2, "2"));
 
-        // The Test class supports IEquatable so 2 values are added.
+        // The Test class implements ValueObject so only 2 values are added.
         expect(set2.size()).toBe(2);
 
-        let entry1 = set2.find(new Test(1, "2"));
-        expect(entry1).toBeNull();
-        entry1 = set2.find(new Test(1, "1"));
-        expect(entry1).not.toBeNull();
-        expect(entry1!.a).toBe(1);
-        expect(entry1!.b).toBe("1");
-
-        expect(set2.find(null)).toBeNull();
-        expect(set2.find(new Test(3, "2"))).toBeNull();
+        // Object equality in action.
+        expect(set2.contains(new Test(1, "2"))).toBe(false);
+        expect(set2.contains(new Test(1, "1"))).toBe(true);
+        expect(set2.contains(new Test(2, ""))).toBe(false);
 
         set2.remove(new Test(1, "4"));
         expect(set2.size()).toBe(2);
@@ -110,7 +82,7 @@ describe("HashSet Tests", () => {
         expect(set2.size()).toBe(1);
         set2.remove(new Test(14, "4"));
         expect(set2.size()).toBe(1);
-        expect(set2.find(new Test(2, ""))).toBeNull();
+        expect(set2.contains(new Test(1, "1"))).toBe(false);
 
         const set3 = new java.util.HashSet<Test>();
         set3.add(new Test(1, "1"));
@@ -119,7 +91,7 @@ describe("HashSet Tests", () => {
 
         set3.retainAll(set2);
         expect(set2.size()).toBe(1);
-        expect(set2.find(new Test(2, "2"))).not.toBeNull();
+        expect(set2.contains(new Test(2, "2"))).toBe(true);
 
         const set4 = new java.util.HashSet<Test | null>();
         set4.add(new Test(1, "1"));
@@ -128,7 +100,7 @@ describe("HashSet Tests", () => {
 
         set4.removeAll(set2);
         expect(set4.size()).toBe(2);
-        expect(set4.find(new Test(2, "2"))).toBeNull();
+        expect(set4.contains(new Test(2, "2"))).toBe(false);
 
         set4.clear();
         expect(set4.size()).toBe(0);
@@ -140,7 +112,7 @@ describe("HashSet Tests", () => {
         const set1 = new java.util.HashSet<ITest1>();
         set1.add({ a: 13, b: "13" });
 
-        expect(set1.equals(set1)).toBeTruthy();
+        expect(set1.equals(set1)).toBe(true);
         expect(set1.equals(13)).toBeFalsy();
 
         const set2 = new java.util.HashSet<ITest1>();
@@ -148,10 +120,8 @@ describe("HashSet Tests", () => {
         set2.add({ a: 7, b: "2" });
         set2.add({ a: 13, b: "3" });
 
-        // Also here: only the default hash can be computed for all entries so they are all equal and hence
-        // the sets are equal.
-        expect(set1.equals(set2)).toBeTruthy();
-        expect(set1.hashCode()).toBe(set2.hashCode());
+        expect(set1.equals(set2)).toBe(false);
+        expect(set1.hashCode()).not.toBe(set2.hashCode());
 
         const set3 = new java.util.HashSet<Test>();
         set3.add(new Test(1, "1"));
@@ -175,7 +145,7 @@ describe("HashSet Tests", () => {
         set4.add(new Test(19, "19"));
         expect(set3.equals(set4)).toBeFalsy();
 
-        const list = new ArrayList<Test>();
+        const list = new java.util.ArrayList<Test>();
         list.add(new Test(1, "1"));
         list.add(new Test(7, "7"));
         list.add(new Test(13, "3"));
@@ -199,6 +169,6 @@ describe("HashSet Tests", () => {
         expect(a1[1].hashCode()).toBe(new Test(7, "7").hashCode());
 
         expect(`${set.toString()}`).toBe("{{\"a\":1,\"b\":\"1\"}, {\"a\":7,\"b\":\"7\"}, {\"a\":13,\"b\":\"13\"}}");
-        expect(`${new HashSet().toString()}`).toBe("{}");
+        expect(`${new java.util.HashSet().toString()}`).toBe("{}");
     });
 });

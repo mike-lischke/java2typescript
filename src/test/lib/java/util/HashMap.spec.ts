@@ -18,9 +18,8 @@ class Test<K, V> extends JavaObject implements java.util.Map<K, V> {
     public clear(): void { /**/ }
     public containsKey(_key: K): boolean { return true; }
     public containsValue(_value: V): boolean { return true; }
-    public entrySet(): java.util.Set<java.util.Map.Entry<K | null, V | null>> {
-        const set = new java.util.HashSet<HashMapEntry<K | null, V | null>>();
-        set.add(new HashMapEntry(null, null));
+    public entrySet(): java.util.Set<java.util.Map.Entry<K, V>> {
+        const set = new java.util.HashSet<HashMapEntry<K, V>>();
 
         return set;
     }
@@ -78,14 +77,14 @@ describe("HashMap Tests", () => {
         m.put("abcdefghijklmnopqrstuvwxyz", "latin alphabet");
         m.put("ᬠᬣᬦᬪᬫᬬᬭ", "balinese");
         m.put("1234567890", "numbers");
-        expect(m.hashCode()).toBe(-4985564304);
+        expect(m.hashCode()).toBe(937716351);
 
         m.put("Accentuate the positive", "");
-        expect(m.hashCode()).toBe(-5970872073);
+        expect(m.hashCode()).toBe(402898914);
 
         const m2 = new java.util.HashMap(m);
-        expect(m2.hashCode()).toBe(-5970872073);
-        expect(m.equals(m2)).toBeTruthy();
+        expect(m2.hashCode()).toBe(402898914);
+        expect(m.equals(m2)).toBe(true);
 
         const m3 = m2.clone();
         expect(m.equals(m3)).toBeTruthy();
@@ -101,7 +100,7 @@ describe("HashMap Tests", () => {
         }
 
         expect(m.size()).toBe(100000);
-        expect(m.hashCode()).toBe(-575131339318);
+        expect(m.hashCode()).toBe(-131496254);
 
         const test = new Test<number, number>();
         expect(m.equals(test)).toBeFalsy();
@@ -116,18 +115,13 @@ describe("HashMap Tests", () => {
 
         const keys: number[] = [];
         for (const e of m) {
-            keys.push(e.getKey()!);
+            keys.push(e[0]);
         }
 
-        // Insertion order is not maintained!
-        expect(keys).not.toEqual([10000, 10, 1000000]);
+        expect(keys).toEqual([10000, 10, 100000]);
 
-        // Instead entries are inserted (and enumerated) based on their bucket position (which in turn depends on the
-        // key's hash code).
-        expect(keys).toEqual([10000, 100000, 10]);
-
-        expect(m.containsValue(1)).toBeTruthy();
-        expect(m.containsValue(10)).toBeFalsy();
+        expect(m.containsValue(1)).toBe(true);
+        expect(m.containsValue(10)).toBe(false);
     });
 
     it("Sub Lists", () => {
@@ -153,7 +147,7 @@ describe("HashMap Tests", () => {
         values.remove(null);
         expect(values.size()).toBe(3);
         expect(m.size()).toBe(3);
-        expect(values.contains(null)).toBeFalsy();
+        expect(values.contains(null)).toBe(false);
 
         expect(() => { values.add(1); }).toThrowError(java.lang.UnsupportedOperationException);
         expect(() => { values.addAll(values); }).toThrowError(java.lang.UnsupportedOperationException);
