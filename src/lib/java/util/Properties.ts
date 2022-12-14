@@ -6,9 +6,9 @@
  */
 
 import { java } from "../java";
+import { HashMap } from "./HashMap";
 
 import { NotImplementedError } from "../../NotImplementedError";
-import { HashMap } from "./HashMap";
 
 export class Properties extends HashMap<string, string> {
     public constructor(private defaults?: Properties) {

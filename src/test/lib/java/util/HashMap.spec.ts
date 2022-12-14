@@ -6,11 +6,10 @@
  */
 
 import { java } from "../../../../lib/java/java";
-import { JavaObject } from "../../../../lib/java/lang/Object";
 import { HashMapEntry } from "../../../../lib/java/util/HashMapEntry";
 
 // A test class which is not a HashMap but implements the Map interface.
-class Test<K, V> extends JavaObject implements java.util.Map<K, V> {
+class Test<K, V> extends java.lang.Object implements java.util.Map<K, V> {
     public constructor() {
         super();
     }

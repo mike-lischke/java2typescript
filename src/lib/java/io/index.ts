@@ -35,3 +35,4 @@ export * from "./FileReader";
 export * from "./FileWriter";
 export * from "./FileInputStream";
 export * from "./FileOutputStream";
+export * from "./FilterOutputStream";

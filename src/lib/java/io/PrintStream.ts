@@ -5,15 +5,12 @@
  * See LICENSE-MIT.txt file for more info.
  */
 
-import * as util from "util";
+import printf from "printf";
 
 import { NotImplementedError } from "../../NotImplementedError";
-import { char, IllegalArgumentException, System } from "../lang";
-import { CharSequence } from "../lang/CharSequence";
-import { File } from "./File";
-import { FileOutputStream } from "./FileOutputStream";
+
+import { java } from "../java";
 import { FilterOutputStream } from "./FilterOutputStream";
-import { OutputStream } from "./OutputStream";
 
 // A very simple implementation of this class, only to have print/println available, which always print to the console.
 export class PrintStream extends FilterOutputStream {
@@ -34,19 +31,20 @@ export class PrintStream extends FilterOutputStream {
     private encoding: BufferEncoding = "utf-8";
 
     /** Creates a new print stream, without automatic line flushing, with the specified file and charset. */
-    public constructor(file: File, csn?: string);
-    public constructor(out: OutputStream, autoFlush?: boolean, encoding?: string);
+    public constructor(file: java.io.File, csn?: string);
+    public constructor(out: java.io.OutputStream, autoFlush?: boolean, encoding?: string);
     // eslint-disable-next-line @typescript-eslint/unified-signatures
     public constructor(fileName: string, csn?: string);
-    public constructor(fileOrOutOrFileName: File | OutputStream | string, csnOrAutoFlush?: string | boolean,
+    public constructor(fileOrOutOrFileName: java.io.File | java.io.OutputStream | string,
+        csnOrAutoFlush?: string | boolean,
         encoding?: string) {
-        if (fileOrOutOrFileName instanceof File) {
-            /* @ts-expect-error, because ... I don't know. */
-            super(new FileOutputStream(fileOrOutOrFileName));
-        } else if (fileOrOutOrFileName instanceof OutputStream) {
+        if (fileOrOutOrFileName instanceof java.io.File) {
+            /* @ts-expect-error, because the super call is not in the root block of the constructor. */
+            super(new java.io.FileOutputStream(fileOrOutOrFileName));
+        } else if (fileOrOutOrFileName instanceof java.io.OutputStream) {
             super(fileOrOutOrFileName);
         } else {
-            super(new FileOutputStream(fileOrOutOrFileName));
+            super(new java.io.FileOutputStream(fileOrOutOrFileName));
         }
 
         if (typeof csnOrAutoFlush === "boolean") {
@@ -56,7 +54,7 @@ export class PrintStream extends FilterOutputStream {
 
             charset = charset.toLowerCase();
             if (!PrintStream.supportedEncodings.has(charset)) {
-                new IllegalArgumentException(`Invalid encoding specified: ${charset}`);
+                new java.lang.IllegalArgumentException(`Invalid encoding specified: ${charset}`);
             }
 
             this.encoding = charset as BufferEncoding;
@@ -67,9 +65,10 @@ export class PrintStream extends FilterOutputStream {
      * Appends the specified character ((sub) sequence) to this output stream.
      * Because the JS string type does not implement CharSequence, a separate signature only for a string is added.
      */
-    public append(c: char | string | CharSequence): PrintStream;
-    public append(csq: CharSequence, start: number, end: number): PrintStream;
-    public append(cOrSOrCsq: char | string | CharSequence, start?: number, end?: number): PrintStream {
+    public append(c: java.lang.char | string | java.lang.CharSequence): PrintStream;
+    public append(csq: java.lang.CharSequence, start: number, end: number): PrintStream;
+    public append(cOrSOrCsq: java.lang.char | string | java.lang.CharSequence, start?: number,
+        end?: number): PrintStream {
         let text: string;
         if (typeof cOrSOrCsq === "string") {
             text = cOrSOrCsq;
@@ -122,13 +121,13 @@ export class PrintStream extends FilterOutputStream {
      * @returns tbd
      */
     public format(format: string, ...args: unknown[]): PrintStream {
-        const text = util.format(format, args);
+        const text = printf(format, args);
         this.append(text);
 
         return this;
     }
 
-    public print(v?: boolean | char | number | object | string): void {
+    public print(v?: boolean | java.lang.char | number | object | string): void {
         if (v === undefined) {
             this.append("null");
         } else {
@@ -150,9 +149,9 @@ export class PrintStream extends FilterOutputStream {
     }
 
     // Terminates the current line by writing the line separator string.
-    public println(v?: boolean | char | number | object | string): void {
+    public println(v?: boolean | java.lang.char | number | object | string): void {
         this.print(v);
-        this.print(System.getProperty("line.separator"));
+        this.print(java.lang.System.getProperty("line.separator"));
 
         if (this.autoFlush) {
             this.flush();

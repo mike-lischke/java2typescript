@@ -5,7 +5,7 @@
  * See LICENSE-MIT.txt file for more info.
  */
 
-import { Exception } from "../lang";
+import { Exception } from "../lang/Exception";
 
 export class IOException extends Exception {
 }
