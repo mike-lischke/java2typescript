@@ -55,9 +55,31 @@ The conversion to TS method overloading (with their overloading signatures and t
 
 Rest parameters are supported but need manual resolution in overloading scenarios, because the implementation signature becomes just a single rest parameter (which can represent any of the overload parameters).
 
-## 6 <a name="nullability">Implicit Nullability</a>
+## 6 <a name="nullability">Implicit Nullability, the `null`, and undefined values</a>
 
-All object parameters, fields and variables can be null, without explicit notation. This would require to always generate a union type with `undefined` for such elements. However, often it is implicitly assumed that, for example, parameters are always assigned and the Java code contains no checks for null. For this reason (and to avoid bloating parameter lists) `undefined` is not added to parameters and so on. Instead the linter can help to determine cases where undefined elements can appear, for a manual fix.
+All parameters, fields and variables with an object type can be `null`, without explicit notation. This must not be confused with an undefined value. Just like in TS `null` is a (special) value and accepting it as method parameter does not mean this value can be undefined, at least when strictly comparing values. In Java, especially in method overloading scenarios, `null` and `undefined` can have a different meaning. Example:
+
+```java
+void method1(int param1) {
+}
+
+void method1(int param1, SomeObject param2) {
+}
+```
+
+Calling `method1(1)` will use the first overload, while both `method(1, null)` and `method(1, objectInstance)` will use the second overload. This requires a special construct for method overloading in Typescript:
+
+```typescript
+public method1(param1: number, param2?: SomeObject | null) {
+    if (param2 === undefined) {
+        // Code from first Java overload.
+    } else {
+         // Code from second Java overload, which may or may not test if param2 is null.
+    }
+}
+```
+
+All non-primitive parameters, variables/fields and return values are converted with an additional `| null` part to indicate the possible null value for them. This may require additional handling, like manually throwing a `java.lang.NullPointerException` for values which must not be `null` and are not tested for `null` in Java code.
 
 ## 7 <a name="arrays">Arrays</a>
 
@@ -68,6 +90,8 @@ Typescript does not support multi-dimensional array creation with array sizes (i
 Single primitive numbers (byte, int, short, long, float, double) are converted to `number`. To match Java semantics better there's one exception: `long`, which is converted to `bigint` (64 bits). This creates a problem on TS side. There's no automatic conversion between a number and a bigint, like there is in Java. This must be solved manually.
 
 Numbers in arrays, however, are converted to typed TS arrays according to their Java type. For example `int[]` is converted to `Int32Array`.
+
+There's currently no support for `BigInteger` and `BigNumber`;
 
 Read also the [Boxing and Unboxing chapter](#10-boxing-and-unboxing).
 
@@ -114,6 +138,8 @@ console.log(1 + i1 + i2);
 ```
 
 which prints `1458`. Unfortunately, the typescript compiler issues an error for the console call, saying that you cannot add a number and an `Integer` type, which is plain wrong, because obviously this is valid JS code. You can work around this error either by using the unary `+` in addition to the binary operator, wrap the `Integer` instance in a TS `Number`, cast the `Integer` objects to `any`, add a `.valueOf()` call to each object or suppress the error. See also this [years old Typescript issue](https://github.com/microsoft/TypeScript/issues/2361) about this matter.
+
+If you use ESLint as your linter, you may want to disable two rules that get in the way with the described approach, which are [@typescript-eslint/restrict-template-expressions](https://typescript-eslint.io/rules/restrict-template-expressions) and [@typescript-eslint/restrict-plus-operands](https://typescript-eslint.io/rules/restrict-plus-operands).
 
 ## 11 <a name="regex">Regular Expressions</a>
 

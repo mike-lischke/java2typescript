@@ -84,9 +84,6 @@ interface ITypeInfo {
     /** Generated type members. */
     generatedMembers: IClassMemberDetails[];
 
-    /** Certain constructs require the constructor(s) of the type (if there are any) to be public. */
-    needPublicConstructors: boolean;
-
     /** Generated or special declarations that have to be added after the main content. */
     deferredDeclarations: java.lang.StringBuilder;
 }
@@ -94,6 +91,7 @@ interface ITypeInfo {
 interface IParameterInfo {
     name: string;
     type: string;
+    nullable: boolean;
 
     /** Set to true, if this is a rest parameter. */
     rest: boolean;
@@ -286,7 +284,6 @@ export class FileProcessor {
             name: "file",
             deferredDeclarations: new java.lang.StringBuilder(),
             generatedMembers: [],
-            needPublicConstructors: false,
         });
 
         const firstChild = context.getChild(0);
@@ -499,7 +496,6 @@ export class FileProcessor {
             name: context.identifier().text,
             deferredDeclarations: new java.lang.StringBuilder(),
             generatedMembers: [],
-            needPublicConstructors: false,
         });
 
         const localBuilder = new java.lang.StringBuilder();
@@ -825,7 +821,10 @@ export class FileProcessor {
         const returnType = new java.lang.StringBuilder();
 
         details.type = MemberType.Method;
-        this.processTypeTypeOrVoid(returnType, context.typeTypeOrVoid());
+        if (!this.processTypeTypeOrVoid(returnType, context.typeTypeOrVoid())) {
+            // Not a primitive type so make it explicitly nullable.
+            returnType.append(" | null");
+        }
 
         details.nameWhitespace = this.getLeadingWhiteSpaces(context.identifier());
         details.name = context.identifier().text;
@@ -932,7 +931,14 @@ export class FileProcessor {
         const typeWs = this.getLeadingWhiteSpaces(context.typeType());
 
         const type = new java.lang.StringBuilder();
-        this.processTypeType(type, context.typeType());
+        let nullable = false;
+        let nullText = "";
+        if (!this.processTypeType(type, context.typeType())) {
+            // Not a primitive type so make it explicitly nullable. Do not add the `| null` text to the parameter's
+            // generated type string, however, to avoid duplicate null types in overloading scenarios.
+            nullable = true;
+            nullText = "| null";
+        }
 
         let brackets = "";
         if (context instanceof LastFormalParameterContext) {
@@ -949,7 +955,7 @@ export class FileProcessor {
         const nameWs = this.getLeadingWhiteSpaces(identifier);
         builder.append(typeWs);
         this.getContent(builder, identifier);
-        builder.append(`:${nameWs}${type.toString()}${brackets}`);
+        builder.append(`:${nameWs}${type}${nullText}${brackets}`);
 
         if (context.variableDeclaratorId().LBRACK().length > 0) {
             // Old array style given.
@@ -960,7 +966,12 @@ export class FileProcessor {
             }
         }
 
-        return { name: identifier.text, type: `${type.toString()}${brackets}`, rest: brackets.length > 0 };
+        return {
+            name: identifier.text,
+            type: `${type}${brackets}`,
+            nullable,
+            rest: brackets.length > 0,
+        };
     };
 
     private processMethodBody = (builder: java.lang.StringBuilder, context: MethodBodyContext): void => {
@@ -1144,7 +1155,6 @@ export class FileProcessor {
             name: context.identifier().text,
             deferredDeclarations: new java.lang.StringBuilder(),
             generatedMembers: [],
-            needPublicConstructors: false,
         });
 
         const localBuilder = new java.lang.StringBuilder();
@@ -1603,8 +1613,8 @@ export class FileProcessor {
         }
 
         if (type.length() > 0) {
-            builder.append(`${ws}${name}${makeOptional ? "?" : ""}: `);
-            builder.append(type);
+            builder.append(`${ws}${name}: `);
+            builder.append(`${type}${makeOptional ? " | null" : ""}`);
         } else {
             builder.append(`${ws}${name} `);
         }
@@ -1746,21 +1756,8 @@ export class FileProcessor {
                 }
 
                 default: {
-                    // With a prefix operator here a tricky situation may come up. Because method calls are sometimes
-                    // transformed to native TS expressions (e.g. string.equals to string === "") we may produce invalid
-                    // code. To ensure  the outcome is actually valid, we have to add extra parentheses, even if that
-                    // means there are sometimes extraneous parentheses. Linters might fix that automatically.
                     this.getContent(builder, firstChild);
-                    const expression = context.expression(0);
-
-                    // eslint-disable-next-line no-underscore-dangle
-                    if (expression._bop?.type === JavaLexer.DOT && expression.methodCall()) {
-                        builder.append("(");
-                        this.processExpression(builder, expression);
-                        builder.append(")");
-                    } else {
-                        this.processExpression(builder, expression);
-                    }
+                    this.processExpression(builder, context.expression(0));
                 }
             }
         } else {
@@ -1827,39 +1824,9 @@ export class FileProcessor {
                                 } else {
                                     const call = context.methodCall();
                                     if (call) {
-                                        // A method called on a specific class instance or a static method call
-                                        // on an object. Handle String methods separately.
-                                        if (firstExpression.toString().valueOf() === "string") {
-                                            const methodName = call.identifier()?.text;
-                                            switch (methodName) {
-                                                case "valueOf": {
-                                                    this.ignoreContent(call.identifier());
-                                                    builder.append("String");
-                                                    this.processMethodCallExpression(builder, call);
-                                                    break;
-                                                }
-
-                                                case "format": {
-                                                    this.ignoreContent(call.identifier());
-
-                                                    this.moduleImports.add("util");
-                                                    builder.append("util.format");
-                                                    this.processMethodCallExpression(builder, call);
-                                                    break;
-                                                }
-
-                                                default: {
-                                                    builder.append(firstExpression);
-                                                    this.getContent(builder, context.DOT());
-                                                    this.processMethodCall(builder, call, instance);
-                                                    break;
-                                                }
-                                            }
-                                        } else {
-                                            builder.append(firstExpression);
-                                            this.getContent(builder, context.DOT());
-                                            this.processMethodCall(builder, call, instance);
-                                        }
+                                        builder.append(firstExpression);
+                                        this.getContent(builder, context.DOT());
+                                        this.processMethodCall(builder, call, instance);
                                     } else {
                                         builder.append(firstExpression);
                                         this.getContent(builder, context.DOT());
@@ -2284,7 +2251,6 @@ export class FileProcessor {
             this.typeStack.push({
                 deferredDeclarations: new java.lang.StringBuilder(),
                 generatedMembers: [],
-                needPublicConstructors: false,
             });
         }
 
@@ -2432,15 +2398,8 @@ export class FileProcessor {
         } else {
             switch ((firstChild as ParserRuleContext).ruleIndex) {
                 case JavaParser.RULE_typeTypeOrVoid: {
-                    // Replace `ClassType.class` with a `Class` creation call. This also requires public constructors.
-                    if (this.typeStack.tos) {
-                        this.typeStack.tos.needPublicConstructors = true;
-                    }
-                    builder.append(this.getLeadingWhiteSpaces(context.typeTypeOrVoid()));
-                    builder.append("new java.lang.Class(");
                     this.processTypeTypeOrVoid(builder, context.typeTypeOrVoid());
-                    builder.append(")");
-                    this.ignoreContent(context.CLASS());
+                    this.getContent(builder, context.CLASS());
 
                     break;
                 }
@@ -2503,8 +2462,6 @@ export class FileProcessor {
             } else {
                 builder.append(value);
             }
-        } else if (context.NULL_LITERAL()) {
-            builder.append(`${this.getLeadingWhiteSpaces(context.NULL_LITERAL())}undefined`);
         } else {
             this.getContent(builder, context);
         }
@@ -3288,7 +3245,6 @@ export class FileProcessor {
         const pending: IClassMemberDetails[] = [];
 
         const generatedMembers = this.typeStack.tos?.generatedMembers ?? [];
-        const publicConstructors = this.typeStack.tos?.needPublicConstructors ?? false;
 
         // See if we need the special TS error suppression for our unusual `super()` calls.
         let needSuperCallSuppression = false;
@@ -3308,7 +3264,7 @@ export class FileProcessor {
                 case MemberType.Constructor:
                 case MemberType.Method: {
                     members = this.processConstructorAndMethodMembers(builder, member, members,
-                        needSuperCallSuppression, publicConstructors, generatedMembers);
+                        needSuperCallSuppression, generatedMembers);
                     break;
                 }
 
@@ -3372,8 +3328,7 @@ export class FileProcessor {
     };
 
     private processConstructorAndMethodMembers(builder: java.lang.StringBuilder, member: IClassMemberDetails,
-        members: IClassMemberDetails[], needSuperCallSuppression: boolean, publicConstructors: boolean,
-        generatedMembers: IClassMemberDetails[]) {
+        members: IClassMemberDetails[], needSuperCallSuppression: boolean, generatedMembers: IClassMemberDetails[]) {
         const name = member.name;
 
         // Certain methods cannot be overloaded. Static and non-static cannot be mixed and
@@ -3424,11 +3379,8 @@ export class FileProcessor {
 
                 // Write the overload signatures.
                 overloads.forEach((overload) => {
-                    const modifier = overload.type === MemberType.Constructor && publicConstructors
-                        ? "public"
-                        : overload.modifier;
                     builder.append(overload.leadingWhitespace);
-                    builder.append(modifier);
+                    builder.append(overload.modifier);
 
                     // Remove the arrow style for overloading.
                     let signature = `${overload.signatureContent?.toString()}` ?? "";
@@ -3464,12 +3416,17 @@ export class FileProcessor {
                         // These are sets to ignore duplicates.
                         const names = new Set<string>();
                         const types = new Set<string>();
+
                         let optional = false;
                         let rest = false;
+                        let nullable = false;
                         overloads.forEach((overload) => {
                             if (overload.signature && i < overload.signature.length) {
                                 names.add(overload.signature[i].name);
                                 types.add(overload.signature[i].type);
+                                if (overload.signature[i].nullable) {
+                                    nullable = true;
+                                }
 
                                 if (overload.signature[i].rest) {
                                     rest = true;
@@ -3495,12 +3452,17 @@ export class FileProcessor {
                             parameterType = `unknown[]`;
                         } else {
                             const typeArray = Array.from(types);
+                            if (nullable) {
+                                // Append the null at the end.
+                                typeArray.push("null");
+                            }
                             parameterType = typeArray.join(" | ");
                         }
 
                         combinedParameters.push({
                             name: (rest ? "..." : "") + parameterName,
                             type: parameterType,
+                            nullable,
                             optional,
                             rest,
                             needTypeCheck: optional || types.size > 1,
@@ -3525,8 +3487,7 @@ export class FileProcessor {
                 // parameters. If a parameter exists in all overloads with the same name then there's no need to
                 // check its type.
                 if (member.type === MemberType.Constructor) {
-                    const modifier = publicConstructors ? "public" : member.modifier;
-                    builder.append(`\n${modifier} constructor(${combinedParameterString}) {\n`);
+                    builder.append(`\n${member.modifier} constructor(${combinedParameterString}) {\n`);
                 } else {
                     const combinedReturnTypeString = Array.from(returnTypes).join(" | ");
                     builder.append(`\n${member.leadingWhitespace}${member.modifier}` +
@@ -3815,9 +3776,8 @@ export class FileProcessor {
      * Resolving a symbol involves a number of steps:
      *
      * 1. Find a configured replacement via the class resolver, or
-     * 2. Convert certain known types to other types (usually ones from Typescript/Javascript), or
-     * 3. Find the type in the current file and add certain prefixes, if necessary (e.g. `this.`), or
-     * 4. Find the type in the exported type list of any of the imported packages.
+     * 2. Find the type in the current file and add certain prefixes, if necessary (e.g. `this.`), or
+     * 3. Find the type in the exported type list of any of the imported packages.
      *
      * @param context A parse tree to start searching from for local symbols.
      * @param name The name of the type to check.
@@ -3838,12 +3798,7 @@ export class FileProcessor {
             return name;
         }
 
-        // 2. Replace primitive and certain other types to native JS/TS types.
-        switch (name) {
-            default:
-        }
-
-        // 3. Is it a symbol from this file or a base class/interface?
+        // 2. Is it a symbol from this file or a base class/interface?
         const info = this.source.getQualifiedSymbol(context, name);
         if (info) {
             // If the resolved symbol is a class from a different package continue resolving to handle
@@ -3853,7 +3808,7 @@ export class FileProcessor {
             }
         }
 
-        // 4. Is it an imported type?
+        // 3. Is it an imported type?
         for (const source of this.source.importList) {
             const info = source.resolveType(name);
             if (info) {

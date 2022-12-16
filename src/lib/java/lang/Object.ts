@@ -18,6 +18,10 @@ export class JavaObject {
         this.#id = JavaObject.nextId++;
     }
 
+    public static get class(): java.lang.Class {
+        return java.lang.Class.fromConstructor(this.constructor as typeof JavaObject);
+    }
+
     /**
      * Indicates whether some other object is "equal to" this one.
      *

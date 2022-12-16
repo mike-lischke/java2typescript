@@ -1,7 +1,8 @@
 /*
- * Copyright (c) 2012-2017 The ANTLR Project. All rights reserved.
- * Use of this file is governed by the BSD 3-clause license that
- * can be found in the LICENSE.txt file in the project root.
+ * This file is released under the MIT license.
+ * Copyright (c) 2022, Mike Lischke
+ *
+ * See LICENSE-MIT.txt file for more info.
  */
 
 import { Map } from "immutable";
@@ -25,14 +26,14 @@ export interface IHashMapViewBackend<K, V> {
 export class HashMap<K, V> extends JavaObject implements java.lang.Cloneable<HashMap<K, V>>, java.io.Serializable,
     java.util.Map<K, V> {
 
-    private sharedBackend: IHashMapViewBackend<K, V> = {
-        backend: Map<K, V>(),
-    };
+    private sharedBackend: IHashMapViewBackend<K, V>;
 
     public constructor(initialCapacity?: number, loadFactor?: number);
     public constructor(map: java.util.Map<K, V>);
     public constructor(initialCapacityOrMap?: number | java.util.Map<K, V>, _loadFactor?: number) {
         super();
+
+        this.sharedBackend = this.createBackend();
 
         // Initial capacity and load factor are ignored in this implementation.
         if (initialCapacityOrMap && typeof initialCapacityOrMap !== "number") {
@@ -163,5 +164,9 @@ export class HashMap<K, V> extends JavaObject implements java.lang.Cloneable<Has
 
     public values(): java.util.Collection<V> {
         return new MapValueView(this.sharedBackend);
+    }
+
+    protected createBackend(): IHashMapViewBackend<K, V> {
+        return { backend: Map<K, V>() };
     }
 }

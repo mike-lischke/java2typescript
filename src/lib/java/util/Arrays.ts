@@ -43,7 +43,7 @@ export class Arrays extends JavaObject {
      *
      * @returns True if both arrays are equal, false otherwise.
      */
-    public static equals(a?: unknown[], a2?: unknown[]): boolean {
+    public static equals(a?: ArrayLike<unknown>, a2?: ArrayLike<unknown>): boolean {
         if (a === a2) {
             return true; // Same object or both null/undefined.
         }
@@ -178,4 +178,3 @@ export class Arrays extends JavaObject {
         return JSON.stringify(value);
     }
 }
-

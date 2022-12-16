@@ -51,7 +51,7 @@ const convertAntlr4Runtime = async () => {
         packageRoot: path.resolve(process.cwd(), "../antlr4/runtime/Java/src"),
         javaLib: path.resolve(process.cwd(), "../a4tstool/lib/java/java.ts"),
         include: [
-            //"AbstractPredicateTransition.java",
+            "atn/*",
         ],
         exclude: [
             "AbstractEqualityComparator.java",
@@ -93,8 +93,8 @@ const convertAntlr4Runtime = async () => {
         /*debug: {
             pathForPosition: {
                 position: {
-                    row: 47,
-                    column: 13,
+                    row: 13,
+                    column: 36,
                 },
             },
         },*/

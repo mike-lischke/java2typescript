@@ -15,6 +15,7 @@ export * from "./Collection";
 export * from "./Collections";
 export * from "./Stack";
 export * from "./HashMap";
+export * from "./LinkedHashMap";
 export * from "./IdentityHashMap";
 export * from "./HashSet";
 export * from "./Comparator";
