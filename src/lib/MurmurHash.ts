@@ -84,11 +84,14 @@ export class MurmurHash {
      *
      * @returns The computed hash.
      */
-    public static updateFromArray(hash: number, array: unknown[], deep = false): number {
+    public static updateFromArray(hash: number, array: ArrayLike<unknown>, deep = false): number {
         let h1 = 0xdeadbeef ^ hash;
         let h2 = 0x41c6ce57 ^ hash;
 
-        for (const element of array) {
+        // eslint-disable-next-line @typescript-eslint/prefer-for-of
+        for (let i = 0; i < array.length; ++i) {
+            const element = array[i];
+
             if (element != null) {
                 let value = 0;
                 switch (typeof element) {

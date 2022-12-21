@@ -7,6 +7,7 @@
 
 /* eslint-disable @typescript-eslint/unified-signatures */
 
+import { S } from "../../templates";
 import { java } from "../java";
 
 import { Writer } from "./Writer";
@@ -31,7 +32,7 @@ export class BufferedWriter extends Writer {
     public constructor(out: Writer, sz = BufferedWriter.defaultCharBufferSize) {
         super(out);
         if (sz <= 0) {
-            throw new java.lang.IllegalArgumentException("Buffer size <= 0");
+            throw new java.lang.IllegalArgumentException(S`Buffer size <= 0`);
         }
 
         this.cb = new Uint16Array(sz);
@@ -219,7 +220,7 @@ export class BufferedWriter extends Writer {
     /** Checks to make sure that the stream has not been closed */
     private ensureOpen(): void {
         if (this.out === undefined) {
-            throw new java.io.IOException("Stream closed");
+            throw new java.io.IOException(S`Stream closed`);
         }
     }
 

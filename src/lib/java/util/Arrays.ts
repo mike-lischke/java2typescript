@@ -79,7 +79,7 @@ export class Arrays extends JavaObject {
      *
      * @returns True if both arrays are equal, false otherwise.
      */
-    public static deepEquals(a?: unknown[], a2?: unknown[]): boolean {
+    public static deepEquals(a?: ArrayLike<unknown>, a2?: ArrayLike<unknown>): boolean {
         if (a === a2) {
             return true; // Same object or both null/undefined.
         }
@@ -160,14 +160,14 @@ export class Arrays extends JavaObject {
         return -start - 1;
     }
 
-    public static hashCode(a: unknown[]): number {
+    public static hashCode(a: ArrayLike<unknown>): number {
         let hash = MurmurHash.initialize(17);
         hash = MurmurHash.updateFromArray(hash, a, false);
 
         return MurmurHash.finish(hash, 1);
     }
 
-    public static deepHashCode(a: unknown[]): number {
+    public static deepHashCode(a: ArrayLike<unknown>): number {
         let hash = MurmurHash.initialize(17);
         hash = MurmurHash.updateFromArray(hash, a, true);
 

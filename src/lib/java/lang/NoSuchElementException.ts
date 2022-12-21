@@ -5,10 +5,12 @@
  * See LICENSE-MIT.txt file for more info.
  */
 
+import { S } from "../../templates";
+import { java } from "../java";
 import { RuntimeException } from "./RuntimeException";
 
 export class NoSuchElementException extends RuntimeException {
-    public constructor(message?: string) {
-        super(message ?? "No element available");
+    public constructor(message?: java.lang.String) {
+        super(message ?? S`No element available`);
     }
 }

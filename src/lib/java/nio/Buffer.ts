@@ -10,6 +10,7 @@ import { JavaObject } from "../lang/Object";
 
 import { MurmurHash } from "../../MurmurHash";
 import { InvalidMarkException } from "./InvalidMarkException";
+import { S } from "../../templates";
 
 /* eslint-disable jsdoc/require-returns */
 
@@ -109,7 +110,7 @@ export abstract class Buffer<T> extends JavaObject {
     /** Resets this buffer's position to the previously-marked position. */
     public reset(): this {
         if (this.currentMark < 0) {
-            throw new InvalidMarkException("No mark is set");
+            throw new InvalidMarkException(S`No mark is set`);
         }
         this.currentPosition = this.currentMark;
 

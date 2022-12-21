@@ -9,6 +9,7 @@
 
 import { readSync } from "fs";
 import * as fs from "fs/promises";
+import { S } from "../../templates";
 
 import { java } from "../java";
 
@@ -93,7 +94,7 @@ export class FileInputStream extends InputStream implements java.io.AutoCloseabl
         fs.open(this.path, "r", 0x400).then((handle) => {
             this.fd.handle = handle;
         }).catch((reason) => {
-            throw new java.io.IOException("Cannot open file", java.lang.Throwable.fromError(reason));
+            throw new java.io.IOException(S`Cannot open file`, java.lang.Throwable.fromError(reason));
         });
     }
 }

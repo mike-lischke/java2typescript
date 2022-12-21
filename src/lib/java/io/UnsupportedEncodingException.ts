@@ -5,10 +5,11 @@
  * See LICENSE-MIT.txt file for more info.
  */
 
+import { S } from "../../templates";
 import { IOException } from "./IOException";
 
 export class UnsupportedEncodingException extends IOException {
     public constructor(name: string) {
-        super(`The encoding ${name} is not supported.`);
+        super(S`The encoding ${name} is not supported.`);
     }
 }

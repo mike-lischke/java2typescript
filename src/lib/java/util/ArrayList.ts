@@ -9,6 +9,7 @@ import { java } from "../java";
 import { JavaObject } from "../lang/Object";
 
 import { MurmurHash } from "../../MurmurHash";
+import { isEquatable } from "../../helpers";
 
 export class ArrayList<T> extends JavaObject implements java.util.List<T> {
 
@@ -101,6 +102,10 @@ export class ArrayList<T> extends JavaObject implements java.util.List<T> {
     }
 
     public equals(other: ArrayList<T>): boolean {
+        if (this === other) {
+            return true;
+        }
+
         if (this.start !== other.start || this.end !== other.end) {
             return false;
         }
@@ -110,7 +115,11 @@ export class ArrayList<T> extends JavaObject implements java.util.List<T> {
                 return true;
             }
 
-            return value === other.buffer[index];
+            if (isEquatable(value)) {
+                return value.equals(other.buffer[index]);
+            } else {
+                return value === other.buffer[index];
+            }
         });
     }
 

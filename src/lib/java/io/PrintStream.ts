@@ -8,6 +8,7 @@
 import printf from "printf";
 
 import { NotImplementedError } from "../../NotImplementedError";
+import { S } from "../../templates";
 
 import { java } from "../java";
 import { FilterOutputStream } from "./FilterOutputStream";
@@ -54,7 +55,7 @@ export class PrintStream extends FilterOutputStream {
 
             charset = charset.toLowerCase();
             if (!PrintStream.supportedEncodings.has(charset)) {
-                new java.lang.IllegalArgumentException(`Invalid encoding specified: ${charset}`);
+                new java.lang.IllegalArgumentException(S`Invalid encoding specified: ${charset}`);
             }
 
             this.encoding = charset as BufferEncoding;

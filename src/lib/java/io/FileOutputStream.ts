@@ -11,6 +11,7 @@ import { writeSync } from "fs";
 import { java } from "../java";
 
 import { OutputStream } from "./OutputStream";
+import { S } from "../../templates";
 
 export class FileOutputStream extends OutputStream {
 
@@ -42,7 +43,7 @@ export class FileOutputStream extends OutputStream {
                 this.open(append ?? false);
             }
         } catch (error) {
-            throw new java.io.FileNotFoundException("Create open or create file", java.lang.Throwable.fromError(error));
+            throw new java.io.FileNotFoundException(S`Create open or create file`, java.lang.Throwable.fromError(error));
         }
     }
 
@@ -76,7 +77,7 @@ export class FileOutputStream extends OutputStream {
     public write(b: number): void;
     public write(b: Uint8Array | number, offset?: number, length?: number): void {
         if (!this.fd.valid()) {
-            throw new java.io.IOException("Cannot write data because the file handle is invalid.");
+            throw new java.io.IOException(S`Cannot write data because the file handle is invalid.`);
         }
 
         try {
@@ -94,7 +95,7 @@ export class FileOutputStream extends OutputStream {
                 writeSync(this.fd.handle!.fd, b, offset, length);
             }
         } catch (error) {
-            throw new java.io.IOException("Cannot write data to file", java.lang.Throwable.fromError(error));
+            throw new java.io.IOException(S`Cannot write data to file`, java.lang.Throwable.fromError(error));
         }
     }
 
@@ -108,7 +109,7 @@ export class FileOutputStream extends OutputStream {
                 this.fd.handle = handle;
                 this.closed = false;
             }).catch((reason) => {
-                throw new java.io.IOException("Cannot open file", java.lang.Throwable.fromError(reason));
+                throw new java.io.IOException(S`Cannot open file`, java.lang.Throwable.fromError(reason));
             });
         }
     }

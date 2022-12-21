@@ -10,10 +10,14 @@
 
 import { java } from "../java";
 import { JavaObject } from "./Object";
+
 import { StackTraceElement } from "./StackTraceElement";
 
+import { S } from "../../templates";
+import { System } from "./System";
+
 export class Throwable extends JavaObject {
-    #message: string;
+    #message: java.lang.String;
     #name: string;
     #cause?: Throwable;
     #elements: StackTraceElement[] = [];
@@ -21,26 +25,25 @@ export class Throwable extends JavaObject {
 
     private stack?: string;
 
-    public constructor(message?: string, cause?: Throwable);
+    public constructor(message?: java.lang.String, cause?: Throwable);
     // This constructor is protected in Java, but in TS we cannot mix different modifiers in overloading.
-    public constructor(message: string, cause: Throwable, enableSuppression: boolean, writableStackTrace: boolean);
+    public constructor(message: java.lang.String, cause: Throwable, enableSuppression: boolean, writableStackTrace: boolean);
     public constructor(cause: Throwable);
-    public constructor(messageOrCause?: string | Throwable, cause?: Throwable, _enableSuppression?: boolean,
+    public constructor(messageOrCause?: java.lang.String | Throwable, cause?: Throwable, _enableSuppression?: boolean,
         _writableStackTrace?: boolean) {
         super();
 
-        if (typeof messageOrCause === "string") {
+        if (messageOrCause instanceof java.lang.String) {
             this.#message = messageOrCause;
             this.#cause = cause;
         } else {
-            this.#message = "";
+            this.#message = S``;
             this.#cause = messageOrCause;
         }
         this.#name = this.constructor.name;
 
-        if (Error.captureStackTrace) {
-            Error.captureStackTrace(this, Throwable);
-        }
+        const temp = new Error();
+        this.stack = temp.stack;
 
         this.fillInStackTrace();
     }
@@ -63,10 +66,10 @@ export class Throwable extends JavaObject {
                 cause = Throwable.fromError(error.cause);
             }
 
-            return new Throwable(error.message, cause);
+            return new Throwable(S`error.message`, cause);
         }
 
-        return new Throwable(String(error));
+        return new Throwable(S`error`);
     }
 
     /**
@@ -99,12 +102,12 @@ export class Throwable extends JavaObject {
     }
 
     /** Creates a localized description of this throwable. */
-    public getLocalizedMessage(): string | undefined {
+    public getLocalizedMessage(): java.lang.String {
         return this.#message;
     }
 
     /** Returns the detail message string of this throwable. */
-    public getMessage(): string | undefined {
+    public getMessage(): java.lang.String {
         return this.#message;
     }
 
@@ -137,8 +140,12 @@ export class Throwable extends JavaObject {
      *
      * @param s tbd
      */
-    public printStackTrace(s?: unknown): void {
-        console.error(this.stack);
+    public printStackTrace(s?: java.io.PrintStream): void {
+        if (!s) {
+            System.err.println(this.stack);
+        } else {
+            s.println(this.stack);
+        }
     }
 
     /**
@@ -155,10 +162,10 @@ export class Throwable extends JavaObject {
     public toString(): java.lang.String {
         const message = this.getLocalizedMessage();
         if (!message) {
-            return new java.lang.String(this.stack ?? "");
+            return S`${this.stack}`;
         }
 
-        return new java.lang.String(this.constructor.name + ": " + message);
+        return S`${this.constructor.name}: ${message}`;
     }
 
     protected [Symbol.toPrimitive](): string {

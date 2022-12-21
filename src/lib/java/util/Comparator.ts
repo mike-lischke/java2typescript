@@ -7,7 +7,7 @@
 
 import { JavaObject } from "../lang/Object";
 
-export abstract class Comparator<T> extends JavaObject {
-    public abstract compare: (o1: T, o2: T) => number;
-    public abstract equals: (obj: unknown) => boolean;
+export interface Comparator<T> {
+    compare: (o1: T, o2: T) => number;
+    equals: (obj: JavaObject) => boolean;
 }

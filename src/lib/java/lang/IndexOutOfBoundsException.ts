@@ -5,10 +5,12 @@
  * See LICENSE-MIT.txt file for more info.
  */
 
+import { S } from "../../templates";
+import { java } from "../java";
 import { RuntimeException } from "./RuntimeException";
 
 export class IndexOutOfBoundsException extends RuntimeException {
-    public constructor(message?: string) {
-        super(message ?? "The given index is not within the bounds");
+    public constructor(message?: java.lang.String) {
+        super(message ?? S`The given index is not within the bounds`);
     }
 }

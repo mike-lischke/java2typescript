@@ -24,6 +24,8 @@ export * from "./Map";
 export * from "./Set";
 export * from "./BitSet";
 export * from "./Properties";
+export * from "./Objects";
+export * from "./Comparator";
 
 export * from "./regex/regex";
 export * from "./concurrent/concurrent";

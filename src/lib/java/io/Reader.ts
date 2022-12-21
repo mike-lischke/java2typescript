@@ -8,6 +8,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
 import { NotImplementedError } from "../../NotImplementedError";
+import { S } from "../../templates";
 import { java } from "../java";
 import { JavaObject } from "../lang/Object";
 
@@ -25,7 +26,7 @@ export abstract class Reader extends JavaObject implements java.io.Closeable, ja
      * @param readAheadLimit tbd
      */
     public mark(readAheadLimit: number): void {
-        throw new java.io.IOException("mark() not supported");
+        throw new java.io.IOException(S`mark() not supported`);
     }
 
     /**
@@ -91,13 +92,13 @@ export abstract class Reader extends JavaObject implements java.io.Closeable, ja
 
     // Resets the stream.
     public reset(): void {
-        throw new java.io.IOException("reset() not supported");
+        throw new java.io.IOException(S`reset() not supported`);
     }
 
     // Skips characters.
     public skip(n: number): number {
         if (n < 0) {
-            throw new java.lang.IllegalArgumentException("skip value is negative");
+            throw new java.lang.IllegalArgumentException(S`skip value is negative`);
         }
 
         const nn = Math.min(n, Reader.maxSkipBufferSize);

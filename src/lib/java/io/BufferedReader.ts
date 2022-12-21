@@ -7,6 +7,7 @@
 
 /* eslint-disable @typescript-eslint/naming-convention, jsdoc/require-returns */
 
+import { S } from "../../templates";
 import { java } from "../java";
 import { Reader } from "./Reader";
 
@@ -34,7 +35,7 @@ export class BufferedReader extends Reader {
         super();
 
         if (size <= 0) {
-            throw new java.lang.IllegalArgumentException("Buffer size <= 0");
+            throw new java.lang.IllegalArgumentException(S`Buffer size <= 0`);
         }
 
         this.cb = new Uint16Array(size);
@@ -64,7 +65,7 @@ export class BufferedReader extends Reader {
      */
     public mark(readAheadLimit: number): void {
         if (readAheadLimit < 0) {
-            throw new java.lang.IllegalArgumentException("Read-ahead limit < 0");
+            throw new java.lang.IllegalArgumentException(S`Read-ahead limit < 0`);
         }
 
         this.ensureOpen();
@@ -248,8 +249,8 @@ export class BufferedReader extends Reader {
         this.ensureOpen();
         if (this.markedChar < 0) {
             throw new java.io.IOException((this.markedChar === BufferedReader.INVALIDATED)
-                ? "Mark invalid"
-                : "Stream not marked");
+                ? S`Mark invalid`
+                : S`Stream not marked`);
         }
 
         this.nextChar = this.markedChar;
@@ -263,7 +264,7 @@ export class BufferedReader extends Reader {
      */
     public skip(n: number): number {
         if (n < 0) {
-            throw new java.lang.IllegalArgumentException("skip value is negative");
+            throw new java.lang.IllegalArgumentException(S`skip value is negative`);
         }
 
         this.ensureOpen();
@@ -302,7 +303,7 @@ export class BufferedReader extends Reader {
     /** Checks to make sure that the stream has not been closed */
     private ensureOpen(): void {
         if (!this.input) {
-            throw new java.io.IOException("Stream closed");
+            throw new java.io.IOException(S`Stream closed`);
         }
     }
 

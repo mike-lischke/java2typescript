@@ -12,6 +12,7 @@
 
 /* cspell: ignore readlimit */
 
+import { S } from "../../templates";
 import { JavaObject } from "../lang/Object";
 import { Closeable } from "./Closeable";
 import { IOException } from "./IOException";
@@ -54,7 +55,7 @@ export abstract class InputStream extends JavaObject implements Closeable {
 
     /** Repositions this stream to the position at the time the mark method was last called on this input stream. */
     public reset(): void {
-        throw new IOException("mark/reset not supported");
+        throw new IOException(S`mark/reset not supported`);
     }
 
     /**

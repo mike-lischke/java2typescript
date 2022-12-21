@@ -5,10 +5,11 @@
  * See LICENSE-MIT.txt file for more info.
  */
 
+import { S } from "../../templates";
 import { ObjectStreamException } from "./ObjectStreamException";
 
 export class InvalidClassException extends ObjectStreamException {
     public constructor(className: string, reason: string) {
-        super(`Invalid class "${className}: ${reason}"`);
+        super(S`Invalid class "${className}: ${reason}"`);
     }
 }
