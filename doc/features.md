@@ -48,7 +48,7 @@ Generic semantics in Java and TS are pretty much the same, with the exception of
 
 ## <a name="interfaces">Interfaces</a>
 
-Java interfaces are one of the most incompatible objects between the two languages. Java interfaces can have initialised fields and method implementations, which is not supported in Typescript. Therefore all interfaces are converted to abstract TS classes, unless they are simple and only contain supported language features, in which case they are translated to TS interfaces.
+Java interfaces are more than interfaces in the original sense (API contracts), as they can have actual code, much like classes. As this is not supported in Typescript different paths are taken in the conversion process. Java interfaces without methods and initialized fields are converted directly to their TS equivalent. Otherwise they are implemented as abstract classes, which is an acceptable workaround. Especially, as TS interfaces can extend TS classes.
 
 ## <a name="enumerations">Enumerations</a>
 
