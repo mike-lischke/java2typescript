@@ -34,9 +34,17 @@
 
 Java and Typescript are in many aspects pretty similar, which makes a conversion relatively easy. However, there are also quite a few things that must be considered when using the converted Typescript code. Some require manual resolution and some language features are not available in Typescript. You didn't expect anything else, did you?
 
-There are a number of objects which exist in both languages (`String`, `Object` etc.), which may create conflicts when used directly. Instead you should always use a qualified form of a translated class, for example `java.lang.String` instead of just `String`. In fact this principle is used throughout the JRE shims as well, even if a class imports another class from the same package, except for classes which are used to derive from, in which case the base class is directly imported to avoid the static initialisation order fiasco.
+There are a number of objects which exist in both languages (`String`, `Object` etc.), which may create conflicts when used directly. Instead you should always use a qualified form of a translated class, for example `java.lang.String` instead of just `String`. In fact this principle is used throughout the JRE emulation as well, even if a class imports another class from the same package, except for classes which are used to derive from, in which case the base class is directly imported to avoid the static initialisation order fiasco.
 
 ## <a name="generics">Generics and Type Wildcards</a>
+
+Generic semantics in Java and TS are pretty much the same, with the exception of bounded type parameters and type wildcards. The concepts are sometimes handled a bit differently in converted code. Java knows these scenarios:
+
+- `compare<T>`: a straight forward type parameter, supported exactly like that in TS.
+- `compare<U extends T>`: an upper bounded type parameter, supported exactly like that in TS.
+- `compared<? extends T>`: an upper bounded type parameter with a wildcard, this corresponds to the first scenario in TS.
+- `compare<? super T>`: a lower bounded type parameter with a wildcard, a concept not supported by TS (see also [this discussion](https://github.com/Microsoft/TypeScript/issues/14520)). Such an expression is converted to just `compare<T>`, which is not entirely correct and must be handled manually if required.
+- `const s: Set<?> = ...`: a wildcard capture,  which is converted to `const s: Set<unknown>`. The explicit type can be removed manually, if such a variable is initialized in the definition (its type is then automatically inferred).
 
 ## <a name="interfaces">Interfaces</a>
 
@@ -86,7 +94,7 @@ All non-primitive parameters, variables/fields and return values are converted w
 
 ## <a name="arrays">Arrays</a>
 
-Typescript does not support multi-dimensional array creation with array sizes (initialisers are supported however). That means constructs like `new String[[2][4]` can only be converted to TS without initial sizes: `= [[[]]]`. This might require manual changes in the code that uses such an array, if it relies on a specific size of an array (by explicitly setting an array member, instead of pushing values to it).
+Typescript does not support multi-dimensional array creation with array sizes (initialisers are supported however). That means constructs like `new String[[2][4]]` can only be converted to TS without initial sizes: `= [[[]]]`. This might require manual changes in the code that uses such an array, if it relies on a specific size of an array (by explicitly setting an array member, instead of pushing values to it).
 
 ## <a name="numbers">Numbers</a>
 
@@ -161,17 +169,11 @@ Java class initialisers are handled properly, however, static initialisers requi
 
 ## <a name="equality">Containers and Equality</a>
 
-Containers (every class implementing `java.util.Set` and `java.util.Map`) require special attention. In Java these classes use **Object Equality** to locate elements. This approach not only compares objects by reference, but also uses their `equals()` method to compare them (together with their `hashCode()` method). This cannot only lead to deep comparisons, but also to equality of different instances, if they contain the same values. Object equality is achieved by comparing value hash codes. Such values can only be equal if they have the same hash code.
+Containers (every class implementing `java.util.Set` or `java.util.Map`) require special attention. In Java these classes use **Object Equality** to locate elements. This approach not only compares objects by reference, but also uses their `equals()` method to compare them. This cannot only lead to deep comparisons, but also to equality of different instances, if they contain the same values. Comparison using the `equals` method is accompanied by the `hashCode` method, which returns a number that identifies that object as a single value. The general contract here is that objects which are considered equal **must**  generate the same hash code. However, there's no 1:1 matching: objects returning the same hash code are not always also equal (aka hash conflict).
 
-In contrast, there's the so-called **Identity Equality** (aka **Reference Equality**). This approach is defined by considering two objects being equal only, if their memory references are the same. There are special containers implementing exactly this behavior (like `java.util.IdentityHashMap`).
+The class `java.lang.Object` contains a default implementation for both methods, which uses **Identity Equality** (aka **Reference Equality**), both in Java and TS. This is accomplished by comparing the memory address of two objects (which is guaranteed to be unique). The default hash code in TS, however, is a running number internally (as there's no way to get the memory address there). Classes that rely on object equality must override `equals` and `hashCode` and provide an own implementation. The java2ts support library contains an implementation of the MurmurHash3 algorithm to provide hash codes for arbitrary objects and values.
 
-In JS/TS the second approach is used by all containers and an extra effort is required to add support for object equality. However, even though the `equals()` method is supported by all Java objects, the default behavior of this method is to compare only references. So, even if object equality is supported by default, it doesn't always mean, it's also in actual use. Only if types implement the `equals()` - and consequently the `hashCode()` - methods, then object equality is actually used.
-
-In addition to these considerations there's the fact that primitive types are always compared by value (both in Java and JS/TS). Number, bigint, string, boolean and the special values `undefined` and `NaN` fall under this category. So they neither need to implement an `equals` method nor can they be compared by reference. Side note: `null` and `symbol` are also marked as primitive type in JS/TS, but `null` is not really a primitive and `symbol` is not used in converted Java code.
-
-As a consequence of that it's very important to select the right JS/TS container replacement for a Java container. The JRE shims contain implementations for HashMap and HashSet, which follow the object equality semantic, and IdentityHashMap (using reference equality).
-
-> Note: `HashMap.keySet`, `HashMap.entrySet` and `HashMap.values` are fully supported and return views of the values in the map, which support the Java semantics as described in the Java docs.
+Primitive types, on the other hand, are always compared by value (both in Java and TS). Number, bigint, string, boolean and the special values `undefined` and `NaN` fall under this category. So they neither need to implement an `equals` method nor can they be compared by reference. Side note: `null` and `symbol` are also marked as primitive type in JS/TS, but `null` is not really a primitive and `symbol` is not used in converted Java code.
 
 ## <a name="classes">Nested Classes and Interfaces</a>
 
