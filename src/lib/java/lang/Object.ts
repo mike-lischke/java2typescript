@@ -29,7 +29,7 @@ export class JavaObject {
      *
      * @returns True if the given object is the same as this object.
      */
-    public equals(obj: JavaObject): boolean {
+    public equals(obj: unknown): boolean {
         return obj === this; // Identity or reference equality, by default.
     }
 

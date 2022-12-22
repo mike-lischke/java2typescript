@@ -13,7 +13,13 @@ import { JavaObject } from "../lang/Object";
 import { Arrays } from "./Arrays";
 
 export class Objects extends JavaObject {
-    /** Returns 0 if the arguments are identical and c.compare(a, b) otherwise. */
+    /**
+     * @returns 0 if the arguments are identical and c.compare(a, b) otherwise.
+     *
+     * @param a tbd
+     * @param b tbd
+     * @param c tbd
+     */
     public static compare<T>(a: T, b: T, c: java.util.Comparator<T>): number {
         if (a === b) {
             return 0;
@@ -22,7 +28,12 @@ export class Objects extends JavaObject {
         return c.compare(a, b);
     }
 
-    /** Returns true if the arguments are deeply equal to each other and false otherwise. */
+    /**
+     * @returns true if the arguments are deeply equal to each other and false otherwise.
+     *
+     * @param a tbd
+     * @param b tbd
+     */
     public static deepEquals(a: java.lang.Object | ArrayLike<unknown> | null,
         b: java.lang.Object | ArrayLike<unknown> | null): boolean {
         if (a === b) {
@@ -52,7 +63,12 @@ export class Objects extends JavaObject {
         return a === b;
     }
 
-    /** Returns true if the arguments are equal to each other and false otherwise. */
+    /**
+     * @returns true if the arguments are equal to each other and false otherwise.
+     *
+     * @param a tbd
+     * @param b tbd
+     */
     public static equals(a: java.lang.Object | null, b: java.lang.Object | null): boolean {
         if (a === b) {
             true;
@@ -65,12 +81,22 @@ export class Objects extends JavaObject {
         return a.equals(b);
     }
 
-    /** Generates a hash code for a sequence of input values. */
+    /**
+     * Generates a hash code for a sequence of input values.
+     *
+     * @param values tbd
+     *
+     * @returns tbd
+     */
     public static hash(...values: unknown[]): number {
         return MurmurHash.valueHash(values, 37);
     }
 
-    /** Returns the hash code of a non - null argument and 0 for a null argument. */
+    /**
+     * @returns the hash code of a non - null argument and 0 for a null argument.
+     *
+     * @param o tbd
+     */
     public static hashCode(o: java.lang.Object | null): number {
         if (o === null) {
             return 0;
@@ -79,7 +105,14 @@ export class Objects extends JavaObject {
         return o.hashCode();
     }
 
-    /** Checks that the specified object reference is not null. */
+    /**
+     * Checks that the specified object reference is not null.
+     *
+     * @param obj tbd
+     * @param message tbd
+     *
+     * @returns tbd
+     */
     public static requireNonNull<T>(obj: T, message?: java.lang.String): T {
         if (obj === null) {
             throw new java.lang.NullPointerException(message);
@@ -88,7 +121,13 @@ export class Objects extends JavaObject {
         return obj;
     }
 
-    /** Returns the result of calling toString on the first argument if the first argument is not null and returns the second argument otherwise.; */
+    /**
+     * @returns the result of calling toString on the first argument if the first argument is not null and returns
+     * the second argument otherwise.;
+     *
+     * @param o tbd
+     * @param nullDefault tbd
+     */
     public static toString(o: java.lang.Object | null, nullDefault?: java.lang.String): java.lang.String {
         if (o === null) {
             return nullDefault ?? S`null`;

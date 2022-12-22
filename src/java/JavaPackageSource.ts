@@ -157,6 +157,7 @@ export class JavaPackageSource extends PackageSource {
         { name: "java.util.IdentityHashMap", extends: "java.lang.Object", implements: ["java.util.Map"] },
         { name: "java.util.Stack", extends: "java.lang.Object" },
         { name: "java.util.Comparator", isInterface: true },
+        { name: "java.util.Iterator", isInterface: true },
         {
             name: "java.util.Locale", extends: "java.lang.Object",
             implements: ["java.lang.Cloneable", "java.io.Serializable"],

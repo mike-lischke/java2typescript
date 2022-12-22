@@ -319,7 +319,14 @@ export class FileProcessor {
             this.source.importList.forEach((source) => {
                 const info = source.getImportInfo(target);
                 if (info[0].length > 0) {
-                    header.append(`import { ${info[0].join(",")} } from "${info[1]}";\n`);
+                    // There's an extended version of MurmurHash in the JREE support library. So we can take out
+                    // such imports from the package imports and instead add a library import.
+                    const importSymbols = info[0].join(",");
+                    if (importSymbols === "MurmurHash") {
+                        this.libraryImports.set("MurmurHash", ["MurmurHash"]);
+                    } else {
+                        header.append(`import { ${info[0].join(",")} } from "${info[1]}";\n`);
+                    }
                 }
             });
 
@@ -2462,6 +2469,12 @@ export class FileProcessor {
             } else {
                 builder.append(value);
             }
+        } else if (context.STRING_LITERAL()) {
+            const value = context.STRING_LITERAL()?.text ?? "";
+            builder.append(`S\`${value.substring(1, value.length - 1)}\``);
+
+            this.libraryImports.set("templates", ["S"]);
+
         } else {
             this.getContent(builder, context);
         }
@@ -2509,30 +2522,11 @@ export class FileProcessor {
                     this.getContent(builder, context.IF());
                     this.processParExpression(builder, context.parExpression());
 
-                    let statement = context.statement(0);
-                    const addBraces = !statement.block() && this.configuration.options.autoAddBraces;
-
-                    if (addBraces) {
-                        builder.append(" {\n");
-                    }
-                    this.processStatement(builder, statement);
-                    if (addBraces) {
-                        builder.append("\n}\n");
-                    }
-
+                    this.expressionWithBraces(builder, context.statement(0));
                     if (context.ELSE()) {
                         this.getContent(builder, context.ELSE());
 
-                        statement = context.statement(1);
-                        const addBraces = !statement.block() && this.configuration.options.autoAddBraces;
-
-                        if (addBraces) {
-                            builder.append(" {");
-                        }
-                        this.processStatement(builder, statement);
-                        if (addBraces) {
-                            builder.append("\n}\n");
-                        }
+                        this.expressionWithBraces(builder, context.statement(1));
                     }
 
                     break;
@@ -2543,7 +2537,7 @@ export class FileProcessor {
                     this.getContent(builder, context.LPAREN());
                     this.processForControl(builder, context.forControl());
                     this.getContent(builder, context.RPAREN());
-                    this.processStatement(builder, context.statement(0));
+                    this.expressionWithBraces(builder, context.statement(0));
 
                     break;
                 }
@@ -3665,6 +3659,25 @@ export class FileProcessor {
     }
 
     /**
+     * Depending on the configuration settings this method adds braces around a statement if there aren't any yet.
+     *
+     * @param builder The target buffer to add content to.
+     * @param statement The statement to process.
+     */
+    private expressionWithBraces = (builder: java.lang.StringBuilder, statement: StatementContext): void => {
+        const addBraces = !statement.block() && this.configuration.options.autoAddBraces;
+
+        if (addBraces) {
+            builder.append(" {\n");
+        }
+        this.processStatement(builder, statement);
+        if (addBraces) {
+            builder.append("\n}\n");
+        }
+
+    };
+
+    /**
      * Returns all white spaces (including comments) between the current white space anchor and the first character
      * covered by the target.
      * The white space anchor is then set to the position directly following the target.
@@ -3761,6 +3774,7 @@ export class FileProcessor {
         const classInfo = this.typeStack.pop();
         if (classInfo && classInfo.deferredDeclarations.length() > 0) {
             result.append("\n\n");
+            result.append("// eslint-disable-next-line @typescript-eslint/no-namespace, no-redeclare\n");
             result.append((doExport ? "export " : "") + "namespace ");
             result.append(classInfo.name ?? "unknown");
             result.append(" {\n");

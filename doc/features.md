@@ -60,7 +60,7 @@ Both the `Iterator` and the `Iterable` interfaces are supported in Java as well 
 
 ## <a name="methods">Methods, Rest Parameters and Overloading</a>
 
-Method overloading is supported up to the point what's possible in Typescript. That excludes mixing static and non-static overloaded methods and generic methods with different type parameter lists. All overloaded methods must have the same visibility (public/protected/private) and overloaded methods which override inherited methods may not work out of the box and may hence need manual changes.
+Method overloading is supported up to the point what's possible in Typescript. That excludes mixing static and non-static overloaded methods. All overloaded methods must have the same visibility (public/protected/private) and overloaded methods which override inherited methods may not work out of the box and may hence need manual changes.
 
 The conversion to TS method overloading (with their overloading signatures and the implementation signature) requires sometimes to re-order source code. Because the implementation bodies of the method overloads are combined into one TS method body, it is not possible to maintain the same code structure for them.
 

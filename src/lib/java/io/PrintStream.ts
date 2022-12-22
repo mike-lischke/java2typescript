@@ -114,15 +114,21 @@ export class PrintStream extends FilterOutputStream {
 
     /**
      * Writes a formatted string to this output stream using the specified format string and arguments.
-     * public format(l: string, format: string, ...args: unknown[]): PrintStream; no support for locales for now.
      *
      * @param format tbd
      * @param args tbd
      *
      * @returns tbd
      */
-    public format(format: string, ...args: unknown[]): PrintStream {
-        const text = printf(format, args);
+    public format(l: java.util.Locale, format: java.lang.String, ...args: unknown[]): PrintStream;
+    public format(format: java.lang.String, ...args: unknown[]): PrintStream;
+    public format(...args: unknown[]): PrintStream {
+        let index = 0;
+        if (args[0] instanceof java.util.Locale) {
+            ++index; // Ignore the locale for now.
+        }
+
+        const text = printf(`${args[index]}`, args.slice(index + 1));
         this.append(text);
 
         return this;
@@ -145,7 +151,7 @@ export class PrintStream extends FilterOutputStream {
      *
      * @returns tbd
      */
-    public printf(format: string, ...args: unknown[]): PrintStream {
+    public printf(format: java.lang.String, ...args: unknown[]): PrintStream {
         return this.format(format, args);
     }
 

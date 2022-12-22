@@ -7,7 +7,10 @@
 
 /* eslint-disable @typescript-eslint/unified-signatures */
 
+import printf from "printf";
+
 import { charCodesToString, codePointsToString } from ".";
+
 import { java } from "../java";
 import { JavaObject } from "./Object";
 
@@ -120,7 +123,27 @@ export class String extends JavaObject
             return new java.lang.String("undefined");
         }
 
-        return new java.lang.String(v.toString());
+        return new java.lang.String(`${v}`);
+    }
+
+    public static format(format: String, ...args: unknown[]): String;
+    /**
+     * @param l not used currently
+     * @param format The format string.
+     * @param args Values to print.
+     *
+     * @returns a formatted string using the specified locale, format string, and arguments.
+     */
+    public static format(l: java.util.Locale, format: String, ...args: unknown[]): String;
+    public static format(...args: unknown[]): String {
+        let index = 0;
+        if (args[0] instanceof java.util.Locale) {
+            ++index; // Ignore the local for now.
+        }
+
+        const text = printf(`${args[index]}`, args.slice(index + 1));
+
+        return new java.lang.String(text);
     }
 
     public charAt(index: number): java.lang.char {

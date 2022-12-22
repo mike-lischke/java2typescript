@@ -17,17 +17,17 @@ import { S } from "../../templates";
 import { System } from "./System";
 
 export class Throwable extends JavaObject {
+    private stack?: string;
+
     #message: java.lang.String;
-    #name: string;
     #cause?: Throwable;
     #elements: StackTraceElement[] = [];
     #suppressed: Throwable[] = [];
 
-    private stack?: string;
-
     public constructor(message?: java.lang.String, cause?: Throwable);
     // This constructor is protected in Java, but in TS we cannot mix different modifiers in overloading.
-    public constructor(message: java.lang.String, cause: Throwable, enableSuppression: boolean, writableStackTrace: boolean);
+    public constructor(message: java.lang.String, cause: Throwable, enableSuppression: boolean,
+        writableStackTrace: boolean);
     public constructor(cause: Throwable);
     public constructor(messageOrCause?: java.lang.String | Throwable, cause?: Throwable, _enableSuppression?: boolean,
         _writableStackTrace?: boolean) {
@@ -40,7 +40,6 @@ export class Throwable extends JavaObject {
             this.#message = S``;
             this.#cause = messageOrCause;
         }
-        this.#name = this.constructor.name;
 
         const temp = new Error();
         this.stack = temp.stack;
