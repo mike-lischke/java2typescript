@@ -3,16 +3,17 @@
 ## Table of contents <!-- omit from toc -->
 
 - [Introduction](#introduction)
-- [Generics and Type Wildcards](#generics)
+- [Generics and Type Wildcards](#generics-and-type-wildcards)
 - [Interfaces](#interfaces)
+- [Modifiers and Access Levels](#modifiers-and-access-levels)
 - [Enumerations](#enumerations)
 - [Iterators](#iterators)
-- [Methods, Rest Parameters and Overloading](#methods)
-- [Implicit Nullability](#nullability)
+- [Methods, Rest Parameters and Overloading](#methods-rest-parameters-and-overloading)
+- [Implicit Nullability, the `null`, and undefined values](#implicit-nullability-the-null-and-undefined-values)
 - [Arrays](#arrays)
 - [Numbers](#numbers)
-- [Char and String](#string)
-- [Boxing and Unboxing](#boxing)
+- [Char and String](#char-and-string)
+- [Boxing and Unboxing](#boxing-and-unboxing)
 - [Regular Expressions](#regular-expressions)
 - [Initialisers](#initialisers)
 - [Containers and Equality](#containers-and-equality)
@@ -48,7 +49,24 @@ Generic semantics in Java and TS are pretty much the same, with the exception of
 
 ## <a name="interfaces">Interfaces</a>
 
-Java interfaces are more than interfaces in the original sense (API contracts), as they can have actual code, much like classes. As this is not supported in Typescript different paths are taken in the conversion process. Java interfaces without methods and initialized fields are converted directly to their TS equivalent. Otherwise they are implemented as abstract classes, which is an acceptable workaround. Especially, as TS interfaces can extend TS classes.
+Java interfaces are more than interfaces in the original sense (API contracts), as they can have actual code, much like classes. As this is not supported in Typescript different paths are taken in the conversion process. Java interfaces without methods and initialized fields are converted directly to their TS interface equivalent. Otherwise they are implemented as abstract classes, which is an acceptable workaround. Especially, as TS interfaces can extend TS classes.
+
+## <a name="modifiers">Modifiers and Access Levels</a>
+
+Typescript, just like Java, supports the usual `public`, `protected` and `private` access levels. They are directly taken over, with the exception that a public class is converted to an exported class. In addition to those Java also knows the [package-private](https://docs.oracle.com/javase/tutorial/java/javaOO/accesscontrol.html) access level, which has no representation in Typescript. Therefore it is converted to its closest semantic: `protected`. This may lead to a problem if code in the same package tries to access such a protected member (which is valid in Java). You have to solve this manually.
+
+In addition to access levels there's a range of additional modifiers:
+
+- `native`: unsupported, ignored
+- `synchronized`: unsupported, ignored
+- `transient`: unsupported, ignored
+- `volatile`: unsupported, ignored
+- `static`: same meaning in TS, taken over
+- `abstract`: same meaning in TS, taken over
+- `final`: converted to `readonly`
+- `strictfp`: unsupported, ignored
+- `sealed`, unsupported (Java 17), ignored
+- `non-sealed`, unsupported (Java 17), ignored
 
 ## <a name="enumerations">Enumerations</a>
 
@@ -104,13 +122,13 @@ Numbers in arrays, however, are converted to typed TS arrays according to their 
 
 There's currently no support for `BigInteger` and `BigNumber`;
 
-Read also the [Boxing and Unboxing chapter](#10-boxing-and-unboxing).
+Read also the [Boxing and Unboxing chapter](#boxing-and-unboxing).
 
 ## <a name="string">Char and String</a>
 
 Strings in Java and TS are pretty similar (at least in their respective realm). TS automatically does boxing and unboxing of string literals and string objects (just like Java). However, the Java `String` type has much more functionality, so it is translated like any other class instead of converting occurrences to the TS `string` type. This makes handling the actual strings in a TS context a bit more inconvenient, because this way the auto (un)boxing does not work as easy as between TS `String`, `string` and string literals.
 
-Read also the [Boxing and Unboxing chapter](#10-boxing-and-unboxing).
+Read also the [Boxing and Unboxing chapter](#boxing-and-unboxing).
 
 In both languages strings are stored in UTF-16 (two bytes per character) and use surrogates for values > 0xFFFF. However, there's no simple `char` type in TS, so we can only use `number` for it. To better distinguish a char type from an ordinary number a type alias is used in TS (`java.lang.char`) for any occurrence of a single `char` (and uses a number as base type, with only the lowest 16 bits). However, using a number for a char is all but optimal, so arrays of chars are converted to `Uint16Array` instead, which should be as efficient as the Java implementation.
 

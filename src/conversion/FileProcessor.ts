@@ -403,7 +403,7 @@ export class FileProcessor {
             });
 
             if (!hasVisibility) {
-                // No modifier means: export.
+                // No modifier means package-private. TS doesn't have such a concept, so we have to export instead.
                 prefix += "export ";
                 doExport = true;
             }
@@ -689,8 +689,8 @@ export class FileProcessor {
                 });
 
                 if (!hasVisibility) {
-                    // No modifier means: public.
-                    modifierBuilder.insert(0, "public ");
+                    // No modifier means package-private.
+                    modifierBuilder.insert(0, "protected ");
                 }
 
                 if (context.memberDeclaration()) {
@@ -1247,8 +1247,8 @@ export class FileProcessor {
                     });
 
                     if (!hasVisibility) {
-                        // No modifier means: public.
-                        modifierBuilder.insert(0, "public ");
+                        // No modifier means package private.
+                        modifierBuilder.insert(0, "protected ");
                     }
 
                     if (ignoreNextWhitespaces) {
@@ -2996,8 +2996,8 @@ export class FileProcessor {
                     if (ignoreBrackets) {
                         builder.append("Uint16Array");
                     } else {
-                        this.resolveType(context, "CodePoint");
-                        builder.append("CodePoint");
+                        this.resolveType(context, "java.lang.char");
+                        builder.append("java.lang.char");
                     }
                     break;
                 }
