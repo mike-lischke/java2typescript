@@ -12,6 +12,9 @@ import { isEquatable } from "../../helpers";
 import { MurmurHash } from "../../MurmurHash";
 
 export type ComparableValueType = number | bigint | string;
+export type TypedArray =
+    Int8Array | Uint8Array | Int16Array | Uint16Array | Int32Array | Uint32Array | Uint8ClampedArray | Float32Array
+    | Float64Array;
 
 export class Arrays extends JavaObject {
     public static sort<T>(list: T[]): void {
@@ -98,6 +101,7 @@ export class Arrays extends JavaObject {
         return hash1 === hash2;
     }
 
+    public static copyOf<T extends TypedArray>(original: T, newLength: number): T;
     /**
      * Copies the specified array, truncating or padding with null (if necessary) so the copy has the specified length.
      * For all indices that are valid in both the original array and the copy, the two arrays will contain identical
@@ -109,19 +113,27 @@ export class Arrays extends JavaObject {
      *
      * @returns A copy of the original array, truncated or padded with null to obtain the specified length.
      */
-    public static copyOf<T>(original: T[], newLength: number): T[] {
+    public static copyOf<T>(original: T[], newLength: number): T[];
+    public static copyOf<T>(original: T[] | TypedArray, newLength: number): T[] | TypedArray {
         if (newLength < original.length) {
             return original.slice(0, newLength);
         }
 
         if (newLength === original.length) {
-            return [...original];
+            return original.slice();
         }
 
-        const result = new Array<T>(newLength - original.length);
-        result.splice(0, 0, ...original);
+        if (!Array.isArray(original)) {
+            const result = new (original.constructor as new (arg: number) => TypedArray)(newLength);
+            result.set(original);
 
-        return result;
+            return result;
+        } else {
+            const result = new Array<T>(newLength);
+            result.splice(0, 0, ...original);
+
+            return result;
+        }
     }
 
     public static binarySearch<T extends ComparableValueType>(list: T[], value: T): number;

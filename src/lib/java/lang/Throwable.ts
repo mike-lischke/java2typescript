@@ -65,10 +65,10 @@ export class Throwable extends JavaObject {
                 cause = Throwable.fromError(error.cause);
             }
 
-            return new Throwable(S`error.message`, cause);
+            return new Throwable(S`${error.message}`, cause);
         }
 
-        return new Throwable(S`error`);
+        return new Throwable(S`${error}`);
     }
 
     /**

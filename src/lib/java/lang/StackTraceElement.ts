@@ -10,8 +10,6 @@ import { java } from "../java";
 import { JavaObject } from "./Object";
 
 export class StackTraceElement extends JavaObject {
-    #line: string;
-
     private declaringClass = "";
     private methodName = "";
     private fileName = "";
@@ -23,10 +21,10 @@ export class StackTraceElement extends JavaObject {
      *
      * @param line The stack trace line to parse.
      */
-    public constructor(line: string) {
+    public constructor(private line: string) {
         super();
 
-        this.#line = line;
+        this.line = line;
         if (line.match(/^\s*[-]{4,}$/)) {
             return;
         }
@@ -124,6 +122,6 @@ export class StackTraceElement extends JavaObject {
 
     /** @returns a string representation of this stack trace element. */
     public toString(): java.lang.String {
-        return new java.lang.String(this.#line);
+        return new java.lang.String(this.line);
     }
 }
