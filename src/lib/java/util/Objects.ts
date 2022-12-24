@@ -89,7 +89,7 @@ export class Objects extends JavaObject {
      * @returns tbd
      */
     public static hash(...values: unknown[]): number {
-        return MurmurHash.valueHash(values, 37);
+        return MurmurHash.hashCode(values, 37);
     }
 
     /**

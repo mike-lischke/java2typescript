@@ -47,37 +47,82 @@ export abstract class Collections extends JavaObject {
         return new java.util.ArrayList<T>(array);
     }
 
-    public static max<T extends java.lang.Comparable<T>>(coll: java.util.Collection<T> | T[]): T | undefined {
-        let result: T | undefined;
-        for (const current of coll) {
-            if (result === undefined) {
-                result = current;
-                continue;
+    public static max<T1 extends java.lang.Comparable<T1>>(coll: java.util.Collection<T1>): T1 | null;
+    public static max<T2>(coll: java.util.Collection<T2>, comp: java.util.Comparator<T2>): T2 | null;
+    public static max<T1 extends java.lang.Object & java.lang.Comparable<T1>, T2>(
+        coll: java.util.Collection<T1> | java.util.Collection<T2>, comp?: java.util.Comparator<T2>): T1 | T2 | null {
+        if (comp) {
+            let result: T2 | null = null;
+
+            for (const current of coll as java.util.Collection<T2>) {
+                if (result === null) {
+                    result = current;
+                    continue;
+                }
+
+                const comparison = comp.compare(result, current);
+                if (comparison < 0) {
+                    result = current;
+                }
             }
 
-            const comparison = result.compareTo(current);
-            if (comparison < 0) {
-                result = current;
+            return result;
+        } else {
+            let result: T1 | null = null;
+
+            for (const current of coll as java.util.Collection<T1>) {
+                if (result === null) {
+                    result = current;
+                    continue;
+                }
+
+                const comparison = result.compareTo(current);
+                if (comparison < 0) {
+                    result = current;
+                }
             }
+
+            return result;
         }
-
-        return result;
     }
 
-    public static min<T extends java.lang.Comparable<T>>(coll: java.util.Collection<T> | T[]): T | undefined {
-        let result: T | undefined;
-        for (const current of coll) {
-            if (result === undefined) {
-                result = current;
-                continue;
+    public static min<T1 extends java.lang.Comparable<T1>>(coll: java.util.Collection<T1>): T1 | null;
+    public static min<T2>(coll: java.util.Collection<T2>, comp: java.util.Comparator<T2>): T2 | null;
+    public static min<T1 extends java.lang.Comparable<T1>, T2>(
+        coll: java.util.Collection<T1> | java.util.Collection<T2>, comp?: java.util.Comparator<T2>): T1 | T2 | null {
+        if (comp) {
+            let result: T2 | null = null;
+
+            for (const current of coll as java.util.Collection<T2>) {
+                if (result === null) {
+                    result = current;
+                    continue;
+                }
+
+                const comparison = comp.compare(result, current);
+                if (comparison > 0) {
+                    result = current;
+                }
             }
 
-            const comparison = result.compareTo(current);
-            if (comparison > 0) {
-                result = current;
+            return result;
+        } else {
+            let result: T1 | null = null;
+
+            for (const current of coll as java.util.Collection<T1>) {
+                if (result === null) {
+                    result = current;
+                    continue;
+                }
+
+                const comparison = result.compareTo(current);
+                if (comparison > 0) {
+                    result = current;
+                }
             }
+
+            return result;
         }
-
-        return result;
     }
+
 }

@@ -14,7 +14,7 @@ export class JavaObject {
     // Represents the default hash code of a Java object. Using a running number here.
     readonly #id;
 
-    protected constructor() {
+    public constructor() {
         this.#id = JavaObject.nextId++;
     }
 

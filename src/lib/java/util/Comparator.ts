@@ -7,6 +7,7 @@
 
 import { JavaObject } from "../lang/Object";
 
+// eslint-disable-next-line @typescript-eslint/naming-convention
 export interface Comparator<T> {
     compare: (o1: T, o2: T) => number;
     equals: (obj: JavaObject) => boolean;

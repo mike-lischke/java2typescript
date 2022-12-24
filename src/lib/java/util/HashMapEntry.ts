@@ -26,7 +26,7 @@ export class HashMapEntry<K, V> implements java.util.Map.Entry<K, V> {
                 keysEqual = true;
             }
         } else if (o.key != null) {
-            keysEqual = MurmurHash.valueHash(this.key) === MurmurHash.valueHash(o.key);
+            keysEqual = MurmurHash.hashCode(this.key) === MurmurHash.hashCode(o.key);
         }
 
         let valuesEqual = false;
@@ -35,7 +35,7 @@ export class HashMapEntry<K, V> implements java.util.Map.Entry<K, V> {
                 valuesEqual = true;
             }
         } else if (o.value != null) {
-            valuesEqual = MurmurHash.valueHash(this.value) === MurmurHash.valueHash(o.value);
+            valuesEqual = MurmurHash.hashCode(this.value) === MurmurHash.hashCode(o.value);
         }
 
         return keysEqual && valuesEqual;
@@ -51,8 +51,8 @@ export class HashMapEntry<K, V> implements java.util.Map.Entry<K, V> {
 
     public hashCode(): number {
         if (this.computedHash === undefined) {
-            this.computedHash = (this.key === null ? 0 : MurmurHash.valueHash(this.key))
-                ^ (this.value === null ? 0 : MurmurHash.valueHash(this.value));
+            this.computedHash = (this.key === null ? 0 : MurmurHash.hashCode(this.key))
+                ^ (this.value === null ? 0 : MurmurHash.hashCode(this.value));
         }
 
         return this.computedHash;
@@ -66,4 +66,3 @@ export class HashMapEntry<K, V> implements java.util.Map.Entry<K, V> {
         return temp;
     }
 }
-

@@ -605,7 +605,7 @@ export class BitSet extends JavaObject implements java.io.Serializable, java.lan
     }
 
     public hashCode(): number {
-        return MurmurHash.valueHash(this.data, 22);
+        return MurmurHash.hashCode(this.data, 22);
     }
 
     /**

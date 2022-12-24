@@ -103,8 +103,8 @@ export class IdentityHashMap<K, V> extends JavaObject implements java.lang.Clone
     public hashCode(): number {
         let sum = 0;
         for (const entry of this.backingStore) {
-            sum += (entry[0] === null ? 0 : MurmurHash.valueHash(entry[0]))
-                ^ (entry[1] === null ? 0 : MurmurHash.valueHash([1]));
+            sum += (entry[0] === null ? 0 : MurmurHash.hashCode(entry[0]))
+                ^ (entry[1] === null ? 0 : MurmurHash.hashCode([1]));
         }
 
         return sum;

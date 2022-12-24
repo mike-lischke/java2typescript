@@ -160,14 +160,14 @@ export class MurmurHash {
     };
 
     /**
-     * A convenience method to hash a single value.
+     * An all-in-one convenience method to compute a hash for a single value.
      *
      * @param value The value to hash.
      * @param seed The seed for the hash value.
      *
      * @returns The computed hash.
      */
-    public static valueHash = (value: unknown, seed?: number): number => {
+    public static hashCode = (value: unknown, seed?: number): number => {
         if (value == null) {
             return MurmurHash.finish(MurmurHash.update(seed ?? MurmurHash.defaultSeed, 0), 1);
         }
@@ -176,7 +176,7 @@ export class MurmurHash {
             return value.hashCode();
         }
 
-        return MurmurHash.finish(MurmurHash.update(MurmurHash.defaultSeed, value), 1);
+        return MurmurHash.finish(MurmurHash.update(seed ?? MurmurHash.defaultSeed, value), 1);
     };
 
     /**

@@ -31,7 +31,7 @@ export class Arrays extends JavaObject {
         });
     }
 
-    public static asList<T>(...list: T[]): java.util.List<T> {
+    public static asList<T>(list: T[]): java.util.List<T> {
         return new java.util.ArrayList<T>(list);
     }
 
@@ -130,7 +130,9 @@ export class Arrays extends JavaObject {
             return result;
         } else {
             const result = new Array<T>(newLength);
-            result.splice(0, 0, ...original);
+            original.forEach((v, i) => {
+                result[i] = v;
+            });
 
             return result;
         }

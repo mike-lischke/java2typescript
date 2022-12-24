@@ -21,7 +21,7 @@ export class DefaultJavaEqualityComparator<T> implements JavaEqualityComparator<
 
     public hashCode = (obj?: unknown): number => {
         // This method uses `hashCode()` of the given object if that actually supports this.
-        return MurmurHash.valueHash(obj);
+        return MurmurHash.hashCode(obj);
     };
 
     public equals = (a: T, b: T): boolean => {
