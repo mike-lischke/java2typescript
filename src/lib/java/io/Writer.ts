@@ -94,7 +94,7 @@ export abstract class Writer extends JavaObject implements java.io.Closeable, ja
      *          If an I/O error occurs
      */
     // eslint-disable-next-line @typescript-eslint/unified-signatures
-    public abstract write(str: string): void;
+    public abstract write(str: java.lang.String): void;
 
     /**
      * Writes a portion of a string.
@@ -121,7 +121,7 @@ export abstract class Writer extends JavaObject implements java.io.Closeable, ja
      * @throws  IOException
      *          If an I/O error occurs
      */
-    public abstract write(str: string, off: number, len: number): void;
+    public abstract write(str: java.lang.String, off: number, len: number): void;
 
     public abstract append(c: java.lang.char): this;
 

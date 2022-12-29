@@ -6,6 +6,7 @@
  */
 
 import { java } from "../../../../lib/java/java";
+import { S } from "../../../../lib/templates";
 
 describe("java.lang.Integer Tests", () => {
     it("Base", () => {
@@ -60,11 +61,11 @@ describe("java.lang.Integer Tests", () => {
     it("getInteger", (done) => {
         setImmediate(() => {
             // Need to delay execution one run loop, as system properties loading is delayed as well.
-            expect(java.lang.Integer.getInteger("")).toBeNull();
-            expect(java.lang.Integer.getInteger("Lorem Ipsum")).toBeNull();
-            expect(java.lang.Integer.getInteger("Lorem Ipsum", 11)?.intValue()).toBe(11);
-            expect(java.lang.Integer.getInteger("java.version", 17)?.intValue()).toBe(11);
-            expect(java.lang.Integer.getInteger("java. version", 17)?.intValue()).toBe(17);
+            expect(java.lang.Integer.getInteger(S``)).toBeNull();
+            expect(java.lang.Integer.getInteger(S`Lorem Ipsum`)).toBeNull();
+            expect(java.lang.Integer.getInteger(S`Lorem Ipsum`, 11)?.intValue()).toBe(11);
+            expect(java.lang.Integer.getInteger(S`java.version`, 17)?.intValue()).toBe(11);
+            expect(java.lang.Integer.getInteger(S`java. version`, 17)?.intValue()).toBe(17);
 
             done();
         });
@@ -169,21 +170,21 @@ describe("java.lang.Integer Tests", () => {
         expect(() => { java.lang.Integer.toString(123.456, 3); }).toThrowError();
         expect(() => { java.lang.Integer.toString(NaN, 3); }).toThrowError();
 
-        expect(java.lang.Integer.toString(1234)).toBe("1234");
-        expect(java.lang.Integer.toString(77)).toBe("77");
-        expect(java.lang.Integer.toString(77, 2)).toBe("1001101");
-        expect(java.lang.Integer.toString(77, 3)).toBe("2212");
-        expect(java.lang.Integer.toString(77, 8)).toBe("115");
-        expect(java.lang.Integer.toString(77, 16)).toBe("4d");
+        expect(java.lang.Integer.toString(1234).valueOf()).toBe("1234");
+        expect(java.lang.Integer.toString(77).valueOf()).toBe("77");
+        expect(java.lang.Integer.toString(77, 2).valueOf()).toBe("1001101");
+        expect(java.lang.Integer.toString(77, 3).valueOf()).toBe("2212");
+        expect(java.lang.Integer.toString(77, 8).valueOf()).toBe("115");
+        expect(java.lang.Integer.toString(77, 16).valueOf()).toBe("4d");
 
         expect(() => { java.lang.Integer.toBinaryString(123.456); }).toThrowError();
-        expect(java.lang.Integer.toBinaryString(77)).toBe("1001101");
+        expect(java.lang.Integer.toBinaryString(77).valueOf()).toBe("1001101");
 
         expect(() => { java.lang.Integer.toOctalString(123.456); }).toThrowError();
-        expect(java.lang.Integer.toOctalString(77)).toBe("115");
+        expect(java.lang.Integer.toOctalString(77).valueOf()).toBe("115");
 
         expect(() => { java.lang.Integer.toHexString(123.456); }).toThrowError();
-        expect(java.lang.Integer.toHexString(77)).toBe("4d");
+        expect(java.lang.Integer.toHexString(77).valueOf()).toBe("4d");
 
         const i = new java.lang.Integer(77);
         expect(`${i.toString()}`).toBe("77");

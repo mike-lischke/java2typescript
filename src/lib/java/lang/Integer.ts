@@ -17,7 +17,7 @@ export class Integer extends JavaObject implements java.io.Serializable, java.la
     public static readonly MAX_VALUE = 2147483647;
     public static readonly MIN_VALUE = -2147483648;
     public static readonly SIZE = 32;
-    public static readonly TYPE: java.lang.Class;
+    public static readonly TYPE: java.lang.Class<Integer>;
 
     // All number types are signed in Java.
     private static byte = new Int8Array(1);
@@ -128,8 +128,8 @@ export class Integer extends JavaObject implements java.io.Serializable, java.la
      *
      * @returns The system property as Integer or the default value as Integer.
      */
-    public static getInteger(nm?: string, val?: number): Integer | null {
-        const p = nm && nm.length > 0 ? java.lang.System.getProperty(nm) : undefined;
+    public static getInteger(nm?: java.lang.String, val?: number): Integer | null {
+        const p = nm && nm.length() > 0 ? java.lang.System.getProperty(nm) : undefined;
         if (!p) {
             if (val === undefined) {
                 return null;
@@ -330,12 +330,12 @@ export class Integer extends JavaObject implements java.io.Serializable, java.la
      *
      * @param i The number to convert.
      */
-    public static toBinaryString(i: number): string {
+    public static toBinaryString(i: number): java.lang.String {
         if (!Number.isInteger(i)) {
             throw new java.lang.IllegalArgumentException();
         }
 
-        return i.toString(2);
+        return S`${i.toString(2)}`;
     }
 
     /**
@@ -343,12 +343,12 @@ export class Integer extends JavaObject implements java.io.Serializable, java.la
      *
      * @param i The number to convert.
      */
-    public static toHexString(i: number): string {
+    public static toHexString(i: number): java.lang.String {
         if (!Number.isInteger(i)) {
             throw new java.lang.IllegalArgumentException();
         }
 
-        return i.toString(16);
+        return S`${i.toString(16)}`;
 
     }
 
@@ -357,12 +357,12 @@ export class Integer extends JavaObject implements java.io.Serializable, java.la
      *
      * @param i The number to convert.
      */
-    public static toOctalString(i: number): string {
+    public static toOctalString(i: number): java.lang.String {
         if (!Number.isInteger(i)) {
             throw new java.lang.IllegalArgumentException();
         }
 
-        return i.toString(8);
+        return S`${i.toString(8)}`;
 
     }
 
@@ -372,12 +372,12 @@ export class Integer extends JavaObject implements java.io.Serializable, java.la
      * @param i The number to convert.
      * @param radix The radix of the result string.
      */
-    public static toString(i: number, radix?: number): string {
+    public static toString(i: number, radix?: number): java.lang.String {
         if (!Number.isInteger(i)) {
             throw new java.lang.IllegalArgumentException();
         }
 
-        return i.toString(radix);
+        return S`${i.toString(radix)}`;
 
     }
 

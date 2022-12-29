@@ -33,16 +33,16 @@ export class FileInputStream extends InputStream implements java.io.AutoCloseabl
      * Creates a FileInputStream by opening a connection to an actual file, the file named by the path name
      * in the file system.
      */
-    public constructor(name: string);
-    public constructor(fileOrFdObjOrName: java.io.File | java.io.FileDescriptor | string) {
+    public constructor(name: java.lang.String);
+    public constructor(fileOrFdObjOrName: java.io.File | java.io.FileDescriptor | java.lang.String) {
         super();
 
         if (fileOrFdObjOrName instanceof java.io.File) {
             this.path = fileOrFdObjOrName.getPath();
             this.fd = new java.io.FileDescriptor();
             this.open();
-        } else if (typeof fileOrFdObjOrName === "string") {
-            this.path = fileOrFdObjOrName;
+        } else if (fileOrFdObjOrName instanceof java.lang.String) {
+            this.path = fileOrFdObjOrName.valueOf();
             this.fd = new java.io.FileDescriptor();
             this.open();
         } else {

@@ -5,8 +5,6 @@
  * See LICENSE-MIT.txt file for more info.
  */
 
-/** cspell: ignore mkdirs */
-
 /* eslint-disable @typescript-eslint/unified-signatures */
 
 import path from "path";
@@ -14,6 +12,7 @@ import fs from "fs";
 
 import { java } from "../java";
 import { JavaObject } from "../lang/Object";
+import { S } from "../../templates";
 
 export class File extends JavaObject implements java.lang.Comparable<File> {
     public static readonly separator = path.delimiter;
@@ -24,21 +23,21 @@ export class File extends JavaObject implements java.lang.Comparable<File> {
     // The absolute path to the file or directory.
     private path: string;
 
-    public constructor(pathName: string);
-    public constructor(parent: File | undefined, child: string);
-    public constructor(parent: string | undefined, child: string);
+    public constructor(pathName: java.lang.String);
+    public constructor(parent: File | undefined, child: java.lang.String);
+    public constructor(parent: java.lang.String | undefined, child: java.lang.String);
     public constructor(uri: URL);
-    public constructor(pathNameOrParentUri: string | File | URL | undefined, child?: string) {
+    public constructor(pathNameOrParentUri: java.lang.String | File | URL | undefined, child?: java.lang.String) {
         super();
 
         if (!pathNameOrParentUri && !child) {
             throw new java.lang.NullPointerException();
         } else if (!pathNameOrParentUri) {
-            this.path = path.normalize(child!);
+            this.path = path.normalize(child!.valueOf());
         } else {
             let parentPath: string;
-            if (typeof pathNameOrParentUri === "string") {
-                parentPath = path.normalize(pathNameOrParentUri);
+            if (pathNameOrParentUri instanceof java.lang.String) {
+                parentPath = path.normalize(pathNameOrParentUri.valueOf());
             } else if (pathNameOrParentUri instanceof File) {
                 parentPath = path.normalize(pathNameOrParentUri.path);
             } else {
@@ -46,12 +45,13 @@ export class File extends JavaObject implements java.lang.Comparable<File> {
             }
 
             if (child) {
-                child = path.normalize(child);
-                if (path.isAbsolute(child)) {
-                    child = path.relative(child, process.cwd());
+                let c = child.valueOf();
+                c = path.normalize(c);
+                if (path.isAbsolute(c)) {
+                    c = path.relative(c, process.cwd());
                 }
 
-                this.path = path.resolve(child, parentPath);
+                this.path = path.resolve(c, parentPath);
             } else {
                 this.path = parentPath;
             }
@@ -71,7 +71,13 @@ export class File extends JavaObject implements java.lang.Comparable<File> {
     }
 
     public getParentFile(): File {
-        return new File(path.dirname(this.path));
+        return new File(S`${path.dirname(this.path)}`);
+    }
+
+    public length(): bigint {
+        const stat = fs.statSync(this.path, { bigint: true });
+
+        return stat.size;
     }
 
     public mkdirs(): boolean {
@@ -84,4 +90,3 @@ export class File extends JavaObject implements java.lang.Comparable<File> {
         return this.path.localeCompare(other.path);
     }
 }
-

@@ -11,6 +11,7 @@ import { java } from "../../java";
 import { JavaObject } from "../../lang/Object";
 
 import { NotImplementedError } from "../../../NotImplementedError";
+import { S } from "../../../templates";
 
 /**
  * A simplified charset implementation without provider support. Instead there's a fixed set of supported encodings
@@ -230,7 +231,7 @@ export class Charset extends JavaObject implements java.lang.Comparable<Charset>
         const buffer = Buffer.from(bb.array());
         const text = buffer.toString(this.canonicalName);
 
-        return java.nio.CharBuffer.wrap(text);
+        return java.nio.CharBuffer.wrap(S`${text}`);
     }
 
     /**

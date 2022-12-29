@@ -10,6 +10,7 @@
 export type char = number;
 
 export { JavaObject as Object } from "./Object";
+export * from "./Enum";
 export * from "./StringBuilder";
 export * from "./StringBuffer";
 export * from "./Character";

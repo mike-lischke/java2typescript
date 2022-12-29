@@ -17,15 +17,16 @@ export class OutputStreamWriter extends Writer {
     private encoding: BufferEncoding;
     private buffer = Buffer.alloc(OutputStreamWriter.writeBufferSize);
 
-    public constructor(out: java.io.OutputStream, charsetName: string);
+    public constructor(out: java.io.OutputStream, charsetName?: java.lang.String);
     public constructor(out: java.io.OutputStream, cs?: java.nio.charset.Charset);
-    public constructor(private out: java.io.OutputStream, charsetNameOrCs?: string | java.nio.charset.Charset) {
+    public constructor(private out: java.io.OutputStream,
+        charsetNameOrCs?: java.lang.String | java.nio.charset.Charset) {
         super(out);
 
         if (!charsetNameOrCs) {
             this.encoding = "utf8";
-        } else if (typeof charsetNameOrCs === "string") {
-            this.encoding = charsetNameOrCs as BufferEncoding;
+        } else if (charsetNameOrCs instanceof java.lang.String) {
+            this.encoding = charsetNameOrCs.valueOf() as BufferEncoding;
         } else {
             this.encoding = charsetNameOrCs.name() as BufferEncoding;
         }
@@ -64,17 +65,18 @@ export class OutputStreamWriter extends Writer {
     public write(c: java.lang.char): void;
     public write(array: Uint16Array): void;
     public write(array: Uint16Array, offset: number, length: number): void;
-    public write(str: string): void;
-    public write(str: string, off: number, len: number): void;
-    public write(cOrArrayOrStr: java.lang.char | Uint16Array | string, offset?: number, length?: number): void {
+    public write(str: java.lang.String): void;
+    public write(str: java.lang.String, off: number, len: number): void;
+    public write(cOrArrayOrStr: java.lang.char | Uint16Array | java.lang.String, offset?: number,
+        length?: number): void {
         let data: string;
         offset ??= 0;
 
         if (typeof cOrArrayOrStr === "number") {
             data = String.fromCodePoint(cOrArrayOrStr);
             length = 1;
-        } else if (typeof cOrArrayOrStr === "string") {
-            data = cOrArrayOrStr;
+        } else if (cOrArrayOrStr instanceof java.lang.String) {
+            data = cOrArrayOrStr.valueOf();
             length ??= data.length;
         } else {
             data = cOrArrayOrStr.toString();
@@ -95,9 +97,9 @@ export class OutputStreamWriter extends Writer {
             this.write(cOrCsq);
         } else {
             if (start !== undefined && end !== undefined) {
-                this.write(`${cOrCsq.subSequence(start, end).toString()}`);
+                this.write(cOrCsq.subSequence(start, end).toString());
             } else {
-                this.write(`${cOrCsq.toString()}`);
+                this.write(cOrCsq.toString());
             }
         }
 

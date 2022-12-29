@@ -25,9 +25,10 @@ export class InputStreamReader extends Reader {
 
     private eof = false;
 
-    public constructor(input: java.io.InputStream, charsetName?: string);
+    public constructor(input: java.io.InputStream, charsetName?: java.lang.String);
     public constructor(input: java.io.InputStream, cs?: java.nio.charset.Charset);
-    public constructor(private input: java.io.InputStream, charsetNameOrCs?: string | java.nio.charset.Charset) {
+    public constructor(private input: java.io.InputStream,
+        charsetNameOrCs?: java.lang.String | java.nio.charset.Charset) {
         super();
 
         if (!charsetNameOrCs) {
@@ -35,7 +36,7 @@ export class InputStreamReader extends Reader {
         } else if (charsetNameOrCs instanceof java.nio.charset.Charset) {
             this.encoding = charsetNameOrCs.name();
         } else {
-            this.encoding = charsetNameOrCs;
+            this.encoding = charsetNameOrCs.valueOf();
         }
 
         if (Buffer.isEncoding(this.encoding)) {
@@ -57,9 +58,10 @@ export class InputStreamReader extends Reader {
 
     /** Reads a single character. */
     public read(): java.lang.char;
+    public read(chars: Uint16Array | java.nio.CharBuffer): number;
     /** Reads characters into a portion of an array. */
     public read(chars: Uint16Array, offset: number, length: number): number;
-    public read(chars?: Uint16Array, offset?: number, length?: number): java.lang.char | number {
+    public read(chars?: Uint16Array | java.nio.CharBuffer, offset?: number, length?: number): java.lang.char | number {
         if (!this.ready()) {
             return -1;
         }
@@ -81,7 +83,7 @@ export class InputStreamReader extends Reader {
         }
 
         offset ??= 0;
-        length ??= chars.length;
+        length ??= chars instanceof Uint16Array ? chars.length : chars.length();
 
         const end = offset + length;
         if (offset < 0 || length < 0 || end > chars.length) {
@@ -92,7 +94,11 @@ export class InputStreamReader extends Reader {
         while (length > 0) {
             if (length <= this.currentText.length) {
                 for (const c of this.currentText.substring(0, length)) {
-                    chars[offset++] = c.codePointAt(0)! & 0xFFFF;
+                    if (chars instanceof Uint16Array) {
+                        chars[offset++] = c.codePointAt(0)! & 0xFFFF;
+                    } else {
+                        chars.put(offset++, c.codePointAt(0)! & 0xFFFF);
+                    }
                 }
 
                 processed += length;
@@ -100,7 +106,11 @@ export class InputStreamReader extends Reader {
             } else {
                 // Not enough data available. Write what we have and load the next chunk.
                 for (const c of this.currentText) {
-                    chars[offset++] = c.codePointAt(0)! & 0xFFFF;
+                    if (chars instanceof Uint16Array) {
+                        chars[offset++] = c.codePointAt(0)! & 0xFFFF;
+                    } else {
+                        chars.put(offset++, c.codePointAt(0)! & 0xFFFF);
+                    }
                 }
 
                 processed += this.currentText.length;

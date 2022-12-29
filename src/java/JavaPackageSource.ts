@@ -29,6 +29,7 @@ export class JavaPackageSource extends PackageSource {
     // The symbol table is created from this array.
     private static readonly javaClassHierarchy: IClassHierarchyEntry[] = [
         { name: "java.lang.Object" },
+        { name: "java.lang.Enum", extends: "java.lang.Object" },
         { name: "java.lang.Character", extends: "java.lang.Object" },
         { name: "java.lang.Class", extends: "java.lang.Object" },
         { name: "java.lang.Number", extends: "java.lang.Object" },
@@ -67,6 +68,8 @@ export class JavaPackageSource extends PackageSource {
         { name: "java.lang.Appendable", isInterface: true },
         { name: "java.lang.Comparable", isInterface: true },
         { name: "java.lang.Readable", isInterface: true },
+        { name: "java.io.Serializable", isInterface: true },
+        { name: "java.lang.CharSequence", isInterface: true },
         {
             name: "java.lang.String", extends: "java.lang.Object", implements: [
                 "java.io.Serializable", "java.lang.CharSequence", "java.lang.Comparable",
@@ -78,18 +81,17 @@ export class JavaPackageSource extends PackageSource {
         { name: "java.io.AutoCloseable", isInterface: true },
         { name: "java.io.Flushable", isInterface: true },
 
-        { name: "java.io.Serializable", isInterface: true },
         { name: "java.io.File", extends: "java.lang.Object" },
-        { name: "java.io.InputStream", extends: "java.lang.Object", implements: ["java.io.Closable"] },
+        { name: "java.io.InputStream", extends: "java.lang.Object", implements: ["java.io.Closeable"] },
         {
             name: "java.io.OutputStream", extends: "java.lang.Object",
-            implements: ["java.io.Closable", "java.io.AutoClosable", "java.io.Flushable"],
+            implements: ["java.io.Closeable", "java.io.AutoCloseable", "java.io.Flushable"],
         },
-        { name: "java.io.FileInputStream", extends: "java.io.InputStream", implements: ["AutoCloseable"] },
+        { name: "java.io.FileInputStream", extends: "java.io.InputStream", implements: ["java.io.AutoCloseable"] },
         { name: "java.io.FileOutputStream", extends: "java.io.OutputStream" },
         { name: "java.io.FilterOutputStream", extends: "java.io.OutputStream" },
-        { name: "java.io.BufferedOutputStream", extends: "java.io.FilteredOutputStream" },
-        { name: "java.io.PrintStream", extends: "java.io.FilteredOutputStream" },
+        { name: "java.io.BufferedOutputStream", extends: "java.io.FilterOutputStream" },
+        { name: "java.io.PrintStream", extends: "java.io.FilterOutputStream" },
         {
             name: "java.io.Reader", extends: "java.lang.Object",
             implements: ["java.lang.Readable", "java.io.Closeable", "java.io.AutoCloseable"],
@@ -109,10 +111,10 @@ export class JavaPackageSource extends PackageSource {
         { name: "java.io.FileWriter", extends: "java.io.OutputStreamWriter" },
 
         { name: "java.io.IOException", extends: "java.lang.Exception" },
-        { name: "java.io.FileNotFoundException", extends: "java.lang.IOException" },
-        { name: "java.io.UnsupportedEncodingException", extends: "java.lang.IOException" },
-        { name: "java.io.ObjectStreamException", extends: "java.lang.IOException" },
-        { name: "java.io.InvalidClassException", extends: "java.lang.ObjectStreamException" },
+        { name: "java.io.FileNotFoundException", extends: "java.io.IOException" },
+        { name: "java.io.UnsupportedEncodingException", extends: "java.io.IOException" },
+        { name: "java.io.ObjectStreamException", extends: "java.io.IOException" },
+        { name: "java.io.InvalidClassException", extends: "java.io.ObjectStreamException" },
 
         { name: "java.nio.Buffer", extends: "java.lang.Object" },
         { name: "java.nio.CharBuffer", extends: "java.nio.Buffer" },
@@ -149,12 +151,13 @@ export class JavaPackageSource extends PackageSource {
             name: "java.util.BitSet", extends: "java.lang.Object",
             implements: ["java.io.Serializable", "java.lang.Cloneable"],
         },
-        { name: "java.util.Properties", extends: "java.lang.Map" },
+        { name: "java.util.Properties", extends: "java.util.Map" },
         { name: "java.util.Objects", extends: "java.lang.Object" },
         { name: "java.util.HashMap", extends: "java.lang.Object", implements: ["java.util.Map"] },
         { name: "java.util.HashSet", extends: "java.lang.Object", implements: ["java.util.Set"] },
-        { name: "java.util.LinkedHashMap", extends: "java.lang.HashMap" },
+        { name: "java.util.LinkedHashMap", extends: "java.util.HashMap" },
         { name: "java.util.IdentityHashMap", extends: "java.lang.Object", implements: ["java.util.Map"] },
+        { name: "java.util.WeakHashMap", extends: "java.lang.Object", implements: ["java.util.Map"] },
         { name: "java.util.Stack", extends: "java.lang.Object" },
         { name: "java.util.Comparator", isInterface: true },
         { name: "java.util.Iterator", isInterface: true },
@@ -168,6 +171,14 @@ export class JavaPackageSource extends PackageSource {
         { name: "java.util.regex.Matcher", extends: "java.lang.Object", implements: ["java.util.regex.MatchResult"] },
 
         { name: "java.util.concurrent.CancellationException", extends: "java.lang.IllegalStateException" },
+        {
+            name: "java.util.concurrent.CopyOnWriteArrayList", extends: "java.lang.Object", methods: [
+                "add", "addAll", "addAllAbsent", "addIfAbsent", "clear", "clone", "contains", "containsAll", "equals",
+                "forEach", "get", "hashCode", "indexOf", "isEmpty", "iterator", "lastIndexOf", "listIterator",
+                "remove", "removeAll", "removeIf", "replaceAll", "retainAll", "set", "size", "sort", "spliterator",
+                "subList", "toArray", "toString",
+            ],
+        },
     ];
 
     protected createSymbolTable(): SymbolTable {
@@ -187,14 +198,19 @@ export class JavaPackageSource extends PackageSource {
             const implementsList: Symbol[] = [];
 
             if (entry.extends) {
-                extendsList.push(symbolTable.symbolFromPath(entry.extends));
+                const symbol = symbolTable.symbolFromPath(entry.extends);
+                if (!symbol) {
+                    throw new Error(`Cannot find class: ${entry.extends}`);
+                }
+                extendsList.push(symbol);
             }
 
             entry.implements?.forEach((name) => {
                 const symbol = symbolTable.symbolFromPath(name);
-                if (symbol) {
-                    implementsList.push(symbol);
+                if (!symbol) {
+                    throw new Error(`Cannot find interface: ${name}`);
                 }
+                implementsList.push(symbol);
             });
 
             const parts = entry.name.split(".");

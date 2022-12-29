@@ -18,7 +18,7 @@ export abstract class Collections extends JavaObject {
     public static readonly EMPTY_MAP = new HashMap();
     public static readonly EMPTY_SET = new HashSet();
 
-    public static unmodifiableMap<T extends Map<unknown, unknown>>(map: T): Readonly<T> {
+    public static unmodifiableMap<K, V>(map: java.util.Map<K, V>): Readonly<java.util.Map<K, V>> {
         return map;
     }
 
@@ -41,7 +41,7 @@ export abstract class Collections extends JavaObject {
     public static sort<T>(list: java.util.List<T>, c: java.util.Comparator<T>): java.util.List<T> {
         const array = list.toArray();
         array.sort((a, b) => {
-            return c.compare(a, b);
+            return c.compare!(a, b);
         });
 
         return new java.util.ArrayList<T>(array);
@@ -49,7 +49,7 @@ export abstract class Collections extends JavaObject {
 
     public static max<T1 extends java.lang.Comparable<T1>>(coll: java.util.Collection<T1>): T1 | null;
     public static max<T2>(coll: java.util.Collection<T2>, comp: java.util.Comparator<T2>): T2 | null;
-    public static max<T1 extends java.lang.Object & java.lang.Comparable<T1>, T2>(
+    public static max<T1 extends java.lang.Comparable<T1>, T2>(
         coll: java.util.Collection<T1> | java.util.Collection<T2>, comp?: java.util.Comparator<T2>): T1 | T2 | null {
         if (comp) {
             let result: T2 | null = null;
@@ -60,7 +60,7 @@ export abstract class Collections extends JavaObject {
                     continue;
                 }
 
-                const comparison = comp.compare(result, current);
+                const comparison = comp.compare!(result, current);
                 if (comparison < 0) {
                     result = current;
                 }
@@ -99,7 +99,7 @@ export abstract class Collections extends JavaObject {
                     continue;
                 }
 
-                const comparison = comp.compare(result, current);
+                const comparison = comp.compare!(result, current);
                 if (comparison > 0) {
                     result = current;
                 }

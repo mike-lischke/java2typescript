@@ -783,7 +783,11 @@ export class BitSet extends JavaObject implements java.io.Serializable, java.lan
         return new BitSetIterator(this.data);
     }
 
-    // Overrides formatting for nodejs assert etc.
+    /**
+     * Overrides formatting for nodejs assert etc.
+     *
+     * @returns A text description of this set.
+     */
     public [util.inspect.custom](): string {
         return "BitSet " + this.toString();
     }

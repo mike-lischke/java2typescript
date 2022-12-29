@@ -17,7 +17,7 @@ export class Long extends JavaObject implements java.io.Serializable, java.lang.
     public static readonly MAX_VALUE = 0x7FFFFFFFFFFFFFFFn;
     public static readonly MIN_VALUE = -0x8000000000000000n;
     public static readonly SIZE = 64;
-    public static readonly TYPE: java.lang.Class;
+    public static readonly TYPE: java.lang.Class<Long>;
 
     private value: bigint;
 
@@ -117,8 +117,8 @@ export class Long extends JavaObject implements java.io.Serializable, java.lang.
      *
      * @returns The system property as Integer or the default value as Long.
      */
-    public static getLong(nm?: string, val?: number): Long | null {
-        const p = nm && nm.length > 0 ? java.lang.System.getProperty(nm) : undefined;
+    public static getLong(nm?: java.lang.String, val?: number): Long | null {
+        const p = nm && nm.length() > 0 ? java.lang.System.getProperty(nm) : undefined;
         if (!p) {
             if (val === undefined) {
                 return null;

@@ -89,7 +89,7 @@ export class BufferedWriter extends Writer {
      * @throws  IOException  If an I/O error occurs
      */
     public write(buffer: Uint16Array, offset: number, length: number): void;
-    public write(s: string): void;
+    public write(s: java.lang.String): void;
     /**
      * Writes a portion of a String.
      *
@@ -104,8 +104,9 @@ export class BufferedWriter extends Writer {
      *
      * @throws  IOException  If an I/O error occurs
      */
-    public write(s: string, offset: number, length: number): void;
-    public write(cOrBufferOrS: java.lang.char | Uint16Array | string, offset?: number, length?: number): void {
+    public write(s: java.lang.String, offset: number, length: number): void;
+    public write(cOrBufferOrS: java.lang.char | Uint16Array | java.lang.String, offset?: number,
+        length?: number): void {
         this.ensureOpen();
         if (typeof cOrBufferOrS === "number") {
             if (this.nextChar >= this.nChars) {
@@ -114,15 +115,15 @@ export class BufferedWriter extends Writer {
             this.cb[this.nextChar++] = cOrBufferOrS;
         } else {
             offset ??= 0;
-            length ??= cOrBufferOrS.length;
-
-            if ((offset < 0) || (length < 0) || (offset + length > cOrBufferOrS.length)) {
-                throw new java.lang.IndexOutOfBoundsException();
-            } else if (length === 0) {
-                return;
-            }
-
             if (cOrBufferOrS instanceof Uint16Array) {
+                length ??= cOrBufferOrS.length;
+
+                if ((offset < 0) || (length < 0) || (offset + length > cOrBufferOrS.length)) {
+                    throw new java.lang.IndexOutOfBoundsException();
+                } else if (length === 0) {
+                    return;
+                }
+
                 if (length >= this.nChars) {
                     /* If the request length exceeds the size of the output buffer,
                        flush the buffer and then write the data directly.  In this
@@ -145,12 +146,20 @@ export class BufferedWriter extends Writer {
                     }
                 }
             } else {
+                length ??= cOrBufferOrS.length();
+
+                if ((offset < 0) || (length < 0) || (offset + length > cOrBufferOrS.length())) {
+                    throw new java.lang.IndexOutOfBoundsException();
+                } else if (length === 0) {
+                    return;
+                }
+
                 let b = offset;
                 const t = offset + length;
                 while (b < t) {
                     const d = Math.min(this.nChars - this.nextChar, t - b);
                     for (let i = 0; i < d; ++i) {
-                        this.cb[this.nextChar++] = cOrBufferOrS.charCodeAt(i + b);
+                        this.cb[this.nextChar++] = cOrBufferOrS.charAt(i + b);
                     }
 
                     b += d;
@@ -172,7 +181,7 @@ export class BufferedWriter extends Writer {
             start ??= 0;
             end ??= cOrCsq.length();
 
-            this.write(`${cOrCsq.subSequence(start, end).toString()}`);
+            this.write(S`${cOrCsq.subSequence(start, end).toString()}`);
         }
 
         return this;

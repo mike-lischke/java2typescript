@@ -45,6 +45,7 @@ import { ConverterOptionsPrefixFunc, IClassResolver, IConverterConfiguration } f
 import { EnumSymbol, JavaInterfaceSymbol } from "../parsing/JavaParseTreeWalker";
 import { PackageSourceManager } from "../PackageSourceManager";
 import { EnhancedTypeKind, ISymbolInfo } from "./types";
+import { S } from "../lib/templates";
 
 enum ModifierType {
     None,
@@ -156,6 +157,9 @@ interface IMethodReplaceEntry {
         removeDot?: boolean;
     };
 }
+
+/** Allows to specify additional parameters for constructors. Needed for manual enum construction. */
+type ExtraParameters = Array<{ name: string; type: string; }>;
 
 /** Converts the given Java file to Typescript. */
 export class FileProcessor {
@@ -412,7 +416,8 @@ export class FileProcessor {
                 this.processClassDeclaration(builder, context.classDeclaration(), prefix,
                     `${modifierBuilder.toString()}`);
             } else if (context.enumDeclaration()) {
-                this.processEnumDeclaration(builder, context.enumDeclaration(), prefix);
+                this.processEnumDeclaration(builder, context.enumDeclaration(), prefix,
+                    `${modifierBuilder.toString()}`);
             } else if (context.interfaceDeclaration()) {
                 this.processInterfaceDeclaration(builder, context.interfaceDeclaration(), prefix, doExport);
             } else { // annotationTypeDeclaration
@@ -494,7 +499,7 @@ export class FileProcessor {
     };
 
     private processClassDeclaration = (builder: java.lang.StringBuilder, context: ClassDeclarationContext | undefined,
-        prefix: string, modifier: string): void => {
+        prefix: string, modifier: string, extraCtorParams?: ExtraParameters): void => {
         if (!context) {
             return;
         }
@@ -555,7 +560,7 @@ export class FileProcessor {
             }
         }
 
-        const mustBeAbstract = this.processClassBody(localBuilder, context.classBody())
+        const mustBeAbstract = this.processClassBody(localBuilder, context.classBody(), extraCtorParams)
             || modifier.includes("abstract");
 
         // Conclude nested content within this class declaration.
@@ -600,20 +605,22 @@ export class FileProcessor {
         this.typeStack.tos?.deferredDeclarations.append(nested);
     };
 
-    private processClassBody = (builder: java.lang.StringBuilder, context?: ClassBodyContext): boolean => {
+    private processClassBody = (builder: java.lang.StringBuilder, context?: ClassBodyContext,
+        extraCtorParams?: ExtraParameters): boolean => {
         if (!context) {
             return false;
         }
 
         this.getContent(builder, context.LBRACE());
-        const containsAbstract = this.processClassBodyDeclarations(builder, context.classBodyDeclaration());
+        const containsAbstract = this.processClassBodyDeclarations(builder,
+            context.classBodyDeclaration(), extraCtorParams);
         this.getContent(builder, context.RBRACE());
 
         return containsAbstract;
     };
 
     private processClassBodyDeclarations = (builder: java.lang.StringBuilder,
-        list: ClassBodyDeclarationContext[]): boolean => {
+        list: ClassBodyDeclarationContext[], extraCtorParams?: ExtraParameters): boolean => {
         const members: IClassMemberDetails[] = [];
         let containsAbstract = false;
 
@@ -695,7 +702,7 @@ export class FileProcessor {
 
                 if (context.memberDeclaration()) {
                     const details = this.processMemberDeclaration(context.memberDeclaration(), ws,
-                        `${modifierBuilder.toString()}`);
+                        `${modifierBuilder.toString()}`, extraCtorParams);
 
                     if (details && details.bodyContent.length() > 0) {
                         // The content is empty if the member was converted to a (nested) namespace
@@ -737,7 +744,7 @@ export class FileProcessor {
     };
 
     private processMemberDeclaration = (context: MemberDeclarationContext | undefined, prefix: string,
-        modifier: string): IClassMemberDetails | undefined => {
+        modifier: string, extraCtorParams?: ExtraParameters): IClassMemberDetails | undefined => {
         if (!context) {
             return;
         }
@@ -773,13 +780,14 @@ export class FileProcessor {
             }
 
             case JavaParser.RULE_constructorDeclaration: {
-                this.processConstructorDeclaration(result, context.constructorDeclaration());
+                this.processConstructorDeclaration(result, extraCtorParams, context.constructorDeclaration());
 
                 break;
             }
 
             case JavaParser.RULE_genericConstructorDeclaration: {
-                this.processGenericConstructorDeclaration(result, context.genericConstructorDeclaration());
+                this.processGenericConstructorDeclaration(result, extraCtorParams,
+                    context.genericConstructorDeclaration());
 
                 break;
             }
@@ -808,7 +816,7 @@ export class FileProcessor {
 
             case JavaParser.RULE_enumDeclaration: {
                 result.type = MemberType.Enum;
-                this.processEnumDeclaration(result.bodyContent, context.enumDeclaration(), prefix);
+                this.processEnumDeclaration(result.bodyContent, context.enumDeclaration(), prefix, modifier);
 
                 break;
             }
@@ -1020,7 +1028,7 @@ export class FileProcessor {
         this.getContent(details.bodyContent, context.SEMI());
     };
 
-    private processConstructorDeclaration = (details: IClassMemberDetails,
+    private processConstructorDeclaration = (details: IClassMemberDetails, extraCtorParams?: ExtraParameters,
         context?: ConstructorDeclarationContext): void => {
 
         if (!context) {
@@ -1069,10 +1077,35 @@ export class FileProcessor {
             }
         }
 
-        this.processBlock(details.bodyContent, context.block(), needSuperCall ? "super();\n" : undefined);
+        let superCall = needSuperCall ? "super();\n" : undefined;
+
+        // If extra constructor parameters are given add them to the signature content (no need to update
+        // the signature, however) and to the generated super call.
+        if (extraCtorParams) {
+            const list = extraCtorParams.map((entry) => {
+                return `${entry.name}: ${entry.type}`;
+            });
+
+            const length = details.signatureContent.length();
+            details.signatureContent.delete(length - 1, length);
+            details.signatureContent.append(", ");
+            details.signatureContent.append(list.join(", "));
+            details.signatureContent.append(")");
+
+            if (needSuperCall) {
+                // Should always be true for an enum constructor.
+                const params = extraCtorParams.map((entry) => {
+                    return entry.name;
+                });
+
+                superCall = `super(${params.join(", ")});\n`;
+            }
+        }
+
+        this.processBlock(details.bodyContent, context.block(), superCall);
     };
 
-    private processGenericConstructorDeclaration = (details: IClassMemberDetails,
+    private processGenericConstructorDeclaration = (details: IClassMemberDetails, extraCtorParams?: ExtraParameters,
         context?: GenericConstructorDeclarationContext): void => {
 
         if (!context) {
@@ -1081,7 +1114,7 @@ export class FileProcessor {
 
         // Constructors cannot have type parameters.
         this.getContent(details.bodyContent, context.typeParameters(), true);
-        this.processConstructorDeclaration(details, context.constructorDeclaration());
+        this.processConstructorDeclaration(details, extraCtorParams, context.constructorDeclaration());
     };
 
     private processTypeParameters = (builder: java.lang.StringBuilder, context?: TypeParametersContext): void => {
@@ -1335,7 +1368,8 @@ export class FileProcessor {
             }
 
             case JavaParser.RULE_enumDeclaration: {
-                this.processEnumDeclaration(result.bodyContent, firstChild as EnumDeclarationContext, prefix);
+                this.processEnumDeclaration(result.bodyContent, firstChild as EnumDeclarationContext, prefix,
+                    modifier);
 
                 break;
             }
@@ -1459,22 +1493,89 @@ export class FileProcessor {
     };
 
     private processEnumDeclaration = (builder: java.lang.StringBuilder, context: EnumDeclarationContext | undefined,
-        prefix: string): void => {
+        prefix: string, modifier: string): void => {
         if (!context) {
             return;
         }
 
-        // Enum declarations always must be moved to an outer namespace.
-        const localBuilder = new java.lang.StringBuilder(prefix);
+        // Enums in Java are essentially classes with some extra (implicit) handling.
+        // We convert them to TS classes and explicitly add what Java does internally.
+        this.typeStack.push({
+            name: context.identifier().text,
+            deferredDeclarations: new java.lang.StringBuilder(),
+            generatedMembers: [],
+        });
+
+        const localBuilder = new java.lang.StringBuilder();
+
+        localBuilder.append(this.getLeadingWhiteSpaces(context.ENUM()));
+        this.ignoreContent(context.ENUM());
+        localBuilder.append("class ");
         this.getContent(localBuilder, context.identifier());
-        this.getRangeCommented(localBuilder, context.IMPLEMENTS(), context.typeList());
+        localBuilder.append(S` extends Enum<${context.identifier().text}>`); // Implicit extension in Java.
+        this.libraryImports.set("java/lang/Enum", ["Enum"]);
+
+        if (context.IMPLEMENTS()) {
+            this.getContent(localBuilder, context.IMPLEMENTS());
+            this.processTypeList(localBuilder, context.typeList());
+        }
+
         this.getContent(localBuilder, context.LBRACE());
         this.processEnumConstants(localBuilder, context.enumConstants());
         this.getContent(localBuilder, context.COMMA());
-        this.getContent(localBuilder, context.enumBodyDeclarations(), true);
+
+        const declarations = context.enumBodyDeclarations();
+        if (declarations) {
+            this.getContent(localBuilder, declarations.SEMI());
+
+            // We have to add two enum specific parameters to the explicit constructor of an enum type, but
+            // only if there's one. Additionally, we assume there's only a single constructor, no overloads.
+            const extraParameters: ExtraParameters = [
+                { name: "$name$", type: "java.lang.String" },
+                { name: "$index$", type: "number" },
+            ];
+            this.processClassBodyDeclarations(localBuilder, declarations.classBodyDeclaration(), extraParameters);
+        }
 
         this.getContent(localBuilder, context.RBRACE());
-        this.typeStack.tos?.deferredDeclarations.append(localBuilder);
+
+        // Conclude nested content within this class declaration.
+        const nested = this.processNestedContent(modifier.includes("export"));
+
+        // Check if this enum itself is nested.
+        if (this.typeStack.length > 1) {
+            const className = context.identifier().text;
+
+            // This is a nested enum declaration.
+            // Convert it either to a class expression or a class factory function.
+            if (modifier.includes("static")) {
+                builder.append(`${prefix}${modifier} ${className} = ${localBuilder.toString()};\n`);
+            } else {
+                builder.append(`${prefix}${modifier} ${className} = (($outer) => ` +
+                    `{\nreturn ${localBuilder.toString()}`);
+                builder.append(`\n})(this);\n`);
+            }
+
+            const owner = this.typeStack.tos;
+
+            // Add a type declaration for the nested class, so it can be used as a type.
+            const typeOfText = modifier.includes("static") ? "typeof " : "";
+
+            // Add a comment to suppress Typescript's error for non-public nested types, if necessary.
+            let suppression = "";
+            if (!modifier.includes("public")) {
+                suppression = "\t// @ts-expect-error, because of protected inner enum.\n";
+            }
+
+            this.typeStack.tos?.deferredDeclarations.append(`${suppression}\texport type ${className}` +
+                ` = InstanceType<${typeOfText}${owner!.name!}.${className}>;\n`);
+        } else {
+            // A top level enum declaration.
+            builder.append(`${prefix}`);
+            builder.append(localBuilder);
+        }
+
+        this.typeStack.tos?.deferredDeclarations.append(nested);
     };
 
     private processEnumConstants = (builder: java.lang.StringBuilder, context?: EnumConstantsContext): void => {
@@ -1482,40 +1583,55 @@ export class FileProcessor {
             return;
         }
 
+        const commas = context.COMMA();
         context.enumConstant().forEach((constant, index) => {
-            if (index > 0) {
-                this.getContent(builder, context.COMMA(index - 1));
+            this.processEnumConstant(builder, constant, index);
+            if (index < commas.length) {
+                // Replace comma with semicolon on all but the last entry.
+                builder.append(this.getLeadingWhiteSpaces(commas[index]));
+                this.ignoreContent(commas[index]);
+                builder.append(";");
             }
-
-            this.processEnumConstant(builder, constant);
         });
-
     };
 
-    private processEnumConstant = (builder: java.lang.StringBuilder, context: EnumConstantContext): void => {
-        if (context.classBody()) {
-            // An enum method -> unsupported.
-            this.getContent(builder, context, true);
-        } else {
-            const list = context.annotation();
-            if (list.length > 0) {
-                this.getRangeCommented(builder, list[0], list[list.length - 1]);
-            }
-
-            this.getContent(builder, context.identifier());
-
-            const args = context.arguments();
-            if (args) {
-                // The Java way of defining explicit values. Can use only one of them per entry, though.
-                const count = args.expressionList()?.expression().length ?? 0;
-                if (count === 1) {
-                    builder.append(" = ");
-                    this.processExpression(builder, args.expressionList()?.expression(0));
-                } else {
-                    this.getContent(builder, context.arguments(), true);
-                }
-            }
+    private processEnumConstant = (builder: java.lang.StringBuilder, context: EnumConstantContext,
+        index: number): void => {
+        const list = context.annotation();
+        if (list.length > 0) {
+            this.getRangeCommented(builder, list[0], list[list.length - 1]);
         }
+
+        builder.append(this.getLeadingWhiteSpaces(context.identifier()));
+        builder.append(S`public static readonly `);
+
+        this.getContent(builder, context.identifier());
+
+        const owner = this.typeStack.tos;
+        const ownerName = owner?.name ?? "<unknown>";
+        const enumName = context.identifier().text;
+        builder.append(`: ${ownerName} = `);
+
+        builder.append(`new class extends ${ownerName} `);
+        const argumentsBuilder = new java.lang.StringBuilder();
+        this.processArguments(argumentsBuilder, context.arguments());
+
+        if (context.classBody()) {
+            this.processClassBody(builder, context.classBody());
+        } else {
+            builder.append("{\n}");
+        }
+
+        if (argumentsBuilder.length() > 0) {
+            builder.append(argumentsBuilder);
+            builder.setCharAt(builder.length() - 1, 0x2C); // Replace the closing par with a comma.
+        } else {
+            builder.append("(");
+        }
+
+        // Finally add the initializer code to set the right name + ordinal for this field.
+        builder.append(`S\`${enumName}\`, ${index})`);
+        this.libraryImports.set("templates", ["S"]);
     };
 
     private processBlock = (builder: java.lang.StringBuilder, context?: BlockContext, extra?: string): void => {
@@ -3309,7 +3425,7 @@ export class FileProcessor {
             if (member.type === MemberType.Initializer) {
                 // If there's still instance initializer code in the list then it means we have no explicit constructor
                 // declaration. So, add one here.
-                builder.append(`\npublic constructor() {\n\tsuper();\n"${member.bodyContent.toString()}\n}`);
+                builder.append(`\npublic constructor() {\n\tsuper();\n${member.bodyContent.toString()}\n}`);
             } else {
                 builder.append(member.leadingWhitespace);
                 builder.append(member.modifier);
@@ -3327,8 +3443,10 @@ export class FileProcessor {
 
         // Certain methods cannot be overloaded. Static and non-static cannot be mixed and
         // abstract methods are not changed, as they have no body.
+        const isStatic = member.modifier.includes("static");
         const overloads = members.filter((candidate) => {
-            return candidate.name === name && !candidate.modifier.includes("abstract");
+            return candidate.name === name && !candidate.modifier.includes("abstract")
+                && isStatic === candidate.modifier.includes("static");
         });
 
         if (overloads.length > 0) {

@@ -9,8 +9,9 @@ import { java } from "../java";
 import { HashMap } from "./HashMap";
 
 import { NotImplementedError } from "../../NotImplementedError";
+import { S } from "../../templates";
 
-export class Properties extends HashMap<string, string> {
+export class Properties extends HashMap<java.lang.String, java.lang.String> {
     public constructor(private defaults?: Properties) {
         super();
     }
@@ -23,9 +24,9 @@ export class Properties extends HashMap<string, string> {
      *
      * @returns the found value or the default value.
      */
-    public getProperty(key: string): string | undefined;
-    public getProperty(key: string, defaultValue: string): string;
-    public getProperty(key: string, defaultValue?: string): string | undefined {
+    public getProperty(key: java.lang.String): java.lang.String | null;
+    public getProperty(key: java.lang.String, defaultValue: java.lang.String): java.lang.String;
+    public getProperty(key: java.lang.String, defaultValue?: java.lang.String): java.lang.String | null {
         let result = this.get(key);
         if (!result && this.defaults) {
             result = this.defaults.get(key);
@@ -35,7 +36,7 @@ export class Properties extends HashMap<string, string> {
             return defaultValue;
         }
 
-        return result ?? undefined;
+        return result;
     }
 
     /**
@@ -171,7 +172,7 @@ export class Properties extends HashMap<string, string> {
 
             if (text.charAt(run++) === "\n") {
                 // Found a line break, which ends the entire key/value pair (with an empty value).
-                this.put(currentKey, currentValue);
+                this.put(S`${currentKey}`, S`${currentValue}`);
             } else {
                 // From here everything until an unescaped line break belongs to the value.
                 while (run < text.length) {
@@ -192,7 +193,7 @@ export class Properties extends HashMap<string, string> {
                     }
                 }
 
-                this.put(currentKey, currentValue);
+                this.put(S`${currentKey}`, S`${currentValue}`);
             }
 
             start = run;
@@ -213,7 +214,7 @@ export class Properties extends HashMap<string, string> {
      * @returns an enumeration of all the keys in this property list, including distinct keys in the default property
      * list if a key of the same name has not already been found from the main properties list.
      */
-    public propertyNames(): java.util.Iterator<string> {
+    public propertyNames(): java.util.Iterator<java.lang.String> {
         return this.keySet().iterator();
     }
 
@@ -232,8 +233,8 @@ export class Properties extends HashMap<string, string> {
      *
      * @returns The previous value that was set at the given key.
      */
-    public setProperty(key: string, value: string): string | undefined {
-        return this.put(key, value) ?? undefined;
+    public setProperty(key: java.lang.String, value: java.lang.String): java.lang.String | null {
+        return this.put(key, value);
     }
 
     /**
@@ -243,38 +244,38 @@ export class Properties extends HashMap<string, string> {
      * @param out The stream to write to.
      * @param comments Comments to write as first to the output stream.
      */
-    public store(out: java.io.OutputStream | java.io.Writer, comments?: string): void {
-        const lineSeparator = java.lang.System.lineSeparator();
+    public store(out: java.io.OutputStream | java.io.Writer, comments?: java.lang.String): void {
+        const lineSeparator = java.lang.System.lineSeparator().valueOf();
 
         if (comments) {
             // Convert all kinds of line breaks to the system line separator and make sure every line
             // starts with either # or !.
-            const parts = comments.split(/(\n|\r\n?)/);
+            const parts = comments.valueOf().split(/(\n|\r\n?)/);
             for (let i = 0; i < parts.length; ++i) {
                 if (parts[i].length === 0 || parts[i] !== "!" || parts[i] !== "#") {
                     parts[i] = "#" + parts[i];
                 }
             }
 
-            this.writeString(out, `# ${parts.join(lineSeparator)}${lineSeparator}`);
+            this.writeString(out, S`# ${parts.join(lineSeparator)}${lineSeparator}`);
         }
 
-        this.writeString(out, `# ${new Date().toISOString()}${lineSeparator}`);
+        this.writeString(out, S`# ${new Date().toISOString()}${lineSeparator}`);
 
         for (const entry of this) {
             // Escape all space characters and some other special characters in the key string.
-            let key = entry[0].replaceAll(/ /g, "\\ ");
+            let key = entry[0].valueOf().replaceAll(/ /g, "\\ ");
             key = key.replaceAll(/[#!=]/g, "\\$&");
 
             // Escape only leading space characters and the same special characters in the value string.
-            const value = entry[1];
+            const value = entry[1].valueOf();
             let trimmed = value.trimStart();
             if (value.length !== trimmed.length) {
                 trimmed = "\\ ".repeat(value.length - trimmed.length) + trimmed;
             }
             trimmed = trimmed.replaceAll(/[#!=]/g, "\\$&");
 
-            this.writeString(out, `${key}=${trimmed}${lineSeparator}`);
+            this.writeString(out, S`${key}=${trimmed}${lineSeparator}`);
         }
 
         out.flush();
@@ -287,7 +288,7 @@ export class Properties extends HashMap<string, string> {
      * @param _comment tbd
      * @param _encoding tbd
      */
-    public storeToXML(_os: java.io.OutputStream, _comment: string, _encoding?: string): void {
+    public storeToXML(_os: java.io.OutputStream, _comment: java.lang.String, _encoding?: java.lang.String): void {
         throw new NotImplementedError();
     }
 
@@ -296,21 +297,17 @@ export class Properties extends HashMap<string, string> {
      * distinct keys in the default property list if a key of the same name has not already been found from the main
      * properties list.
      */
-    public stringPropertyNames(): java.util.Set<string> {
-        const result = new java.util.HashSet<string>(this.size());
+    public stringPropertyNames(): java.util.Set<java.lang.String> {
+        const result = new java.util.HashSet<java.lang.String>(this.size());
 
         if (this.defaults) {
-            for (const [key, value] of this.defaults) {
-                if (typeof key === "string" && typeof value === "string") {
-                    result.add(key);
-                }
+            for (const [key] of this.defaults) {
+                result.add(key);
             }
         }
 
-        for (const [key, value] of this) {
-            if (typeof key === "string" && typeof value === "string") {
-                result.add(key);
-            }
+        for (const [key] of this) {
+            result.add(key);
         }
 
         return result;
@@ -324,11 +321,11 @@ export class Properties extends HashMap<string, string> {
      * @param out The target channel to write.
      * @param text The text to write.
      */
-    private writeString(out: java.io.OutputStream | java.io.Writer, text: string) {
+    private writeString(out: java.io.OutputStream | java.io.Writer, text: java.lang.String) {
         if (out instanceof java.io.OutputStream) {
-            const buffer = new Uint8Array(text.length * 6); // Maximum possible target length.
+            const buffer = new Uint8Array(text.length() * 6); // Maximum possible target length.
             let offset = 0;
-            for (const c of text) {
+            for (const c of text.valueOf()) {
                 const codePoint = c.codePointAt(0)!;
                 if (codePoint < 0x20 || codePoint > 0x7E) {
                     buffer.set([0x5C, 0x75]);

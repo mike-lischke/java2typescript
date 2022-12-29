@@ -10,6 +10,7 @@
 import printf from "printf";
 
 import { charCodesToString, codePointsToString } from ".";
+import { MurmurHash } from "../../MurmurHash";
 
 import { java } from "../java";
 import { JavaObject } from "./Object";
@@ -162,16 +163,52 @@ export class String extends JavaObject
         return this.value.codePointAt(index) ?? NaN;
     }
 
+    public hashCode(): number {
+        return MurmurHash.hashCode(this.value, 17);
+    }
+
+    public isEmpty(): boolean {
+        return this.value.length === 0;
+    }
+
     public length(): number {
         return this.value.length;
+    }
+
+    public replace(target: java.lang.CharSequence, replacement: java.lang.CharSequence): java.lang.String;
+    public replace(oldChar: java.lang.char, newChar: java.lang.char): java.lang.String;
+    public replace(targetOrOldChar: java.lang.CharSequence | java.lang.char,
+        replacementOrNewChar: java.lang.CharSequence | java.lang.char): java.lang.String {
+        let searchValue;
+        let replacement;
+        if (typeof targetOrOldChar === "number") {
+            searchValue = window.String.fromCharCode(targetOrOldChar);
+            replacement = window.String.fromCharCode(replacementOrNewChar as number);
+        } else {
+            searchValue = targetOrOldChar.toString().valueOf();
+            replacement = replacementOrNewChar.toString().valueOf();
+        }
+
+        if (this.value.includes(searchValue)) {
+            const s = this.value.replaceAll(searchValue, replacement);
+
+            return new java.lang.String(s);
+        }
+
+        return this;
     }
 
     public subSequence(start: number, end: number): java.lang.CharSequence {
         return new java.lang.String(this.value.substring(start, end));
     }
 
-    public toString(): String {
-        return this;
+    public toCharArray(): Uint16Array {
+        const result = new Uint16Array(this.value.length);
+        for (let i = 0; i < this.value.length; ++i) {
+            result[i] = this.value.charCodeAt(i);
+        }
+
+        return result;
     }
 
     /**
@@ -184,7 +221,15 @@ export class String extends JavaObject
     }
 
     public compareTo(o: String): number {
-        return this.value.localeCompare(o.value);
+        return this.value.localeCompare(o.value, undefined, { sensitivity: "accent" });
+    }
+
+    public compareToIgnoreCase(o: String): number {
+        return this.value.localeCompare(o.value, undefined, { sensitivity: "case" });
+    }
+
+    public toString(): String {
+        return this;
     }
 
     protected [Symbol.toPrimitive](_hint: string): string {

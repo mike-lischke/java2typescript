@@ -14,7 +14,7 @@ export class Boolean extends JavaObject implements java.io.Serializable, java.la
 
     public static readonly TRUE: Boolean;
     public static readonly FALSE: Boolean;
-    public static readonly TYPE: java.lang.Class;
+    public static readonly TYPE: java.lang.Class<Boolean>;
 
     private value = false;
 
@@ -89,10 +89,10 @@ export class Boolean extends JavaObject implements java.io.Serializable, java.la
      *
      * @param name tbd
      */
-    public static getBoolean(name: string): boolean {
+    public static getBoolean(name: java.lang.String): boolean {
         const value = java.lang.System.getProperty(name);
 
-        return value === "true";
+        return value?.valueOf() === "true";
     }
 
     /** @returns the value of this Boolean object as a boolean primitive. */

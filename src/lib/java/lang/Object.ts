@@ -18,7 +18,7 @@ export class JavaObject {
         this.#id = JavaObject.nextId++;
     }
 
-    public static get class(): java.lang.Class {
+    public static get class(): java.lang.Class<JavaObject> {
         return java.lang.Class.fromConstructor(this.constructor as typeof JavaObject);
     }
 
@@ -34,7 +34,7 @@ export class JavaObject {
     }
 
     /** @returns the runtime class of this JavaObject. */
-    public getClass(): java.lang.Class {
+    public getClass(): java.lang.Class<JavaObject> {
         return java.lang.Class.fromConstructor(this.constructor as typeof JavaObject);
     }
 
@@ -54,7 +54,7 @@ export class JavaObject {
     }
 
     /** @returns a string representation of the object. */
-    public toString(): java.lang.String {
+    public toString(): java.lang.String | null {
         return new java.lang.String(`${this.constructor.name}@${this.#id.toString(16)}`);
     }
 

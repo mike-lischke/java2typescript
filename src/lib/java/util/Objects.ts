@@ -25,7 +25,7 @@ export class Objects extends JavaObject {
             return 0;
         }
 
-        return c.compare(a, b);
+        return c.compare!(a, b);
     }
 
     /**
@@ -128,11 +128,11 @@ export class Objects extends JavaObject {
      * @param o tbd
      * @param nullDefault tbd
      */
-    public static toString(o: java.lang.Object | null, nullDefault?: java.lang.String): java.lang.String {
-        if (o === null) {
+    public static toString(o: unknown, nullDefault?: java.lang.String): java.lang.String {
+        if (o == null) { // Catch undefined here too.
             return nullDefault ?? S`null`;
         }
 
-        return o.toString();
+        return S`${o.toString()}`;
     }
 }

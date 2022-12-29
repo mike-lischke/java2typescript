@@ -23,7 +23,7 @@ export class FileReader extends InputStreamReader {
      *             reading.
      * @see        Charset#defaultCharset()
      */
-    public constructor(fileName: string);
+    public constructor(fileName: java.lang.String);
     /**
      * Creates a new {@code FileReader}, given the {@code File} to read,
      * using the {@link Charset#defaultCharset() default charset}.
@@ -55,7 +55,7 @@ export class FileReader extends InputStreamReader {
      *             or for some other reason cannot be opened for
      *             reading.
      */
-    public constructor(fileName: string, charset: java.nio.charset.Charset);
+    public constructor(fileName: java.lang.String, charset: java.nio.charset.Charset);
     /**
      * Creates a new {@code FileReader}, given the {@link java.io.File} to read and
      * the {@link java.nio.charset.Charset}.
@@ -68,9 +68,9 @@ export class FileReader extends InputStreamReader {
      *             reading.
      */
     public constructor(file: java.io.File, charset: java.nio.charset.Charset);
-    public constructor(fileNameOrFileOrFd: string | java.io.File | java.io.FileDescriptor,
+    public constructor(fileNameOrFileOrFd: java.lang.String | java.io.File | java.io.FileDescriptor,
         charset?: java.nio.charset.Charset) {
-        if (typeof fileNameOrFileOrFd === "string") {
+        if (fileNameOrFileOrFd instanceof java.lang.String) {
             super(new java.io.FileInputStream(fileNameOrFileOrFd), charset);
         } else if (fileNameOrFileOrFd instanceof java.io.File) {
             super(new java.io.FileInputStream(fileNameOrFileOrFd), charset);

@@ -141,9 +141,9 @@ export class Throwable extends JavaObject {
      */
     public printStackTrace(s?: java.io.PrintStream): void {
         if (!s) {
-            System.err.println(this.stack);
+            System.err.println(S`${this.stack}`);
         } else {
-            s.println(this.stack);
+            s.println(S`${this.stack}`);
         }
     }
 

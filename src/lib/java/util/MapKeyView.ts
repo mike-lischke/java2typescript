@@ -72,7 +72,14 @@ export class MapKeyView<K, V> extends JavaObject implements java.util.Set<K> {
     }
 
     public remove(o: K): boolean {
-        return this.sharedBackend.backend.remove(o) !== null;
+        const m = this.sharedBackend.backend.remove(o);
+        if (m !== this.sharedBackend.backend) {
+            this.sharedBackend.backend = m;
+
+            return true;
+        }
+
+        return false;
     }
 
     public removeAll(c: java.util.Collection<K>): boolean {

@@ -28,8 +28,8 @@ export class FileOutputStream extends OutputStream {
     public constructor(fdObj: java.io.FileDescriptor);
     /** Creates a file output stream to write to the file with the specified name. */
     // eslint-disable-next-line @typescript-eslint/unified-signatures
-    public constructor(name: string, append?: boolean);
-    public constructor(fileOrFdObjOrName: java.io.File | java.io.FileDescriptor | string, append?: boolean) {
+    public constructor(name: java.lang.String, append?: boolean);
+    public constructor(fileOrFdObjOrName: java.io.File | java.io.FileDescriptor | java.lang.String, append?: boolean) {
         super();
 
         try {
@@ -38,12 +38,13 @@ export class FileOutputStream extends OutputStream {
             } else {
                 this.path = fileOrFdObjOrName instanceof java.io.File
                     ? fileOrFdObjOrName.getAbsolutePath()
-                    : fileOrFdObjOrName;
+                    : fileOrFdObjOrName.valueOf();
                 this.fd = new java.io.FileDescriptor();
                 this.open(append ?? false);
             }
         } catch (error) {
-            throw new java.io.FileNotFoundException(S`Create open or create file`, java.lang.Throwable.fromError(error));
+            throw new java.io.FileNotFoundException(S`Create open or create file`,
+                java.lang.Throwable.fromError(error));
         }
     }
 

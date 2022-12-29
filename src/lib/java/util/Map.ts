@@ -50,7 +50,7 @@ export interface Map<K, V> {
     size(): number;
 
     /** Returns a Collection view of the values contained in this map. */
-    values(): Collection<V | null>;
+    values(): Collection<V>;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-namespace, no-redeclare

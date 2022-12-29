@@ -32,13 +32,12 @@ export class PrintStream extends FilterOutputStream {
     private encoding: BufferEncoding = "utf-8";
 
     /** Creates a new print stream, without automatic line flushing, with the specified file and charset. */
-    public constructor(file: java.io.File, csn?: string);
-    public constructor(out: java.io.OutputStream, autoFlush?: boolean, encoding?: string);
+    public constructor(file: java.io.File, csn?: java.lang.String);
+    public constructor(out: java.io.OutputStream, autoFlush?: boolean, encoding?: java.lang.String);
     // eslint-disable-next-line @typescript-eslint/unified-signatures
-    public constructor(fileName: string, csn?: string);
-    public constructor(fileOrOutOrFileName: java.io.File | java.io.OutputStream | string,
-        csnOrAutoFlush?: string | boolean,
-        encoding?: string) {
+    public constructor(fileName: java.lang.String, csn?: java.lang.String);
+    public constructor(fileOrOutOrFileName: java.io.File | java.io.OutputStream | java.lang.String,
+        csnOrAutoFlush?: java.lang.String | boolean, encoding?: java.lang.String) {
         if (fileOrOutOrFileName instanceof java.io.File) {
             /* @ts-expect-error, because the super call is not in the root block of the constructor. */
             super(new java.io.FileOutputStream(fileOrOutOrFileName));
@@ -53,7 +52,7 @@ export class PrintStream extends FilterOutputStream {
         } else if (encoding || csnOrAutoFlush) {
             let charset = encoding ?? csnOrAutoFlush ?? "utf-8";
 
-            charset = charset.toLowerCase();
+            charset = charset.valueOf().toLowerCase();
             if (!PrintStream.supportedEncodings.has(charset)) {
                 new java.lang.IllegalArgumentException(S`Invalid encoding specified: ${charset}`);
             }
@@ -66,13 +65,13 @@ export class PrintStream extends FilterOutputStream {
      * Appends the specified character ((sub) sequence) to this output stream.
      * Because the JS string type does not implement CharSequence, a separate signature only for a string is added.
      */
-    public append(c: java.lang.char | string | java.lang.CharSequence): PrintStream;
+    public append(c: java.lang.char | java.lang.String | java.lang.CharSequence): PrintStream;
     public append(csq: java.lang.CharSequence, start: number, end: number): PrintStream;
-    public append(cOrSOrCsq: java.lang.char | string | java.lang.CharSequence, start?: number,
+    public append(cOrSOrCsq: java.lang.char | java.lang.String | java.lang.CharSequence, start?: number,
         end?: number): PrintStream {
         let text: string;
-        if (typeof cOrSOrCsq === "string") {
-            text = cOrSOrCsq;
+        if (cOrSOrCsq instanceof java.lang.String) {
+            text = cOrSOrCsq.valueOf();
         } else if (typeof cOrSOrCsq === "number") {
             text = String.fromCodePoint(cOrSOrCsq);
         } else {
@@ -129,16 +128,16 @@ export class PrintStream extends FilterOutputStream {
         }
 
         const text = printf(`${args[index]}`, args.slice(index + 1));
-        this.append(text);
+        this.append(S`${text}`);
 
         return this;
     }
 
-    public print(v?: boolean | java.lang.char | number | object | string): void {
-        if (v === undefined) {
-            this.append("null");
+    public print(v: boolean | java.lang.char | number | java.lang.Object | java.lang.String | null): void {
+        if (v === null) {
+            this.append(S`null`);
         } else {
-            this.append(String(v));
+            this.append(S`${v}`);
         }
     }
 
@@ -156,9 +155,9 @@ export class PrintStream extends FilterOutputStream {
     }
 
     // Terminates the current line by writing the line separator string.
-    public println(v?: boolean | java.lang.char | number | object | string): void {
+    public println(v: boolean | java.lang.char | number | java.lang.Object | java.lang.String | null): void {
         this.print(v);
-        this.print(java.lang.System.getProperty("line.separator"));
+        this.print(java.lang.System.getProperty(S`line.separator`));
 
         if (this.autoFlush) {
             this.flush();

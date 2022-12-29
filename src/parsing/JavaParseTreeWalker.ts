@@ -9,7 +9,7 @@
 
 import {
     Symbol, BlockSymbol, FieldSymbol, MethodSymbol, ParameterSymbol, ScopedSymbol, SymbolTable, InterfaceSymbol,
-    Modifier, Type, TypeKind, ReferenceKind, VariableSymbol,
+    Modifier, Type, TypeKind, ReferenceKind, VariableSymbol, ClassSymbol,
 } from "antlr4-c3";
 
 import { ParserRuleContext } from "antlr4ts";
@@ -20,10 +20,8 @@ import {
     FormalParameterContext, ConstantDeclaratorContext, PackageDeclarationContext, ImportDeclarationContext,
     ConstructorDeclarationContext, ClassBodyDeclarationContext, TypeDeclarationContext, InterfaceBodyDeclarationContext,
     InterfaceMethodDeclarationContext, JavaParser, LocalVariableDeclarationContext, FieldDeclarationContext,
-    EnhancedForControlContext,
-    CatchClauseContext,
-    EnumConstantContext,
-    InterfaceCommonBodyDeclarationContext,
+    EnhancedForControlContext, CatchClauseContext, EnumConstantContext, InterfaceCommonBodyDeclarationContext,
+    ClassCreatorRestContext,
 } from "../../java/generated/JavaParser";
 import { JavaParserListener } from "../../java/generated/JavaParserListener";
 import { Stack } from "../lib/java/util/Stack";
@@ -36,11 +34,15 @@ import { JavaClassSymbol } from "./JavaClassSymbol";
 
 export class FileSymbol extends ScopedSymbol { }
 export class AnnotationSymbol extends ScopedSymbol { }
-export class EnumSymbol extends ScopedSymbol { }
+export class EnumSymbol extends JavaClassSymbol { }
 export class EnumConstantSymbol extends Symbol { }
 export class ConstructorSymbol extends MethodSymbol { }
 
 export class ClassBodySymbol extends ScopedSymbol { }
+
+/** A symbol for class creators in initialisers. */
+export class ClassCreatorSymbol extends ScopedSymbol { }
+
 export class JavaInterfaceSymbol extends InterfaceSymbol {
     public isTypescriptCompatible = false;
 }
@@ -73,10 +75,22 @@ export class JavaParseTreeWalker implements JavaParserListener {
     ]);
 
     private symbolStack = new Stack<ScopedSymbol>();
+    private enumSymbol?: JavaClassSymbol;
 
     public constructor(private symbolTable: SymbolTable, private packageRoot: string,
         private importList: Set<PackageSource>) {
         this.symbolStack.push(symbolTable);
+
+        // Get the Enum class symbol from the import list, in case we need it to add it to enum symbols.
+        // Java implicitly derives enums from the `Enum` class, which we have to emulate here.
+        for (const entry of importList) {
+            const symbol = entry.symbolTable.symbolFromPath("java.lang.Enum") as ClassSymbol;
+            if (symbol) {
+                this.enumSymbol = symbol;
+
+                break;
+            }
+        }
     }
 
     public exitPackageDeclaration = (ctx: PackageDeclarationContext): void => {
@@ -132,6 +146,18 @@ export class JavaParseTreeWalker implements JavaParserListener {
 
     public exitClassBodyDeclaration = (): void => {
         if (this.symbolStack.tos?.name === "#initializer#") {
+            this.symbolStack.pop();
+        }
+    };
+
+    public enterClassCreatorRest = (ctx: ClassCreatorRestContext): void => {
+        if (ctx.classBody()) { // Anonymous class.
+            this.pushNewScope(ClassCreatorSymbol, "#anonymous-class#", ctx);
+        }
+    };
+
+    public exitClassCreatorRest = (): void => {
+        if (this.symbolStack.tos?.name === "#anonymous-class#") {
             this.symbolStack.pop();
         }
     };
@@ -214,7 +240,10 @@ export class JavaParseTreeWalker implements JavaParserListener {
     };
 
     public enterEnumDeclaration = (ctx: EnumDeclarationContext): void => {
-        this.pushNewScope(EnumSymbol, ctx.identifier().text, ctx);
+        const symbol = this.pushNewScope(EnumSymbol, ctx.identifier().text, ctx);
+        if (this.enumSymbol) {
+            symbol.extends.push(this.enumSymbol);
+        }
     };
 
     public exitEnumConstant = (ctx: EnumConstantContext): void => {

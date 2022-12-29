@@ -75,7 +75,7 @@ export interface Collection<T> extends Iterable<T> {
      */
     size(): number;
 
-    toString(): java.lang.String;
+    toString(): java.lang.String | null;
 
     /**
      * Returns an array containing all of the elements in this collection.

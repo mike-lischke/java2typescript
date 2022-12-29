@@ -32,7 +32,8 @@ export enum EnhancedTypeKind {
 }
 
 export interface ISymbolInfo {
-    symbol: Symbol;
+    /** The resolved symbol or undefined for anonymous class expressions.  */
+    symbol?: Symbol;
     qualifiedName: string;
     source?: PackageSource;
 }

@@ -7,6 +7,8 @@
 
 /* eslint-disable @typescript-eslint/naming-convention */
 
+import unicode from "unicode-properties";
+
 import { final } from "../../Decorators";
 
 import { java } from "../java";
@@ -277,7 +279,11 @@ export class Character extends JavaObject {
     };
 
     public static isDigit(c: java.lang.char): boolean {
-        return String.fromCodePoint(c).match(/0-9/) !== null;
+        return unicode.isDigit(c);
+    }
+
+    public static isUpperCase(c: java.lang.char): boolean {
+        return unicode.isUpperCase(c);
     }
 
     public static toString(c: java.lang.char): string {

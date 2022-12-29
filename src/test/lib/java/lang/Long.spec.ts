@@ -6,6 +6,7 @@
  */
 
 import { java } from "../../../../lib/java/java";
+import { S } from "../../../../lib/templates";
 
 describe("java.lang.Long Tests", () => {
     it("Base", () => {
@@ -55,11 +56,11 @@ describe("java.lang.Long Tests", () => {
     it("getLong", (done) => {
         setImmediate(() => {
             // Need to delay execution one run loop, as system properties loading is delayed as well.
-            expect(java.lang.Long.getLong("")).toBeNull();
-            expect(java.lang.Long.getLong("Lorem Ipsum")).toBeNull();
-            expect(java.lang.Long.getLong("Lorem Ipsum", 11)?.intValue()).toBe(11);
-            expect(java.lang.Long.getLong("java.version", 17)?.intValue()).toBe(11);
-            expect(java.lang.Long.getLong("java. version", 17)?.intValue()).toBe(17);
+            expect(java.lang.Long.getLong(S``)).toBeNull();
+            expect(java.lang.Long.getLong(S`Lorem Ipsum`)).toBeNull();
+            expect(java.lang.Long.getLong(S`Lorem Ipsum`, 11)?.intValue()).toBe(11);
+            expect(java.lang.Long.getLong(S`java.version`, 17)?.intValue()).toBe(11);
+            expect(java.lang.Long.getLong(S`java. version`, 17)?.intValue()).toBe(17);
 
             done();
         });

@@ -7,24 +7,21 @@
 
 /* eslint-disable @typescript-eslint/unified-signatures */
 
-import { Charset } from "../nio/charset";
-import { File } from "./File";
-import { FileDescriptor } from "./FileDescriptor";
-import { FileOutputStream } from "./FileOutputStream";
+import { java } from "../java";
 import { OutputStreamWriter } from "./OutputStreamWriter";
 
 export class FileWriter extends OutputStreamWriter {
-    public constructor(fileName: string);
-    public constructor(fileName: string, append: boolean);
-    public constructor(file: File);
-    public constructor(file: File, append: boolean);
-    public constructor(fd: FileDescriptor);
-    public constructor(fileName: string, charset: Charset);
-    public constructor(fileName: string, charset: Charset, append: boolean);
-    public constructor(file: File, charset: Charset);
-    public constructor(file: File, charset: Charset, append: boolean);
-    public constructor(fileNameOrFileOrFd: string | File | FileDescriptor, appendOrCharset?: boolean | Charset,
-        append?: boolean) {
+    public constructor(fileName: java.lang.String);
+    public constructor(fileName: java.lang.String, append: boolean);
+    public constructor(file: java.io.File);
+    public constructor(file: java.io.File, append: boolean);
+    public constructor(fd: java.io.FileDescriptor);
+    public constructor(fileName: java.lang.String, charset: java.nio.charset.Charset);
+    public constructor(fileName: java.lang.String, charset: java.nio.charset.Charset, append: boolean);
+    public constructor(file: java.io.File, charset: java.nio.charset.Charset);
+    public constructor(file: java.io.File, charset: java.nio.charset.Charset, append: boolean);
+    public constructor(fileNameOrFileOrFd: java.lang.String | java.io.File | java.io.FileDescriptor,
+        appendOrCharset?: boolean | java.nio.charset.Charset, append?: boolean) {
         let doAppend = false;
         let charset;
         if (typeof appendOrCharset === "boolean") {
@@ -34,13 +31,13 @@ export class FileWriter extends OutputStreamWriter {
             charset = appendOrCharset;
         }
 
-        let stream: FileOutputStream;
-        if (typeof fileNameOrFileOrFd === "string") {
-            stream = new FileOutputStream(fileNameOrFileOrFd, doAppend);
-        } else if (fileNameOrFileOrFd instanceof File) {
-            stream = new FileOutputStream(fileNameOrFileOrFd, doAppend);
+        let stream: java.io.FileOutputStream;
+        if (fileNameOrFileOrFd instanceof java.lang.String) {
+            stream = new java.io.FileOutputStream(fileNameOrFileOrFd, doAppend);
+        } else if (fileNameOrFileOrFd instanceof java.io.File) {
+            stream = new java.io.FileOutputStream(fileNameOrFileOrFd, doAppend);
         } else {
-            stream = new FileOutputStream(fileNameOrFileOrFd);
+            stream = new java.io.FileOutputStream(fileNameOrFileOrFd);
         }
 
         super(stream, charset);

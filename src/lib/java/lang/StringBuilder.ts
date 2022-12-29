@@ -5,6 +5,7 @@
  * See LICENSE-MIT.txt file for more info.
  */
 
+import { S } from "../../templates";
 import { java } from "../java";
 import { JavaObject } from "./Object";
 
@@ -435,7 +436,7 @@ export class StringBuilder extends JavaObject implements java.lang.CharSequence,
      * @param end tbd
      */
     public subSequence(start: number, end: number): java.lang.CharSequence {
-        const buffer = java.nio.CharBuffer.wrap("");
+        const buffer = java.nio.CharBuffer.wrap(S``);
         buffer.put(this.data, start, end);
 
         return buffer;
@@ -473,6 +474,10 @@ export class StringBuilder extends JavaObject implements java.lang.CharSequence,
 
             this.data = newData;
         }
+    }
+
+    protected [Symbol.toPrimitive](_hint: string): string {
+        return String.fromCharCode(...this.data.subarray(0, this.currentLength));
     }
 
     private insertData(position: number, ...newContent: SourceData): void {
@@ -630,4 +635,3 @@ export class StringBuilder extends JavaObject implements java.lang.CharSequence,
         return code !== undefined && code >= 0xDC00 && code <= 0xDFFF;
     }
 }
-

@@ -17,6 +17,7 @@ export * from "./Stack";
 export * from "./HashMap";
 export * from "./LinkedHashMap";
 export * from "./IdentityHashMap";
+export * from "./WeakHashMap";
 export * from "./HashSet";
 export * from "./Comparator";
 export * from "./Locale";

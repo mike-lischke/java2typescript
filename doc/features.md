@@ -5,6 +5,7 @@
 - [Introduction](#introduction)
 - [Generics and Type Wildcards](#generics-and-type-wildcards)
 - [Interfaces](#interfaces)
+- [Abstract Intermediate Classes](#abstract-intermediate-classes)
 - [Modifiers and Access Levels](#modifiers-and-access-levels)
 - [Enumerations](#enumerations)
 - [Iterators](#iterators)
@@ -45,11 +46,28 @@ Generic semantics in Java and TS are pretty much the same, with the exception of
 - `compare<U extends T>`: an upper bounded type parameter, supported exactly like that in TS.
 - `compared<? extends T>`: an upper bounded type parameter with a wildcard, this corresponds to the first scenario in TS.
 - `compare<? super T>`: a lower bounded type parameter with a wildcard, a concept not supported by TS (see also [this discussion](https://github.com/Microsoft/TypeScript/issues/14520)). Such an expression is converted to just `compare<T>`, which is not entirely correct and must be handled manually if required.
-- `const s: Set<?> = ...`: a wildcard capture,  which is converted to `const s: Set<unknown>`. The explicit type can be removed manually, if such a variable is initialized in the definition (its type is then automatically inferred).
+- `const s: Set<?> = ...`: a wildcard capture,  which is converted to `const s: Set<unknown>`.
 
 ## <a name="interfaces">Interfaces</a>
 
 Java interfaces are more than interfaces in the original sense (API contracts), as they can have actual code, much like classes. As this is not supported in Typescript different paths are taken in the conversion process. Java interfaces without methods and initialized fields are converted directly to their TS interface equivalent. Otherwise they are implemented as abstract classes, which is an acceptable workaround. Especially, as TS interfaces can extend TS classes.
+
+## <a name="abstract-classes">Abstract Intermediate Classes</a>
+
+Java often uses abstract intermediate classes (e.g. `java.util.AbstractList`). Such intermediate classes are not modelled in the JREE and concrete classes derive directly from their non-abstract ancestors, avoiding so large derivation chains and unnecessary work. For example the chain
+
+`java.lang.Object`
+    -> `java.util.AbstractCollection<E>`
+        -> `java.util.AbstractList<E>`
+            -> `java.util.AbstractSequentialList<E>`
+                -> `java.util.LinkedList<E>`
+
+is currently modelled as
+
+`java.lang.Object`
+    -> `java.util.LinkedList<E>`
+
+but this may be changed later, if the need arises.
 
 ## <a name="modifiers">Modifiers and Access Levels</a>
 
@@ -70,7 +88,7 @@ In addition to access levels there's a range of additional modifiers:
 
 ## <a name="enumerations">Enumerations</a>
 
-Enums in Java are objects with compiler synthesized methods, which can only partially be mapped to TS enums. Only the enum constants can automatically be taken over and only those that are not functions. Any other enum construct must be fixed manually.
+Enums in Java essentially classes with extra functionality. Enum members (constants) are actually instances of the enum type with specific values. Each enum constant can customize the behavior of the inherited enum type, by specifying custom constructor parameters and an own class body, which may override methods. All that is also modelled in Typescript, which requires to implement all the implicit handling of the Java VM explicitly.
 
 ## <a name="iterators">Iterators</a>
 

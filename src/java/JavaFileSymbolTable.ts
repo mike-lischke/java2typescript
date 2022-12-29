@@ -17,7 +17,8 @@ import { ISymbolInfo } from "../conversion/types";
 import { PackageSource } from "../PackageSource";
 import { JavaClassSymbol } from "../parsing/JavaClassSymbol";
 import {
-    ConstructorSymbol, EnumSymbol, JavaParseTreeWalker, PackageSymbol,
+    ClassCreatorSymbol,
+    ConstructorSymbol, EnumSymbol, InitializerBlockSymbol, JavaParseTreeWalker, PackageSymbol,
 } from "../parsing/JavaParseTreeWalker";
 
 export class JavaFileSymbolTable extends SymbolTable {
@@ -82,7 +83,21 @@ export class JavaFileSymbolTable extends SymbolTable {
         const symbol = run instanceof ClassDeclarationContext
             ? block.resolveSync(name, false)
             : block.parent?.resolveSync(name, false);
+
         if (!symbol) {
+            // Could be a class creator. Get the class symbol and try to resolve again.
+            if (block.parent?.parent instanceof InitializerBlockSymbol) {
+                const creator = block.parent?.parent.parent;
+                if (creator instanceof ClassCreatorSymbol) {
+                    // We are assuming here that the symbol is part of the class expression,
+                    // as it couldn't be resolved via normal lookup in the file.
+                    return {
+                        symbol: undefined,
+                        qualifiedName: "this." + name,
+                    };
+                }
+            }
+
             return undefined;
         }
 
@@ -170,7 +185,7 @@ export class JavaFileSymbolTable extends SymbolTable {
                 // At this point we know it's a non-static member of the class we are in. However in nested classes
                 // we cannot directly access such a member from the outer class. Instead we have to use the special
                 // `$outer` parameter, which is generated for such scenarios.
-                if (this.needOuterScope(block, symbol)) {
+                if (this.needOuterScope(block)) {
                     return {
                         symbol,
                         qualifiedName: "$outer." + name,
@@ -295,7 +310,7 @@ export class JavaFileSymbolTable extends SymbolTable {
                 for (const source of this.importList) {
                     if (source.packageId === "java") {
                         const info = source.resolveType(name);
-                        if (info) {
+                        if (info && info.symbol) {
                             add(info.symbol);
 
                             break;
@@ -354,13 +369,13 @@ export class JavaFileSymbolTable extends SymbolTable {
         }
     };
 
-    private needOuterScope = (scope: Symbol, symbol: Symbol): boolean => {
+    private needOuterScope = (scope: Symbol): boolean => {
         // Find the directly owning class.
         let run: Symbol | undefined = scope;
         while (run) {
             if (run instanceof ClassSymbol || run instanceof InterfaceSymbol) {
-                // Does the found scope own the given symbol or is it one of the base classes?
-                if (run.parent === scope || (run.extends.length > 0 && symbol.parent === run.extends[0])) {
+                // Is the found class symbol static? If not then we need the outer scope.
+                if (run.modifiers.has(Modifier.Static)) {
                     return false;
                 }
 

@@ -6,3 +6,4 @@
  */
 
 export * from "./CancellationException";
+export * from "./CopyOnWriteArrayList";

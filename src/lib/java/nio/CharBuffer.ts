@@ -1,3 +1,5 @@
+/* java2ts: keep */
+
 /*
  * This file is released under the MIT license.
  * Copyright (c) 2022, Mike Lischke
@@ -24,8 +26,8 @@ export class CharBuffer extends Buffer<Uint16Array> implements java.lang.Appenda
     private constructor(capacity: number);
     private constructor(buffer: Uint16Array, offset?: number, length?: number);
     private constructor(csq: java.lang.CharSequence, offset?: number, length?: number);
-    private constructor(s: string, offset?: number, length?: number);
-    private constructor(capacityOrBufferOrCsqOrS: number | Uint16Array | string | java.lang.CharSequence,
+    private constructor(s: java.lang.String, offset?: number, length?: number);
+    private constructor(capacityOrBufferOrCsqOrS: number | Uint16Array | java.lang.String | java.lang.CharSequence,
         offset?: number, length?: number) {
         super();
         this.byteOrder = java.nio.ByteOrder.byteOrder;
@@ -36,16 +38,16 @@ export class CharBuffer extends Buffer<Uint16Array> implements java.lang.Appenda
             this.buffer = new Uint16Array(capacityOrBufferOrCsqOrS).fill(0);
             this.currentCapacity = capacityOrBufferOrCsqOrS;
             this.currentLimit = capacityOrBufferOrCsqOrS;
-        } else if (typeof capacityOrBufferOrCsqOrS === "string") {
+        } else if (capacityOrBufferOrCsqOrS instanceof java.lang.String) {
             const codePoints: number[] = [];
-            for (const value of capacityOrBufferOrCsqOrS) { // To correctly iterate UTF-16 surrogate pairs.
+            for (const value of capacityOrBufferOrCsqOrS.valueOf()) { // To correctly iterate UTF-16 surrogate pairs.
                 codePoints.push(value.charCodeAt(0));
             }
 
-            const end = start + (length ?? capacityOrBufferOrCsqOrS.length);
+            const end = start + (length ?? capacityOrBufferOrCsqOrS.length());
 
             this.buffer = Uint16Array.from(codePoints.slice(start, end));
-            this.currentCapacity = capacityOrBufferOrCsqOrS.length;
+            this.currentCapacity = capacityOrBufferOrCsqOrS.length();
             this.currentLimit = end;
             this.currentPosition = start;
         } else if (capacityOrBufferOrCsqOrS instanceof Uint16Array) {
@@ -82,19 +84,19 @@ export class CharBuffer extends Buffer<Uint16Array> implements java.lang.Appenda
     }
 
     /** Wraps a char array into a buffer. */
-    public static wrap(s: string): CharBuffer;
+    public static wrap(s: java.lang.String): CharBuffer;
     /** Wraps a char array into a buffer. */
-    public static wrap(s: string, offset: number, length: number): CharBuffer;
+    public static wrap(s: java.lang.String, offset: number, length: number): CharBuffer;
     /** Wraps a character sequence into a buffer. */
     public static wrap(csq: java.lang.CharSequence): CharBuffer;
     /** Wraps a character sequence into a buffer. */
     public static wrap(csq: java.lang.CharSequence, start: number, end: number): CharBuffer;
-    public static wrap(sOrCsq: string | java.lang.CharSequence, offsetOrStart?: number,
+    public static wrap(sOrCsq: java.lang.String | java.lang.CharSequence, offsetOrStart?: number,
         lengthOrEnd?: number): CharBuffer {
-        if (typeof sOrCsq === "string") {
+        if (sOrCsq instanceof java.lang.String) {
             if (offsetOrStart !== undefined && lengthOrEnd !== undefined) {
-                if (offsetOrStart < 0 || offsetOrStart > sOrCsq.length || lengthOrEnd < 0
-                    || lengthOrEnd > sOrCsq.length - offsetOrStart) {
+                if (offsetOrStart < 0 || offsetOrStart > sOrCsq.length() || lengthOrEnd < 0
+                    || lengthOrEnd > sOrCsq.length() - offsetOrStart) {
                     throw new java.lang.IndexOutOfBoundsException();
                 }
             }
