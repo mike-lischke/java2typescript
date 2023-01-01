@@ -13,7 +13,7 @@ import { JavaIterator } from "../../JavaIterator";
 export class HashSet<T> extends JavaObject implements java.lang.Cloneable<HashSet<T>>, java.io.Serializable,
     java.util.Collection<T>, java.util.Set<T> {
 
-    private backend: Set<T> = Set<T>([]);
+    #backend = Set<T>();
 
     public constructor(c?: java.util.Collection<T>);
     public constructor(initialCapacity: number, loadFactor?: number);
@@ -27,11 +27,11 @@ export class HashSet<T> extends JavaObject implements java.lang.Cloneable<HashSe
     }
 
     public *[Symbol.iterator](): IterableIterator<T> {
-        yield* this.backend[Symbol.iterator]();
+        yield* this.#backend[Symbol.iterator]();
     }
 
     public hashCode(): number {
-        return this.backend.hashCode();
+        return this.#backend.hashCode();
     }
 
     public equals(o: unknown): boolean {
@@ -39,7 +39,7 @@ export class HashSet<T> extends JavaObject implements java.lang.Cloneable<HashSe
             return false;
         }
 
-        return this.backend.equals(o.backend);
+        return this.#backend.equals(o.#backend);
     }
 
     /**
@@ -50,9 +50,9 @@ export class HashSet<T> extends JavaObject implements java.lang.Cloneable<HashSe
      * @returns True if the value was actually added (i.e. wasn't member of this set yet), otherwise false.
      */
     public add(t: T): boolean {
-        const set = this.backend.add(t);
-        if (set !== this.backend) {
-            this.backend = set;
+        const set = this.#backend.add(t);
+        if (set !== this.#backend) {
+            this.#backend = set;
 
             return true;
         }
@@ -62,17 +62,17 @@ export class HashSet<T> extends JavaObject implements java.lang.Cloneable<HashSe
 
     /** @returns the number of elements in this set (its cardinality). */
     public size(): number {
-        return this.backend.count();
+        return this.#backend.count();
     }
 
     /** @returns true if this set contains no elements. */
     public isEmpty(): boolean {
-        return this.backend.isEmpty();
+        return this.#backend.isEmpty();
     }
 
     /** @returns an iterator over the elements in this set. */
     public iterator(): java.util.Iterator<T> {
-        return new JavaIterator(this.backend[Symbol.iterator]());
+        return new JavaIterator(this.#backend[Symbol.iterator]());
     }
 
     /**
@@ -81,7 +81,7 @@ export class HashSet<T> extends JavaObject implements java.lang.Cloneable<HashSe
      * @returns true if this set contains the specified element.
      */
     public contains(o: T): boolean {
-        return this.backend.has(o);
+        return this.#backend.has(o);
     }
 
     /** @returns an array containing all of the elements in this collection. */
@@ -89,9 +89,9 @@ export class HashSet<T> extends JavaObject implements java.lang.Cloneable<HashSe
     public toArray<U extends T>(a: U[]): U[];
     public toArray<U extends T>(a?: U[]): T[] | U[] {
         if (a === undefined) {
-            return this.backend.toArray();
+            return this.#backend.toArray();
         } else {
-            return this.backend.toArray() as U[];
+            return this.#backend.toArray() as U[];
         }
     }
 
@@ -107,9 +107,9 @@ export class HashSet<T> extends JavaObject implements java.lang.Cloneable<HashSe
             return false;
         }
 
-        const s = this.backend.delete(obj);
-        if (this.backend !== s) {
-            this.backend = s;
+        const s = this.#backend.delete(obj);
+        if (this.#backend !== s) {
+            this.#backend = s;
 
             return true;
         }
@@ -125,8 +125,8 @@ export class HashSet<T> extends JavaObject implements java.lang.Cloneable<HashSe
     public containsAll(collection: java.util.Collection<T>): boolean {
         if (collection instanceof HashSet) {
             let allFound = true;
-            collection.backend.forEach((value) => {
-                if (!this.backend.contains(value as T)) {
+            collection.#backend.forEach((value) => {
+                if (!this.#backend.contains(value as T)) {
                     allFound = false;
 
                     return false;
@@ -148,9 +148,9 @@ export class HashSet<T> extends JavaObject implements java.lang.Cloneable<HashSe
     }
 
     public addAll(c: java.util.Collection<T>): boolean {
-        const s = this.backend.withMutations((set) => {
+        const s = this.#backend.withMutations((set) => {
             if (c instanceof HashSet) {
-                c.backend.forEach((value) => {
+                c.#backend.forEach((value) => {
                     set.add(value as T);
                 });
             } else {
@@ -160,8 +160,8 @@ export class HashSet<T> extends JavaObject implements java.lang.Cloneable<HashSe
             }
         });
 
-        if (s !== this.backend) {
-            this.backend = s;
+        if (s !== this.#backend) {
+            this.#backend = s;
 
             return true;
         }
@@ -177,9 +177,9 @@ export class HashSet<T> extends JavaObject implements java.lang.Cloneable<HashSe
      * @returns True if this set was changed by this method, otherwise false.
      */
     public retainAll(c: java.util.Collection<T>): boolean {
-        const s = this.backend.intersect(c);
-        if (s !== this.backend) {
-            this.backend = s;
+        const s = this.#backend.intersect(c);
+        if (s !== this.#backend) {
+            this.#backend = s;
 
             return true;
         }
@@ -195,14 +195,14 @@ export class HashSet<T> extends JavaObject implements java.lang.Cloneable<HashSe
      * @returns True if this set was changed by this method, otherwise false.
      */
     public removeAll(c: java.util.Collection<T>): boolean {
-        const s = this.backend.withMutations((set) => {
+        const s = this.#backend.withMutations((set) => {
             for (const o of c) {
                 set.delete(o);
             }
         });
 
-        if (this.backend !== s) {
-            this.backend = s;
+        if (this.#backend !== s) {
+            this.#backend = s;
 
             return true;
         }
@@ -212,7 +212,7 @@ export class HashSet<T> extends JavaObject implements java.lang.Cloneable<HashSe
 
     /** Removes all of the elements from this set. */
     public clear(): void {
-        this.backend = this.backend.clear();
+        this.#backend = this.#backend.clear();
     }
 
     /** @returns a shallow copy of this HashSet instance: the elements themselves are not cloned. */
@@ -230,7 +230,7 @@ export class HashSet<T> extends JavaObject implements java.lang.Cloneable<HashSe
         const buf = new java.lang.StringBuilder();
         buf.append("{");
         let first = true;
-        this.backend.forEach((value) => {
+        this.#backend.forEach((value) => {
             if (first) {
                 first = false;
             } else {

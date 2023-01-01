@@ -5,10 +5,20 @@
  * See LICENSE-MIT.txt file for more info.
  */
 
+import { List } from "immutable";
+
 import { java } from "../java";
 import { JavaObject } from "../lang/Object";
 
-export class ArrayListIterator<T> extends JavaObject implements java.util.ListIterator<T> {
+/**
+ * This interface provides shared access to the backend of a list class.
+ */
+export interface IListIteratorBackend<T> {
+    list: List<T>;
+}
+
+/** An implementation of the ListIterator interface. */
+export class ListIteratorImpl<T> extends JavaObject implements java.util.ListIterator<T> {
 
     // Holds the direction we navigated last (either by calling next() or previous()).
     private movedForward: boolean | undefined;
@@ -16,13 +26,17 @@ export class ArrayListIterator<T> extends JavaObject implements java.util.ListIt
     // The current index in the iteration.
     private index: number;
 
+    #backend: IListIteratorBackend<T>;
+
     public constructor(
-        private buffer: T[],
-        private supportRemoval = true,
+        backend: IListIteratorBackend<T>,
         private start = 0,
-        private end = buffer.length) {
+        private end = backend.list.count()) {
         super();
-        if (start < 0 || end < 0 || start + end >= buffer.length) {
+
+        this.#backend = backend;
+
+        if (start < 0 || end < 0 || start > end || end > backend.list.count()) {
             throw new java.lang.IndexOutOfBoundsException();
         }
 
@@ -30,7 +44,8 @@ export class ArrayListIterator<T> extends JavaObject implements java.util.ListIt
     }
 
     public add(element: T): void {
-        this.buffer.push(element);
+        this.movedForward = undefined;
+        this.#backend.list = this.#backend.list.push(element);
     }
 
     public hasNext(): boolean {
@@ -48,7 +63,7 @@ export class ArrayListIterator<T> extends JavaObject implements java.util.ListIt
 
         this.movedForward = true;
 
-        return this.buffer[this.index++];
+        return this.#backend.list.get(this.index++)!;
     }
 
     public nextIndex(): number {
@@ -62,40 +77,37 @@ export class ArrayListIterator<T> extends JavaObject implements java.util.ListIt
 
         this.movedForward = false;
 
-        return this.buffer[--this.index];
+        return this.#backend.list.get(--this.index)!;
     }
 
     public previousIndex(): number {
-        return this.index - 1;
+        return this.index - this.start - 1;
     }
 
     public remove(): void {
-        if (this.supportRemoval) {
-            if (this.movedForward === undefined) {
-                throw new java.lang.IllegalStateException();
-            }
-
-            if (this.movedForward) {
-                // Index was moved to next element.
-                this.buffer.splice(this.index - 1, 1);
-            } else {
-                // Index at last returned element.
-                this.buffer.splice(this.index, 1);
-            }
-        } else {
-            throw new java.lang.UnsupportedOperationException();
+        if (this.movedForward === undefined) {
+            throw new java.lang.IllegalStateException();
         }
+
+        if (this.movedForward) {
+            // Index was moved to next element.
+            this.#backend.list = this.#backend.list.splice(this.index - 1, 1);
+        } else {
+            // Index at last returned element.
+            this.#backend.list = this.#backend.list.splice(this.index, 1);
+        }
+
+        this.movedForward = undefined;
     }
 
     public set(element: T): void {
         if (this.movedForward) {
             // Index was moved to next element.
-            this.buffer[this.index - 1] = element;
+            this.#backend.list = this.#backend.list.set(this.index - 1, element);
         } else {
             // Index at last returned element.
-            this.buffer[this.index] = element;
+            this.#backend.list = this.#backend.list.set(this.index, element);
         }
     }
 
 }
-

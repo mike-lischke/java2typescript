@@ -7,6 +7,7 @@
         "Cloneable",
         "closeables",
         "Declarators",
+        "Deque",
         "Deserialisation",
         "Hashable",
         "initialisation",

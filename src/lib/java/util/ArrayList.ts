@@ -5,39 +5,36 @@
  * See LICENSE-MIT.txt file for more info.
  */
 
+import { is, List } from "immutable";
+
 import { java } from "../java";
 import { JavaObject } from "../lang/Object";
 
-import { MurmurHash } from "../../MurmurHash";
-import { isEquatable } from "../../helpers";
+import { JavaIterator } from "../../JavaIterator";
+import { IListIteratorBackend, ListIteratorImpl } from "./ListIteratorImpl";
 
 export class ArrayList<T> extends JavaObject implements java.util.List<T> {
 
-    private buffer: T[];
     private start: number;
     private end: number;
+
+    #backend: IListIteratorBackend<T>;
 
     public constructor(input?: java.util.Collection<T> | T[] | Set<T> | number) {
         super();
 
-        if (input === undefined) {
-            this.buffer = [];
-        } else if (typeof input === "number") {
-            this.buffer = new Array(input);
-        } else if (Array.isArray(input)) {
-            this.buffer = input;
-        } else if (input instanceof Set<T>) {
-            this.buffer = Array.from(input);
+        if (input === undefined || typeof input === "number") { // Initial count is ignored.
+            this.#backend = { list: List<T>() };
         } else {
-            this.buffer = input.toArray();
+            this.#backend = { list: List(input) };
         }
 
         this.start = 0;
-        this.end = this.buffer.length;
+        this.end = this.#backend.list.count();
     }
 
     public *[Symbol.iterator](): IterableIterator<T> {
-        yield* this.buffer;
+        yield* this.#backend.list;
     }
 
     public add(element: T): boolean;
@@ -45,9 +42,9 @@ export class ArrayList<T> extends JavaObject implements java.util.List<T> {
     public add(indexOrElement: number | T, element?: T): void | boolean {
         ++this.end;
         if (typeof indexOrElement === "number") {
-            this.buffer.splice(this.start + indexOrElement, 0, element!);
+            this.#backend.list = this.#backend.list.splice(this.start + indexOrElement, 0, element!);
         } else {
-            this.buffer.splice(this.end, 0, indexOrElement);
+            this.#backend.list = this.#backend.list.splice(this.end, 0, indexOrElement);
 
             return true;
         }
@@ -59,10 +56,10 @@ export class ArrayList<T> extends JavaObject implements java.util.List<T> {
         let a;
         if (typeof indexOrCollection === "number") {
             a = c!.toArray();
-            this.buffer.splice(this.start + indexOrCollection, 0, ...a);
+            this.#backend.list = this.#backend.list.splice(this.start + indexOrCollection, 0, ...a);
         } else {
             a = indexOrCollection.toArray();
-            this.buffer.splice(this.end, 0, ...a);
+            this.#backend.list = this.#backend.list.splice(this.end, 0, ...a);
         }
         this.end += a.length;
 
@@ -70,26 +67,26 @@ export class ArrayList<T> extends JavaObject implements java.util.List<T> {
     }
 
     public clear(): void {
-        this.buffer = [];
-        this.start = 0;
-        this.end = 0;
+        this.#backend.list = this.#backend.list.splice(this.start, this.end - this.start);
+        this.end = this.start;
     }
 
     public contains(element: T): boolean {
-        if (this.end < this.buffer.length) {
-            // Have to make a temporary copy, because there's no way to limit search to a specific end index.
-            const temp = this.buffer.slice(this.start, this.end);
+        const index = this.#backend.list.findIndex((value, i) => {
+            if (i < this.start || i >= this.end) {
+                return false;
+            }
 
-            return temp.includes(element);
-        }
+            return is(element, value);
+        });
 
-        return this.buffer.includes(element, this.start);
+        return index > -1;
     }
 
     public containsAll(c: java.util.Collection<T>): boolean {
-        let target = this.buffer;
-        if (this.end < this.buffer.length) {
-            target = this.buffer.slice(this.start, this.end);
+        let target = this.#backend.list;
+        if (this.start > 0 || this.end < this.#backend.list.count()) {
+            target = this.#backend.list.slice(this.start, this.end);
         }
 
         for (const element of c) {
@@ -101,48 +98,46 @@ export class ArrayList<T> extends JavaObject implements java.util.List<T> {
         return true;
     }
 
-    public equals(other: ArrayList<T>): boolean {
+    public equals(other: unknown): boolean {
         if (this === other) {
             return true;
+        }
+
+        if (!(other instanceof ArrayList)) {
+            return false;
         }
 
         if (this.start !== other.start || this.end !== other.end) {
             return false;
         }
 
-        return this.buffer.every((value, index) => {
-            if (index < this.start || index >= this.end) {
-                return true;
-            }
+        if (this.start > 0 || this.end < this.#backend.list.count()) {
+            return this.#backend.list.slice(this.start, this.end)
+                .equals(other.#backend.list.slice(other.start, other.end));
+        }
 
-            if (isEquatable(value)) {
-                return value.equals(other.buffer[index]);
-            } else {
-                return value === other.buffer[index];
-            }
-        });
+        return this.#backend.list.equals(other.#backend);
     }
 
     public get(index: number): T {
-        if (index < this.start || index >= this.end) {
+        if (index < 0 || this.start + index >= this.end) {
             throw new java.lang.IndexOutOfBoundsException();
         }
 
-        return this.buffer[index];
+        return this.#backend.list.get(this.start + index)!;
     }
 
     public hashCode(): number {
-        let hash = MurmurHash.initialize(11);
-        for (let i = this.start; i < this.end; ++i) {
-            hash = MurmurHash.update(hash, this.buffer[i]);
-        }
-        hash = MurmurHash.finish(hash, this.end - this.start);
-
-        return hash;
+        return this.#backend.list.hashCode();
     }
 
     public indexOf(element: T): number {
-        return this.buffer.indexOf(element) - this.start;
+        const index = this.#backend.list.indexOf(element);
+        if (index < this.start) {
+            return index;
+        }
+
+        return index - this.start;
     }
 
     public isEmpty(): boolean {
@@ -150,7 +145,7 @@ export class ArrayList<T> extends JavaObject implements java.util.List<T> {
     }
 
     public iterator(): java.util.Iterator<T> {
-        return new java.util.ArrayListIterator(this.buffer);
+        return new JavaIterator(this.#backend.list[Symbol.iterator]());
     }
 
     public lastIndexOf(element: T): number {
@@ -158,21 +153,17 @@ export class ArrayList<T> extends JavaObject implements java.util.List<T> {
             return -1;
         }
 
-        if (this.start > 0) {
-            const temp = this.buffer.slice(this.start, this.end);
+        if (this.start > 0 || this.end < this.#backend.list.count()) {
+            const temp = this.#backend.list.slice(this.start, this.end);
 
             return temp.lastIndexOf(element);
         }
 
-        return this.buffer.lastIndexOf(element, this.end - 1);
+        return this.#backend.list.lastIndexOf(element);
     }
 
-    public listIterator(index?: number): java.util.ListIterator<T> {
-        if (this.start > 0 || this.end < this.buffer.length) {
-            return new java.util.ArrayListIterator(this.buffer.slice(this.start, this.end), true, index, this.end);
-        }
-
-        return new java.util.ArrayListIterator(this.buffer, true, index);
+    public listIterator(index = 0): java.util.ListIterator<T> {
+        return new ListIteratorImpl(this.#backend, this.start + index, this.end);
     }
 
     public remove(index: number): T;
@@ -181,11 +172,14 @@ export class ArrayList<T> extends JavaObject implements java.util.List<T> {
         if (typeof elementOrIndex === "number") {
             --this.end;
 
-            return this.buffer.splice(this.start + elementOrIndex, 1)[0];
+            const result = this.#backend.list.get(elementOrIndex)!;
+            this.#backend.list = this.#backend.list.splice(this.start + elementOrIndex, 1);
+
+            return result;
         } else {
-            const index = this.buffer.indexOf(elementOrIndex);
+            const index = this.#backend.list.indexOf(elementOrIndex);
             if (this.start <= index && index < this.end) {
-                this.buffer.splice(index, 1);
+                this.#backend.list.splice(index, 1);
                 --this.end;
 
                 return true;
@@ -196,53 +190,44 @@ export class ArrayList<T> extends JavaObject implements java.util.List<T> {
     }
 
     public removeAll(c: java.util.Collection<T>): boolean {
-        let result = false;
+        const oldSize = this.#backend.list.count();
+        this.#backend.list = this.#backend.list.filterNot((value) => {
+            return c.contains(value);
+        });
 
-        for (const element of c) {
-            const index = this.buffer.indexOf(element);
-            if (this.start <= index && index < this.end) {
-                this.buffer.splice(index, 1);
-                --this.end;
-                result = true;
-            }
+        if (this.#backend.list.count() < oldSize) {
+            this.end -= oldSize - this.#backend.list.count();
+
+            return true;
         }
 
-        return result;
+        return false;
     }
 
     public retainAll(c: java.util.Collection<T>): boolean {
-        if (c.size() === 0) {
-            return false;
+        const oldSize = this.#backend.list.count();
+        this.#backend.list = this.#backend.list.filter((value) => {
+            return c.contains(value);
+        });
+
+        if (this.#backend.list.count() < oldSize) {
+            this.end -= oldSize - this.#backend.list.count();
+
+            return true;
         }
 
-        let result = false;
-        const newList: T[] = [];
-
-        let target = this.buffer;
-        if (this.start > 0 || this.end < this.buffer.length) {
-            target = this.buffer.slice(this.start, this.end);
-        }
-
-        for (const element of c) {
-            if (target.includes(element)) {
-                newList.push(element);
-
-                result = true;
-            }
-        }
-
-        this.buffer.splice(this.start, this.end, ...newList);
-        this.end = newList.length - this.end;
-
-        return result;
+        return false;
     }
 
     public set(index: number, element: T): T {
-        if (index - this.start < 0 || this.start + index >= this.end) {
+        if (index < 0 || index >= this.end) {
             throw new java.lang.IndexOutOfBoundsException();
         }
 
-        return this.buffer.splice(this.start + index, 1, element)[0];
+        const result = this.#backend.list.get(this.start + index)!;
+        this.#backend.list = this.#backend.list.set(this.start + index, element);
+
+        return result;
     }
 
     public size(): number {
@@ -251,7 +236,7 @@ export class ArrayList<T> extends JavaObject implements java.util.List<T> {
 
     public subList(fromIndex: number, toIndex: number): java.util.List<T> {
         const list = new ArrayList<T>();
-        list.buffer = this.buffer;
+        list.#backend = this.#backend;
         list.start = fromIndex;
         list.end = toIndex;
 
@@ -261,15 +246,15 @@ export class ArrayList<T> extends JavaObject implements java.util.List<T> {
     public toArray(): T[];
     public toArray<T2 extends T>(a: T2[]): T2[];
     public toArray<T2 extends T>(a?: T2[]): T2[] | T[] {
-        let target = this.buffer;
-        if (this.start > 0 || this.end < this.buffer.length) {
-            target = this.buffer.slice(this.start, this.end);
+        let target = this.#backend.list;
+        if (this.start > 0 || this.end < this.#backend.list.count()) {
+            target = this.#backend.list.slice(this.start, this.end);
         }
 
         if (a) {
-            return target as T2[];
+            return target.toArray() as T2[];
         }
 
-        return target;
+        return target.toArray();
     }
 }

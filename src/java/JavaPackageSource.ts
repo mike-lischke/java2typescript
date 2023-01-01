@@ -161,6 +161,8 @@ export class JavaPackageSource extends PackageSource {
         { name: "java.util.Stack", extends: "java.lang.Object" },
         { name: "java.util.Comparator", isInterface: true },
         { name: "java.util.Iterator", isInterface: true },
+        { name: "java.util.Queue", isInterface: true, extends: "java.util.Collection" },
+        { name: "java.util.Deque", isInterface: true, extends: "java.util.Queue" },
         {
             name: "java.util.Locale", extends: "java.lang.Object",
             implements: ["java.lang.Cloneable", "java.io.Serializable"],

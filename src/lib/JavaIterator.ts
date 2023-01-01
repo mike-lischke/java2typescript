@@ -13,9 +13,20 @@ export class JavaIterator<T> extends JavaObject implements java.util.Iterator<T>
 
     private nextValue: IteratorResult<T, T>;
 
-    public constructor(private iterator: Iterator<T>) {
+    public constructor(private iterator: IterableIterator<T>) {
         super();
         this.nextValue = iterator.next();
+    }
+
+    public *[Symbol.iterator](): IterableIterator<T> {
+        // Note: we already have read the first entry from the iterator to have something for `hasNext()`.
+        //       This must be returned first, before returning the rest of the given iterator.
+        if (this.nextValue.done) {
+            return;
+        }
+
+        yield this.nextValue.value;
+        yield* this.iterator;
     }
 
     public hasNext(): boolean {
@@ -34,4 +45,3 @@ export class JavaIterator<T> extends JavaObject implements java.util.Iterator<T>
     }
 
 }
-

@@ -167,6 +167,18 @@ export class String extends JavaObject
         return MurmurHash.hashCode(this.value, 17);
     }
 
+    public equals(obj: unknown): boolean {
+        if (obj === this) {
+            return true;
+        }
+
+        if (!(obj instanceof String)) {
+            return false;
+        }
+
+        return this.value === obj.value;
+    }
+
     public isEmpty(): boolean {
         return this.value.length === 0;
     }
