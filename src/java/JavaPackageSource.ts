@@ -167,7 +167,10 @@ export class JavaPackageSource extends PackageSource {
             name: "java.util.Locale", extends: "java.lang.Object",
             implements: ["java.lang.Cloneable", "java.io.Serializable"],
         },
-
+        {
+            name: "java.util.LinkedList", extends: "java.lang.Object", implements: ["java.io.Serializable",
+                "java.lang.Cloneable", "java.util.Deque", "java.util.List"],
+        },
         { name: "java.util.regex.Pattern", extends: "java.lang.Object" },
         { name: "java.util.regex.MatchResult", isInterface: true },
         { name: "java.util.regex.Matcher", extends: "java.lang.Object", implements: ["java.util.regex.MatchResult"] },

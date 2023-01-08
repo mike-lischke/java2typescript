@@ -34,7 +34,7 @@ export class JavaObject {
     }
 
     /** @returns the runtime class of this JavaObject. */
-    public getClass(): java.lang.Class<JavaObject> {
+    public getClass<T extends JavaObject>(): java.lang.Class<T> {
         return java.lang.Class.fromConstructor(this.constructor as typeof JavaObject);
     }
 

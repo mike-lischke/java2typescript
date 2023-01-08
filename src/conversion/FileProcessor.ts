@@ -1470,6 +1470,11 @@ export class FileProcessor {
         if (this.configuration.options.preferArrowFunctions) {
             details.signatureContent.append(isAbstract ? ": " : " = ");
         }
+
+        if (details.typeParameters) {
+            details.signatureContent.append(details.typeParameters);
+        }
+
         this.processFormalParameters(details, context.formalParameters());
 
         // For old style square brackets (after the method parameters) collect them and add them to the type.

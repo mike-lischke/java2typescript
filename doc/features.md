@@ -52,6 +52,18 @@ Generic semantics in Java and TS are pretty much the same, with the exception of
 
 Java interfaces are more than interfaces in the original sense (API contracts), as they can have actual code, much like classes. As this is not supported in Typescript different paths are taken in the conversion process. Java interfaces without methods and initialized fields are converted directly to their TS interface equivalent. Otherwise they are implemented as abstract classes, which is an acceptable workaround. Especially, as TS interfaces can extend TS classes.
 
+A sideshow of the different interface implementation is the possibility to overload interface methods in a class, which also violates the idea of interfaces, as this allows to implement a method differently than what the interface dictates. In Typescript this produces an error, which must be solved manually, by excluding the "overloaded" interface method from the implemented interface. For example:
+
+```typescript
+class Test implements Omit<java.lang.Collection<number>, "add"> {
+    public add(n: number, doSomething: boolean) {
+        ...
+    }
+}
+```
+
+The class `Test` implements the `add` method in a way, which does not conform to the interface `java.lang.Collection`. Totally legal in Java, but needs the `Omit` type trait in Typescript. With this change the `Test` class cannot be used when a `java.lang.Collection` is accepted, as it violates that interface.
+
 ## <a name="abstract-classes">Abstract Intermediate Classes</a>
 
 Java often uses abstract intermediate classes (e.g. `java.util.AbstractList`). Such intermediate classes are not modelled in the JREE and concrete classes derive directly from their non-abstract ancestors, avoiding so large derivation chains and unnecessary work. For example the chain

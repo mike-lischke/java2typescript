@@ -31,7 +31,7 @@ export class Arrays extends JavaObject {
         });
     }
 
-    public static asList<T>(list: T[]): java.util.List<T> {
+    public static asList<T>(...list: T[]): java.util.List<T> {
         return new java.util.ArrayList<T>(list);
     }
 
