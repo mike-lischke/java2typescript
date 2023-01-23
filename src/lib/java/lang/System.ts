@@ -93,6 +93,10 @@ export class System extends JavaObject {
         return this.properties.getProperty(key);
     }
 
+    public static nanoTime(): number {
+        return performance.now();
+    }
+
     /**
      * Fills the system properties table with some defaults.
      */

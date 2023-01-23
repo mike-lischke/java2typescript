@@ -54,7 +54,7 @@ export class JavaObject {
     }
 
     /** @returns a string representation of the object. */
-    public toString(): java.lang.String | null {
+    public toString(): java.lang.String {
         return new java.lang.String(`${this.constructor.name}@${this.#id.toString(16)}`);
     }
 

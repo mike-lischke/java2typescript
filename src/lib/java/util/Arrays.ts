@@ -31,7 +31,7 @@ export class Arrays extends JavaObject {
         });
     }
 
-    public static asList<T>(...list: T[]): java.util.List<T> {
+    public static asList<T>(list: T[]): java.util.List<T> {
         return new java.util.ArrayList<T>(list);
     }
 
@@ -188,7 +188,7 @@ export class Arrays extends JavaObject {
         return MurmurHash.finish(hash, 1);
     }
 
-    public static toString<T>(value: T[]): string {
+    public static toString<T>(value: T[] | null): string {
         return JSON.stringify(value);
     }
 }

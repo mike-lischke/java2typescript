@@ -155,8 +155,11 @@ export class PrintStream extends FilterOutputStream {
     }
 
     // Terminates the current line by writing the line separator string.
-    public println(v: boolean | java.lang.char | number | java.lang.Object | java.lang.String | null): void {
-        this.print(v);
+    public println(v?: boolean | java.lang.char | number | java.lang.Object | java.lang.String | null): void {
+        if (v !== undefined) {
+            this.print(v);
+        }
+
         this.print(java.lang.System.getProperty(S`line.separator`));
 
         if (this.autoFlush) {

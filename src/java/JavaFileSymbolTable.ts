@@ -11,7 +11,8 @@ import {
 import { ParseTree, ParseTreeWalker } from "antlr4ts/tree";
 
 import {
-    ClassDeclarationContext, CreatorContext, ExpressionContext, InterfaceDeclarationContext, TypeTypeContext,
+    ClassDeclarationContext, CreatorContext, EnumDeclarationContext, ExpressionContext, InterfaceDeclarationContext,
+    TypeTypeContext,
 } from "../../java/generated/JavaParser";
 import { ISymbolInfo } from "../conversion/types";
 import { PackageSource } from "../PackageSource";
@@ -227,24 +228,20 @@ export class JavaFileSymbolTable extends SymbolTable {
 
     private resolveClassSymbols = (symbols: JavaClassSymbol[]): void => {
         symbols.forEach((classSymbol) => {
-            let candidate = classSymbol.context?.parent?.parent?.parent;
-            if (candidate instanceof CreatorContext) {
-                // Anonymous inner class. Have to walk up quite a bit to get the base class name.
-                const type = candidate.createdName().identifier(0).text;
-                this.resolveTypeName(type, (symbol: Symbol) => {
-                    if (symbol instanceof ClassSymbol) {
-                        classSymbol.extends.push(symbol);
-                    }
-                });
-            } else {
-                if (classSymbol.context instanceof ClassDeclarationContext) {
-                    candidate = classSymbol.context;
-                } else {
-                    candidate = classSymbol.context?.parent?.parent;
-                }
-
-                if (candidate instanceof ClassDeclarationContext) {
-                    const typeType = candidate.typeType();
+            // Enums do not extend nor implement anything (except the implicit derivation from `Enum`, which is
+            // handled elsewhere).
+            if (!(classSymbol instanceof EnumDeclarationContext)) {
+                const candidate = classSymbol.context?.parent?.parent?.parent;
+                if (candidate instanceof CreatorContext) {
+                    // Anonymous inner class creation.
+                    const type = candidate.createdName().identifier(0).text;
+                    this.resolveTypeName(type, (symbol: Symbol) => {
+                        if (symbol instanceof ClassSymbol) {
+                            classSymbol.extends.push(symbol);
+                        }
+                    });
+                } else if (classSymbol.context instanceof ClassDeclarationContext) {
+                    const typeType = classSymbol.context.typeType();
                     if (typeType) { // Implies EXTENDS() is assigned.
                         if (classSymbol.parent instanceof JavaFileSymbolTable) {
                             // A symbol imported from another package.
@@ -266,9 +263,9 @@ export class JavaFileSymbolTable extends SymbolTable {
                         classSymbol.extends.push(this.objectSymbol);
                     }
 
-                    if (candidate.IMPLEMENTS()) {
+                    if (classSymbol.context.IMPLEMENTS()) {
                         // Interfaces to implement.
-                        candidate.typeList(0).typeType().forEach((typeContext) => {
+                        classSymbol.context.typeList(0).typeType().forEach((typeContext) => {
                             this.resolveFromImports(typeContext, (symbol: Symbol) => {
                                 if (symbol instanceof ClassSymbol || symbol instanceof InterfaceSymbol) {
                                     classSymbol.implements.push(symbol);
@@ -278,6 +275,7 @@ export class JavaFileSymbolTable extends SymbolTable {
                     }
                 }
             }
+
         });
     };
 
@@ -306,7 +304,6 @@ export class JavaFileSymbolTable extends SymbolTable {
 
             const packageSymbols = this.source.symbolTable.getAllSymbolsSync(PackageSymbol);
             if (packageSymbols.length === 1) {
-                const importName = packageSymbols[0].name + "." + name;
                 for (const source of this.importList) {
                     if (source.packageId === "java") {
                         const info = source.resolveType(name);
@@ -315,7 +312,7 @@ export class JavaFileSymbolTable extends SymbolTable {
 
                             break;
                         }
-                    } else if (source.packageId === importName) {
+                    } else if (source.packageId.endsWith("." + name)) {
                         const resolved = source.resolveAndImport(name);
                         if (resolved) {
                             add(resolved);

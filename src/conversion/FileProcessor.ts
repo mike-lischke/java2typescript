@@ -1223,17 +1223,14 @@ export class FileProcessor {
 
         this.processInterfaceBody(localBuilder, isTypescriptCompatible, context.interfaceBody());
         if (isTypescriptCompatible) {
-            localBuilder.insert(0, `${ws}interface${identifierBuilder.toString()}`);
+            localBuilder.insert(0, `${ws}interface${identifierBuilder}`);
         } else {
-            localBuilder.insert(0, `${ws}abstract class${identifierBuilder.toString()}`);
+            localBuilder.insert(0, `${ws}abstract class${identifierBuilder}`);
         }
 
-        if (this.typeStack.length > 1) {
-            const nested = this.processNestedContent(doExport);
-            this.typeStack.tos?.deferredDeclarations.append(`${prefix}${nested.toString()}${localBuilder.toString()}`);
-        } else {
-            builder.append(`${prefix}${localBuilder.toString()}`);
-        }
+        const nested = this.processNestedContent(doExport);
+        this.typeStack.tos?.deferredDeclarations.append(nested);
+        builder.append(`${prefix}${localBuilder}`);
     };
 
     private processInterfaceBody = (builder: java.lang.StringBuilder, isTypescriptCompatible: boolean,
@@ -1329,6 +1326,10 @@ export class FileProcessor {
         switch (firstChild.ruleIndex) {
             case JavaParser.RULE_constDeclaration: {
                 this.processConstDeclaration(result, firstChild as ConstDeclarationContext);
+
+                // Const declarations must be moved to a separate namespace.
+                this.typeStack.tos?.deferredDeclarations.append(`\texport const ${result.bodyContent}\n`);
+                result.bodyContent.clear();
 
                 break;
             }
@@ -2476,6 +2477,7 @@ export class FileProcessor {
             }
 
             this.getContent(builder, child as TerminalNode); // The dot.
+            ++index;
         }
 
     };

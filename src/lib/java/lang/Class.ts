@@ -8,9 +8,9 @@
 import { JavaObject } from "./Object";
 
 /** A partial implementation of Java's Class type. */
-export class Class<T extends JavaObject> extends JavaObject {
+export class Class<T> extends JavaObject {
 
-    private static classes = new Map<typeof JavaObject, Class<JavaObject>>();
+    private static classes = new Map<unknown, Class<unknown>>();
 
     private constructor(private c: typeof JavaObject) {
         super();

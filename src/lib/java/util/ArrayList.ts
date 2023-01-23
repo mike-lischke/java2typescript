@@ -257,4 +257,9 @@ export class ArrayList<T> extends JavaObject implements java.util.List<T> {
 
         return target.toArray();
     }
+
+    /** Trims the capacity of this ArrayList instance to be the list's current size. */
+    public trimToSize(): void {
+        // Nothing to do here.
+    }
 }

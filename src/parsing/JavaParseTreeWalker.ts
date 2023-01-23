@@ -207,20 +207,23 @@ export class JavaParseTreeWalker implements JavaParserListener {
             if (!context.SEMI() && symbol.isTypescriptCompatible) {
                 const memberContext = context.interfaceMemberDeclaration();
 
-                // The Java interface is compatible with TS if:
-                // - there are only (generic) method declarations
-                // - these methods have no body.
-                let commonBodyDeclaration: InterfaceCommonBodyDeclarationContext | undefined;
-                if (memberContext?.interfaceMethodDeclaration()) {
-                    commonBodyDeclaration = memberContext.interfaceMethodDeclaration()!
-                        .interfaceCommonBodyDeclaration();
-                } else if (memberContext?.genericInterfaceMethodDeclaration()) {
-                    commonBodyDeclaration = memberContext.genericInterfaceMethodDeclaration()!
-                        .interfaceCommonBodyDeclaration();
-                }
+                // The Java interface is compatible with TS if there are only:
+                // - const declarations (will be moved to a parallel namespace)
+                // - static (generic) method declarations (will be moved to a parallel namespace)
+                // - non-static (generic) method declarations without a body.
+                if (!memberContext?.constDeclaration()) {
+                    let commonBodyDeclaration: InterfaceCommonBodyDeclarationContext | undefined;
+                    if (memberContext?.interfaceMethodDeclaration()) {
+                        commonBodyDeclaration = memberContext.interfaceMethodDeclaration()!
+                            .interfaceCommonBodyDeclaration();
+                    } else if (memberContext?.genericInterfaceMethodDeclaration()) {
+                        commonBodyDeclaration = memberContext.genericInterfaceMethodDeclaration()!
+                            .interfaceCommonBodyDeclaration();
+                    }
 
-                if (!commonBodyDeclaration || commonBodyDeclaration.methodBody().block() != null) {
-                    symbol.isTypescriptCompatible = false;
+                    if (!commonBodyDeclaration || commonBodyDeclaration.methodBody().block() != null) {
+                        symbol.isTypescriptCompatible = false;
+                    }
                 }
             }
         });
