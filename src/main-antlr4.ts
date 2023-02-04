@@ -1,13 +1,9 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
 /*
  * This file is released under the MIT license.
- * Copyright (c) 2021, 2022, Mike Lischke
+ * Copyright (c) 2021, 2023, Mike Lischke
  *
  * See LICENSE file for more info.
  */
-
-/* eslint-disable max-classes-per-file */
-/* eslint-disable no-underscore-dangle */
 
 /* cspell: ignore a4tstool */
 
@@ -49,10 +45,8 @@ const importResolver = (packageId: string): PackageSource | undefined => {
 const convertAntlr4Runtime = async () => {
     const antlrToolOptions: IConverterConfiguration = {
         packageRoot: path.resolve(process.cwd(), "../antlr4/runtime/Java/src"),
-        javaLib: path.resolve(process.cwd(), "../a4tstool/lib/java/java.ts"),
         include: [
-            //"atn/*",
-            "/ATNType",
+            "/PlusBlockStartState.java",
         ],
         exclude: [
             "AbstractEqualityComparator.java",
@@ -64,6 +58,7 @@ const convertAntlr4Runtime = async () => {
         ],
         output: "../a4tstool/runtime",
         options: {
+            /*
             prefix: `
 /*
  eslint-disable @typescript-eslint/no-namespace, @typescript-eslint/naming-convention, no-redeclare,
@@ -72,9 +67,10 @@ const convertAntlr4Runtime = async () => {
  no-underscore-dangle, max-len
 */
 
-/* cspell: disable */
+            /* cspell: disable /
 
-`,
+            `,
+            */
             importResolver,
             lib: path.resolve(process.cwd(), "../a4tstool/lib"),
             convertAnnotations: false,
@@ -87,15 +83,16 @@ const convertAntlr4Runtime = async () => {
         },
         sourceReplace: new Map([
             [/\n\s+\* {@inheritDoc}/g, ""],
-            [/\* @return /g, " @returns "],
+            [/\* @return /g, "* @returns "],
             [/\* @since[^\n*]*/g, "*"],
+            [/{@code true}/g, "`true`"],
         ]),
 
         /*debug: {
             pathForPosition: {
                 position: {
-                    row: 131,
-                    column: 11,
+                    row: 20,
+                    column: 2,
                 },
             },
         },*/
@@ -107,12 +104,6 @@ const convertAntlr4Runtime = async () => {
 };
 
 (async () => {
-    // Generate parser files from the grammars in this folder. We use ANTLR3 jar and Java as target.
-    /*const fileList = glob.sync("/Volumes/Extern/Work/projects/antlr3/tool/src/main/antlr3/org/antlr/grammar/v3/*.g");
-    for await (const file of fileList) {
-        await SourceGenerator.generateAntlr3Parsers(file);
-    }*/
-
     await convertAntlr4Runtime();
 })().catch((e: Error) => {
     console.error("\nError during conversion: " + (e.stack ?? ""));

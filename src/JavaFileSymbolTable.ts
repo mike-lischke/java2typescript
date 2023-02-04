@@ -5,22 +5,25 @@
  * See LICENSE file for more info.
  */
 
+/* eslint-disable no-underscore-dangle */
+
 import {
     Symbol, ClassSymbol, ScopedSymbol, SymbolTable, InterfaceSymbol, ParameterSymbol, Modifier, NamespaceSymbol,
+    TypedSymbol,
 } from "antlr4-c3";
 import { ParseTree, ParseTreeWalker } from "antlr4ts/tree";
 
 import {
-    ClassDeclarationContext, CreatorContext, EnumDeclarationContext, ExpressionContext, InterfaceDeclarationContext,
-    TypeTypeContext,
-} from "../../java/generated/JavaParser";
-import { ISymbolInfo } from "../conversion/types";
-import { PackageSource } from "../PackageSource";
-import { JavaClassSymbol } from "../parsing/JavaClassSymbol";
+    ClassDeclarationContext, ClassOrInterfaceTypeContext, CreatorContext, EnumDeclarationContext, ExpressionContext,
+    InterfaceDeclarationContext, StatementContext, SwitchLabelContext, TypeTypeContext,
+} from "../parser/generated/JavaParser";
+import { ISymbolInfo } from "./conversion/types";
+import { PackageSource } from "./PackageSource";
+import { JavaClassSymbol } from "./parsing/JavaClassSymbol";
 import {
     ClassCreatorSymbol,
     ConstructorSymbol, EnumSymbol, InitializerBlockSymbol, JavaParseTreeWalker, PackageSymbol,
-} from "../parsing/JavaParseTreeWalker";
+} from "./parsing/JavaParseTreeWalker";
 
 export class JavaFileSymbolTable extends SymbolTable {
 
@@ -43,10 +46,10 @@ export class JavaFileSymbolTable extends SymbolTable {
     /**
      * Converts a given symbol name to its fully qualified form, if it can be found.
      *
-     * @param context The parse context where to start the search from.
+     * @param context The parse context containing the reference to the symbol to look up.
      * @param name The name of the symbol to find.
      *
-     * @returns A string containing the constructed qualifier. If no symbol could be found then undefined is returned.
+     * @returns A record with details about the found symbol. If no symbol could be found then undefined is returned.
      */
     public getQualifiedSymbol = (context: ParseTree, name: string): ISymbolInfo | undefined => {
         this.resolveReferences();
@@ -79,6 +82,11 @@ export class JavaFileSymbolTable extends SymbolTable {
 
         if (!block) {
             return undefined;
+        }
+
+        if (run.parent instanceof SwitchLabelContext) {
+            // Switch statements need special handling to look up where an identifier comes from.
+            return this.resolveSwitchLabel(run.parent);
         }
 
         const symbol = run instanceof ClassDeclarationContext
@@ -128,7 +136,7 @@ export class JavaFileSymbolTable extends SymbolTable {
                 };
             }
 
-            // Otherwise this is a non-static nested type and we have to apply special qualifiers,
+            // Otherwise this is a non-static nested type (aka. inner type) and we have to apply special qualifiers,
             // depending on certain conditions.
             // Non-static local class types either use `this` or the outer class as qualifier, depending on the
             // context in which they are used.
@@ -168,6 +176,15 @@ export class JavaFileSymbolTable extends SymbolTable {
                         qualifiedName: "this." + name,
                     };
                 }
+            }
+
+            if (context instanceof ClassOrInterfaceTypeContext && run instanceof ClassDeclarationContext) {
+                // A local type used in a field declaration or parameter.
+                // A type declaration is generated for that in the side-car namespace of the generated file.
+                return {
+                    symbol,
+                    qualifiedName: `${run.identifier().text}.${name}`,
+                };
             }
 
             return {
@@ -383,4 +400,43 @@ export class JavaFileSymbolTable extends SymbolTable {
 
         return run?.parent instanceof ClassSymbol || run?.parent instanceof InterfaceSymbol;
     };
+
+    /**
+     * Tries to resolve a switch case label. For this we have to walk up to check the switch expression to see
+     * if that is a symbol we can resolve. If that's possible, take the symbol's type as reference to resolve
+     * the case label.
+     *
+     * @param context The context of the switch label.
+     *
+     * @returns The symbol info for the label or undefined if it cannot be resolved here.
+     */
+    private resolveSwitchLabel = (context: SwitchLabelContext): ISymbolInfo | undefined => {
+        const identifierContext = context._constantExpression?.primary()?.identifier();
+        if (identifierContext) {
+            // Only single identifiers can be resolved.
+            const statementContext = context.parent?.parent as StatementContext;
+            const switchExpression = statementContext?.parExpression();
+            if (switchExpression) {
+                const valueContext = switchExpression.expression().primary()?.identifier();
+                if (valueContext) {
+                    const info = this.getQualifiedSymbol(statementContext, valueContext.text);
+                    if (info && info.symbol instanceof TypedSymbol && info.symbol.type) {
+                        const typeInfo = this.getQualifiedSymbol(statementContext, info.symbol.type.name);
+                        if (typeInfo && typeInfo.symbol) {
+                            const symbol = typeInfo.symbol.resolveSync(identifierContext.text);
+                            if (symbol) {
+                                return {
+                                    symbol,
+                                    qualifiedName: `${typeInfo.qualifiedName}.${symbol.name}`,
+                                };
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        return undefined;
+    };
+
 }

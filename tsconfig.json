@@ -14,12 +14,11 @@
         "strictPropertyInitialization": true,
         "rootDirs": [
             "src",
-            "java/generated"
         ]
     },
     "include": [
         "src/**/*.ts",
-        "java/generated/**/*.ts",
+        "parser/generated/**/*.ts",
     ],
     "exclude": [
         "node_modules/**/*.*",

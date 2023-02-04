@@ -11,6 +11,7 @@ import {
     Symbol, BlockSymbol, FieldSymbol, MethodSymbol, ParameterSymbol, ScopedSymbol, SymbolTable, InterfaceSymbol,
     Modifier, Type, TypeKind, ReferenceKind, VariableSymbol, ClassSymbol,
 } from "antlr4-c3";
+import { java } from "jree";
 
 import { ParserRuleContext } from "antlr4ts";
 import { TerminalNode } from "antlr4ts/tree";
@@ -22,9 +23,9 @@ import {
     InterfaceMethodDeclarationContext, JavaParser, LocalVariableDeclarationContext, FieldDeclarationContext,
     EnhancedForControlContext, CatchClauseContext, EnumConstantContext, InterfaceCommonBodyDeclarationContext,
     ClassCreatorRestContext,
-} from "../../java/generated/JavaParser";
-import { JavaParserListener } from "../../java/generated/JavaParserListener";
-import { Stack } from "../lib/java/util/Stack";
+    SwitchBlockStatementGroupContext,
+} from "../../parser/generated/JavaParser";
+import { JavaParserListener } from "../../parser/generated/JavaParserListener";
 
 import { EnhancedTypeKind } from "../conversion/types";
 import { PackageSource } from "../PackageSource";
@@ -36,6 +37,7 @@ export class FileSymbol extends ScopedSymbol { }
 export class AnnotationSymbol extends ScopedSymbol { }
 export class EnumSymbol extends JavaClassSymbol { }
 export class EnumConstantSymbol extends Symbol { }
+export class SwitchBlockGroup extends ScopedSymbol { }
 export class ConstructorSymbol extends MethodSymbol { }
 
 export class ClassBodySymbol extends ScopedSymbol { }
@@ -74,7 +76,7 @@ export class JavaParseTreeWalker implements JavaParserListener {
         ["Map", EnhancedTypeKind.Map],
     ]);
 
-    private symbolStack = new Stack<ScopedSymbol>();
+    private symbolStack = new java.util.Stack<ScopedSymbol>();
     private enumSymbol?: JavaClassSymbol;
 
     public constructor(private symbolTable: SymbolTable, private packageRoot: string,
@@ -181,7 +183,7 @@ export class JavaParseTreeWalker implements JavaParserListener {
 
     public enterInterfaceMethodDeclaration = (ctx: InterfaceMethodDeclarationContext): void => {
         const symbol = this.pushNewScope(MethodSymbol, ctx.interfaceCommonBodyDeclaration().identifier().text, ctx);
-        this.checkStatic(symbol);
+        symbol.modifiers.add(Modifier.Static);
     };
 
     public exitInterfaceMethodDeclaration = (): void => {
@@ -246,6 +248,7 @@ export class JavaParseTreeWalker implements JavaParserListener {
         const symbol = this.pushNewScope(EnumSymbol, ctx.identifier().text, ctx);
         if (this.enumSymbol) {
             symbol.extends.push(this.enumSymbol);
+            symbol.modifiers.add(Modifier.Static);
         }
     };
 
@@ -336,6 +339,14 @@ export class JavaParseTreeWalker implements JavaParserListener {
     };
 
     public exitCatchClause = (): void => {
+        this.symbolStack.pop();
+    };
+
+    public enterSwitchBlockStatementGroup = (ctx: SwitchBlockStatementGroupContext): void => {
+        this.pushNewScope(SwitchBlockGroup, "#switchBlockGroup", ctx);
+    };
+
+    public exitSwitchBlockStatementGroup = (): void => {
         this.symbolStack.pop();
     };
 

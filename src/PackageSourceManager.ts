@@ -1,12 +1,12 @@
 /*
  * This file is released under the MIT license.
- * Copyright (c) 2021, 2022, Mike Lischke
+ * Copyright (c) 2021, 2023, Mike Lischke
  *
  * See LICENSE file for more info.
  */
 
-import { JavaFileSource } from "./java/JavaFileSource";
-import { JavaPackageSource } from "./java/JavaPackageSource";
+import { JavaFileSource } from "./JavaFileSource";
+import { JavaPackageSource } from "./JavaPackageSource";
 import { PackageSource } from "./PackageSource";
 
 /** This is the hook for the application to provide custom package sources for symbol resolution. */
@@ -25,11 +25,11 @@ export class PackageSourceManager {
     // The list of all known package sources.
     private static sources = new Map<string, PackageSource>();
 
-    public static configure = (javaTargetRoot: string, customImportResolver?: CustomImportResolver): void => {
+    public static configure = (javaTargetRoot?: string, customImportResolver?: CustomImportResolver): void => {
         this.customImportResolver = customImportResolver;
-        this.javaTargetRoot = javaTargetRoot;
+        this.javaTargetRoot = javaTargetRoot ?? "jree";
 
-        // All JDK sources are always known.
+        // All JRE sources are always known.
         const source = new JavaPackageSource("java", "", this.javaTargetRoot);
         this.sources.set("java", source);
     };

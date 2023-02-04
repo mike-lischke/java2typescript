@@ -7,9 +7,9 @@
 
 import { Symbol, FieldSymbol, MethodSymbol, ScopedSymbol, SymbolTable } from "antlr4-c3";
 
-import { PackageSource } from "../PackageSource";
-import { JavaClassSymbol } from "../parsing/JavaClassSymbol";
-import { JavaInterfaceSymbol } from "../parsing/JavaParseTreeWalker";
+import { PackageSource } from "./PackageSource";
+import { JavaClassSymbol } from "./parsing/JavaClassSymbol";
+import { JavaInterfaceSymbol } from "./parsing/JavaParseTreeWalker";
 
 interface IClassHierarchyEntry {
     // Qualified name.
@@ -25,7 +25,7 @@ interface IClassHierarchyEntry {
 // A package source specifically for Java imports. It handles symbol resolution for known Java SDK packages.
 export class JavaPackageSource extends PackageSource {
 
-    // Definition of the part of the Java class hierarchy, we support here.
+    // Definition of the part of the Java class hierarchy we support here.
     // The symbol table is created from this array.
     private static readonly javaClassHierarchy: IClassHierarchyEntry[] = [
         { name: "java.lang.Object" },
@@ -119,6 +119,7 @@ export class JavaPackageSource extends PackageSource {
         { name: "java.nio.Buffer", extends: "java.lang.Object" },
         { name: "java.nio.CharBuffer", extends: "java.nio.Buffer" },
         { name: "java.nio.ByteBuffer", extends: "java.nio.Buffer" },
+        { name: "java.nio.IntBuffer", extends: "java.nio.Buffer" },
         { name: "java.nio.ByteOrder", extends: "java.lang.Object" },
         { name: "java.nio.InvalidMarkException", extends: "java.lang.IllegalStateException" },
         { name: "java.nio.BufferOverflowException", extends: "java.lang.RuntimeException" },

@@ -15,6 +15,7 @@
         "antlr4ts": "0.5.0-alpha.4",
         "glob": "8.0.3",
         "immutable": "4.1.0",
+        "jree": "1.0.1",
         "printf": "0.6.1",
         "unicode-properties": "1.4.1"
     },
@@ -37,11 +38,11 @@
     },
     "scripts": {
         "build": "npm run antlr4ts && tsc",
-        "test": "jest --testMatch [ \"**/output/src/test/**/*.spec.js\" ] --no-coverage --watchAll=false --max-worker=1",
-        "test-ci": "jest --testMatch [ \"**/output/src/test/**/*.spec.js\" ] --no-coverage --watchAll=false --silent",
+        "test": "jest --testMatch [ \"**/src/test/**/*.spec.ts\" ] --no-coverage --watchAll=false --max-worker=1",
+        "test-ci": "jest --testMatch [ \"**/src/test/**/*.spec.ts\" ] --no-coverage --watchAll=false --silent",
         "test-coverage": "jest  --testMatch [ \"**/src/test/**/*.spec.ts\" ] --coverage --silent",
         "lint": "eslint \"./src/**/*.ts\"",
-        "antlr4ts": "antlr4ts -Xexact-output-dir ./java/JavaLexer.g4 ./java/JavaParser.g4 -visitor -o ./java/generated"
+        "antlr4ts": "antlr4ts -Xexact-output-dir ./parser/JavaLexer.g4 ./parser/JavaParser.g4 -visitor -o ./parser/generated"
     },
     "jest": {
         "testEnvironment": "node",

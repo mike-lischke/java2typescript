@@ -45,11 +45,13 @@
         "strictfp",
         "stringbuilder",
         "stringtemplate",
+        "typeof",
         "unmappable",
         "uxxxx",
         "ᬠᬣᬦᬪᬫᬬᬭ"
     ],
     "ignorePaths": [
-        ".eslintrc.json"
+        ".eslintrc.json",
+        "parser"
     ]
 }

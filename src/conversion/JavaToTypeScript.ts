@@ -114,9 +114,10 @@ export interface IConverterConfiguration {
     packageRoot: string;
 
     /**
-     * The absolute path to the Java SDK polyfills root folder.
+     * The absolute path to the Java SDK polyfills root folder. Leave undefined to use the default
+     * (the `jree` node package).
      */
-    javaLib: string;
+    javaLib?: string;
 
     /**
      * An optional inclusion filter for files found in the package. Only files matching this pattern are actually

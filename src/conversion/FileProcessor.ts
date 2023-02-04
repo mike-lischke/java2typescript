@@ -13,9 +13,9 @@ import { Interval } from "antlr4ts/misc/";
 import { ParseTree, TerminalNode } from "antlr4ts/tree";
 import { ClassSymbol, InterfaceSymbol, TypedSymbol } from "antlr4-c3";
 
-import { java } from "../lib/java/java";
+import { java, S } from "jree";
 
-import { JavaLexer } from "../../java/generated/JavaLexer";
+import { JavaLexer } from "../../parser/generated/JavaLexer";
 import {
     AnnotationContext, AnnotationTypeDeclarationContext, ArgumentsContext, ArrayInitializerContext, BlockContext,
     BlockStatementContext, CatchClauseContext, ClassBodyContext, ClassBodyDeclarationContext,
@@ -38,14 +38,13 @@ import {
     TypeArgumentsContext, TypeArgumentsOrDiamondContext, TypeBoundContext, TypeDeclarationContext, TypeListContext,
     TypeParameterContext, TypeParametersContext, TypeTypeContext, TypeTypeOrVoidContext, VariableDeclaratorContext,
     VariableDeclaratorIdContext, VariableDeclaratorsContext, VariableInitializerContext, VariableModifierContext,
-} from "../../java/generated/JavaParser";
+} from "../../parser/generated/JavaParser";
 
 import { PackageSource } from "../PackageSource";
 import { ConverterOptionsPrefixFunc, IClassResolver, IConverterConfiguration } from "./JavaToTypeScript";
 import { EnumSymbol, JavaInterfaceSymbol } from "../parsing/JavaParseTreeWalker";
 import { PackageSourceManager } from "../PackageSourceManager";
 import { EnhancedTypeKind, ISymbolInfo } from "./types";
-import { S } from "../lib/templates";
 
 enum ModifierType {
     None,
@@ -120,8 +119,8 @@ interface IClassMemberDetails {
     /** All whitespaces + comments before the modifier. */
     leadingWhitespace: string;
 
-    /** Visibility/read only modifier. */
-    modifier: string;
+    /** Visibility/read only modifiers. */
+    modifiers?: Set<string>;
 
     /** Name + optional type parameters of the member (only for methods + constructors). */
     nameWhitespace?: string;
@@ -323,14 +322,7 @@ export class FileProcessor {
             this.source.importList.forEach((source) => {
                 const info = source.getImportInfo(target);
                 if (info[0].length > 0) {
-                    // There's an extended version of MurmurHash in the JREE support library. So we can take out
-                    // such imports from the package imports and instead add a library import.
-                    const importSymbols = info[0].join(",");
-                    if (importSymbols === "MurmurHash") {
-                        this.libraryImports.set("MurmurHash", ["MurmurHash"]);
-                    } else {
-                        header.append(`import { ${info[0].join(",")} } from "${info[1]}";\n`);
-                    }
+                    header.append(`import { ${info[0].join(",")} } from "${info[1]}";\n`);
                 }
             });
 
@@ -371,11 +363,11 @@ export class FileProcessor {
 
     private processTypeDeclaration = (builder: java.lang.StringBuilder, list: TypeDeclarationContext[]): void => {
         list.forEach((context) => {
-            let prefix = this.getLeadingWhiteSpaces(context);
-            let hasVisibility = false;
+            const prefix = new java.lang.StringBuilder();
+            const ws = this.getLeadingWhiteSpaces(context);
+            prefix.append(ws);
 
-            let doExport = false;
-            const modifierBuilder = new java.lang.StringBuilder();
+            const modifiers = new Set<string>();
             let ignoreNextWhitespaces = false;
             context.classOrInterfaceModifier().forEach((context) => {
                 if (ignoreNextWhitespaces) {
@@ -383,17 +375,19 @@ export class FileProcessor {
                     this.getLeadingWhiteSpaces(context);
                 }
 
-                switch (this.processClassOrInterfaceModifier(modifierBuilder, context, RelatedElement.File)) {
+                switch (this.processClassOrInterfaceModifier(prefix, context, RelatedElement.File)) {
                     case ModifierType.Public: {
-                        prefix += "export ";
-                        hasVisibility = true;
-                        doExport = true;
+                        modifiers.add("export");
                         break;
                     }
 
-                    case ModifierType.Protected:
+                    case ModifierType.Protected: {
+                        modifiers.add("protected");
+                        break;
+                    }
+
                     case ModifierType.Private: {
-                        hasVisibility = true;
+                        modifiers.add("private");
                         break;
                     }
 
@@ -406,20 +400,18 @@ export class FileProcessor {
                 }
             });
 
-            if (!hasVisibility) {
+            if (modifiers.size === 0) {
                 // No modifier means package-private. TS doesn't have such a concept, so we have to export instead.
-                prefix += "export ";
-                doExport = true;
+                modifiers.add("export");
             }
 
             if (context.classDeclaration()) {
-                this.processClassDeclaration(builder, context.classDeclaration(), prefix,
-                    `${modifierBuilder.toString()}`);
+                this.processClassDeclaration(builder, context.classDeclaration(), `${prefix}`, modifiers);
             } else if (context.enumDeclaration()) {
-                this.processEnumDeclaration(builder, context.enumDeclaration(), prefix,
-                    `${modifierBuilder.toString()}`);
+                this.processEnumDeclaration(builder, context.enumDeclaration(), modifiers);
             } else if (context.interfaceDeclaration()) {
-                this.processInterfaceDeclaration(builder, context.interfaceDeclaration(), prefix, doExport);
+                this.processInterfaceDeclaration(builder, context.interfaceDeclaration(), `${prefix}`,
+                    modifiers.has("export"));
             } else { // annotationTypeDeclaration
                 this.getContent(builder, context, true);
             }
@@ -499,7 +491,7 @@ export class FileProcessor {
     };
 
     private processClassDeclaration = (builder: java.lang.StringBuilder, context: ClassDeclarationContext | undefined,
-        prefix: string, modifier: string, extraCtorParams?: ExtraParameters): void => {
+        prefix: string, modifiers: Set<string>, extraCtorParams?: ExtraParameters): void => {
         if (!context) {
             return;
         }
@@ -530,7 +522,7 @@ export class FileProcessor {
             this.processTypeType(localBuilder, context.typeType());
         } else {
             localBuilder.append(" extends JavaObject");
-            this.libraryImports.set("java/lang/Object", ["JavaObject"]);
+            this.registerJavaImport("JavaObject");
         }
 
         if (context.IMPLEMENTS()) {
@@ -561,41 +553,46 @@ export class FileProcessor {
         }
 
         const mustBeAbstract = this.processClassBody(localBuilder, context.classBody(), extraCtorParams)
-            || modifier.includes("abstract");
+            || modifiers.has("abstract");
 
         // Conclude nested content within this class declaration.
-        const nested = this.processNestedContent(modifier.includes("export"));
+        const nested = this.processNestedContent(modifiers.has("export"));
         const className = context.identifier().text;
 
         // Check if this declaration itself is nested.
         if (this.typeStack.length > 1) {
             // This is a nested class declaration. Convert it either to a class expression or a class factory function.
-            if (modifier.includes("static")) {
-                builder.append(`${prefix}${modifier} ${className} = ${localBuilder.toString()};\n`);
+            // We have to make it public or the sidecar namespace instance type declaration will not compile.
+            modifiers.delete("protected");
+            modifiers.delete("private");
+            modifiers.add("public");
+
+            if (modifiers.has("static")) {
+                builder.append(`${prefix}${[...modifiers].join(" ")} ${className} = ${localBuilder.toString()};\n`);
             } else {
-                builder.append(`${prefix}${modifier} ${className} = (($outer) => ` +
+                builder.append(`${prefix}${[...modifiers].join(" ")} ${className} = (($outer) => ` +
                     `{\nreturn ${localBuilder.toString()}`);
                 builder.append(`\n})(this);\n`);
             }
 
-            const owner = this.typeStack.tos;
+            const owner = this.typeStack.tos!;
 
-            // Add a type declaration for the nested class, so it can be used as a type.
-            const typeOfText = modifier.includes("static") ? "typeof " : "";
+            // Add a type declaration for the nested type, so it can be used as a type in expressions.
+            const typeOfText = modifiers.has("static") ? "typeof " : "";
 
             let typeParameters = "";
             if (context.typeParameters()) {
                 typeParameters = context.typeParameters()!.text;
             }
 
-            // Add a comment to suppress Typescript's error for non-public nested types, if necessary.
-            let suppression = "";
-            if (!modifier.includes("public")) {
-                suppression = "\t// @ts-expect-error, because of protected inner class.\n";
+            if (typeParameters || modifiers.has("static")) {
+                // Not possible with inner types (non-static).
+                this.typeStack.tos?.deferredDeclarations.append(`\texport type ${className}` +
+                    `${typeParameters} = InstanceType<typeof ${owner.name!}.${className}${typeParameters}>;\n`);
+            } else {
+                this.typeStack.tos?.deferredDeclarations.append(`\texport type ${className}` +
+                    ` = InstanceType<${typeOfText}${owner.name!}["${className}"]>;\n`);
             }
-
-            this.typeStack.tos?.deferredDeclarations.append(`${suppression}\texport type ${className}` +
-                `${typeParameters} = InstanceType<${typeOfText}${owner!.name!}.${className}${typeParameters}>;\n`);
         } else {
             // A top level class declaration.
             builder.append(`${prefix}${mustBeAbstract ? "abstract " : ""}`);
@@ -632,7 +629,7 @@ export class FileProcessor {
                 const leadingWhitespace = this.getLeadingWhiteSpaces(context);
                 const bodyContent = new java.lang.StringBuilder();
                 this.getContent(bodyContent, context, false);
-                members.push({ type: MemberType.Empty, leadingWhitespace, modifier: "", name: "", bodyContent });
+                members.push({ type: MemberType.Empty, leadingWhitespace, name: "", bodyContent });
             } else if (context.block()) {
                 // Static or instance initializer.
                 if (context.STATIC()) {
@@ -643,7 +640,6 @@ export class FileProcessor {
                     members.push({
                         type: MemberType.Static,
                         leadingWhitespace,
-                        modifier: "public",
                         name: "",
                         bodyContent,
                     });
@@ -662,9 +658,10 @@ export class FileProcessor {
                     }
                 }
             } else {
-                let hasVisibility = false;
-                const modifierBuilder = new java.lang.StringBuilder();
+                const prefix = new java.lang.StringBuilder();
                 const ws = this.getLeadingWhiteSpaces(context);
+
+                const modifiers = new Set<string>();
                 let ignoreNextWhitespaces = false;
                 context.modifier().forEach((context) => {
                     if (ignoreNextWhitespaces) {
@@ -672,12 +669,19 @@ export class FileProcessor {
                         this.getLeadingWhiteSpaces(context);
                     }
 
-                    switch (this.processModifier(modifierBuilder, context)) {
-                        case ModifierType.Public:
-                        case ModifierType.Protected:
-                        case ModifierType.Private: {
-                            hasVisibility = true;
+                    switch (this.processModifier(prefix, context)) {
+                        case ModifierType.Public: {
+                            modifiers.add("public");
+                            break;
+                        }
 
+                        case ModifierType.Protected: {
+                            modifiers.add("protected");
+                            break;
+                        }
+
+                        case ModifierType.Private: {
+                            modifiers.add("private");
                             break;
                         }
 
@@ -687,6 +691,7 @@ export class FileProcessor {
                         }
 
                         case ModifierType.Abstract: {
+                            modifiers.add("static");
                             containsAbstract = true;
                             break;
                         }
@@ -695,14 +700,14 @@ export class FileProcessor {
                     }
                 });
 
-                if (!hasVisibility) {
+                if (modifiers.size === 0) {
                     // No modifier means package-private.
-                    modifierBuilder.insert(0, "protected ");
+                    modifiers.add("protected");
                 }
 
                 if (context.memberDeclaration()) {
-                    const details = this.processMemberDeclaration(context.memberDeclaration(), ws,
-                        `${modifierBuilder.toString()}`, extraCtorParams);
+                    const details = this.processMemberDeclaration(context.memberDeclaration(), `${ws}`, modifiers,
+                        extraCtorParams);
 
                     if (details && details.bodyContent.length() > 0) {
                         // The content is empty if the member was converted to a (nested) namespace
@@ -718,12 +723,11 @@ export class FileProcessor {
             this.typeStack.tos?.generatedMembers.push({
                 type: MemberType.Initializer,
                 leadingWhitespace: "",
-                modifier: "",
                 bodyContent: initializer,
             });
         }
 
-        this.processBodyMembers(builder, members);
+        this.processBodyMembers(builder, members, true);
 
         return containsAbstract;
     };
@@ -744,7 +748,7 @@ export class FileProcessor {
     };
 
     private processMemberDeclaration = (context: MemberDeclarationContext | undefined, prefix: string,
-        modifier: string, extraCtorParams?: ExtraParameters): IClassMemberDetails | undefined => {
+        modifiers: Set<string>, extraCtorParams?: ExtraParameters): IClassMemberDetails | undefined => {
         if (!context) {
             return;
         }
@@ -752,7 +756,7 @@ export class FileProcessor {
         const result: IClassMemberDetails = {
             type: MemberType.Empty,
             leadingWhitespace: prefix,
-            modifier,
+            modifiers,
             bodyContent: new java.lang.StringBuilder(),
         };
 
@@ -773,8 +777,8 @@ export class FileProcessor {
             case JavaParser.RULE_fieldDeclaration: {
                 // The modifier for fields must be replicated if multiple fields for one type are defined.
                 // That's why we have to remove it from the member details field. Same for leading whitespaces.
-                result.modifier = "";
-                this.processFieldDeclaration(result, context.fieldDeclaration(), modifier);
+                result.modifiers = undefined;
+                this.processFieldDeclaration(result, context.fieldDeclaration(), modifiers);
 
                 break;
             }
@@ -795,7 +799,8 @@ export class FileProcessor {
             case JavaParser.RULE_interfaceDeclaration: {
                 result.type = MemberType.Interface;
                 this.processInterfaceDeclaration(result.bodyContent, context.interfaceDeclaration(), prefix,
-                    modifier.includes("public"));
+                    modifiers.has("public"));
+                modifiers.add("static");
 
                 break;
             }
@@ -803,20 +808,22 @@ export class FileProcessor {
             case JavaParser.RULE_annotationTypeDeclaration: {
                 result.type = MemberType.Annotation;
                 this.processAnnotationTypeDeclaration(result.bodyContent, context.annotationTypeDeclaration());
+                modifiers.add("static");
 
                 break;
             }
 
             case JavaParser.RULE_classDeclaration: {
                 result.type = MemberType.Class;
-                this.processClassDeclaration(result.bodyContent, context.classDeclaration(), prefix, modifier);
+                this.processClassDeclaration(result.bodyContent, context.classDeclaration(), prefix, modifiers);
 
                 break;
             }
 
             case JavaParser.RULE_enumDeclaration: {
                 result.type = MemberType.Enum;
-                this.processEnumDeclaration(result.bodyContent, context.enumDeclaration(), prefix, modifier);
+                this.processEnumDeclaration(result.bodyContent, context.enumDeclaration(), modifiers);
+                modifiers.add("static");
 
                 break;
             }
@@ -850,7 +857,7 @@ export class FileProcessor {
         details.returnType = `${returnType.toString()}`;
 
         if (this.configuration.options.preferArrowFunctions) {
-            details.signatureContent.append(details.modifier.includes("abstract") ? ": " : " = ");
+            details.signatureContent.append(details.modifiers?.has("abstract") ? ": " : " = ");
         }
 
         if (genericParams) {
@@ -868,7 +875,7 @@ export class FileProcessor {
         }
 
         if (this.configuration.options.preferArrowFunctions) {
-            if (details.modifier.includes("abstract")) {
+            if (details.modifiers?.has("abstract")) {
                 details.signatureContent.append(` => ${returnType.toString()}`);
             } else {
                 details.signatureContent.append(`: ${returnType.toString()} =>`);
@@ -900,11 +907,11 @@ export class FileProcessor {
         let index = 0;
         let child = context.getChild(index);
         while (true) {
-            if (!(child instanceof FormalParameterContext)) {
+            if (!(child instanceof FormalParameterContext) || !details.signatureContent) {
                 break;
             }
 
-            details.signature?.push(this.processFormalParameter(details.signatureContent!, child));
+            details.signature?.push(this.processFormalParameter(details.signatureContent, child));
             if (++index === context.childCount) {
                 break;
             }
@@ -914,7 +921,7 @@ export class FileProcessor {
                 break;
             }
 
-            this.getContent(details.signatureContent!, child);
+            this.getContent(details.signatureContent, child);
 
             if (++index === context.childCount) {
                 break;
@@ -923,8 +930,8 @@ export class FileProcessor {
             child = context.getChild(index);
         }
 
-        if (child instanceof LastFormalParameterContext) {
-            details.signature!.push(this.processFormalParameter(details.signatureContent!, child));
+        if (child instanceof LastFormalParameterContext && details.signatureContent) {
+            details.signature!.push(this.processFormalParameter(details.signatureContent, child));
         }
     };
 
@@ -1012,7 +1019,7 @@ export class FileProcessor {
     };
 
     private processFieldDeclaration = (details: IClassMemberDetails, context: FieldDeclarationContext | undefined,
-        modifier: string): void => {
+        modifiers: Set<string>): void => {
 
         if (!context) {
             return;
@@ -1023,7 +1030,7 @@ export class FileProcessor {
         const type = new java.lang.StringBuilder();
         const isPrimitiveType = this.processTypeType(type, context.typeType());
 
-        this.processVariableDeclarators(details.bodyContent, context.variableDeclarators(), type, modifier,
+        this.processVariableDeclarators(details.bodyContent, context.variableDeclarators(), type, modifiers,
             !isPrimitiveType);
         this.getContent(details.bodyContent, context.SEMI());
     };
@@ -1246,12 +1253,12 @@ export class FileProcessor {
 
         list.forEach((context) => {
             if (!context.SEMI()) {
-                const modifierBuilder = new java.lang.StringBuilder();
-                const ws = this.getLeadingWhiteSpaces(context);
+                const prefix = new java.lang.StringBuilder();
+                prefix.append(this.getLeadingWhiteSpaces(context));
+                const modifiers = new Set<string>();
 
                 // Ignore modifiers, if we can use a TS interface.
                 if (!isTypescriptCompatible) {
-                    let hasVisibility = false;
                     let ignoreNextWhitespaces = false;
                     context.modifier().forEach((modifierContext) => {
                         if (ignoreNextWhitespaces) {
@@ -1259,11 +1266,19 @@ export class FileProcessor {
                             this.getLeadingWhiteSpaces(modifierContext);
                         }
 
-                        switch (this.processModifier(modifierBuilder, modifierContext)) {
-                            case ModifierType.Public:
-                            case ModifierType.Protected:
+                        switch (this.processModifier(prefix, modifierContext)) {
+                            case ModifierType.Public: {
+                                modifiers.add("public");
+                                break;
+                            }
+
+                            case ModifierType.Protected: {
+                                modifiers.add("protected");
+                                break;
+                            }
+
                             case ModifierType.Private: {
-                                hasVisibility = true;
+                                modifiers.add("private");
                                 break;
                             }
 
@@ -1276,9 +1291,9 @@ export class FileProcessor {
                         }
                     });
 
-                    if (!hasVisibility) {
+                    if (modifiers.size === 0) {
                         // No modifier means package private.
-                        modifierBuilder.insert(0, "protected ");
+                        modifiers.add("protected");
                     }
 
                     if (ignoreNextWhitespaces) {
@@ -1286,14 +1301,14 @@ export class FileProcessor {
                     }
                 }
 
-                const details = this.processInterfaceMemberDeclaration(context.interfaceMemberDeclaration(), ws,
-                    `${modifierBuilder.toString()}`);
+                const details = this.processInterfaceMemberDeclaration(context.interfaceMemberDeclaration(),
+                    `${prefix.toString()}`, modifiers, isTypescriptCompatible);
 
                 if (details) {
                     if (isTypescriptCompatible) {
                         // Reset type and modifier for methods marked as being abstract.
                         details.type = MemberType.Method;
-                        details.modifier = "";
+                        details.modifiers = undefined;
                     }
 
                     if (details.bodyContent.length() > 0) {
@@ -1304,13 +1319,13 @@ export class FileProcessor {
             }
         });
 
-        this.processBodyMembers(builder, members);
+        this.processBodyMembers(builder, members, false);
 
         return isTypescriptCompatible;
     };
 
     private processInterfaceMemberDeclaration = (context: InterfaceMemberDeclarationContext | undefined, prefix: string,
-        modifier: string): IClassMemberDetails | undefined => {
+        modifiers: Set<string>, isTypescriptCompatible: boolean): IClassMemberDetails | undefined => {
         if (!context) {
             return;
         }
@@ -1318,7 +1333,7 @@ export class FileProcessor {
         const result: IClassMemberDetails = {
             type: MemberType.Empty,
             leadingWhitespace: prefix,
-            modifier,
+            modifiers,
             bodyContent: new java.lang.StringBuilder(),
         };
 
@@ -1335,21 +1350,22 @@ export class FileProcessor {
             }
 
             case JavaParser.RULE_interfaceMethodDeclaration: {
-                this.processInterfaceMethodDeclaration(result, firstChild as InterfaceMethodDeclarationContext);
+                this.processInterfaceMethodDeclaration(result, firstChild as InterfaceMethodDeclarationContext,
+                    isTypescriptCompatible);
 
                 break;
             }
 
             case JavaParser.RULE_genericInterfaceMethodDeclaration: {
                 this.processGenericInterfaceMethodDeclaration(result,
-                    firstChild as GenericInterfaceMethodDeclarationContext);
+                    firstChild as GenericInterfaceMethodDeclarationContext, isTypescriptCompatible);
 
                 break;
             }
 
             case JavaParser.RULE_interfaceDeclaration: {
                 this.processInterfaceDeclaration(result.bodyContent, firstChild as InterfaceDeclarationContext,
-                    prefix, modifier.includes("public"));
+                    prefix, modifiers.has("public"));
 
                 break;
             }
@@ -1363,14 +1379,13 @@ export class FileProcessor {
 
             case JavaParser.RULE_classDeclaration: {
                 this.processClassDeclaration(result.bodyContent, firstChild as ClassDeclarationContext, prefix,
-                    modifier);
+                    modifiers);
 
                 break;
             }
 
             case JavaParser.RULE_enumDeclaration: {
-                this.processEnumDeclaration(result.bodyContent, firstChild as EnumDeclarationContext, prefix,
-                    modifier);
+                this.processEnumDeclaration(result.bodyContent, firstChild as EnumDeclarationContext, modifiers);
 
                 break;
             }
@@ -1419,18 +1434,19 @@ export class FileProcessor {
     };
 
     private processInterfaceMethodDeclaration = (details: IClassMemberDetails,
-        context: InterfaceMethodDeclarationContext): void => {
+        context: InterfaceMethodDeclarationContext, isTypescriptCompatible: boolean): void => {
 
         // Ignore all method modifiers. Interface members in TS have no modifiers.
         context.interfaceMethodModifier().forEach((modifier) => {
             this.ignoreContent(modifier);
         });
 
-        this.processInterfaceCommonBodyDeclaration(details, context.interfaceCommonBodyDeclaration());
+        this.processInterfaceCommonBodyDeclaration(details, context.interfaceCommonBodyDeclaration(),
+            isTypescriptCompatible);
     };
 
     private processGenericInterfaceMethodDeclaration = (details: IClassMemberDetails,
-        context: GenericInterfaceMethodDeclarationContext): void => {
+        context: GenericInterfaceMethodDeclarationContext, isTypescriptCompatible: boolean): void => {
 
         // Ignore all method modifiers. Interface members in TS have no modifiers.
         context.interfaceMethodModifier().forEach((modifier) => {
@@ -1441,11 +1457,12 @@ export class FileProcessor {
         this.processTypeParameters(typeParameters, context.typeParameters());
         details.typeParameters = `${typeParameters.toString()}`;
 
-        this.processInterfaceCommonBodyDeclaration(details, context.interfaceCommonBodyDeclaration());
+        this.processInterfaceCommonBodyDeclaration(details, context.interfaceCommonBodyDeclaration(),
+            isTypescriptCompatible);
     };
 
     private processInterfaceCommonBodyDeclaration = (details: IClassMemberDetails,
-        context: InterfaceCommonBodyDeclarationContext): void => {
+        context: InterfaceCommonBodyDeclarationContext, isTypescriptCompatible: boolean): void => {
         details.signatureContent = new java.lang.StringBuilder();
         details.signature = [];
 
@@ -1457,18 +1474,19 @@ export class FileProcessor {
         this.processTypeTypeOrVoid(returnType, context.typeTypeOrVoid());
         details.returnType = `${returnType.toString()}`;
 
-        const isAbstract = context.methodBody().SEMI() !== undefined;
+        const isAbstract = context.methodBody().SEMI() !== undefined && !isTypescriptCompatible;
         if (isAbstract) {
             details.type = MemberType.Abstract;
-            details.modifier += " abstract";
+            details.modifiers?.add("abstract");
         } else {
             details.type = MemberType.Method;
         }
 
+        const useArrowFunction = !isTypescriptCompatible && this.configuration.options.preferArrowFunctions;
         details.name = context.identifier().text;
         details.nameWhitespace = this.getLeadingWhiteSpaces(context.identifier());
         this.ignoreContent(context.identifier());
-        if (this.configuration.options.preferArrowFunctions) {
+        if (useArrowFunction) {
             details.signatureContent.append(isAbstract ? ": " : " = ");
         }
 
@@ -1487,7 +1505,7 @@ export class FileProcessor {
             this.ignoreContent(context.qualifiedNameList());
         }
 
-        details.signatureContent.append(this.configuration.options.preferArrowFunctions ? " => " : ": ");
+        details.signatureContent.append(useArrowFunction ? " => " : ": ");
         details.signatureContent.append(returnType);
 
         this.processMethodBody(details.bodyContent, context.methodBody());
@@ -1499,7 +1517,7 @@ export class FileProcessor {
     };
 
     private processEnumDeclaration = (builder: java.lang.StringBuilder, context: EnumDeclarationContext | undefined,
-        prefix: string, modifier: string): void => {
+        modifiers: Set<string>): void => {
         if (!context) {
             return;
         }
@@ -1518,8 +1536,8 @@ export class FileProcessor {
         this.ignoreContent(context.ENUM());
         localBuilder.append("class ");
         this.getContent(localBuilder, context.identifier());
-        localBuilder.append(S` extends Enum<${context.identifier().text}>`); // Implicit extension in Java.
-        this.libraryImports.set("java/lang/Enum", ["Enum"]);
+        localBuilder.append(S` extends java.lang.Enum<${context.identifier().text}>`); // Implicit extension in Java.
+        this.resolveType(context, "Enum");
 
         if (context.IMPLEMENTS()) {
             this.getContent(localBuilder, context.IMPLEMENTS());
@@ -1546,38 +1564,20 @@ export class FileProcessor {
         this.getContent(localBuilder, context.RBRACE());
 
         // Conclude nested content within this class declaration.
-        const nested = this.processNestedContent(modifier.includes("export"));
+        const nested = this.processNestedContent(modifiers.has("export"));
 
         // Check if this enum itself is nested.
         if (this.typeStack.length > 1) {
             const className = context.identifier().text;
 
-            // This is a nested enum declaration.
-            // Convert it either to a class expression or a class factory function.
-            if (modifier.includes("static")) {
-                builder.append(`${prefix}${modifier} ${className} = ${localBuilder.toString()};\n`);
-            } else {
-                builder.append(`${prefix}${modifier} ${className} = (($outer) => ` +
-                    `{\nreturn ${localBuilder.toString()}`);
-                builder.append(`\n})(this);\n`);
-            }
+            // This is a nested enum declaration, which are implicitly static.
+            builder.append(` ${className} = ${localBuilder.toString()};\n`);
+            const owner = this.typeStack.tos!;
 
-            const owner = this.typeStack.tos;
-
-            // Add a type declaration for the nested class, so it can be used as a type.
-            const typeOfText = modifier.includes("static") ? "typeof " : "";
-
-            // Add a comment to suppress Typescript's error for non-public nested types, if necessary.
-            let suppression = "";
-            if (!modifier.includes("public")) {
-                suppression = "\t// @ts-expect-error, because of protected inner enum.\n";
-            }
-
-            this.typeStack.tos?.deferredDeclarations.append(`${suppression}\texport type ${className}` +
-                ` = InstanceType<${typeOfText}${owner!.name!}.${className}>;\n`);
+            this.typeStack.tos!.deferredDeclarations.append(`\texport type ${className}` +
+                ` = InstanceType<typeof ${owner.name!}.${className}>;\n`);
         } else {
             // A top level enum declaration.
-            builder.append(`${prefix}`);
             builder.append(localBuilder);
         }
 
@@ -1637,7 +1637,7 @@ export class FileProcessor {
 
         // Finally add the initializer code to set the right name + ordinal for this field.
         builder.append(`S\`${enumName}\`, ${index})`);
-        this.libraryImports.set("templates", ["S"]);
+        this.registerJavaImport("S");
     };
 
     private processBlock = (builder: java.lang.StringBuilder, context?: BlockContext, extra?: string): void => {
@@ -1695,7 +1695,7 @@ export class FileProcessor {
         }
 
         builder.append(ws);
-        this.processVariableDeclarators(builder, context.variableDeclarators(), type, "", false);
+        this.processVariableDeclarators(builder, context.variableDeclarators(), type, new Set(), false);
     };
 
     private processVariableModifier = (builder: java.lang.StringBuilder, context: VariableModifierContext): void => {
@@ -1710,13 +1710,13 @@ export class FileProcessor {
     };
 
     private processVariableDeclarators = (builder: java.lang.StringBuilder, context: VariableDeclaratorsContext,
-        type: java.lang.StringBuilder, modifier: string, makeOptional: boolean): void => {
+        type: java.lang.StringBuilder, modifiers: Set<string>, makeOptional: boolean): void => {
         let index = 0;
 
         while (true) {
             const child = context.getChild(index++);
 
-            builder.append(modifier);
+            builder.append([...modifiers].join(" ") + " ");
             this.processVariableDeclarator(builder, child as VariableDeclaratorContext, type, makeOptional);
             if (index === context.childCount) {
                 break;
@@ -2186,7 +2186,6 @@ export class FileProcessor {
             const details: IClassMemberDetails = {
                 type: MemberType.Lambda,
                 leadingWhitespace: "",
-                modifier: "",
                 bodyContent: builder,
             };
             this.processFormalParameterList(details, context.formalParameterList());
@@ -2595,9 +2594,7 @@ export class FileProcessor {
         } else if (context.STRING_LITERAL()) {
             const value = context.STRING_LITERAL()?.text ?? "";
             builder.append(`S\`${value.substring(1, value.length - 1)}\``);
-
-            this.libraryImports.set("templates", ["S"]);
-
+            this.registerJavaImport("S");
         } else {
             this.getContent(builder, context);
         }
@@ -2694,8 +2691,9 @@ export class FileProcessor {
                     }
 
                     if (context.resourceSpecification()) {
-                        this.libraryImports.set("helpers", ["closeResources", "handleResourceError",
-                            "throwResourceError"]);
+                        this.registerJavaImport("closeResources");
+                        this.registerJavaImport("handleResourceError");
+                        this.registerJavaImport("throwResourceError");
 
                         builder.append(" {\n// This holds the final error to throw (if any).\nlet error: " +
                             "java.lang.Throwable | undefined;\n\n");
@@ -3357,8 +3355,10 @@ export class FileProcessor {
      *
      * @param builder The target builder to write the final output to.
      * @param members A list of process member entries.
+     * @param needOverloadHandling Set for interfaces to indicate that no overload handling is required.
      */
-    private processBodyMembers = (builder: java.lang.StringBuilder, members: IClassMemberDetails[]): void => {
+    private processBodyMembers = (builder: java.lang.StringBuilder, members: IClassMemberDetails[],
+        needOverloadHandling: boolean): void => {
         const pending: IClassMemberDetails[] = [];
 
         const generatedMembers = this.typeStack.tos?.generatedMembers ?? [];
@@ -3377,11 +3377,12 @@ export class FileProcessor {
                 break;
             }
 
+            const modifier = member.modifiers ? [...member.modifiers].join(" ") + " " : "";
             switch (member.type) {
                 case MemberType.Constructor:
                 case MemberType.Method: {
                     members = this.processConstructorAndMethodMembers(builder, member, members,
-                        needSuperCallSuppression, generatedMembers);
+                        needSuperCallSuppression, generatedMembers, needOverloadHandling);
                     break;
                 }
 
@@ -3394,7 +3395,7 @@ export class FileProcessor {
 
                 case MemberType.Abstract: {
                     builder.append(member.leadingWhitespace);
-                    builder.append(member.modifier);
+                    builder.append(modifier);
                     builder.append(member.nameWhitespace ?? "");
                     builder.append(member.name ?? "unknown");
                     builder.append(member.signatureContent ?? "");
@@ -3412,7 +3413,7 @@ export class FileProcessor {
 
                 default: {
                     builder.append(member.leadingWhitespace);
-                    builder.append(member.modifier);
+                    builder.append(modifier);
                     builder.append(member.bodyContent);
 
                     break;
@@ -3435,7 +3436,7 @@ export class FileProcessor {
                 builder.append(`\npublic constructor() {\n\tsuper();\n${member.bodyContent.toString()}\n}`);
             } else {
                 builder.append(member.leadingWhitespace);
-                builder.append(member.modifier);
+                builder.append(member.modifiers ? [...member.modifiers].join(" ") + " " : "");
                 builder.append(member.nameWhitespace ?? "");
                 builder.append(member.name ?? "");
                 builder.append(member.signatureContent ?? "");
@@ -3445,23 +3446,28 @@ export class FileProcessor {
     };
 
     private processConstructorAndMethodMembers(builder: java.lang.StringBuilder, member: IClassMemberDetails,
-        members: IClassMemberDetails[], needSuperCallSuppression: boolean, generatedMembers: IClassMemberDetails[]) {
+        members: IClassMemberDetails[], needSuperCallSuppression: boolean, generatedMembers: IClassMemberDetails[],
+        needOverloadHandling: boolean) {
         const name = member.name;
 
-        // Certain methods cannot be overloaded. Static and non-static cannot be mixed and
-        // abstract methods are not changed, as they have no body.
-        const isStatic = member.modifier.includes("static");
-        const overloads = members.filter((candidate) => {
-            return candidate.name === name && !candidate.modifier.includes("abstract")
-                && isStatic === candidate.modifier.includes("static");
-        });
+        let overloads: IClassMemberDetails[] = [];
+
+        if (needOverloadHandling) {
+            // Certain methods cannot be overloaded. Static and non-static cannot be mixed and
+            // abstract methods are not changed, as they have no body.
+            const isStatic = member.modifiers?.has("static") ?? false;
+            overloads = members.filter((candidate) => {
+                return candidate.name === name && !candidate.modifiers?.has("abstract")
+                    && isStatic === candidate.modifiers?.has("static");
+            });
+        }
 
         if (overloads.length > 0) {
             overloads.unshift(member);
 
             let staticCount = 0;
             overloads.forEach((candidate) => {
-                if (candidate.modifier.includes("static")) {
+                if (candidate.modifiers?.has("static")) {
                     ++staticCount;
                 }
             });
@@ -3499,7 +3505,7 @@ export class FileProcessor {
                 // Write the overload signatures.
                 overloads.forEach((overload) => {
                     builder.append(overload.leadingWhitespace);
-                    builder.append(overload.modifier);
+                    builder.append(overload.modifiers ? [...overload.modifiers].join(" ") + " " : "");
 
                     // Remove the arrow style for overloading.
                     let signature = `${overload.signatureContent?.toString()}` ?? "";
@@ -3605,11 +3611,12 @@ export class FileProcessor {
                 // Check the combined parameters list to see if we really need a type check for the individual
                 // parameters. If a parameter exists in all overloads with the same name then there's no need to
                 // check its type.
+                const modifier = member.modifiers ? [...member.modifiers].join(" ") : "";
                 if (member.type === MemberType.Constructor) {
-                    builder.append(`\n${member.modifier} constructor(${combinedParameterString}) {\n`);
+                    builder.append(`\n${modifier} constructor(${combinedParameterString}) {\n`);
                 } else {
                     const combinedReturnTypeString = Array.from(returnTypes).join(" | ");
-                    builder.append(`\n${member.leadingWhitespace}${member.modifier}` +
+                    builder.append(`\n${member.leadingWhitespace}${modifier}` +
                         `${member.nameWhitespace ?? ""}${member.name ?? "unknown"}${member.typeParameters ?? ""}(` +
                         `${combinedParameterString}): ${combinedReturnTypeString} {\n`);
                 }
@@ -3773,7 +3780,7 @@ export class FileProcessor {
 
         } else {
             builder.append(member.leadingWhitespace);
-            builder.append(member.modifier);
+            builder.append(member.modifiers ? [...member.modifiers].join(" ") + " " : "");
             builder.append(member.nameWhitespace ?? "");
             builder.append(member.name ?? "");
             builder.append(member.signatureContent ?? "");
@@ -3886,9 +3893,9 @@ export class FileProcessor {
     };
 
     /**
-     * Called when a class or interface body construction was finished. It takes all nested declarations for the
-     * current type java.util.stack TOS and constructs a namespace declaration of it.
-     * Also removes the TOS.
+     * Called when a class, interface or enum body construction was finished. It takes all nested declarations for the
+     * current type on the type stack and constructs a namespace declaration of it.
+     * Also removes the TOS from the stack.
      *
      * @param doExport True if the new namespace must be exported.
      *
@@ -3956,5 +3963,16 @@ export class FileProcessor {
         }
 
         return name;
+    };
+
+    /**
+     * Used to add a symbol for import via the java main import (e.g. helper code).
+     *
+     * @param name The name to add.
+     */
+    private registerJavaImport = (name: string): void => {
+        // The Java source always exists and is always the first source.
+        const [java] = [...this.source.importList];
+        java.addImportedSymbol(name);
     };
 }

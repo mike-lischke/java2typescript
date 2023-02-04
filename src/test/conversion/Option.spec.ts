@@ -27,7 +27,6 @@ describe("Options Tests", () => {
             output: targetDir,
             exclude: [],
             include: [],
-            javaLib: path.join(testDir, "..", "lib", "java", "java.ts"),
             options: {
                 lib: path.join(testDir, "..", "lib"),
                 prefix: (sourcePath) => {

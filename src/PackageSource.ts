@@ -12,7 +12,7 @@ import { ParseTree } from "antlr4ts/tree";
 import { Symbol, SymbolTable } from "antlr4-c3";
 
 import { Interval } from "antlr4ts/misc/Interval";
-import { CompilationUnitContext } from "../java/generated/JavaParser";
+import { CompilationUnitContext } from "../parser/generated/JavaParser";
 import { PackageSourceManager } from "./PackageSourceManager";
 import { ISymbolInfo } from "./conversion/types";
 
@@ -76,6 +76,17 @@ export class PackageSource {
      */
     public clearImportedSymbols = (): void => {
         this.importedSymbols.clear();
+    };
+
+    /**
+     * Adds the given symbol name to the internal import list, to have it included in the final import info,
+     * without going through the entire resolution process. This is useful for symbols that are not part of Java,
+     * but still imported with a specific package (helpers for example).
+     *
+     * @param name The name to add.
+     */
+    public addImportedSymbol = (name: string): void => {
+        this.importedSymbols.add(name);
     };
 
     /**
