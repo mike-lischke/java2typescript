@@ -314,6 +314,10 @@ export class FileProcessor {
                 builder.append(this.typeStack.tos.deferredDeclarations);
             }
 
+            // The import list of the source is already consolidated, but we are going to add more imports
+            // which may use some of the already imported symbols.
+            const consolidatedImports = new Map<string, string[]>();
+
             this.moduleImports.forEach((name) => {
                 header.append(`import * as ${name} from "${name}";\n`);
             });
@@ -322,13 +326,10 @@ export class FileProcessor {
             this.source.importList.forEach((source) => {
                 const info = source.getImportInfo(target);
                 if (info[0].length > 0) {
-                    header.append(`import { ${info[0].join(",")} } from "${info[1]}";\n`);
+                    consolidatedImports.set(info[1], info[0]);
                 }
             });
 
-            // Class mappings. These can contain multiple entries that are loaded from the same module, so we have
-            // to group by import path and create an import list from the types we collected per import.
-            const consolidatedImports = new Map<string, string[]>();
             this.resolvedClasses.forEach((entry) => {
                 const resolver = this.classResolver.get(entry);
                 if (resolver) {
@@ -365,7 +366,6 @@ export class FileProcessor {
         list.forEach((context) => {
             const prefix = new java.lang.StringBuilder();
             const ws = this.getLeadingWhiteSpaces(context);
-            prefix.append(ws);
 
             const modifiers = new Set<string>();
             let ignoreNextWhitespaces = false;
@@ -391,6 +391,16 @@ export class FileProcessor {
                         break;
                     }
 
+                    case ModifierType.Final: {
+                        modifiers.add("readonly");
+                        break;
+                    }
+
+                    case ModifierType.Abstract: {
+                        modifiers.add("abstract");
+                        break;
+                    }
+
                     case ModifierType.Ignored: {
                         ignoreNextWhitespaces = true;
                         break;
@@ -400,17 +410,17 @@ export class FileProcessor {
                 }
             });
 
-            if (modifiers.size === 0) {
+            if (!modifiers.has("export") && !modifiers.has("protected") && !modifiers.has("private")) {
                 // No modifier means package-private. TS doesn't have such a concept, so we have to export instead.
                 modifiers.add("export");
             }
 
             if (context.classDeclaration()) {
-                this.processClassDeclaration(builder, context.classDeclaration(), `${prefix}`, modifiers);
+                this.processClassDeclaration(builder, context.classDeclaration(), `${ws}`, modifiers);
             } else if (context.enumDeclaration()) {
                 this.processEnumDeclaration(builder, context.enumDeclaration(), modifiers);
             } else if (context.interfaceDeclaration()) {
-                this.processInterfaceDeclaration(builder, context.interfaceDeclaration(), `${prefix}`,
+                this.processInterfaceDeclaration(builder, context.interfaceDeclaration(), `${ws}`,
                     modifiers.has("export"));
             } else { // annotationTypeDeclaration
                 this.getContent(builder, context, true);
@@ -458,15 +468,24 @@ export class FileProcessor {
                     break;
                 }
 
-                case JavaParser.STATIC:
+                case JavaParser.STATIC: {
+                    result = ModifierType.Static;
+                    this.getContent(builder, element);
+
+                    break;
+                }
+
                 case JavaParser.ABSTRACT: {
+                    result = ModifierType.Abstract;
                     this.getContent(builder, element);
 
                     break;
                 }
 
                 case JavaParser.FINAL: {
-                    builder.append("readonly ");
+                    result = ModifierType.Final;
+                    this.ignoreContent(element);
+
                     break;
                 }
 
@@ -552,8 +571,9 @@ export class FileProcessor {
             }
         }
 
-        const mustBeAbstract = this.processClassBody(localBuilder, context.classBody(), extraCtorParams)
-            || modifiers.has("abstract");
+        if (this.processClassBody(localBuilder, context.classBody(), extraCtorParams)) {
+            modifiers.add("abstract");
+        }
 
         // Conclude nested content within this class declaration.
         const nested = this.processNestedContent(modifiers.has("export"));
@@ -567,12 +587,12 @@ export class FileProcessor {
             modifiers.delete("private");
             modifiers.add("public");
 
+            const modifier = this.createModifierString(modifiers);
+            builder.append(`${prefix}${modifier} ${className} = `);
             if (modifiers.has("static")) {
-                builder.append(`${prefix}${[...modifiers].join(" ")} ${className} = ${localBuilder.toString()};\n`);
+                builder.append(`${localBuilder.toString()};\n`);
             } else {
-                builder.append(`${prefix}${[...modifiers].join(" ")} ${className} = (($outer) => ` +
-                    `{\nreturn ${localBuilder.toString()}`);
-                builder.append(`\n})(this);\n`);
+                builder.append(`(($outer) => {\nreturn ${localBuilder.toString()}\n})(this);\n`);
             }
 
             const owner = this.typeStack.tos!;
@@ -595,7 +615,8 @@ export class FileProcessor {
             }
         } else {
             // A top level class declaration.
-            builder.append(`${prefix}${mustBeAbstract ? "abstract " : ""}`);
+            const modifier = this.createModifierString(modifiers);
+            builder.append(`${prefix}${modifier}`);
             builder.append(localBuilder);
         }
 
@@ -685,14 +706,24 @@ export class FileProcessor {
                             break;
                         }
 
+                        case ModifierType.Final: {
+                            modifiers.add("readonly");
+                            break;
+                        }
+
                         case ModifierType.Ignored: {
                             ignoreNextWhitespaces = true;
                             break;
                         }
 
                         case ModifierType.Abstract: {
-                            modifiers.add("static");
+                            modifiers.add("abstract");
                             containsAbstract = true;
+                            break;
+                        }
+
+                        case ModifierType.Static: {
+                            modifiers.add("static");
                             break;
                         }
 
@@ -700,7 +731,7 @@ export class FileProcessor {
                     }
                 });
 
-                if (modifiers.size === 0) {
+                if (!modifiers.has("public") && !modifiers.has("protected") && !modifiers.has("private")) {
                     // No modifier means package-private.
                     modifiers.add("protected");
                 }
@@ -1282,6 +1313,11 @@ export class FileProcessor {
                                 break;
                             }
 
+                            case ModifierType.Final: {
+                                modifiers.add("readonly");
+                                break;
+                            }
+
                             case ModifierType.Ignored: {
                                 ignoreNextWhitespaces = true;
                                 break;
@@ -1291,7 +1327,7 @@ export class FileProcessor {
                         }
                     });
 
-                    if (modifiers.size === 0) {
+                    if (!modifiers.has("public") && !modifiers.has("protected") && !modifiers.has("private")) {
                         // No modifier means package private.
                         modifiers.add("protected");
                     }
@@ -1716,7 +1752,7 @@ export class FileProcessor {
         while (true) {
             const child = context.getChild(index++);
 
-            builder.append([...modifiers].join(" ") + " ");
+            builder.append(this.createModifierString(modifiers));
             this.processVariableDeclarator(builder, child as VariableDeclaratorContext, type, makeOptional);
             if (index === context.childCount) {
                 break;
@@ -3377,7 +3413,7 @@ export class FileProcessor {
                 break;
             }
 
-            const modifier = member.modifiers ? [...member.modifiers].join(" ") + " " : "";
+            const modifier = this.createModifierString(member.modifiers);
             switch (member.type) {
                 case MemberType.Constructor:
                 case MemberType.Method: {
@@ -3436,7 +3472,7 @@ export class FileProcessor {
                 builder.append(`\npublic constructor() {\n\tsuper();\n${member.bodyContent.toString()}\n}`);
             } else {
                 builder.append(member.leadingWhitespace);
-                builder.append(member.modifiers ? [...member.modifiers].join(" ") + " " : "");
+                builder.append(this.createModifierString(member.modifiers));
                 builder.append(member.nameWhitespace ?? "");
                 builder.append(member.name ?? "");
                 builder.append(member.signatureContent ?? "");
@@ -3505,7 +3541,7 @@ export class FileProcessor {
                 // Write the overload signatures.
                 overloads.forEach((overload) => {
                     builder.append(overload.leadingWhitespace);
-                    builder.append(overload.modifiers ? [...overload.modifiers].join(" ") + " " : "");
+                    builder.append(this.createModifierString(overload.modifiers));
 
                     // Remove the arrow style for overloading.
                     let signature = `${overload.signatureContent?.toString()}` ?? "";
@@ -3611,7 +3647,7 @@ export class FileProcessor {
                 // Check the combined parameters list to see if we really need a type check for the individual
                 // parameters. If a parameter exists in all overloads with the same name then there's no need to
                 // check its type.
-                const modifier = member.modifiers ? [...member.modifiers].join(" ") : "";
+                const modifier = this.createModifierString(member.modifiers);
                 if (member.type === MemberType.Constructor) {
                     builder.append(`\n${modifier} constructor(${combinedParameterString}) {\n`);
                 } else {
@@ -3780,7 +3816,7 @@ export class FileProcessor {
 
         } else {
             builder.append(member.leadingWhitespace);
-            builder.append(member.modifiers ? [...member.modifiers].join(" ") + " " : "");
+            builder.append(this.createModifierString(member.modifiers));
             builder.append(member.nameWhitespace ?? "");
             builder.append(member.name ?? "");
             builder.append(member.signatureContent ?? "");
@@ -3974,5 +4010,49 @@ export class FileProcessor {
         // The Java source always exists and is always the first source.
         const [java] = [...this.source.importList];
         java.addImportedSymbol(name);
+    };
+
+    /**
+     * Takes a set of modifiers and creates a modifier string with the correct order of the individual modifiers.
+     *
+     * @param modifiers The set of modifiers or undefined.
+     *
+     * @returns The constructed string (in the case of undefined modifiers the string is empty).
+     */
+    private createModifierString = (modifiers?: Set<string>): string => {
+        if (!modifiers) {
+            return "";
+        }
+
+        const sorted: string[] = [];
+        if (modifiers.has("export")) {
+            sorted.push("export");
+        }
+
+        if (modifiers.has("public")) {
+            sorted.push("public");
+        }
+
+        if (modifiers.has("protected")) {
+            sorted.push("protected");
+        }
+
+        if (modifiers.has("private")) {
+            sorted.push("private");
+        }
+
+        if (modifiers.has("abstract")) {
+            sorted.push("abstract");
+        }
+
+        if (modifiers.has("static")) {
+            sorted.push("static");
+        }
+
+        if (modifiers.has("readonly")) {
+            sorted.push("readonly");
+        }
+
+        return sorted.join(" ");
     };
 }

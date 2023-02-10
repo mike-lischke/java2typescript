@@ -5,7 +5,7 @@
  * See LICENSE file for more info.
  */
 
-import { Symbol, FieldSymbol, MethodSymbol, ScopedSymbol, SymbolTable } from "antlr4-c3";
+import { Symbol, FieldSymbol, MethodSymbol, ScopedSymbol, SymbolTable, Modifier } from "antlr4-c3";
 
 import { PackageSource } from "./PackageSource";
 import { JavaClassSymbol } from "./parsing/JavaClassSymbol";
@@ -18,6 +18,7 @@ interface IClassHierarchyEntry {
 
     extends?: string;
     implements?: string[];
+    staticMethods?: string[];
     methods?: string[];
     fields?: string[];
 }
@@ -28,7 +29,11 @@ export class JavaPackageSource extends PackageSource {
     // Definition of the part of the Java class hierarchy we support here.
     // The symbol table is created from this array.
     private static readonly javaClassHierarchy: IClassHierarchyEntry[] = [
-        { name: "java.lang.Object" },
+        {
+            name: "java.lang.Object", methods: [
+                "class", "equals", "getClass", "hashCode", "notify", "notifyAll", "toString", "wait", "clone",
+            ],
+        },
         { name: "java.lang.Enum", extends: "java.lang.Object" },
         { name: "java.lang.Character", extends: "java.lang.Object" },
         { name: "java.lang.Class", extends: "java.lang.Object" },
@@ -157,6 +162,7 @@ export class JavaPackageSource extends PackageSource {
         { name: "java.util.HashMap", extends: "java.lang.Object", implements: ["java.util.Map"] },
         { name: "java.util.HashSet", extends: "java.lang.Object", implements: ["java.util.Set"] },
         { name: "java.util.LinkedHashMap", extends: "java.util.HashMap" },
+        { name: "java.util.LinkedHashSet", extends: "java.util.HashSet" },
         { name: "java.util.IdentityHashMap", extends: "java.lang.Object", implements: ["java.util.Map"] },
         { name: "java.util.WeakHashMap", extends: "java.lang.Object", implements: ["java.util.Map"] },
         { name: "java.util.Stack", extends: "java.lang.Object" },
@@ -172,10 +178,18 @@ export class JavaPackageSource extends PackageSource {
             name: "java.util.LinkedList", extends: "java.lang.Object", implements: ["java.io.Serializable",
                 "java.lang.Cloneable", "java.util.Deque", "java.util.List"],
         },
+        {
+            name: "java.util.Date", extends: "java.lang.Object",
+            implements: ["java.io.Serializable", "java.lang.Cloneable", "java.lang.Comparable"],
+            staticMethods: ["UTC", "from", "parse"],
+            methods: ["after", "before", "getDate", "getDay", "getHours", "getMinutes", "getMonth", "getSeconds",
+                "getTime", "getTimezoneOffset", "getYear", "setDate", "setHours", "setMinutes", "setMonth",
+                "setSeconds", "setTime", "setYear", "toGMTString", "toLocalString"],
+        },
+
         { name: "java.util.regex.Pattern", extends: "java.lang.Object" },
         { name: "java.util.regex.MatchResult", isInterface: true },
         { name: "java.util.regex.Matcher", extends: "java.lang.Object", implements: ["java.util.regex.MatchResult"] },
-
         { name: "java.util.concurrent.CancellationException", extends: "java.lang.IllegalStateException" },
         {
             name: "java.util.concurrent.CopyOnWriteArrayList", extends: "java.lang.Object", methods: [
@@ -185,6 +199,39 @@ export class JavaPackageSource extends PackageSource {
                 "subList", "toArray", "toString",
             ],
         },
+        { name: "java.util.Calendar", extends: "java.lang.Object" },
+        { name: "java.util.Calendar.Builder", extends: "java.lang.Object" },
+        {
+            name: "java.util.TimeZone", extends: "java.lang.Object", methods: [
+                "getAvailableIDs", "getDisplayName",
+            ],
+        },
+
+        { name: "java.text.CharacterIterator", extends: "java.lang.Cloneable", isInterface: true },
+        { name: "java.text.AttributedCharacterIterator", extends: "java.text.CharacterIterator", isInterface: true },
+        {
+            name: "java.text.AttributedCharacterIterator.Attribute", extends: "java.lang.Object",
+            implements: ["java.io.Serializable"],
+            methods: ["getName", "readResolve"],
+        },
+        { name: "java.text.Format", extends: "java.lang.Object" },
+        { name: "java.text.Format.Field", extends: "java.text.AttributedCharacterIterator.Attribute" },
+        {
+            name: "java.text.ParsePosition", extends: "java.lang.Object", methods: [
+                "getErrorIndex", "getIndex", "setErrorIndex", "setIndex",
+            ],
+        },
+        { name: "java.text.DateFormat", extends: "java.text.Format" },
+        { name: "java.text.DateFormat.Field", extends: "java.text.Format.Field" },
+        {
+            name: "java.text.SimpleDateFormat", extends: "java.text.DateFormat",
+            methods: ["applyPattern", "format", "get2DigitYearStart", "getDateFormatSymbols",
+                "parse", "set2DigitYearStart", "setDateFormatSymbols", "toLocalizedPattern", "toPattern",
+            ],
+        },
+        { name: "java.text.DecimalFormatSymbols", extends: "java.lang.Object" },
+
+        { name: "java.time.Instant", extends: "java.lang.Object" },
     ];
 
     protected createSymbolTable(): SymbolTable {
@@ -197,6 +244,8 @@ export class JavaPackageSource extends PackageSource {
         symbolTable.addNewNamespaceFromPathSync(symbolTable, "java.nio.charset", ".");
         symbolTable.addNewNamespaceFromPathSync(symbolTable, "java.util.regex", ".");
         symbolTable.addNewNamespaceFromPathSync(symbolTable, "java.util.concurrent", ".");
+        symbolTable.addNewNamespaceFromPathSync(symbolTable, "java.text", ".");
+        symbolTable.addNewNamespaceFromPathSync(symbolTable, "java.time", ".");
 
         // Now all classes and interfaces.
         JavaPackageSource.javaClassHierarchy.forEach((entry) => {
@@ -242,6 +291,11 @@ export class JavaPackageSource extends PackageSource {
 
             entry.methods?.forEach((method) => {
                 symbolTable.addNewSymbolOfType(MethodSymbol, mainSymbol, method);
+            });
+
+            entry.staticMethods?.forEach((method) => {
+                const s = symbolTable.addNewSymbolOfType(MethodSymbol, mainSymbol, method);
+                s.modifiers.add(Modifier.Static);
             });
         });
 

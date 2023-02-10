@@ -1,4 +1,4 @@
 output
 node_modules
-java/generated
 coverage
+parser/generated

@@ -10,6 +10,7 @@
 import path from "path";
 
 import {
+    IClassResolver,
     IConverterConfiguration, JavaToTypescriptConverter,
 } from "./conversion/JavaToTypeScript";
 import { PackageSource } from "./PackageSource";
@@ -42,17 +43,24 @@ const importResolver = (packageId: string): PackageSource | undefined => {
     return undefined;
 };
 
+const classResolver = new Map<string, IClassResolver>([
+    ["MurmurHash", {
+        importPath: "jree",
+    }],
+    ["SourceDataType", {
+        importPath: "jree",
+    }],
+]);
+
 const convertAntlr4Runtime = async () => {
     const antlrToolOptions: IConverterConfiguration = {
         packageRoot: path.resolve(process.cwd(), "../antlr4/runtime/Java/src"),
         include: [
-            "/PlusBlockStartState.java",
+            //"/Triple.java",
         ],
         exclude: [
             "AbstractEqualityComparator.java",
             "NotNull.java",
-            "OrderedHashSet.java",
-            "OrderedHashMap.java",
             "misc/TestRig.java",
             "misc/MurmurHash.java",
         ],
@@ -72,6 +80,7 @@ const convertAntlr4Runtime = async () => {
             `,
             */
             importResolver,
+            classResolver,
             lib: path.resolve(process.cwd(), "../a4tstool/lib"),
             convertAnnotations: false,
             sourceMappings: [
@@ -91,8 +100,8 @@ const convertAntlr4Runtime = async () => {
         /*debug: {
             pathForPosition: {
                 position: {
-                    row: 20,
-                    column: 2,
+                    row: 56,
+                    column: 32,
                 },
             },
         },*/
