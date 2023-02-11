@@ -56,13 +56,13 @@ const convertAntlr4Runtime = async () => {
     const antlrToolOptions: IConverterConfiguration = {
         packageRoot: path.resolve(process.cwd(), "../antlr4/runtime/Java/src"),
         include: [
-            //"/Triple.java",
+            "/ParseTreePatternMatcher.java",
         ],
         exclude: [
             "AbstractEqualityComparator.java",
             "NotNull.java",
-            "misc/TestRig.java",
-            "misc/MurmurHash.java",
+            //"misc/TestRig.java",
+            "MurmurHash.java",
         ],
         output: "../a4tstool/runtime",
         options: {
@@ -97,14 +97,14 @@ const convertAntlr4Runtime = async () => {
             [/{@code true}/g, "`true`"],
         ]),
 
-        /*debug: {
+        debug: {
             pathForPosition: {
                 position: {
-                    row: 56,
-                    column: 32,
+                    row: 378,
+                    column: 17,
                 },
             },
-        },*/
+        },
 
     };
 

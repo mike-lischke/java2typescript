@@ -81,6 +81,7 @@ export class JavaPackageSource extends PackageSource {
             ],
         },
         { name: "java.lang.StackTraceElement", extends: "java.lang.Object" },
+        { name: "java.lang.ArrayIndexOutOfBoundsException", extends: "java.lang.IndexOutOfBoundsException" },
 
         { name: "java.io.Closeable", isInterface: true },
         { name: "java.io.AutoCloseable", isInterface: true },
@@ -204,6 +205,26 @@ export class JavaPackageSource extends PackageSource {
         {
             name: "java.util.TimeZone", extends: "java.lang.Object", methods: [
                 "getAvailableIDs", "getDisplayName",
+            ],
+        },
+        {
+            name: "java.util.Enumeration", isInterface: true,
+            methods: ["asIterator", "hasMoreElements", "nextElement"],
+        },
+        { name: "java.util.NoSuchElementException", extends: "java.lang.RuntimeException" },
+        {
+            name: "java.util.Spliterator", isInterface: true, methods: [
+                "characteristics", "estimateSize", "forEachRemaining", "getComparator", "getExactSizeIfKnown",
+                "hasCharacteristics", "tryAdvance", "trySplit",
+            ],
+        },
+        {
+            name: "java.util.Vector", extends: "java.lang.Object", methods: [
+                "add", "addAll", "addElement", "capacity", "clear", "clone", "contains", "containsAll", "copyInto",
+                "elementAt", "elements", "ensureCapacity", "equals", "firstElement", "forEach", "get", "hashCode",
+                "indexOf", "insertElementAt", "isEmpty", "iterator", "lastElement", "lastIndexOf", "listIterator",
+                "remove", "removeAll", "removeElement", "removeElementAt", "removeIf", "replaceAll", "retainAll",
+                "set", "setElementAt", "setSize", "size", "spliterator", "subList", "toArray", "toString",
             ],
         },
 

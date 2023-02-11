@@ -616,7 +616,7 @@ export class FileProcessor {
         } else {
             // A top level class declaration.
             const modifier = this.createModifierString(modifiers);
-            builder.append(`${prefix}${modifier}`);
+            builder.append(`${prefix}${modifier} `);
             builder.append(localBuilder);
         }
 
@@ -3007,7 +3007,9 @@ export class FileProcessor {
             const currentName = context.identifier().text;
             const assignment = currentName !== catchName ? `const ${context.identifier().text} = ${catchName};\n` : "";
             this.processBlock(builder, context.block(), assignment);
-            builder.append(` else {\n\tthrow ${catchName};\n\t}\n`);
+            if (index === contexts.length - 1) {
+                builder.append(` else {\n\tthrow ${catchName};\n\t}\n`);
+            }
         });
 
         builder.append("}");

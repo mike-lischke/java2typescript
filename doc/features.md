@@ -56,7 +56,7 @@ Generic semantics in Java and TS are pretty much the same, with the exception of
 
 ## <a name="interfaces">Interfaces</a>
 
-Java interfaces are more than interfaces in the original sense (API contracts), as they can have actual code, much like classes. As this is not supported in Typescript different paths are taken in the conversion process. Java interfaces without methods and non-static initialized fields are converted directly to their TS interface equivalent. Otherwise they are implemented as abstract classes, which is an acceptable workaround, especially, as TS interfaces can extend TS classes.
+Java interfaces are more than interfaces in the original sense (API contracts), as they can have actual code, much like classes. As this is not supported in Typescript different paths are taken in the conversion process. Java interfaces without methods that have a body and non-static initialized fields are converted directly to their TS interface equivalent. Otherwise they are implemented as abstract classes, which is an acceptable workaround, especially, as TS interfaces can extend TS classes.
 
 Static initialized fields are moved to a sidecar namespace, similar to what is done for nested types. This bears a problem, however, because such fields can be inherited in Java, while in Typescript they can not. If that's needed and the interface should be kept, then another static field in the "derived namespace" must be added with the same name and value, manually.
 

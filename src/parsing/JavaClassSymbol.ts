@@ -29,7 +29,7 @@ export class JavaClassSymbol extends ClassSymbol {
                 return this.extends[0];
             }
 
-            const symbol = this.extends[0].resolveSync(name, localOnly);
+            const symbol = this.extends[0].resolveSync(name, true);
             if (symbol) {
                 return symbol;
             }
