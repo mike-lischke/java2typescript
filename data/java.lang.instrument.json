@@ -1,0 +1,166 @@
+[
+    {
+        "name": "java.lang.instrument.ClassDefinition",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "getDefinitionClass",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getDefinitionClassFile",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.lang.instrument.ClassFileTransformer",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [],
+        "implements": [],
+        "members": [
+            {
+                "name": "transform",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "transform",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.lang.instrument.IllegalClassFormatException",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Exception"
+        ],
+        "implements": [],
+        "members": []
+    },
+    {
+        "name": "java.lang.instrument.Instrumentation",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [],
+        "implements": [],
+        "members": [
+            {
+                "name": "addTransformer",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "addTransformer",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "appendToBootstrapClassLoaderSearch",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "appendToSystemClassLoaderSearch",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getAllLoadedClasses",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getInitiatedClasses",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getObjectSize",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isModifiableClass",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isModifiableModule",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isNativeMethodPrefixSupported",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isRedefineClassesSupported",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isRetransformClassesSupported",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "redefineClasses",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "redefineModule",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "removeTransformer",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "retransformClasses",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setNativeMethodPrefix",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.lang.instrument.UnmodifiableClassException",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Exception"
+        ],
+        "implements": [],
+        "members": []
+    },
+    {
+        "name": "java.lang.instrument.UnmodifiableModuleException",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.RuntimeException"
+        ],
+        "implements": [],
+        "members": []
+    }
+]

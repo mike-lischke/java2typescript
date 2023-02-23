@@ -1,0 +1,634 @@
+[
+    {
+        "name": "java.nio.charset.CharacterCodingException",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.io.IOException"
+        ],
+        "implements": [],
+        "members": []
+    },
+    {
+        "name": "java.nio.charset.Charset",
+        "type": "class",
+        "modifiers": [
+            "abstract"
+        ],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [
+            "java.lang.Comparable"
+        ],
+        "members": [
+            {
+                "name": "aliases",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "availableCharsets",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "canEncode",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "compareTo",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "contains",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "decode",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "defaultCharset",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "displayName",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "displayName",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "encode",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "encode",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "equals",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "forName",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "hashCode",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isRegistered",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isSupported",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "name",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "newDecoder",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "newEncoder",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "toString",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.nio.charset.CharsetDecoder",
+        "type": "class",
+        "modifiers": [
+            "abstract"
+        ],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "averageCharsPerByte",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "charset",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "decode",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "decode",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "decodeLoop",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "detectedCharset",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "flush",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "implFlush",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "implOnMalformedInput",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "implOnUnmappableCharacter",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "implReplaceWith",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "implReset",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isAutoDetecting",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isCharsetDetected",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "malformedInputAction",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "maxCharsPerByte",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "onMalformedInput",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "onUnmappableCharacter",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "replacement",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "replaceWith",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "reset",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "unmappableCharacterAction",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.nio.charset.CharsetEncoder",
+        "type": "class",
+        "modifiers": [
+            "abstract"
+        ],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "averageBytesPerChar",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "canEncode",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "canEncode",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "charset",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "encode",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "encode",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "encodeLoop",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "flush",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "implFlush",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "implOnMalformedInput",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "implOnUnmappableCharacter",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "implReplaceWith",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "implReset",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isLegalReplacement",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "malformedInputAction",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "maxBytesPerChar",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "onMalformedInput",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "onUnmappableCharacter",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "replacement",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "replaceWith",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "reset",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "unmappableCharacterAction",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.nio.charset.CoderMalfunctionError",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Error"
+        ],
+        "implements": [],
+        "members": []
+    },
+    {
+        "name": "java.nio.charset.CoderResult",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "OVERFLOW",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "UNDERFLOW",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "isError",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isMalformed",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isOverflow",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isUnderflow",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isUnmappable",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "length",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "malformedForLength",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "throwException",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "toString",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "unmappableForLength",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.nio.charset.CodingErrorAction",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "IGNORE",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "REPLACE",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "REPORT",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "toString",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.nio.charset.IllegalCharsetNameException",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.IllegalArgumentException"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "getCharsetName",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.nio.charset.MalformedInputException",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.nio.charset.CharacterCodingException"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "getInputLength",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getMessage",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.nio.charset.StandardCharsets",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "ISO_8859_1",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "US_ASCII",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "UTF_16",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "UTF_16BE",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "UTF_16LE",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "UTF_8",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            }
+        ]
+    },
+    {
+        "name": "java.nio.charset.UnmappableCharacterException",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.nio.charset.CharacterCodingException"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "getInputLength",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getMessage",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.nio.charset.UnsupportedCharsetException",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.IllegalArgumentException"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "getCharsetName",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    }
+]

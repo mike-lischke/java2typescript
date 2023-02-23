@@ -1,0 +1,597 @@
+[
+    {
+        "name": "java.util.prefs.AbstractPreferences",
+        "type": "class",
+        "modifiers": [
+            "abstract"
+        ],
+        "extends": [
+            "java.util.prefs.Preferences"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "lock",
+                "modifiers": [],
+                "type": "field"
+            },
+            {
+                "name": "newNode",
+                "modifiers": [],
+                "type": "field"
+            },
+            {
+                "name": "absolutePath",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "cachedChildren",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "childrenNames",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "childrenNamesSpi",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "childSpi",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "clear",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "exportNode",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "exportSubtree",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "flush",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "flushSpi",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "get",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getBoolean",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getByteArray",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getChild",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getDouble",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getFloat",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getInt",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getLong",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getSpi",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isRemoved",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isUserNode",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "keys",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "keysSpi",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "name",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "node",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "nodeExists",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "parent",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "put",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "putBoolean",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "putByteArray",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "putDouble",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "putFloat",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "putInt",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "putLong",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "putSpi",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "remove",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "removeNode",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "removeNodeSpi",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "removeSpi",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "sync",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "syncSpi",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "toString",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.util.prefs.BackingStoreException",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Exception"
+        ],
+        "implements": [],
+        "members": []
+    },
+    {
+        "name": "java.util.prefs.InvalidPreferencesFormatException",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Exception"
+        ],
+        "implements": [],
+        "members": []
+    },
+    {
+        "name": "java.util.prefs.NodeChangeEvent",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.util.EventObject"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "getChild",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getParent",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.util.prefs.NodeChangeListener",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [
+            "java.util.EventListener"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "childAdded",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "childRemoved",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.util.prefs.PreferenceChangeEvent",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.util.EventObject"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "getKey",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getNewValue",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getNode",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.util.prefs.PreferenceChangeListener",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [
+            "java.util.EventListener"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "preferenceChange",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.util.prefs.Preferences",
+        "type": "class",
+        "modifiers": [
+            "abstract"
+        ],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "MAX_KEY_LENGTH",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "MAX_NAME_LENGTH",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "MAX_VALUE_LENGTH",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "absolutePath",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "addNodeChangeListener",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "addPreferenceChangeListener",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "childrenNames",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "clear",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "exportNode",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "exportSubtree",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "flush",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "get",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getBoolean",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getByteArray",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getDouble",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getFloat",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getInt",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getLong",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "importPreferences",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "isUserNode",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "keys",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "name",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "node",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "nodeExists",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "parent",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "put",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "putBoolean",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "putByteArray",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "putDouble",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "putFloat",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "putInt",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "putLong",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "remove",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "removeNode",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "removeNodeChangeListener",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "removePreferenceChangeListener",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "sync",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "systemNodeForPackage",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "systemRoot",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "toString",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "userNodeForPackage",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "userRoot",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.util.prefs.PreferencesFactory",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [],
+        "implements": [],
+        "members": [
+            {
+                "name": "systemRoot",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "userRoot",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    }
+]

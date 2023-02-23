@@ -1,0 +1,888 @@
+[
+    {
+        "name": "java.util.function.BiConsumer",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "accept",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "andThen",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.util.function.BiFunction",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "andThen",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "apply",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.util.function.BinaryOperator",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [
+            "java.util.function.BiFunction"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "maxBy",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "minBy",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.util.function.BiPredicate",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "and",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "negate",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "or",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "test",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.util.function.BooleanSupplier",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "getAsBoolean",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.util.function.Consumer",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "accept",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "andThen",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.util.function.DoubleBinaryOperator",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "applyAsDouble",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.util.function.DoubleConsumer",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "accept",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "andThen",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.util.function.DoubleFunction",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "apply",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.util.function.DoublePredicate",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "and",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "negate",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "or",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "test",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.util.function.DoubleSupplier",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "getAsDouble",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.util.function.DoubleToIntFunction",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "applyAsInt",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.util.function.DoubleToLongFunction",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "applyAsLong",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.util.function.DoubleUnaryOperator",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "andThen",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "applyAsDouble",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "compose",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "identity",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.util.function.Function",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "andThen",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "apply",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "compose",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "identity",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.util.function.IntBinaryOperator",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "applyAsInt",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.util.function.IntConsumer",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "accept",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "andThen",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.util.function.IntFunction",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "apply",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.util.function.IntPredicate",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "and",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "negate",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "or",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "test",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.util.function.IntSupplier",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "getAsInt",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.util.function.IntToDoubleFunction",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "applyAsDouble",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.util.function.IntToLongFunction",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "applyAsLong",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.util.function.IntUnaryOperator",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "andThen",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "applyAsInt",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "compose",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "identity",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.util.function.LongBinaryOperator",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "applyAsLong",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.util.function.LongConsumer",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "accept",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "andThen",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.util.function.LongFunction",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "apply",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.util.function.LongPredicate",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "and",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "negate",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "or",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "test",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.util.function.LongSupplier",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "getAsLong",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.util.function.LongToDoubleFunction",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "applyAsDouble",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.util.function.LongToIntFunction",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "applyAsInt",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.util.function.LongUnaryOperator",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "andThen",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "applyAsLong",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "compose",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "identity",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.util.function.ObjDoubleConsumer",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "accept",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.util.function.ObjIntConsumer",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "accept",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.util.function.ObjLongConsumer",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "accept",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.util.function.Predicate",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "and",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isEqual",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "negate",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "not",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "or",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "test",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.util.function.Supplier",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "get",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.util.function.ToDoubleBiFunction",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "applyAsDouble",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.util.function.ToDoubleFunction",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "applyAsDouble",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.util.function.ToIntBiFunction",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "applyAsInt",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.util.function.ToIntFunction",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "applyAsInt",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.util.function.ToLongBiFunction",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "applyAsLong",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.util.function.ToLongFunction",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "applyAsLong",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.util.function.UnaryOperator",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [
+            "java.util.function.Function"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "identity",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            }
+        ]
+    }
+]

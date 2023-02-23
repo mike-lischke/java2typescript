@@ -1,0 +1,1909 @@
+[
+    {
+        "name": "java.nio.channels.AcceptPendingException",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.IllegalStateException"
+        ],
+        "implements": [],
+        "members": []
+    },
+    {
+        "name": "java.nio.channels.AlreadyBoundException",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.IllegalStateException"
+        ],
+        "implements": [],
+        "members": []
+    },
+    {
+        "name": "java.nio.channels.AlreadyConnectedException",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.IllegalStateException"
+        ],
+        "implements": [],
+        "members": []
+    },
+    {
+        "name": "java.nio.channels.AsynchronousByteChannel",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [
+            "java.nio.channels.AsynchronousChannel"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "read",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "read",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "write",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "write",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.nio.channels.AsynchronousChannel",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [
+            "java.nio.channels.Channel"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "close",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.nio.channels.AsynchronousChannelGroup",
+        "type": "class",
+        "modifiers": [
+            "abstract"
+        ],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "awaitTermination",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isShutdown",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isTerminated",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "provider",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "shutdown",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "shutdownNow",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "withCachedThreadPool",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "withFixedThreadPool",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "withThreadPool",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.nio.channels.AsynchronousCloseException",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.nio.channels.ClosedChannelException"
+        ],
+        "implements": [],
+        "members": []
+    },
+    {
+        "name": "java.nio.channels.AsynchronousFileChannel",
+        "type": "class",
+        "modifiers": [
+            "abstract"
+        ],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [
+            "java.nio.channels.AsynchronousChannel"
+        ],
+        "members": [
+            {
+                "name": "force",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "lock",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "lock",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "lock",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "lock",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "open",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "open",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "read",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "read",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "size",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "truncate",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "tryLock",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "tryLock",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "write",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "write",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.nio.channels.AsynchronousServerSocketChannel",
+        "type": "class",
+        "modifiers": [
+            "abstract"
+        ],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [
+            "java.nio.channels.AsynchronousChannel",
+            "java.nio.channels.NetworkChannel"
+        ],
+        "members": [
+            {
+                "name": "accept",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "accept",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "bind",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "bind",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getLocalAddress",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "open",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "open",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "provider",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setOption",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.nio.channels.AsynchronousSocketChannel",
+        "type": "class",
+        "modifiers": [
+            "abstract"
+        ],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [
+            "java.nio.channels.AsynchronousByteChannel",
+            "java.nio.channels.NetworkChannel"
+        ],
+        "members": [
+            {
+                "name": "bind",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "connect",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "connect",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getLocalAddress",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getRemoteAddress",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "open",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "open",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "provider",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "read",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "read",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "read",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "read",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setOption",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "shutdownInput",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "shutdownOutput",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "write",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "write",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "write",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "write",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.nio.channels.ByteChannel",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [
+            "java.nio.channels.ReadableByteChannel",
+            "java.nio.channels.WritableByteChannel"
+        ],
+        "implements": [],
+        "members": []
+    },
+    {
+        "name": "java.nio.channels.CancelledKeyException",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.IllegalStateException"
+        ],
+        "implements": [],
+        "members": []
+    },
+    {
+        "name": "java.nio.channels.Channel",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [
+            "java.io.Closeable"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "close",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isOpen",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.nio.channels.Channels",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "newChannel",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "newChannel",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "newInputStream",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "newInputStream",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "newOutputStream",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "newOutputStream",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "newReader",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "newReader",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "newReader",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "newWriter",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "newWriter",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "newWriter",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.nio.channels.ClosedByInterruptException",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.nio.channels.AsynchronousCloseException"
+        ],
+        "implements": [],
+        "members": []
+    },
+    {
+        "name": "java.nio.channels.ClosedChannelException",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.io.IOException"
+        ],
+        "implements": [],
+        "members": []
+    },
+    {
+        "name": "java.nio.channels.ClosedSelectorException",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.IllegalStateException"
+        ],
+        "implements": [],
+        "members": []
+    },
+    {
+        "name": "java.nio.channels.CompletionHandler",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [],
+        "implements": [],
+        "members": [
+            {
+                "name": "completed",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "failed",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.nio.channels.ConnectionPendingException",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.IllegalStateException"
+        ],
+        "implements": [],
+        "members": []
+    },
+    {
+        "name": "java.nio.channels.DatagramChannel",
+        "type": "class",
+        "modifiers": [
+            "abstract"
+        ],
+        "extends": [
+            "java.nio.channels.spi.AbstractSelectableChannel"
+        ],
+        "implements": [
+            "java.nio.channels.ByteChannel",
+            "java.nio.channels.ScatteringByteChannel",
+            "java.nio.channels.GatheringByteChannel",
+            "java.nio.channels.MulticastChannel"
+        ],
+        "members": [
+            {
+                "name": "bind",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "connect",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "disconnect",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getLocalAddress",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getRemoteAddress",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isConnected",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "open",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "open",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "read",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "read",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "read",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "receive",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "send",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setOption",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "socket",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "validOps",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "write",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "write",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "write",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.nio.channels.FileChannel",
+        "type": "class",
+        "modifiers": [
+            "abstract"
+        ],
+        "extends": [
+            "java.nio.channels.spi.AbstractInterruptibleChannel"
+        ],
+        "implements": [
+            "java.nio.channels.SeekableByteChannel",
+            "java.nio.channels.GatheringByteChannel",
+            "java.nio.channels.ScatteringByteChannel"
+        ],
+        "members": [
+            {
+                "name": "FileChannel.MapMode",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "class"
+            },
+            {
+                "name": "force",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "lock",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "lock",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "map",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "open",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "open",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "position",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "position",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "read",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "read",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "read",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "read",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "size",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "transferFrom",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "transferTo",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "truncate",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "tryLock",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "tryLock",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "write",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "write",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "write",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "write",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.nio.channels.FileChannel.MapMode",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "PRIVATE",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "READ_ONLY",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "READ_WRITE",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "toString",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.nio.channels.FileLock",
+        "type": "class",
+        "modifiers": [
+            "abstract"
+        ],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [
+            "java.lang.AutoCloseable"
+        ],
+        "members": [
+            {
+                "name": "acquiredBy",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "channel",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "close",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isShared",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isValid",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "overlaps",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "position",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "release",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "size",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "toString",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.nio.channels.FileLockInterruptionException",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.io.IOException"
+        ],
+        "implements": [],
+        "members": []
+    },
+    {
+        "name": "java.nio.channels.GatheringByteChannel",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [
+            "java.nio.channels.WritableByteChannel"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "write",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "write",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.nio.channels.IllegalBlockingModeException",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.IllegalStateException"
+        ],
+        "implements": [],
+        "members": []
+    },
+    {
+        "name": "java.nio.channels.IllegalChannelGroupException",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.IllegalArgumentException"
+        ],
+        "implements": [],
+        "members": []
+    },
+    {
+        "name": "java.nio.channels.IllegalSelectorException",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.IllegalArgumentException"
+        ],
+        "implements": [],
+        "members": []
+    },
+    {
+        "name": "java.nio.channels.InterruptedByTimeoutException",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.io.IOException"
+        ],
+        "implements": [],
+        "members": []
+    },
+    {
+        "name": "java.nio.channels.InterruptibleChannel",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [
+            "java.nio.channels.Channel"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "close",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.nio.channels.MembershipKey",
+        "type": "class",
+        "modifiers": [
+            "abstract"
+        ],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "block",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "channel",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "drop",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "group",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isValid",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "networkInterface",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "sourceAddress",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "unblock",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.nio.channels.MulticastChannel",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [
+            "java.nio.channels.NetworkChannel"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "close",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "join",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "join",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.nio.channels.NetworkChannel",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [
+            "java.nio.channels.Channel"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "bind",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getLocalAddress",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getOption",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setOption",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "supportedOptions",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.nio.channels.NoConnectionPendingException",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.IllegalStateException"
+        ],
+        "implements": [],
+        "members": []
+    },
+    {
+        "name": "java.nio.channels.NonReadableChannelException",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.IllegalStateException"
+        ],
+        "implements": [],
+        "members": []
+    },
+    {
+        "name": "java.nio.channels.NonWritableChannelException",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.IllegalStateException"
+        ],
+        "implements": [],
+        "members": []
+    },
+    {
+        "name": "java.nio.channels.NotYetBoundException",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.IllegalStateException"
+        ],
+        "implements": [],
+        "members": []
+    },
+    {
+        "name": "java.nio.channels.NotYetConnectedException",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.IllegalStateException"
+        ],
+        "implements": [],
+        "members": []
+    },
+    {
+        "name": "java.nio.channels.OverlappingFileLockException",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.IllegalStateException"
+        ],
+        "implements": [],
+        "members": []
+    },
+    {
+        "name": "java.nio.channels.Pipe",
+        "type": "class",
+        "modifiers": [
+            "abstract"
+        ],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "Pipe.SinkChannel",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "class"
+            },
+            {
+                "name": "Pipe.SourceChannel",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "class"
+            },
+            {
+                "name": "open",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "sink",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "source",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.nio.channels.Pipe.SinkChannel",
+        "type": "class",
+        "modifiers": [
+            "abstract"
+        ],
+        "extends": [
+            "java.nio.channels.spi.AbstractSelectableChannel"
+        ],
+        "implements": [
+            "java.nio.channels.WritableByteChannel",
+            "java.nio.channels.GatheringByteChannel"
+        ],
+        "members": [
+            {
+                "name": "validOps",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.nio.channels.Pipe.SourceChannel",
+        "type": "class",
+        "modifiers": [
+            "abstract"
+        ],
+        "extends": [
+            "java.nio.channels.spi.AbstractSelectableChannel"
+        ],
+        "implements": [
+            "java.nio.channels.ReadableByteChannel",
+            "java.nio.channels.ScatteringByteChannel"
+        ],
+        "members": [
+            {
+                "name": "validOps",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.nio.channels.ReadableByteChannel",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [
+            "java.nio.channels.Channel"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "read",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.nio.channels.ReadPendingException",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.IllegalStateException"
+        ],
+        "implements": [],
+        "members": []
+    },
+    {
+        "name": "java.nio.channels.ScatteringByteChannel",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [
+            "java.nio.channels.ReadableByteChannel"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "read",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "read",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.nio.channels.SeekableByteChannel",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [
+            "java.nio.channels.ByteChannel"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "position",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "position",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "read",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "size",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "truncate",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "write",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.nio.channels.SelectableChannel",
+        "type": "class",
+        "modifiers": [
+            "abstract"
+        ],
+        "extends": [
+            "java.nio.channels.spi.AbstractInterruptibleChannel"
+        ],
+        "implements": [
+            "java.nio.channels.Channel"
+        ],
+        "members": [
+            {
+                "name": "blockingLock",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "configureBlocking",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isBlocking",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isRegistered",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "keyFor",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "provider",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "register",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "register",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "validOps",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.nio.channels.SelectionKey",
+        "type": "class",
+        "modifiers": [
+            "abstract"
+        ],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "OP_ACCEPT",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "OP_CONNECT",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "OP_READ",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "OP_WRITE",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "attach",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "attachment",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "cancel",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "channel",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "interestOps",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "interestOps",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "interestOpsAnd",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "interestOpsOr",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isAcceptable",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isConnectable",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isReadable",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isValid",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isWritable",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "readyOps",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "selector",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.nio.channels.Selector",
+        "type": "class",
+        "modifiers": [
+            "abstract"
+        ],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [
+            "java.io.Closeable"
+        ],
+        "members": [
+            {
+                "name": "close",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isOpen",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "keys",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "open",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "provider",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "select",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "select",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "select",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "select",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "selectedKeys",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "selectNow",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "selectNow",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "wakeup",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.nio.channels.ServerSocketChannel",
+        "type": "class",
+        "modifiers": [
+            "abstract"
+        ],
+        "extends": [
+            "java.nio.channels.spi.AbstractSelectableChannel"
+        ],
+        "implements": [
+            "java.nio.channels.NetworkChannel"
+        ],
+        "members": [
+            {
+                "name": "accept",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "bind",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "bind",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getLocalAddress",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "open",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "setOption",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "socket",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "validOps",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.nio.channels.ShutdownChannelGroupException",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.IllegalStateException"
+        ],
+        "implements": [],
+        "members": []
+    },
+    {
+        "name": "java.nio.channels.SocketChannel",
+        "type": "class",
+        "modifiers": [
+            "abstract"
+        ],
+        "extends": [
+            "java.nio.channels.spi.AbstractSelectableChannel"
+        ],
+        "implements": [
+            "java.nio.channels.ByteChannel",
+            "java.nio.channels.ScatteringByteChannel",
+            "java.nio.channels.GatheringByteChannel",
+            "java.nio.channels.NetworkChannel"
+        ],
+        "members": [
+            {
+                "name": "bind",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "connect",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "finishConnect",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getLocalAddress",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getRemoteAddress",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isConnected",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isConnectionPending",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "open",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "open",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "read",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "read",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "read",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setOption",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "shutdownInput",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "shutdownOutput",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "socket",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "validOps",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "write",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "write",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "write",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.nio.channels.UnresolvedAddressException",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.IllegalArgumentException"
+        ],
+        "implements": [],
+        "members": []
+    },
+    {
+        "name": "java.nio.channels.UnsupportedAddressTypeException",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.IllegalArgumentException"
+        ],
+        "implements": [],
+        "members": []
+    },
+    {
+        "name": "java.nio.channels.WritableByteChannel",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [
+            "java.nio.channels.Channel"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "write",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.nio.channels.WritePendingException",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.IllegalStateException"
+        ],
+        "implements": [],
+        "members": []
+    }
+]

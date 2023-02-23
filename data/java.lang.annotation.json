@@ -1,0 +1,193 @@
+[
+    {
+        "name": "java.lang.annotation.Annotation",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [],
+        "implements": [],
+        "members": [
+            {
+                "name": "annotationType",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "equals",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "hashCode",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "toString",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.lang.annotation.AnnotationFormatError",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Error"
+        ],
+        "implements": [],
+        "members": []
+    },
+    {
+        "name": "java.lang.annotation.AnnotationTypeMismatchException",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.RuntimeException"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "element",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "foundType",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.lang.annotation.Type",
+        "type": "annotation",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": []
+    },
+    {
+        "name": "java.lang.annotation.ElementType",
+        "type": "enum",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Enum"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "valueOf",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "values",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.lang.annotation.IncompleteAnnotationException",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.RuntimeException"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "annotationType",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "elementName",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.lang.annotation.Type",
+        "type": "annotation",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": []
+    },
+    {
+        "name": "java.lang.annotation.Type",
+        "type": "annotation",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": []
+    },
+    {
+        "name": "java.lang.annotation.Type",
+        "type": "annotation",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": []
+    },
+    {
+        "name": "java.lang.annotation.Type",
+        "type": "annotation",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": []
+    },
+    {
+        "name": "java.lang.annotation.RetentionPolicy",
+        "type": "enum",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Enum"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "valueOf",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "values",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.lang.annotation.Type",
+        "type": "annotation",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": []
+    }
+]

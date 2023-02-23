@@ -1,0 +1,1876 @@
+[
+    {
+        "name": "java.util.jar.Attributes",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [
+            "java.util.Map"
+        ],
+        "members": [
+            {
+                "name": "Attributes.Name",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "class"
+            },
+            {
+                "name": "map",
+                "modifiers": [],
+                "type": "field"
+            },
+            {
+                "name": "clear",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "clone",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "containsKey",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "containsValue",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "entrySet",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "equals",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "get",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getValue",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getValue",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "hashCode",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isEmpty",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "keySet",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "put",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "putAll",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "putValue",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "remove",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "size",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "values",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.util.jar.Attributes.Name",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "CLASS_PATH",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "CONTENT_TYPE",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "EXTENSION_INSTALLATION",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "EXTENSION_LIST",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "EXTENSION_NAME",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "IMPLEMENTATION_TITLE",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "IMPLEMENTATION_URL",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "IMPLEMENTATION_VENDOR",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "IMPLEMENTATION_VENDOR_ID",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "IMPLEMENTATION_VERSION",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "MAIN_CLASS",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "MANIFEST_VERSION",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "MULTI_RELEASE",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "SEALED",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "SIGNATURE_VERSION",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "SPECIFICATION_TITLE",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "SPECIFICATION_VENDOR",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "SPECIFICATION_VERSION",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "equals",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "hashCode",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "toString",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.util.jar.JarEntry",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.util.zip.ZipEntry"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "CENATT",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "CENATX",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "CENCOM",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "CENCRC",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "CENDSK",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "CENEXT",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "CENFLG",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "CENHDR",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "CENHOW",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "CENLEN",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "CENNAM",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "CENOFF",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "CENSIG",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "CENSIZ",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "CENTIM",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "CENVEM",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "CENVER",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "ENDCOM",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "ENDHDR",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "ENDOFF",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "ENDSIG",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "ENDSIZ",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "ENDSUB",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "ENDTOT",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "EXTCRC",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "EXTHDR",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "EXTLEN",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "EXTSIG",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "EXTSIZ",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "LOCCRC",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "LOCEXT",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "LOCFLG",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "LOCHDR",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "LOCHOW",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "LOCLEN",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "LOCNAM",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "LOCSIG",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "LOCSIZ",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "LOCTIM",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "LOCVER",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "getAttributes",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getCertificates",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getCodeSigners",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getRealName",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.util.jar.JarException",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.util.zip.ZipException"
+        ],
+        "implements": [],
+        "members": []
+    },
+    {
+        "name": "java.util.jar.JarFile",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.util.zip.ZipFile"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "CENATT",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "CENATX",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "CENCOM",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "CENCRC",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "CENDSK",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "CENEXT",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "CENFLG",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "CENHDR",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "CENHOW",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "CENLEN",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "CENNAM",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "CENOFF",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "CENSIG",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "CENSIZ",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "CENTIM",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "CENVEM",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "CENVER",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "ENDCOM",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "ENDHDR",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "ENDOFF",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "ENDSIG",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "ENDSIZ",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "ENDSUB",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "ENDTOT",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "EXTCRC",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "EXTHDR",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "EXTLEN",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "EXTSIG",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "EXTSIZ",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "LOCCRC",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "LOCEXT",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "LOCFLG",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "LOCHDR",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "LOCHOW",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "LOCLEN",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "LOCNAM",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "LOCSIG",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "LOCSIZ",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "LOCTIM",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "LOCVER",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "MANIFEST_NAME",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "baseVersion",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "entries",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getEntry",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getInputStream",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getJarEntry",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getManifest",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getVersion",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isMultiRelease",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "runtimeVersion",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "stream",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "versionedStream",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.util.jar.JarInputStream",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.util.zip.ZipInputStream"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "CENATT",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "CENATX",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "CENCOM",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "CENCRC",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "CENDSK",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "CENEXT",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "CENFLG",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "CENHDR",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "CENHOW",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "CENLEN",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "CENNAM",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "CENOFF",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "CENSIG",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "CENSIZ",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "CENTIM",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "CENVEM",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "CENVER",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "ENDCOM",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "ENDHDR",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "ENDOFF",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "ENDSIG",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "ENDSIZ",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "ENDSUB",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "ENDTOT",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "EXTCRC",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "EXTHDR",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "EXTLEN",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "EXTSIG",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "EXTSIZ",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "LOCCRC",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "LOCEXT",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "LOCFLG",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "LOCHDR",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "LOCHOW",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "LOCLEN",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "LOCNAM",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "LOCSIG",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "LOCSIZ",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "LOCTIM",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "LOCVER",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "createZipEntry",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getManifest",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getNextEntry",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getNextJarEntry",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "read",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.util.jar.JarOutputStream",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.util.zip.ZipOutputStream"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "CENATT",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "CENATX",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "CENCOM",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "CENCRC",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "CENDSK",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "CENEXT",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "CENFLG",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "CENHDR",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "CENHOW",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "CENLEN",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "CENNAM",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "CENOFF",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "CENSIG",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "CENSIZ",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "CENTIM",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "CENVEM",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "CENVER",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "ENDCOM",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "ENDHDR",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "ENDOFF",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "ENDSIG",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "ENDSIZ",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "ENDSUB",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "ENDTOT",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "EXTCRC",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "EXTHDR",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "EXTLEN",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "EXTSIG",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "EXTSIZ",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "LOCCRC",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "LOCEXT",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "LOCFLG",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "LOCHDR",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "LOCHOW",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "LOCLEN",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "LOCNAM",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "LOCSIG",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "LOCSIZ",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "LOCTIM",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "LOCVER",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "putNextEntry",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.util.jar.Manifest",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [
+            "java.lang.Cloneable"
+        ],
+        "members": [
+            {
+                "name": "clear",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "clone",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "equals",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getAttributes",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getEntries",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getMainAttributes",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "hashCode",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "read",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "write",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.util.jar.Pack200",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "Pack200.Packer",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "class"
+            },
+            {
+                "name": "Pack200.Unpacker",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "class"
+            },
+            {
+                "name": "newPacker",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "newUnpacker",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.util.jar.Pack200.Packer",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "CLASS_ATTRIBUTE_PFX",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "CODE_ATTRIBUTE_PFX",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "DEFLATE_HINT",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "EFFORT",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "ERROR",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "FALSE",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "FIELD_ATTRIBUTE_PFX",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "KEEP",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "KEEP_FILE_ORDER",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "LATEST",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "METHOD_ATTRIBUTE_PFX",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "MODIFICATION_TIME",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "PASS",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "PASS_FILE_PFX",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "PROGRESS",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "SEGMENT_LIMIT",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "STRIP",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "TRUE",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "UNKNOWN_ATTRIBUTE",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "pack",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "pack",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "properties",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.util.jar.Pack200.Unpacker",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "DEFLATE_HINT",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "FALSE",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "KEEP",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "PROGRESS",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "TRUE",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "properties",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "unpack",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "unpack",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    }
+]

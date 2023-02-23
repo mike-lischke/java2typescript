@@ -1,0 +1,941 @@
+[
+    {
+        "name": "java.lang.module.Configuration",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "empty",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "findModule",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "modules",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "parents",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "resolve",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "resolve",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "resolveAndBind",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "resolveAndBind",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "toString",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.lang.module.FindException",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.RuntimeException"
+        ],
+        "implements": [],
+        "members": []
+    },
+    {
+        "name": "java.lang.module.InvalidModuleDescriptorException",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.RuntimeException"
+        ],
+        "implements": [],
+        "members": []
+    },
+    {
+        "name": "java.lang.module.ModuleDescriptor",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [
+            "java.lang.Comparable"
+        ],
+        "members": [
+            {
+                "name": "ModuleDescriptor.Builder",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "class"
+            },
+            {
+                "name": "ModuleDescriptor.Exports",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "class"
+            },
+            {
+                "name": "ModuleDescriptor.Modifier",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "class"
+            },
+            {
+                "name": "ModuleDescriptor.Opens",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "class"
+            },
+            {
+                "name": "ModuleDescriptor.Provides",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "class"
+            },
+            {
+                "name": "ModuleDescriptor.Requires",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "class"
+            },
+            {
+                "name": "ModuleDescriptor.Version",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "class"
+            },
+            {
+                "name": "compareTo",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "equals",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "exports",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "hashCode",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isAutomatic",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isOpen",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "mainClass",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "modifiers",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "name",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "newAutomaticModule",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "newModule",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "newModule",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "newOpenModule",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "opens",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "packages",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "provides",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "rawVersion",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "read",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "read",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "read",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "read",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "requires",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "toNameAndVersion",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "toString",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "uses",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "version",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.lang.module.ModuleDescriptor.Builder",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "build",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "exports",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "exports",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "exports",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "exports",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "exports",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "mainClass",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "opens",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "opens",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "opens",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "opens",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "opens",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "packages",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "provides",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "provides",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "requires",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "requires",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "requires",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "requires",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "uses",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "version",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "version",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.lang.module.ModuleDescriptor.Exports",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [
+            "java.lang.Comparable"
+        ],
+        "members": [
+            {
+                "name": "ModuleDescriptor.Exports.Modifier",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "class"
+            },
+            {
+                "name": "compareTo",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "equals",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "hashCode",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isQualified",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "modifiers",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "source",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "targets",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "toString",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.lang.module.ModuleDescriptor.Exports.Modifier",
+        "type": "enum",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Enum"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "valueOf",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "values",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.lang.module.ModuleDescriptor.Modifier",
+        "type": "enum",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Enum"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "valueOf",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "values",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.lang.module.ModuleDescriptor.Opens",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [
+            "java.lang.Comparable"
+        ],
+        "members": [
+            {
+                "name": "ModuleDescriptor.Opens.Modifier",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "class"
+            },
+            {
+                "name": "compareTo",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "equals",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "hashCode",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isQualified",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "modifiers",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "source",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "targets",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "toString",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.lang.module.ModuleDescriptor.Opens.Modifier",
+        "type": "enum",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Enum"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "valueOf",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "values",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.lang.module.ModuleDescriptor.Provides",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [
+            "java.lang.Comparable"
+        ],
+        "members": [
+            {
+                "name": "compareTo",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "equals",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "hashCode",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "providers",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "service",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "toString",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.lang.module.ModuleDescriptor.Requires",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [
+            "java.lang.Comparable"
+        ],
+        "members": [
+            {
+                "name": "ModuleDescriptor.Requires.Modifier",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "class"
+            },
+            {
+                "name": "compareTo",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "compiledVersion",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "equals",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "hashCode",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "modifiers",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "name",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "rawCompiledVersion",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "toString",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.lang.module.ModuleDescriptor.Requires.Modifier",
+        "type": "enum",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Enum"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "valueOf",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "values",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.lang.module.ModuleDescriptor.Version",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [
+            "java.lang.Comparable"
+        ],
+        "members": [
+            {
+                "name": "compareTo",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "equals",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "hashCode",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "parse",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "toString",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.lang.module.ModuleFinder",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [],
+        "implements": [],
+        "members": [
+            {
+                "name": "compose",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "find",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "findAll",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "of",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "ofSystem",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.lang.module.ModuleReader",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [
+            "java.io.Closeable"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "close",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "find",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "list",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "open",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "read",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "release",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.lang.module.ModuleReference",
+        "type": "class",
+        "modifiers": [
+            "abstract"
+        ],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "descriptor",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "location",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "open",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.lang.module.ResolutionException",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.RuntimeException"
+        ],
+        "implements": [],
+        "members": []
+    },
+    {
+        "name": "java.lang.module.ResolvedModule",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "configuration",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "equals",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "hashCode",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "name",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "reads",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "reference",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "toString",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    }
+]

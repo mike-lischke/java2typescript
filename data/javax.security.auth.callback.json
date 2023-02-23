@@ -1,0 +1,391 @@
+[
+    {
+        "name": "javax.security.auth.callback.Callback",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [],
+        "implements": [],
+        "members": []
+    },
+    {
+        "name": "javax.security.auth.callback.CallbackHandler",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [],
+        "implements": [],
+        "members": [
+            {
+                "name": "handle",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "javax.security.auth.callback.ChoiceCallback",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [
+            "javax.security.auth.callback.Callback",
+            "java.io.Serializable"
+        ],
+        "members": [
+            {
+                "name": "allowMultipleSelections",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getChoices",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getDefaultChoice",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getPrompt",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getSelectedIndexes",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setSelectedIndex",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setSelectedIndexes",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "javax.security.auth.callback.ConfirmationCallback",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [
+            "javax.security.auth.callback.Callback",
+            "java.io.Serializable"
+        ],
+        "members": [
+            {
+                "name": "CANCEL",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "ERROR",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "INFORMATION",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "NO",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "OK",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "OK_CANCEL_OPTION",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "UNSPECIFIED_OPTION",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "WARNING",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "YES",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "YES_NO_CANCEL_OPTION",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "YES_NO_OPTION",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "getDefaultOption",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getMessageType",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getOptions",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getOptionType",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getPrompt",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getSelectedIndex",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setSelectedIndex",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "javax.security.auth.callback.LanguageCallback",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [
+            "javax.security.auth.callback.Callback",
+            "java.io.Serializable"
+        ],
+        "members": [
+            {
+                "name": "getLocale",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setLocale",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "javax.security.auth.callback.NameCallback",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [
+            "javax.security.auth.callback.Callback",
+            "java.io.Serializable"
+        ],
+        "members": [
+            {
+                "name": "getDefaultName",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getName",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getPrompt",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setName",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "javax.security.auth.callback.PasswordCallback",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [
+            "javax.security.auth.callback.Callback",
+            "java.io.Serializable"
+        ],
+        "members": [
+            {
+                "name": "clearPassword",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getPassword",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getPrompt",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isEchoOn",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setPassword",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "javax.security.auth.callback.TextInputCallback",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [
+            "javax.security.auth.callback.Callback",
+            "java.io.Serializable"
+        ],
+        "members": [
+            {
+                "name": "getDefaultText",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getPrompt",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getText",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setText",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "javax.security.auth.callback.TextOutputCallback",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [
+            "javax.security.auth.callback.Callback",
+            "java.io.Serializable"
+        ],
+        "members": [
+            {
+                "name": "ERROR",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "INFORMATION",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "WARNING",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "getMessage",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getMessageType",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "javax.security.auth.callback.UnsupportedCallbackException",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Exception"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "getCallback",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    }
+]

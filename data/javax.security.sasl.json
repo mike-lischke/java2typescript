@@ -1,0 +1,365 @@
+[
+    {
+        "name": "javax.security.sasl.AuthenticationException",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "javax.security.sasl.SaslException"
+        ],
+        "implements": [],
+        "members": []
+    },
+    {
+        "name": "javax.security.sasl.AuthorizeCallback",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [
+            "javax.security.auth.callback.Callback",
+            "java.io.Serializable"
+        ],
+        "members": [
+            {
+                "name": "getAuthenticationID",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getAuthorizationID",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getAuthorizedID",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isAuthorized",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setAuthorized",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setAuthorizedID",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "javax.security.sasl.RealmCallback",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "javax.security.auth.callback.TextInputCallback"
+        ],
+        "implements": [],
+        "members": []
+    },
+    {
+        "name": "javax.security.sasl.RealmChoiceCallback",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "javax.security.auth.callback.ChoiceCallback"
+        ],
+        "implements": [],
+        "members": []
+    },
+    {
+        "name": "javax.security.sasl.Sasl",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "BOUND_SERVER_NAME",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "CREDENTIALS",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "MAX_BUFFER",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "POLICY_FORWARD_SECRECY",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "POLICY_NOACTIVE",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "POLICY_NOANONYMOUS",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "POLICY_NODICTIONARY",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "POLICY_NOPLAINTEXT",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "POLICY_PASS_CREDENTIALS",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "QOP",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "RAW_SEND_SIZE",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "REUSE",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "SERVER_AUTH",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "STRENGTH",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "createSaslClient",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "createSaslServer",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "getSaslClientFactories",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "getSaslServerFactories",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "javax.security.sasl.SaslClient",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [],
+        "implements": [],
+        "members": [
+            {
+                "name": "dispose",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "evaluateChallenge",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getMechanismName",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getNegotiatedProperty",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "hasInitialResponse",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isComplete",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "unwrap",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "wrap",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "javax.security.sasl.SaslClientFactory",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [],
+        "implements": [],
+        "members": [
+            {
+                "name": "createSaslClient",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getMechanismNames",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "javax.security.sasl.SaslException",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.io.IOException"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "toString",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "javax.security.sasl.SaslServer",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [],
+        "implements": [],
+        "members": [
+            {
+                "name": "dispose",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "evaluateResponse",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getAuthorizationID",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getMechanismName",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getNegotiatedProperty",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isComplete",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "unwrap",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "wrap",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "javax.security.sasl.SaslServerFactory",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [],
+        "implements": [],
+        "members": [
+            {
+                "name": "createSaslServer",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getMechanismNames",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    }
+]

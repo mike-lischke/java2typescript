@@ -1,0 +1,178 @@
+[
+    {
+        "name": "javax.security.cert.Certificate",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "equals",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getEncoded",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getPublicKey",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "hashCode",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "toString",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "verify",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "verify",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "javax.security.cert.CertificateEncodingException",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "javax.security.cert.CertificateException"
+        ],
+        "implements": [],
+        "members": []
+    },
+    {
+        "name": "javax.security.cert.CertificateException",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Exception"
+        ],
+        "implements": [],
+        "members": []
+    },
+    {
+        "name": "javax.security.cert.CertificateExpiredException",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "javax.security.cert.CertificateException"
+        ],
+        "implements": [],
+        "members": []
+    },
+    {
+        "name": "javax.security.cert.CertificateNotYetValidException",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "javax.security.cert.CertificateException"
+        ],
+        "implements": [],
+        "members": []
+    },
+    {
+        "name": "javax.security.cert.CertificateParsingException",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "javax.security.cert.CertificateException"
+        ],
+        "implements": [],
+        "members": []
+    },
+    {
+        "name": "javax.security.cert.X509Certificate",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "javax.security.cert.Certificate"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "checkValidity",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "checkValidity",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getInstance",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "getInstance",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "getIssuerDN",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getNotAfter",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getNotBefore",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getSerialNumber",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getSigAlgName",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getSigAlgOID",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getSigAlgParams",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getSubjectDN",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getVersion",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    }
+]

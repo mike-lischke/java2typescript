@@ -1,0 +1,399 @@
+[
+    {
+        "name": "java.time.zone.ZoneOffsetTransition",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [
+            "java.lang.Comparable"
+        ],
+        "members": [
+            {
+                "name": "compareTo",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "equals",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getDateTimeAfter",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getDateTimeBefore",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getDuration",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getInstant",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getOffsetAfter",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getOffsetBefore",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "hashCode",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isGap",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isOverlap",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isValidOffset",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "of",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "toEpochSecond",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "toString",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.time.zone.ZoneOffsetTransitionRule",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [
+            "java.io.Serializable"
+        ],
+        "members": [
+            {
+                "name": "ZoneOffsetTransitionRule.TimeDefinition",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "class"
+            },
+            {
+                "name": "createTransition",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "equals",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getDayOfMonthIndicator",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getDayOfWeek",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getLocalTime",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getMonth",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getOffsetAfter",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getOffsetBefore",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getStandardOffset",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getTimeDefinition",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "hashCode",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isMidnightEndOfDay",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "of",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "toString",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.time.zone.ZoneOffsetTransitionRule.TimeDefinition",
+        "type": "enum",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Enum"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "createDateTime",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "valueOf",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "values",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.time.zone.ZoneRules",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [
+            "java.io.Serializable"
+        ],
+        "members": [
+            {
+                "name": "equals",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getDaylightSavings",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getOffset",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getOffset",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getStandardOffset",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getTransition",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getTransitionRules",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getTransitions",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getValidOffsets",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "hashCode",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isDaylightSavings",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isFixedOffset",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isValidOffset",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "nextTransition",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "of",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "of",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "previousTransition",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "toString",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.time.zone.ZoneRulesException",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.time.DateTimeException"
+        ],
+        "implements": [],
+        "members": []
+    },
+    {
+        "name": "java.time.zone.ZoneRulesProvider",
+        "type": "class",
+        "modifiers": [
+            "abstract"
+        ],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "getAvailableZoneIds",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "getRules",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "getVersions",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "provideRefresh",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "provideRules",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "provideVersions",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "provideZoneIds",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "refresh",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "registerProvider",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            }
+        ]
+    }
+]

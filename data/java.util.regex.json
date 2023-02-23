@@ -1,0 +1,436 @@
+[
+    {
+        "name": "java.util.regex.Matcher",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [
+            "java.util.regex.MatchResult"
+        ],
+        "members": [
+            {
+                "name": "appendReplacement",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "appendReplacement",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "appendTail",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "appendTail",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "end",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "end",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "end",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "find",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "find",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "group",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "group",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "group",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "groupCount",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "hasAnchoringBounds",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "hasTransparentBounds",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "hitEnd",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "lookingAt",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "matches",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "pattern",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "quoteReplacement",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "region",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "regionEnd",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "regionStart",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "replaceAll",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "replaceAll",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "replaceFirst",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "replaceFirst",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "requireEnd",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "reset",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "reset",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "results",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "start",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "start",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "start",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "toMatchResult",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "toString",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "useAnchoringBounds",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "usePattern",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "useTransparentBounds",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.util.regex.MatchResult",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [],
+        "implements": [],
+        "members": [
+            {
+                "name": "end",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "end",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "group",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "group",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "groupCount",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "start",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "start",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.util.regex.Pattern",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [
+            "java.io.Serializable"
+        ],
+        "members": [
+            {
+                "name": "CANON_EQ",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "CASE_INSENSITIVE",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "COMMENTS",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "DOTALL",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "LITERAL",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "MULTILINE",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "UNICODE_CASE",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "UNICODE_CHARACTER_CLASS",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "UNIX_LINES",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "asMatchPredicate",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "asPredicate",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "compile",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "compile",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "flags",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "matcher",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "matches",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "pattern",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "quote",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "split",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "split",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "splitAsStream",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "toString",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.util.regex.PatternSyntaxException",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.IllegalArgumentException"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "getDescription",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getIndex",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getMessage",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getPattern",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    }
+]

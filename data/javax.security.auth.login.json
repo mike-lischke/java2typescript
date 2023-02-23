@@ -1,0 +1,306 @@
+[
+    {
+        "name": "javax.security.auth.login.AccountException",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "javax.security.auth.login.LoginException"
+        ],
+        "implements": [],
+        "members": []
+    },
+    {
+        "name": "javax.security.auth.login.AccountExpiredException",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "javax.security.auth.login.AccountException"
+        ],
+        "implements": [],
+        "members": []
+    },
+    {
+        "name": "javax.security.auth.login.AccountLockedException",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "javax.security.auth.login.AccountException"
+        ],
+        "implements": [],
+        "members": []
+    },
+    {
+        "name": "javax.security.auth.login.AccountNotFoundException",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "javax.security.auth.login.AccountException"
+        ],
+        "implements": [],
+        "members": []
+    },
+    {
+        "name": "javax.security.auth.login.AppConfigurationEntry",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "AppConfigurationEntry.LoginModuleControlFlag",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "class"
+            },
+            {
+                "name": "getControlFlag",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getLoginModuleName",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getOptions",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "javax.security.auth.login.AppConfigurationEntry.LoginModuleControlFlag",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "OPTIONAL",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "REQUIRED",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "REQUISITE",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "SUFFICIENT",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "toString",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "javax.security.auth.login.Configuration",
+        "type": "class",
+        "modifiers": [
+            "abstract"
+        ],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "Configuration.Parameters",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "class"
+            },
+            {
+                "name": "getAppConfigurationEntry",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getConfiguration",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "getInstance",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "getInstance",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "getInstance",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "getParameters",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getProvider",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getType",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "refresh",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setConfiguration",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "javax.security.auth.login.Configuration.Parameters",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [],
+        "implements": [],
+        "members": []
+    },
+    {
+        "name": "javax.security.auth.login.ConfigurationSpi",
+        "type": "class",
+        "modifiers": [
+            "abstract"
+        ],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "engineGetAppConfigurationEntry",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "engineRefresh",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "javax.security.auth.login.CredentialException",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "javax.security.auth.login.LoginException"
+        ],
+        "implements": [],
+        "members": []
+    },
+    {
+        "name": "javax.security.auth.login.CredentialExpiredException",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "javax.security.auth.login.CredentialException"
+        ],
+        "implements": [],
+        "members": []
+    },
+    {
+        "name": "javax.security.auth.login.CredentialNotFoundException",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "javax.security.auth.login.CredentialException"
+        ],
+        "implements": [],
+        "members": []
+    },
+    {
+        "name": "javax.security.auth.login.FailedLoginException",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "javax.security.auth.login.LoginException"
+        ],
+        "implements": [],
+        "members": []
+    },
+    {
+        "name": "javax.security.auth.login.LoginContext",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "getSubject",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "login",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "logout",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "javax.security.auth.login.LoginException",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.security.GeneralSecurityException"
+        ],
+        "implements": [],
+        "members": []
+    }
+]

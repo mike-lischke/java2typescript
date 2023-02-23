@@ -1,0 +1,1597 @@
+[
+    {
+        "name": "java.util.stream.BaseStream",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [
+            "java.lang.AutoCloseable"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "close",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isParallel",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "iterator",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "onClose",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "parallel",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "sequential",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "spliterator",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "unordered",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.util.stream.Collector",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [],
+        "implements": [],
+        "members": [
+            {
+                "name": "Collector.Characteristics",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "class"
+            },
+            {
+                "name": "accumulator",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "characteristics",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "combiner",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "finisher",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "of",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "of",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "supplier",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.util.stream.Collector.Characteristics",
+        "type": "enum",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Enum"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "valueOf",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "values",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.util.stream.Collectors",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "averagingDouble",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "averagingInt",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "averagingLong",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "collectingAndThen",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "counting",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "filtering",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "flatMapping",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "groupingBy",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "groupingBy",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "groupingBy",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "groupingByConcurrent",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "groupingByConcurrent",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "groupingByConcurrent",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "joining",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "joining",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "joining",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "mapping",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "maxBy",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "minBy",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "partitioningBy",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "partitioningBy",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "reducing",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "reducing",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "reducing",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "summarizingDouble",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "summarizingInt",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "summarizingLong",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "summingDouble",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "summingInt",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "summingLong",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "toCollection",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "toConcurrentMap",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "toConcurrentMap",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "toConcurrentMap",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "toList",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "toMap",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "toMap",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "toMap",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "toSet",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "toUnmodifiableList",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "toUnmodifiableMap",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "toUnmodifiableMap",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "toUnmodifiableSet",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.util.stream.DoubleStream",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [
+            "java.util.stream.BaseStream"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "DoubleStream.Builder",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "class"
+            },
+            {
+                "name": "allMatch",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "anyMatch",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "average",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "boxed",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "builder",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "collect",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "concat",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "count",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "distinct",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "dropWhile",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "empty",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "filter",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "findAny",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "findFirst",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "flatMap",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "forEach",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "forEachOrdered",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "generate",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "iterate",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "iterate",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "limit",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "map",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "mapToInt",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "mapToLong",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "mapToObj",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "max",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "min",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "noneMatch",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "of",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "of",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "peek",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "reduce",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "reduce",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "skip",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "sorted",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "sum",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "summaryStatistics",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "takeWhile",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "toArray",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.util.stream.DoubleStream.Builder",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [
+            "java.util.function.DoubleConsumer"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "accept",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "add",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "build",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.util.stream.IntStream",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [
+            "java.util.stream.BaseStream"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "IntStream.Builder",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "class"
+            },
+            {
+                "name": "allMatch",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "anyMatch",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "asDoubleStream",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "asLongStream",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "average",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "boxed",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "builder",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "collect",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "concat",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "count",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "distinct",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "dropWhile",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "empty",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "filter",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "findAny",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "findFirst",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "flatMap",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "forEach",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "forEachOrdered",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "generate",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "iterate",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "iterate",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "limit",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "map",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "mapToDouble",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "mapToLong",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "mapToObj",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "max",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "min",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "noneMatch",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "of",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "of",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "peek",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "range",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "rangeClosed",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "reduce",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "reduce",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "skip",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "sorted",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "sum",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "summaryStatistics",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "takeWhile",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "toArray",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.util.stream.IntStream.Builder",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [
+            "java.util.function.IntConsumer"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "accept",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "add",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "build",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.util.stream.LongStream",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [
+            "java.util.stream.BaseStream"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "LongStream.Builder",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "class"
+            },
+            {
+                "name": "allMatch",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "anyMatch",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "asDoubleStream",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "average",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "boxed",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "builder",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "collect",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "concat",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "count",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "distinct",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "dropWhile",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "empty",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "filter",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "findAny",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "findFirst",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "flatMap",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "forEach",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "forEachOrdered",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "generate",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "iterate",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "iterate",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "limit",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "map",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "mapToDouble",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "mapToInt",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "mapToObj",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "max",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "min",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "noneMatch",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "of",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "of",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "peek",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "range",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "rangeClosed",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "reduce",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "reduce",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "skip",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "sorted",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "sum",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "summaryStatistics",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "takeWhile",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "toArray",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.util.stream.LongStream.Builder",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [
+            "java.util.function.LongConsumer"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "accept",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "add",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "build",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.util.stream.Stream",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [
+            "java.util.stream.BaseStream"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "Stream.Builder",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "class"
+            },
+            {
+                "name": "allMatch",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "anyMatch",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "builder",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "collect",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "collect",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "concat",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "count",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "distinct",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "dropWhile",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "empty",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "filter",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "findAny",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "findFirst",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "flatMap",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "flatMapToDouble",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "flatMapToInt",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "flatMapToLong",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "forEach",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "forEachOrdered",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "generate",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "iterate",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "iterate",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "limit",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "map",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "mapToDouble",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "mapToInt",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "mapToLong",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "max",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "min",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "noneMatch",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "of",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "of",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "ofNullable",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "peek",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "reduce",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "reduce",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "reduce",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "skip",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "sorted",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "sorted",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "takeWhile",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "toArray",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "toArray",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.util.stream.Stream.Builder",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [
+            "java.util.function.Consumer"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "accept",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "add",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "build",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.util.stream.StreamSupport",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "doubleStream",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "doubleStream",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "intStream",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "intStream",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "longStream",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "longStream",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "stream",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "stream",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            }
+        ]
+    }
+]

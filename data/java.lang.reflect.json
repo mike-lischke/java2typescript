@@ -1,0 +1,1561 @@
+[
+    {
+        "name": "java.lang.reflect.AccessibleObject",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [
+            "java.lang.reflect.AnnotatedElement"
+        ],
+        "members": [
+            {
+                "name": "canAccess",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getAnnotation",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getAnnotations",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getAnnotationsByType",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getDeclaredAnnotation",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getDeclaredAnnotations",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getDeclaredAnnotationsByType",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isAccessible",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isAnnotationPresent",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setAccessible",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setAccessible",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "trySetAccessible",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.lang.reflect.AnnotatedArrayType",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [
+            "java.lang.reflect.AnnotatedType"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "getAnnotatedGenericComponentType",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getAnnotatedOwnerType",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.lang.reflect.AnnotatedElement",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [],
+        "implements": [],
+        "members": [
+            {
+                "name": "getAnnotation",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getAnnotations",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getAnnotationsByType",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getDeclaredAnnotation",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getDeclaredAnnotations",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getDeclaredAnnotationsByType",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isAnnotationPresent",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.lang.reflect.AnnotatedParameterizedType",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [
+            "java.lang.reflect.AnnotatedType"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "getAnnotatedActualTypeArguments",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getAnnotatedOwnerType",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.lang.reflect.AnnotatedType",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [
+            "java.lang.reflect.AnnotatedElement"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "getAnnotatedOwnerType",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getType",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.lang.reflect.AnnotatedTypeVariable",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [
+            "java.lang.reflect.AnnotatedType"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "getAnnotatedBounds",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getAnnotatedOwnerType",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.lang.reflect.AnnotatedWildcardType",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [
+            "java.lang.reflect.AnnotatedType"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "getAnnotatedLowerBounds",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getAnnotatedOwnerType",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getAnnotatedUpperBounds",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.lang.reflect.Array",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "get",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "getBoolean",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "getByte",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "getChar",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "getDouble",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "getFloat",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "getInt",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "getLength",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "getLong",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "getShort",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "newInstance",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "newInstance",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "set",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "setBoolean",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "setByte",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "setChar",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "setDouble",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "setFloat",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "setInt",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "setLong",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "setShort",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.lang.reflect.Constructor",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.reflect.Executable"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "equals",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getAnnotatedReceiverType",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getAnnotatedReturnType",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getAnnotation",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getDeclaredAnnotations",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getDeclaringClass",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getGenericExceptionTypes",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getGenericParameterTypes",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getName",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getParameterAnnotations",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getParameterCount",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getTypeParameters",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "hashCode",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isSynthetic",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isVarArgs",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "newInstance",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setAccessible",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "toGenericString",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "toString",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.lang.reflect.Executable",
+        "type": "class",
+        "modifiers": [
+            "abstract"
+        ],
+        "extends": [
+            "java.lang.reflect.AccessibleObject"
+        ],
+        "implements": [
+            "java.lang.reflect.Member",
+            "java.lang.reflect.GenericDeclaration"
+        ],
+        "members": [
+            {
+                "name": "getAnnotatedExceptionTypes",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getAnnotatedParameterTypes",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getAnnotatedReceiverType",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getAnnotatedReturnType",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getAnnotation",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getAnnotationsByType",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getDeclaringClass",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getExceptionTypes",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getGenericExceptionTypes",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getGenericParameterTypes",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getModifiers",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getName",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getParameterAnnotations",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getParameterCount",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getParameters",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getParameterTypes",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getTypeParameters",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isSynthetic",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isVarArgs",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "toGenericString",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.lang.reflect.Field",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.reflect.AccessibleObject"
+        ],
+        "implements": [
+            "java.lang.reflect.Member"
+        ],
+        "members": [
+            {
+                "name": "equals",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "get",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getAnnotatedType",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getAnnotation",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getAnnotationsByType",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getBoolean",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getByte",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getChar",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getDeclaringClass",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getDouble",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getFloat",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getGenericType",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getInt",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getLong",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getModifiers",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getName",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getShort",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getType",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "hashCode",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isEnumConstant",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isSynthetic",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "set",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setAccessible",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setBoolean",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setByte",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setChar",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setDouble",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setFloat",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setInt",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setLong",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setShort",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "toGenericString",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "toString",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.lang.reflect.GenericArrayType",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [
+            "java.lang.reflect.Type"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "getGenericComponentType",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.lang.reflect.GenericDeclaration",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [
+            "java.lang.reflect.AnnotatedElement"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "getTypeParameters",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.lang.reflect.GenericSignatureFormatError",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.ClassFormatError"
+        ],
+        "implements": [],
+        "members": []
+    },
+    {
+        "name": "java.lang.reflect.InaccessibleObjectException",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.RuntimeException"
+        ],
+        "implements": [],
+        "members": []
+    },
+    {
+        "name": "java.lang.reflect.InvocationHandler",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [],
+        "implements": [],
+        "members": [
+            {
+                "name": "invoke",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.lang.reflect.InvocationTargetException",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.ReflectiveOperationException"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "getCause",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getTargetException",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.lang.reflect.MalformedParameterizedTypeException",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.RuntimeException"
+        ],
+        "implements": [],
+        "members": []
+    },
+    {
+        "name": "java.lang.reflect.MalformedParametersException",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.RuntimeException"
+        ],
+        "implements": [],
+        "members": []
+    },
+    {
+        "name": "java.lang.reflect.Member",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [],
+        "implements": [],
+        "members": [
+            {
+                "name": "DECLARED",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "PUBLIC",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "getDeclaringClass",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getModifiers",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getName",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isSynthetic",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.lang.reflect.Method",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.reflect.Executable"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "equals",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getAnnotatedReturnType",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getAnnotation",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getDeclaredAnnotations",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getDeclaringClass",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getDefaultValue",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getGenericExceptionTypes",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getGenericParameterTypes",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getGenericReturnType",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getName",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getParameterAnnotations",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getParameterCount",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getReturnType",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getTypeParameters",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "hashCode",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "invoke",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isBridge",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isDefault",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isSynthetic",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isVarArgs",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setAccessible",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "toGenericString",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "toString",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.lang.reflect.Modifier",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "ABSTRACT",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "FINAL",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "INTERFACE",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "NATIVE",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "PRIVATE",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "PROTECTED",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "PUBLIC",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "STATIC",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "STRICT",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "SYNCHRONIZED",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "TRANSIENT",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "VOLATILE",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "classModifiers",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "constructorModifiers",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "fieldModifiers",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "interfaceModifiers",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "isAbstract",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "isFinal",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "isInterface",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "isNative",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "isPrivate",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "isProtected",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "isPublic",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "isStatic",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "isStrict",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "isSynchronized",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "isTransient",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "isVolatile",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "methodModifiers",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "parameterModifiers",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "toString",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.lang.reflect.Parameter",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [
+            "java.lang.reflect.AnnotatedElement"
+        ],
+        "members": [
+            {
+                "name": "equals",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getAnnotatedType",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getAnnotation",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getAnnotationsByType",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getDeclaredAnnotation",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getDeclaredAnnotationsByType",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getDeclaringExecutable",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getModifiers",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getName",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getParameterizedType",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getType",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "hashCode",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isImplicit",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isNamePresent",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isSynthetic",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isVarArgs",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "toString",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.lang.reflect.ParameterizedType",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [
+            "java.lang.reflect.Type"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "getActualTypeArguments",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getOwnerType",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getRawType",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.lang.reflect.Proxy",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [
+            "java.io.Serializable"
+        ],
+        "members": [
+            {
+                "name": "h",
+                "modifiers": [],
+                "type": "field"
+            },
+            {
+                "name": "getInvocationHandler",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "getProxyClass",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "isProxyClass",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "newProxyInstance",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.lang.reflect.ReflectPermission",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.security.BasicPermission"
+        ],
+        "implements": [],
+        "members": []
+    },
+    {
+        "name": "java.lang.reflect.Type",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [],
+        "implements": [],
+        "members": [
+            {
+                "name": "getTypeName",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.lang.reflect.TypeVariable",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [
+            "java.lang.reflect.Type",
+            "java.lang.reflect.AnnotatedElement"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "getAnnotatedBounds",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getBounds",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getGenericDeclaration",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getName",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.lang.reflect.UndeclaredThrowableException",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.RuntimeException"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "getCause",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getUndeclaredThrowable",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.lang.reflect.WildcardType",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [
+            "java.lang.reflect.Type"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "getLowerBounds",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getUpperBounds",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    }
+]

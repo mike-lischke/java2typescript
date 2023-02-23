@@ -1,0 +1,222 @@
+[
+    {
+        "name": "java.security.acl.Acl",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [
+            "java.security.acl.Owner"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "addEntry",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "checkPermission",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "entries",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getName",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getPermissions",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "removeEntry",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setName",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "toString",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.security.acl.AclEntry",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Cloneable"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "addPermission",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "checkPermission",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "clone",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getPrincipal",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isNegative",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "permissions",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "removePermission",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setNegativePermissions",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setPrincipal",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "toString",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.security.acl.AclNotFoundException",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Exception"
+        ],
+        "implements": [],
+        "members": []
+    },
+    {
+        "name": "java.security.acl.Group",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [
+            "java.security.Principal"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "addMember",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isMember",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "members",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "removeMember",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.security.acl.LastOwnerException",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Exception"
+        ],
+        "implements": [],
+        "members": []
+    },
+    {
+        "name": "java.security.acl.NotOwnerException",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Exception"
+        ],
+        "implements": [],
+        "members": []
+    },
+    {
+        "name": "java.security.acl.Owner",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "addOwner",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "deleteOwner",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isOwner",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.security.acl.Permission",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "equals",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "toString",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    }
+]

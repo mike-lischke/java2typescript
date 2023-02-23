@@ -1,0 +1,97 @@
+[
+    {
+        "name": "javax.crypto.interfaces.DHKey",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [],
+        "implements": [],
+        "members": [
+            {
+                "name": "getParams",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "javax.crypto.interfaces.DHPrivateKey",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [
+            "javax.crypto.interfaces.DHKey",
+            "java.security.PrivateKey"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "serialVersionUID",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "getX",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "javax.crypto.interfaces.DHPublicKey",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [
+            "javax.crypto.interfaces.DHKey",
+            "java.security.PublicKey"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "serialVersionUID",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "getY",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "javax.crypto.interfaces.PBEKey",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [
+            "javax.crypto.SecretKey"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "serialVersionUID",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "getIterationCount",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getPassword",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getSalt",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    }
+]

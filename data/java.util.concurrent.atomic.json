@@ -1,0 +1,1692 @@
+[
+    {
+        "name": "java.util.concurrent.atomic.AtomicBoolean",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [
+            "java.io.Serializable"
+        ],
+        "members": [
+            {
+                "name": "compareAndExchange",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "compareAndExchangeAcquire",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "compareAndExchangeRelease",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "compareAndSet",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "get",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getAcquire",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getAndSet",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getOpaque",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getPlain",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "lazySet",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "set",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setOpaque",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setPlain",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setRelease",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "toString",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "weakCompareAndSet",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "weakCompareAndSetAcquire",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "weakCompareAndSetPlain",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "weakCompareAndSetRelease",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "weakCompareAndSetVolatile",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.util.concurrent.atomic.AtomicInteger",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Number"
+        ],
+        "implements": [
+            "java.io.Serializable"
+        ],
+        "members": [
+            {
+                "name": "accumulateAndGet",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "addAndGet",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "compareAndExchange",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "compareAndExchangeAcquire",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "compareAndExchangeRelease",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "compareAndSet",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "decrementAndGet",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "doubleValue",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "floatValue",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "get",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getAcquire",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getAndAccumulate",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getAndAdd",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getAndDecrement",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getAndIncrement",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getAndSet",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getAndUpdate",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getOpaque",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getPlain",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "incrementAndGet",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "intValue",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "lazySet",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "longValue",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "set",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setOpaque",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setPlain",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setRelease",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "toString",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "updateAndGet",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "weakCompareAndSet",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "weakCompareAndSetAcquire",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "weakCompareAndSetPlain",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "weakCompareAndSetRelease",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "weakCompareAndSetVolatile",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.util.concurrent.atomic.AtomicIntegerArray",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [
+            "java.io.Serializable"
+        ],
+        "members": [
+            {
+                "name": "accumulateAndGet",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "addAndGet",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "compareAndExchange",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "compareAndExchangeAcquire",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "compareAndExchangeRelease",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "compareAndSet",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "decrementAndGet",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "get",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getAcquire",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getAndAccumulate",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getAndAdd",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getAndDecrement",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getAndIncrement",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getAndSet",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getAndUpdate",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getOpaque",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getPlain",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "incrementAndGet",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "lazySet",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "length",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "set",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setOpaque",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setPlain",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setRelease",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "toString",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "updateAndGet",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "weakCompareAndSet",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "weakCompareAndSetAcquire",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "weakCompareAndSetPlain",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "weakCompareAndSetRelease",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "weakCompareAndSetVolatile",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.util.concurrent.atomic.AtomicIntegerFieldUpdater",
+        "type": "class",
+        "modifiers": [
+            "abstract"
+        ],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "accumulateAndGet",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "addAndGet",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "compareAndSet",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "decrementAndGet",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "get",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getAndAccumulate",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getAndAdd",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getAndDecrement",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getAndIncrement",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getAndSet",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getAndUpdate",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "incrementAndGet",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "lazySet",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "newUpdater",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "set",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "updateAndGet",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "weakCompareAndSet",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.util.concurrent.atomic.AtomicLong",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Number"
+        ],
+        "implements": [
+            "java.io.Serializable"
+        ],
+        "members": [
+            {
+                "name": "accumulateAndGet",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "addAndGet",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "compareAndExchange",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "compareAndExchangeAcquire",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "compareAndExchangeRelease",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "compareAndSet",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "decrementAndGet",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "doubleValue",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "floatValue",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "get",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getAcquire",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getAndAccumulate",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getAndAdd",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getAndDecrement",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getAndIncrement",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getAndSet",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getAndUpdate",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getOpaque",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getPlain",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "incrementAndGet",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "intValue",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "lazySet",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "longValue",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "set",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setOpaque",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setPlain",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setRelease",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "toString",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "updateAndGet",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "weakCompareAndSet",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "weakCompareAndSetAcquire",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "weakCompareAndSetPlain",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "weakCompareAndSetRelease",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "weakCompareAndSetVolatile",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.util.concurrent.atomic.AtomicLongArray",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [
+            "java.io.Serializable"
+        ],
+        "members": [
+            {
+                "name": "accumulateAndGet",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "addAndGet",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "compareAndExchange",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "compareAndExchangeAcquire",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "compareAndExchangeRelease",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "compareAndSet",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "decrementAndGet",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "get",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getAcquire",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getAndAccumulate",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getAndAdd",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getAndDecrement",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getAndIncrement",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getAndSet",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getAndUpdate",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getOpaque",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getPlain",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "incrementAndGet",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "lazySet",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "length",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "set",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setOpaque",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setPlain",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setRelease",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "toString",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "updateAndGet",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "weakCompareAndSet",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "weakCompareAndSetAcquire",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "weakCompareAndSetPlain",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "weakCompareAndSetRelease",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "weakCompareAndSetVolatile",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.util.concurrent.atomic.AtomicLongFieldUpdater",
+        "type": "class",
+        "modifiers": [
+            "abstract"
+        ],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "accumulateAndGet",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "addAndGet",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "compareAndSet",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "decrementAndGet",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "get",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getAndAccumulate",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getAndAdd",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getAndDecrement",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getAndIncrement",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getAndSet",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getAndUpdate",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "incrementAndGet",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "lazySet",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "newUpdater",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "set",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "updateAndGet",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "weakCompareAndSet",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.util.concurrent.atomic.AtomicMarkableReference",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "attemptMark",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "compareAndSet",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "get",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getReference",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isMarked",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "set",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "weakCompareAndSet",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.util.concurrent.atomic.AtomicReference",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [
+            "java.io.Serializable"
+        ],
+        "members": [
+            {
+                "name": "accumulateAndGet",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "compareAndExchange",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "compareAndExchangeAcquire",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "compareAndExchangeRelease",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "compareAndSet",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "get",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getAcquire",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getAndAccumulate",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getAndSet",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getAndUpdate",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getOpaque",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getPlain",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "lazySet",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "set",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setOpaque",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setPlain",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setRelease",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "toString",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "updateAndGet",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "weakCompareAndSet",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "weakCompareAndSetAcquire",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "weakCompareAndSetPlain",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "weakCompareAndSetRelease",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "weakCompareAndSetVolatile",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.util.concurrent.atomic.AtomicReferenceArray",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [
+            "java.io.Serializable"
+        ],
+        "members": [
+            {
+                "name": "accumulateAndGet",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "compareAndExchange",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "compareAndExchangeAcquire",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "compareAndExchangeRelease",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "compareAndSet",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "get",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getAcquire",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getAndAccumulate",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getAndSet",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getAndUpdate",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getOpaque",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getPlain",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "lazySet",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "length",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "set",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setOpaque",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setPlain",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setRelease",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "toString",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "updateAndGet",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "weakCompareAndSet",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "weakCompareAndSetAcquire",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "weakCompareAndSetPlain",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "weakCompareAndSetRelease",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "weakCompareAndSetVolatile",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.util.concurrent.atomic.AtomicReferenceFieldUpdater",
+        "type": "class",
+        "modifiers": [
+            "abstract"
+        ],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "accumulateAndGet",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "compareAndSet",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "get",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getAndAccumulate",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getAndSet",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getAndUpdate",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "lazySet",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "newUpdater",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "set",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "updateAndGet",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "weakCompareAndSet",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.util.concurrent.atomic.AtomicStampedReference",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "attemptStamp",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "compareAndSet",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "get",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getReference",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getStamp",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "set",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "weakCompareAndSet",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.util.concurrent.atomic.DoubleAccumulator",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Number"
+        ],
+        "implements": [
+            "java.io.Serializable"
+        ],
+        "members": [
+            {
+                "name": "accumulate",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "doubleValue",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "floatValue",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "get",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getThenReset",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "intValue",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "longValue",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "reset",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "toString",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.util.concurrent.atomic.DoubleAdder",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Number"
+        ],
+        "implements": [
+            "java.io.Serializable"
+        ],
+        "members": [
+            {
+                "name": "add",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "doubleValue",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "floatValue",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "intValue",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "longValue",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "reset",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "sum",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "sumThenReset",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "toString",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.util.concurrent.atomic.LongAccumulator",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Number"
+        ],
+        "implements": [
+            "java.io.Serializable"
+        ],
+        "members": [
+            {
+                "name": "accumulate",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "doubleValue",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "floatValue",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "get",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getThenReset",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "intValue",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "longValue",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "reset",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "toString",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.util.concurrent.atomic.LongAdder",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Number"
+        ],
+        "implements": [
+            "java.io.Serializable"
+        ],
+        "members": [
+            {
+                "name": "add",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "decrement",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "doubleValue",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "floatValue",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "increment",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "intValue",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "longValue",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "reset",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "sum",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "sumThenReset",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "toString",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    }
+]

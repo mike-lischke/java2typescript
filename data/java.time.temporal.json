@@ -1,0 +1,822 @@
+[
+    {
+        "name": "java.time.temporal.ChronoField",
+        "type": "enum",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Enum"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "checkValidIntValue",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "checkValidValue",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isDateBased",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isTimeBased",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "range",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "valueOf",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "values",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.time.temporal.ChronoUnit",
+        "type": "enum",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Enum"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "getDuration",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isDateBased",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isDurationEstimated",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isTimeBased",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "valueOf",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "values",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.time.temporal.IsoFields",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "DAY_OF_QUARTER",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "QUARTER_OF_YEAR",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "QUARTER_YEARS",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "WEEK_BASED_YEAR",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "WEEK_BASED_YEARS",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "WEEK_OF_WEEK_BASED_YEAR",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            }
+        ]
+    },
+    {
+        "name": "java.time.temporal.JulianFields",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "JULIAN_DAY",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "MODIFIED_JULIAN_DAY",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "RATA_DIE",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            }
+        ]
+    },
+    {
+        "name": "java.time.temporal.Temporal",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [
+            "java.time.temporal.TemporalAccessor"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "isSupported",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "minus",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "minus",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "plus",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "plus",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "until",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "with",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "with",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.time.temporal.TemporalAccessor",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [],
+        "implements": [],
+        "members": [
+            {
+                "name": "get",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getLong",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isSupported",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "query",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "range",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.time.temporal.TemporalAdjuster",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "adjustInto",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.time.temporal.TemporalAdjusters",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "dayOfWeekInMonth",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "firstDayOfMonth",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "firstDayOfNextMonth",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "firstDayOfNextYear",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "firstDayOfYear",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "firstInMonth",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "lastDayOfMonth",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "lastDayOfYear",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "lastInMonth",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "next",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "nextOrSame",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "ofDateAdjuster",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "previous",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "previousOrSame",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.time.temporal.TemporalAmount",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [],
+        "implements": [],
+        "members": [
+            {
+                "name": "addTo",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "get",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getUnits",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "subtractFrom",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.time.temporal.TemporalField",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [],
+        "implements": [],
+        "members": [
+            {
+                "name": "adjustInto",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getBaseUnit",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getDisplayName",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getFrom",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getRangeUnit",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isDateBased",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isSupportedBy",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isTimeBased",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "range",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "rangeRefinedBy",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "resolve",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "toString",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.time.temporal.TemporalQueries",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "chronology",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "localDate",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "localTime",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "offset",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "precision",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "zone",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "zoneId",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.time.temporal.TemporalQuery",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "queryFrom",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.time.temporal.TemporalUnit",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [],
+        "implements": [],
+        "members": [
+            {
+                "name": "addTo",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "between",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getDuration",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isDateBased",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isDurationEstimated",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isSupportedBy",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isTimeBased",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "toString",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.time.temporal.UnsupportedTemporalTypeException",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.time.DateTimeException"
+        ],
+        "implements": [],
+        "members": []
+    },
+    {
+        "name": "java.time.temporal.ValueRange",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [
+            "java.io.Serializable"
+        ],
+        "members": [
+            {
+                "name": "checkValidIntValue",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "checkValidValue",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "equals",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getLargestMinimum",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getMaximum",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getMinimum",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getSmallestMaximum",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "hashCode",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isFixed",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isIntValue",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isValidIntValue",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isValidValue",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "of",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "of",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "of",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "toString",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.time.temporal.WeekFields",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [
+            "java.io.Serializable"
+        ],
+        "members": [
+            {
+                "name": "ISO",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "SUNDAY_START",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "WEEK_BASED_YEARS",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "dayOfWeek",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "equals",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getFirstDayOfWeek",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getMinimalDaysInFirstWeek",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "hashCode",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "of",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "of",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "toString",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "weekBasedYear",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "weekOfMonth",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "weekOfWeekBasedYear",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "weekOfYear",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    }
+]

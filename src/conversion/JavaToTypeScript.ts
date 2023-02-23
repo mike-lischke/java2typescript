@@ -79,12 +79,6 @@ export interface IConverterOptions {
      * No file is parsed and no symbol table is created for the symbols listed here.
      */
     classResolver?: Map<string, IClassResolver>;
-
-    /**
-     * Indicates if the code generator should add @ts-expect-error comments to suppress reported errors caused
-     * by the conversion of explicit constructor invocation expressions to a closure.
-     */
-    suppressTSErrorsForECI?: boolean;
 }
 
 /** Options used for debugging the transformation process. */

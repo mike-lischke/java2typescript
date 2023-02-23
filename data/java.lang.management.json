@@ -1,0 +1,1107 @@
+[
+    {
+        "name": "java.lang.management.BufferPoolMXBean",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [
+            "java.lang.management.PlatformManagedObject"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "getCount",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getMemoryUsed",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getName",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getTotalCapacity",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.lang.management.ClassLoadingMXBean",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [
+            "java.lang.management.PlatformManagedObject"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "getLoadedClassCount",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getTotalLoadedClassCount",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getUnloadedClassCount",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isVerbose",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setVerbose",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.lang.management.CompilationMXBean",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [
+            "java.lang.management.PlatformManagedObject"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "getName",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getTotalCompilationTime",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isCompilationTimeMonitoringSupported",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.lang.management.GarbageCollectorMXBean",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [
+            "java.lang.management.MemoryManagerMXBean"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "getCollectionCount",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getCollectionTime",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.lang.management.LockInfo",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "from",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "getClassName",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getIdentityHashCode",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "toString",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.lang.management.ManagementFactory",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "CLASS_LOADING_MXBEAN_NAME",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "COMPILATION_MXBEAN_NAME",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "GARBAGE_COLLECTOR_MXBEAN_DOMAIN_TYPE",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "MEMORY_MANAGER_MXBEAN_DOMAIN_TYPE",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "MEMORY_MXBEAN_NAME",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "MEMORY_POOL_MXBEAN_DOMAIN_TYPE",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "OPERATING_SYSTEM_MXBEAN_NAME",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "RUNTIME_MXBEAN_NAME",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "THREAD_MXBEAN_NAME",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "getClassLoadingMXBean",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "getCompilationMXBean",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "getGarbageCollectorMXBeans",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "getMemoryManagerMXBeans",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "getMemoryMXBean",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "getMemoryPoolMXBeans",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "getOperatingSystemMXBean",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "getPlatformManagementInterfaces",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "getPlatformMBeanServer",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "getPlatformMXBean",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "getPlatformMXBean",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "getPlatformMXBeans",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "getPlatformMXBeans",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "getRuntimeMXBean",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "getThreadMXBean",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "newPlatformMXBeanProxy",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.lang.management.ManagementPermission",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.security.BasicPermission"
+        ],
+        "implements": [],
+        "members": []
+    },
+    {
+        "name": "java.lang.management.MemoryManagerMXBean",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [
+            "java.lang.management.PlatformManagedObject"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "getMemoryPoolNames",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getName",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isValid",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.lang.management.MemoryMXBean",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [
+            "java.lang.management.PlatformManagedObject"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "gc",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getHeapMemoryUsage",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getNonHeapMemoryUsage",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getObjectPendingFinalizationCount",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isVerbose",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setVerbose",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.lang.management.MemoryNotificationInfo",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "MEMORY_COLLECTION_THRESHOLD_EXCEEDED",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "MEMORY_THRESHOLD_EXCEEDED",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "from",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "getCount",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getPoolName",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getUsage",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.lang.management.MemoryPoolMXBean",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [
+            "java.lang.management.PlatformManagedObject"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "getCollectionUsage",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getCollectionUsageThreshold",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getCollectionUsageThresholdCount",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getMemoryManagerNames",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getName",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getPeakUsage",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getType",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getUsage",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getUsageThreshold",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getUsageThresholdCount",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isCollectionUsageThresholdExceeded",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isCollectionUsageThresholdSupported",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isUsageThresholdExceeded",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isUsageThresholdSupported",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isValid",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "resetPeakUsage",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setCollectionUsageThreshold",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setUsageThreshold",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.lang.management.MemoryType",
+        "type": "enum",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Enum"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "toString",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "valueOf",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "values",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.lang.management.MemoryUsage",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "from",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "getCommitted",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getInit",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getMax",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getUsed",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "toString",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.lang.management.MonitorInfo",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.management.LockInfo"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "from",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "getLockedStackDepth",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getLockedStackFrame",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.lang.management.OperatingSystemMXBean",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [
+            "java.lang.management.PlatformManagedObject"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "getArch",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getAvailableProcessors",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getName",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getSystemLoadAverage",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getVersion",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.lang.management.PlatformLoggingMXBean",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [
+            "java.lang.management.PlatformManagedObject"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "getLoggerLevel",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getLoggerNames",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getParentLoggerName",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setLoggerLevel",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.lang.management.PlatformManagedObject",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [],
+        "implements": [],
+        "members": [
+            {
+                "name": "getObjectName",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.lang.management.RuntimeMXBean",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [
+            "java.lang.management.PlatformManagedObject"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "getBootClassPath",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getClassPath",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getInputArguments",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getLibraryPath",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getManagementSpecVersion",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getName",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getPid",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getSpecName",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getSpecVendor",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getSpecVersion",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getStartTime",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getSystemProperties",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getUptime",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getVmName",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getVmVendor",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getVmVersion",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isBootClassPathSupported",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.lang.management.ThreadInfo",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "from",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "getBlockedCount",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getBlockedTime",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getLockedMonitors",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getLockedSynchronizers",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getLockInfo",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getLockName",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getLockOwnerId",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getLockOwnerName",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getPriority",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getStackTrace",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getThreadId",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getThreadName",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getThreadState",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getWaitedCount",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getWaitedTime",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isDaemon",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isInNative",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isSuspended",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "toString",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.lang.management.ThreadMXBean",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [
+            "java.lang.management.PlatformManagedObject"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "dumpAllThreads",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "dumpAllThreads",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "findDeadlockedThreads",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "findMonitorDeadlockedThreads",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getAllThreadIds",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getCurrentThreadCpuTime",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getCurrentThreadUserTime",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getDaemonThreadCount",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getPeakThreadCount",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getThreadCount",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getThreadCpuTime",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getThreadInfo",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getThreadInfo",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getThreadInfo",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getThreadInfo",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getThreadInfo",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getThreadInfo",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getThreadUserTime",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getTotalStartedThreadCount",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isCurrentThreadCpuTimeSupported",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isObjectMonitorUsageSupported",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isSynchronizerUsageSupported",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isThreadContentionMonitoringEnabled",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isThreadContentionMonitoringSupported",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isThreadCpuTimeEnabled",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isThreadCpuTimeSupported",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "resetPeakThreadCount",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setThreadContentionMonitoringEnabled",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setThreadCpuTimeEnabled",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    }
+]

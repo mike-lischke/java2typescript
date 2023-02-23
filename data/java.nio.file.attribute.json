@@ -1,0 +1,752 @@
+[
+    {
+        "name": "java.nio.file.attribute.AclEntry",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "AclEntry.Builder",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "class"
+            },
+            {
+                "name": "equals",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "flags",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "hashCode",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "newBuilder",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "newBuilder",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "permissions",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "principal",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "toString",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "type",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.nio.file.attribute.AclEntry.Builder",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "build",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setFlags",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setFlags",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setPermissions",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setPermissions",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setPrincipal",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setType",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.nio.file.attribute.AclEntryFlag",
+        "type": "enum",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Enum"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "valueOf",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "values",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.nio.file.attribute.AclEntryPermission",
+        "type": "enum",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Enum"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "ADD_FILE",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "ADD_SUBDIRECTORY",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "LIST_DIRECTORY",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "valueOf",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "values",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.nio.file.attribute.AclEntryType",
+        "type": "enum",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Enum"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "valueOf",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "values",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.nio.file.attribute.AclFileAttributeView",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [
+            "java.nio.file.attribute.FileOwnerAttributeView"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "getAcl",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "name",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setAcl",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.nio.file.attribute.AttributeView",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [],
+        "implements": [],
+        "members": [
+            {
+                "name": "name",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.nio.file.attribute.BasicFileAttributes",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [],
+        "implements": [],
+        "members": [
+            {
+                "name": "creationTime",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "fileKey",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isDirectory",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isOther",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isRegularFile",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isSymbolicLink",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "lastAccessTime",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "lastModifiedTime",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "size",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.nio.file.attribute.BasicFileAttributeView",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [
+            "java.nio.file.attribute.FileAttributeView"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "name",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "readAttributes",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setTimes",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.nio.file.attribute.DosFileAttributes",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [
+            "java.nio.file.attribute.BasicFileAttributes"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "isArchive",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isHidden",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isReadOnly",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isSystem",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.nio.file.attribute.DosFileAttributeView",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [
+            "java.nio.file.attribute.BasicFileAttributeView"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "name",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "readAttributes",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setArchive",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setHidden",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setReadOnly",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setSystem",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.nio.file.attribute.FileAttribute",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [],
+        "implements": [],
+        "members": [
+            {
+                "name": "name",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "value",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.nio.file.attribute.FileAttributeView",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [
+            "java.nio.file.attribute.AttributeView"
+        ],
+        "implements": [],
+        "members": []
+    },
+    {
+        "name": "java.nio.file.attribute.FileOwnerAttributeView",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [
+            "java.nio.file.attribute.FileAttributeView"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "getOwner",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "name",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setOwner",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.nio.file.attribute.FileStoreAttributeView",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [
+            "java.nio.file.attribute.AttributeView"
+        ],
+        "implements": [],
+        "members": []
+    },
+    {
+        "name": "java.nio.file.attribute.FileTime",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [
+            "java.lang.Comparable"
+        ],
+        "members": [
+            {
+                "name": "compareTo",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "equals",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "from",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "from",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "fromMillis",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "hashCode",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "to",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "toInstant",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "toMillis",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "toString",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.nio.file.attribute.GroupPrincipal",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [
+            "java.nio.file.attribute.UserPrincipal"
+        ],
+        "implements": [],
+        "members": []
+    },
+    {
+        "name": "java.nio.file.attribute.PosixFileAttributes",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [
+            "java.nio.file.attribute.BasicFileAttributes"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "group",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "owner",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "permissions",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.nio.file.attribute.PosixFileAttributeView",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [
+            "java.nio.file.attribute.BasicFileAttributeView",
+            "java.nio.file.attribute.FileOwnerAttributeView"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "name",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "readAttributes",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setGroup",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setPermissions",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.nio.file.attribute.PosixFilePermission",
+        "type": "enum",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Enum"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "valueOf",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "values",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.nio.file.attribute.PosixFilePermissions",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "asFileAttribute",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "fromString",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "toString",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.nio.file.attribute.UserDefinedFileAttributeView",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [
+            "java.nio.file.attribute.FileAttributeView"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "delete",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "list",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "name",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "read",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "size",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "write",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.nio.file.attribute.UserPrincipal",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [
+            "java.security.Principal"
+        ],
+        "implements": [],
+        "members": []
+    },
+    {
+        "name": "java.nio.file.attribute.UserPrincipalLookupService",
+        "type": "class",
+        "modifiers": [
+            "abstract"
+        ],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "lookupPrincipalByGroupName",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "lookupPrincipalByName",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.nio.file.attribute.UserPrincipalNotFoundException",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.io.IOException"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "getName",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    }
+]

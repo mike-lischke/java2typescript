@@ -1,0 +1,385 @@
+[
+    {
+        "name": "java.security.interfaces.DSAKey",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [],
+        "implements": [],
+        "members": [
+            {
+                "name": "getParams",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.security.interfaces.DSAKeyPairGenerator",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [],
+        "implements": [],
+        "members": [
+            {
+                "name": "initialize",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "initialize",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.security.interfaces.DSAParams",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [],
+        "implements": [],
+        "members": [
+            {
+                "name": "getG",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getP",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getQ",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.security.interfaces.DSAPrivateKey",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [
+            "java.security.interfaces.DSAKey",
+            "java.security.PrivateKey"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "serialVersionUID",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "getX",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.security.interfaces.DSAPublicKey",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [
+            "java.security.interfaces.DSAKey",
+            "java.security.PublicKey"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "serialVersionUID",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "getY",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.security.interfaces.ECKey",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [],
+        "implements": [],
+        "members": [
+            {
+                "name": "getParams",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.security.interfaces.ECPrivateKey",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [
+            "java.security.PrivateKey",
+            "java.security.interfaces.ECKey"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "serialVersionUID",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "getS",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.security.interfaces.ECPublicKey",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [
+            "java.security.PublicKey",
+            "java.security.interfaces.ECKey"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "serialVersionUID",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "getW",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.security.interfaces.RSAKey",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [],
+        "implements": [],
+        "members": [
+            {
+                "name": "getModulus",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getParams",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.security.interfaces.RSAMultiPrimePrivateCrtKey",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [
+            "java.security.interfaces.RSAPrivateKey"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "serialVersionUID",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "getCrtCoefficient",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getOtherPrimeInfo",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getPrimeExponentP",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getPrimeExponentQ",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getPrimeP",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getPrimeQ",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getPublicExponent",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.security.interfaces.RSAPrivateCrtKey",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [
+            "java.security.interfaces.RSAPrivateKey"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "serialVersionUID",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "getCrtCoefficient",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getPrimeExponentP",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getPrimeExponentQ",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getPrimeP",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getPrimeQ",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getPublicExponent",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.security.interfaces.RSAPrivateKey",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [
+            "java.security.PrivateKey",
+            "java.security.interfaces.RSAKey"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "serialVersionUID",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "getPrivateExponent",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.security.interfaces.RSAPublicKey",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [
+            "java.security.PublicKey",
+            "java.security.interfaces.RSAKey"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "serialVersionUID",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "getPublicExponent",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.security.interfaces.XECKey",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [],
+        "implements": [],
+        "members": [
+            {
+                "name": "getParams",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.security.interfaces.XECPrivateKey",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [
+            "java.security.interfaces.XECKey",
+            "java.security.PrivateKey"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "getScalar",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.security.interfaces.XECPublicKey",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [
+            "java.security.interfaces.XECKey",
+            "java.security.PublicKey"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "getU",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    }
+]

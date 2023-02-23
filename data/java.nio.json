@@ -1,0 +1,1503 @@
+[
+    {
+        "name": "java.nio.Buffer",
+        "type": "class",
+        "modifiers": [
+            "abstract"
+        ],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "array",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "arrayOffset",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "capacity",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "clear",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "duplicate",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "flip",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "hasArray",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "hasRemaining",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isDirect",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isReadOnly",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "limit",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "limit",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "mark",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "position",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "position",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "remaining",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "reset",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "rewind",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "slice",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.nio.BufferOverflowException",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.RuntimeException"
+        ],
+        "implements": [],
+        "members": []
+    },
+    {
+        "name": "java.nio.BufferUnderflowException",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.RuntimeException"
+        ],
+        "implements": [],
+        "members": []
+    },
+    {
+        "name": "java.nio.ByteBuffer",
+        "type": "class",
+        "modifiers": [
+            "abstract"
+        ],
+        "extends": [
+            "java.nio.Buffer"
+        ],
+        "implements": [
+            "java.lang.Comparable"
+        ],
+        "members": [
+            {
+                "name": "alignedSlice",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "alignmentOffset",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "allocate",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "allocateDirect",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "array",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "arrayOffset",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "asCharBuffer",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "asDoubleBuffer",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "asFloatBuffer",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "asIntBuffer",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "asLongBuffer",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "asReadOnlyBuffer",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "asShortBuffer",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "compact",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "compareTo",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "duplicate",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "equals",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "get",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "get",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "get",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "get",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getChar",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getChar",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getDouble",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getDouble",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getFloat",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getFloat",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getInt",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getInt",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getLong",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getLong",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getShort",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getShort",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "hasArray",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "hashCode",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isDirect",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "mismatch",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "order",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "order",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "put",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "put",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "put",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "put",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "put",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "putChar",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "putChar",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "putDouble",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "putDouble",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "putFloat",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "putFloat",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "putInt",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "putInt",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "putLong",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "putLong",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "putShort",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "putShort",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "slice",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "toString",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "wrap",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "wrap",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.nio.ByteOrder",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "BIG_ENDIAN",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "LITTLE_ENDIAN",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "nativeOrder",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "toString",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.nio.CharBuffer",
+        "type": "class",
+        "modifiers": [
+            "abstract"
+        ],
+        "extends": [
+            "java.nio.Buffer"
+        ],
+        "implements": [
+            "java.lang.Comparable"
+        ],
+        "members": [
+            {
+                "name": "allocate",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "append",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "append",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "append",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "array",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "arrayOffset",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "asReadOnlyBuffer",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "charAt",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "compact",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "compareTo",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "duplicate",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "equals",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "get",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "get",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "get",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "get",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "hasArray",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "hashCode",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isDirect",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "length",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "mismatch",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "order",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "put",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "put",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "put",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "put",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "put",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "put",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "put",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "read",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "slice",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "subSequence",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "toString",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "wrap",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "wrap",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "wrap",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "wrap",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.nio.DoubleBuffer",
+        "type": "class",
+        "modifiers": [
+            "abstract"
+        ],
+        "extends": [
+            "java.nio.Buffer"
+        ],
+        "implements": [
+            "java.lang.Comparable"
+        ],
+        "members": [
+            {
+                "name": "allocate",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "array",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "arrayOffset",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "asReadOnlyBuffer",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "compact",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "compareTo",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "duplicate",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "equals",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "get",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "get",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "get",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "get",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "hasArray",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "hashCode",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isDirect",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "mismatch",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "order",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "put",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "put",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "put",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "put",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "put",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "slice",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "toString",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "wrap",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "wrap",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.nio.FloatBuffer",
+        "type": "class",
+        "modifiers": [
+            "abstract"
+        ],
+        "extends": [
+            "java.nio.Buffer"
+        ],
+        "implements": [
+            "java.lang.Comparable"
+        ],
+        "members": [
+            {
+                "name": "allocate",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "array",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "arrayOffset",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "asReadOnlyBuffer",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "compact",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "compareTo",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "duplicate",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "equals",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "get",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "get",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "get",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "get",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "hasArray",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "hashCode",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isDirect",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "mismatch",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "order",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "put",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "put",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "put",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "put",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "put",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "slice",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "toString",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "wrap",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "wrap",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.nio.IntBuffer",
+        "type": "class",
+        "modifiers": [
+            "abstract"
+        ],
+        "extends": [
+            "java.nio.Buffer"
+        ],
+        "implements": [
+            "java.lang.Comparable"
+        ],
+        "members": [
+            {
+                "name": "allocate",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "array",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "arrayOffset",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "asReadOnlyBuffer",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "compact",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "compareTo",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "duplicate",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "equals",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "get",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "get",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "get",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "get",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "hasArray",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "hashCode",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isDirect",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "mismatch",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "order",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "put",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "put",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "put",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "put",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "put",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "slice",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "toString",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "wrap",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "wrap",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.nio.InvalidMarkException",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.IllegalStateException"
+        ],
+        "implements": [],
+        "members": []
+    },
+    {
+        "name": "java.nio.LongBuffer",
+        "type": "class",
+        "modifiers": [
+            "abstract"
+        ],
+        "extends": [
+            "java.nio.Buffer"
+        ],
+        "implements": [
+            "java.lang.Comparable"
+        ],
+        "members": [
+            {
+                "name": "allocate",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "array",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "arrayOffset",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "asReadOnlyBuffer",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "compact",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "compareTo",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "duplicate",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "equals",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "get",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "get",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "get",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "get",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "hasArray",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "hashCode",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isDirect",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "mismatch",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "order",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "put",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "put",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "put",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "put",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "put",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "slice",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "toString",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "wrap",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "wrap",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.nio.MappedByteBuffer",
+        "type": "class",
+        "modifiers": [
+            "abstract"
+        ],
+        "extends": [
+            "java.nio.ByteBuffer"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "force",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isLoaded",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "load",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.nio.ReadOnlyBufferException",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.UnsupportedOperationException"
+        ],
+        "implements": [],
+        "members": []
+    },
+    {
+        "name": "java.nio.ShortBuffer",
+        "type": "class",
+        "modifiers": [
+            "abstract"
+        ],
+        "extends": [
+            "java.nio.Buffer"
+        ],
+        "implements": [
+            "java.lang.Comparable"
+        ],
+        "members": [
+            {
+                "name": "allocate",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "array",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "arrayOffset",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "asReadOnlyBuffer",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "compact",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "compareTo",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "duplicate",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "equals",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "get",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "get",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "get",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "get",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "hasArray",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "hashCode",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isDirect",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "mismatch",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "order",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "put",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "put",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "put",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "put",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "put",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "slice",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "toString",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "wrap",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "wrap",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            }
+        ]
+    }
+]

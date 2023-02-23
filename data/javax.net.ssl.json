@@ -1,0 +1,1846 @@
+[
+    {
+        "name": "javax.net.ssl.CertPathTrustManagerParameters",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [
+            "javax.net.ssl.ManagerFactoryParameters"
+        ],
+        "members": [
+            {
+                "name": "getParameters",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "javax.net.ssl.ExtendedSSLSession",
+        "type": "class",
+        "modifiers": [
+            "abstract"
+        ],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [
+            "javax.net.ssl.SSLSession"
+        ],
+        "members": [
+            {
+                "name": "getLocalSupportedSignatureAlgorithms",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getPeerSupportedSignatureAlgorithms",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getRequestedServerNames",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getStatusResponses",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "javax.net.ssl.HandshakeCompletedEvent",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.util.EventObject"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "getCipherSuite",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getLocalCertificates",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getLocalPrincipal",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getPeerCertificateChain",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getPeerCertificates",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getPeerPrincipal",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getSession",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getSocket",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "javax.net.ssl.HandshakeCompletedListener",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [
+            "java.util.EventListener"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "handshakeCompleted",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "javax.net.ssl.HostnameVerifier",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [],
+        "implements": [],
+        "members": [
+            {
+                "name": "verify",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "javax.net.ssl.HttpsURLConnection",
+        "type": "class",
+        "modifiers": [
+            "abstract"
+        ],
+        "extends": [
+            "java.net.HttpURLConnection"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "hostnameVerifier",
+                "modifiers": [],
+                "type": "field"
+            },
+            {
+                "name": "getCipherSuite",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getDefaultHostnameVerifier",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "getDefaultSSLSocketFactory",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "getHostnameVerifier",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getLocalCertificates",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getLocalPrincipal",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getPeerPrincipal",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getServerCertificates",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getSSLSocketFactory",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setDefaultHostnameVerifier",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "setDefaultSSLSocketFactory",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "setHostnameVerifier",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setSSLSocketFactory",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "javax.net.ssl.KeyManager",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [],
+        "implements": [],
+        "members": []
+    },
+    {
+        "name": "javax.net.ssl.KeyManagerFactory",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "getAlgorithm",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getDefaultAlgorithm",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "getInstance",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "getInstance",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "getInstance",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "getKeyManagers",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getProvider",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "init",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "init",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "javax.net.ssl.KeyManagerFactorySpi",
+        "type": "class",
+        "modifiers": [
+            "abstract"
+        ],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "engineGetKeyManagers",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "engineInit",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "engineInit",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "javax.net.ssl.KeyStoreBuilderParameters",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [
+            "javax.net.ssl.ManagerFactoryParameters"
+        ],
+        "members": [
+            {
+                "name": "getParameters",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "javax.net.ssl.ManagerFactoryParameters",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [],
+        "implements": [],
+        "members": []
+    },
+    {
+        "name": "javax.net.ssl.SNIHostName",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "javax.net.ssl.SNIServerName"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "createSNIMatcher",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "equals",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getAsciiName",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "hashCode",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "toString",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "javax.net.ssl.SNIMatcher",
+        "type": "class",
+        "modifiers": [
+            "abstract"
+        ],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "getType",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "matches",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "javax.net.ssl.SNIServerName",
+        "type": "class",
+        "modifiers": [
+            "abstract"
+        ],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "equals",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getEncoded",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getType",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "hashCode",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "toString",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "javax.net.ssl.SSLContext",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "createSSLEngine",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "createSSLEngine",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getClientSessionContext",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getDefault",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "getDefaultSSLParameters",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getInstance",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "getInstance",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "getInstance",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "getProtocol",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getProvider",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getServerSessionContext",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getServerSocketFactory",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getSocketFactory",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getSupportedSSLParameters",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "init",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setDefault",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "javax.net.ssl.SSLContextSpi",
+        "type": "class",
+        "modifiers": [
+            "abstract"
+        ],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "engineCreateSSLEngine",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "engineCreateSSLEngine",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "engineGetClientSessionContext",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "engineGetDefaultSSLParameters",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "engineGetServerSessionContext",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "engineGetServerSocketFactory",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "engineGetSocketFactory",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "engineGetSupportedSSLParameters",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "engineInit",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "javax.net.ssl.SSLEngine",
+        "type": "class",
+        "modifiers": [
+            "abstract"
+        ],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "beginHandshake",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "closeInbound",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "closeOutbound",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getApplicationProtocol",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getDelegatedTask",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getEnabledCipherSuites",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getEnabledProtocols",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getEnableSessionCreation",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getHandshakeApplicationProtocol",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getHandshakeApplicationProtocolSelector",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getHandshakeSession",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getHandshakeStatus",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getNeedClientAuth",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getPeerHost",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getPeerPort",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getSession",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getSSLParameters",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getSupportedCipherSuites",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getSupportedProtocols",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getUseClientMode",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getWantClientAuth",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isInboundDone",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isOutboundDone",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setEnabledCipherSuites",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setEnabledProtocols",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setEnableSessionCreation",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setHandshakeApplicationProtocolSelector",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setNeedClientAuth",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setSSLParameters",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setUseClientMode",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setWantClientAuth",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "unwrap",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "unwrap",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "unwrap",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "wrap",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "wrap",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "wrap",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "javax.net.ssl.SSLEngineResult",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "SSLEngineResult.HandshakeStatus",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "class"
+            },
+            {
+                "name": "SSLEngineResult.Status",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "class"
+            },
+            {
+                "name": "bytesConsumed",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "bytesProduced",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getHandshakeStatus",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getStatus",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "sequenceNumber",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "toString",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "javax.net.ssl.SSLEngineResult.HandshakeStatus",
+        "type": "enum",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Enum"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "valueOf",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "values",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "javax.net.ssl.SSLEngineResult.Status",
+        "type": "enum",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Enum"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "valueOf",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "values",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "javax.net.ssl.SSLException",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.io.IOException"
+        ],
+        "implements": [],
+        "members": []
+    },
+    {
+        "name": "javax.net.ssl.SSLHandshakeException",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "javax.net.ssl.SSLException"
+        ],
+        "implements": [],
+        "members": []
+    },
+    {
+        "name": "javax.net.ssl.SSLKeyException",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "javax.net.ssl.SSLException"
+        ],
+        "implements": [],
+        "members": []
+    },
+    {
+        "name": "javax.net.ssl.SSLParameters",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "getAlgorithmConstraints",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getApplicationProtocols",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getCipherSuites",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getEnableRetransmissions",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getEndpointIdentificationAlgorithm",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getMaximumPacketSize",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getNeedClientAuth",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getProtocols",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getServerNames",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getSNIMatchers",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getUseCipherSuitesOrder",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getWantClientAuth",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setAlgorithmConstraints",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setApplicationProtocols",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setCipherSuites",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setEnableRetransmissions",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setEndpointIdentificationAlgorithm",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setMaximumPacketSize",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setNeedClientAuth",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setProtocols",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setServerNames",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setSNIMatchers",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setUseCipherSuitesOrder",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setWantClientAuth",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "javax.net.ssl.SSLPeerUnverifiedException",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "javax.net.ssl.SSLException"
+        ],
+        "implements": [],
+        "members": []
+    },
+    {
+        "name": "javax.net.ssl.SSLPermission",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.security.BasicPermission"
+        ],
+        "implements": [],
+        "members": []
+    },
+    {
+        "name": "javax.net.ssl.SSLProtocolException",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "javax.net.ssl.SSLException"
+        ],
+        "implements": [],
+        "members": []
+    },
+    {
+        "name": "javax.net.ssl.SSLServerSocket",
+        "type": "class",
+        "modifiers": [
+            "abstract"
+        ],
+        "extends": [
+            "java.net.ServerSocket"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "getEnabledCipherSuites",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getEnabledProtocols",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getEnableSessionCreation",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getNeedClientAuth",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getSSLParameters",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getSupportedCipherSuites",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getSupportedProtocols",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getUseClientMode",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getWantClientAuth",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setEnabledCipherSuites",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setEnabledProtocols",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setEnableSessionCreation",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setNeedClientAuth",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setSSLParameters",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setUseClientMode",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setWantClientAuth",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "javax.net.ssl.SSLServerSocketFactory",
+        "type": "class",
+        "modifiers": [
+            "abstract"
+        ],
+        "extends": [
+            "javax.net.ServerSocketFactory"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "getDefault",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "getDefaultCipherSuites",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getSupportedCipherSuites",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "javax.net.ssl.SSLSession",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [],
+        "implements": [],
+        "members": [
+            {
+                "name": "getApplicationBufferSize",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getCipherSuite",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getCreationTime",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getId",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getLastAccessedTime",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getLocalCertificates",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getLocalPrincipal",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getPacketBufferSize",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getPeerCertificateChain",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getPeerCertificates",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getPeerHost",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getPeerPort",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getPeerPrincipal",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getProtocol",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getSessionContext",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getValue",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getValueNames",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "invalidate",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isValid",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "putValue",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "removeValue",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "javax.net.ssl.SSLSessionBindingEvent",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.util.EventObject"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "getName",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getSession",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "javax.net.ssl.SSLSessionBindingListener",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [
+            "java.util.EventListener"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "valueBound",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "valueUnbound",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "javax.net.ssl.SSLSessionContext",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [],
+        "implements": [],
+        "members": [
+            {
+                "name": "getIds",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getSession",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getSessionCacheSize",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getSessionTimeout",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setSessionCacheSize",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setSessionTimeout",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "javax.net.ssl.SSLSocket",
+        "type": "class",
+        "modifiers": [
+            "abstract"
+        ],
+        "extends": [
+            "java.net.Socket"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "addHandshakeCompletedListener",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getApplicationProtocol",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getEnabledCipherSuites",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getEnabledProtocols",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getEnableSessionCreation",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getHandshakeApplicationProtocol",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getHandshakeApplicationProtocolSelector",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getHandshakeSession",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getNeedClientAuth",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getSession",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getSSLParameters",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getSupportedCipherSuites",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getSupportedProtocols",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getUseClientMode",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getWantClientAuth",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "removeHandshakeCompletedListener",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setEnabledCipherSuites",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setEnabledProtocols",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setEnableSessionCreation",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setHandshakeApplicationProtocolSelector",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setNeedClientAuth",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setSSLParameters",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setUseClientMode",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setWantClientAuth",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "startHandshake",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "javax.net.ssl.SSLSocketFactory",
+        "type": "class",
+        "modifiers": [
+            "abstract"
+        ],
+        "extends": [
+            "javax.net.SocketFactory"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "createSocket",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "createSocket",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getDefault",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "getDefaultCipherSuites",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getSupportedCipherSuites",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "javax.net.ssl.StandardConstants",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "SNI_HOST_NAME",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            }
+        ]
+    },
+    {
+        "name": "javax.net.ssl.TrustManager",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [],
+        "implements": [],
+        "members": []
+    },
+    {
+        "name": "javax.net.ssl.TrustManagerFactory",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "getAlgorithm",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getDefaultAlgorithm",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "getInstance",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "getInstance",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "getInstance",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "getProvider",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getTrustManagers",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "init",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "init",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "javax.net.ssl.TrustManagerFactorySpi",
+        "type": "class",
+        "modifiers": [
+            "abstract"
+        ],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "engineGetTrustManagers",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "engineInit",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "engineInit",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "javax.net.ssl.X509ExtendedKeyManager",
+        "type": "class",
+        "modifiers": [
+            "abstract"
+        ],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [
+            "javax.net.ssl.X509KeyManager"
+        ],
+        "members": [
+            {
+                "name": "chooseEngineClientAlias",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "chooseEngineServerAlias",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "javax.net.ssl.X509ExtendedTrustManager",
+        "type": "class",
+        "modifiers": [
+            "abstract"
+        ],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [
+            "javax.net.ssl.X509TrustManager"
+        ],
+        "members": [
+            {
+                "name": "checkClientTrusted",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "checkClientTrusted",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "checkServerTrusted",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "checkServerTrusted",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "javax.net.ssl.X509KeyManager",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [
+            "javax.net.ssl.KeyManager"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "chooseClientAlias",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "chooseServerAlias",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getCertificateChain",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getClientAliases",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getPrivateKey",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getServerAliases",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "javax.net.ssl.X509TrustManager",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [
+            "javax.net.ssl.TrustManager"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "checkClientTrusted",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "checkServerTrusted",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getAcceptedIssuers",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    }
+]

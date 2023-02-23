@@ -1,0 +1,1227 @@
+[
+    {
+        "name": "javax.crypto.AEADBadTagException",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "javax.crypto.BadPaddingException"
+        ],
+        "implements": [],
+        "members": []
+    },
+    {
+        "name": "javax.crypto.BadPaddingException",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.security.GeneralSecurityException"
+        ],
+        "implements": [],
+        "members": []
+    },
+    {
+        "name": "javax.crypto.Cipher",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "DECRYPT_MODE",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "ENCRYPT_MODE",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "PRIVATE_KEY",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "PUBLIC_KEY",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "SECRET_KEY",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "UNWRAP_MODE",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "WRAP_MODE",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "doFinal",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "doFinal",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "doFinal",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "doFinal",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "doFinal",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "doFinal",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "doFinal",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getAlgorithm",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getBlockSize",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getExemptionMechanism",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getInstance",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "getInstance",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "getInstance",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "getIV",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getMaxAllowedKeyLength",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "getMaxAllowedParameterSpec",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "getOutputSize",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getParameters",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getProvider",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "init",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "init",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "init",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "init",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "init",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "init",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "init",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "init",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "unwrap",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "update",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "update",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "update",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "update",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "update",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "updateAAD",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "updateAAD",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "updateAAD",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "wrap",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "javax.crypto.CipherInputStream",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.io.FilterInputStream"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "available",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "close",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "markSupported",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "read",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "read",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "read",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "skip",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "javax.crypto.CipherOutputStream",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.io.FilterOutputStream"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "close",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "flush",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "write",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "write",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "write",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "javax.crypto.CipherSpi",
+        "type": "class",
+        "modifiers": [
+            "abstract"
+        ],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "engineDoFinal",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "engineDoFinal",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "engineDoFinal",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "engineGetBlockSize",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "engineGetIV",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "engineGetKeySize",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "engineGetOutputSize",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "engineGetParameters",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "engineInit",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "engineInit",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "engineInit",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "engineSetMode",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "engineSetPadding",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "engineUnwrap",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "engineUpdate",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "engineUpdate",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "engineUpdate",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "engineUpdateAAD",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "engineUpdateAAD",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "engineWrap",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "javax.crypto.EncryptedPrivateKeyInfo",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "getAlgName",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getAlgParameters",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getEncoded",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getEncryptedData",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getKeySpec",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getKeySpec",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getKeySpec",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getKeySpec",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "javax.crypto.ExemptionMechanism",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "genExemptionBlob",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "genExemptionBlob",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "genExemptionBlob",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getInstance",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "getInstance",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "getInstance",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "getName",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getOutputSize",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getProvider",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "init",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "init",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "init",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isCryptoAllowed",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "javax.crypto.ExemptionMechanismException",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.security.GeneralSecurityException"
+        ],
+        "implements": [],
+        "members": []
+    },
+    {
+        "name": "javax.crypto.ExemptionMechanismSpi",
+        "type": "class",
+        "modifiers": [
+            "abstract"
+        ],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "engineGenExemptionBlob",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "engineGenExemptionBlob",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "engineGetOutputSize",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "engineInit",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "engineInit",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "engineInit",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "javax.crypto.IllegalBlockSizeException",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.security.GeneralSecurityException"
+        ],
+        "implements": [],
+        "members": []
+    },
+    {
+        "name": "javax.crypto.KeyAgreement",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "doPhase",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "generateSecret",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "generateSecret",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "generateSecret",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getAlgorithm",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getInstance",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "getInstance",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "getInstance",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "getProvider",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "init",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "init",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "init",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "init",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "javax.crypto.KeyAgreementSpi",
+        "type": "class",
+        "modifiers": [
+            "abstract"
+        ],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "engineDoPhase",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "engineGenerateSecret",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "engineGenerateSecret",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "engineGenerateSecret",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "engineInit",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "engineInit",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "javax.crypto.KeyGenerator",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "generateKey",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getAlgorithm",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getInstance",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "getInstance",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "getInstance",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "getProvider",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "init",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "init",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "init",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "init",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "init",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "javax.crypto.KeyGeneratorSpi",
+        "type": "class",
+        "modifiers": [
+            "abstract"
+        ],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "engineGenerateKey",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "engineInit",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "engineInit",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "engineInit",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "javax.crypto.Mac",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [
+            "java.lang.Cloneable"
+        ],
+        "members": [
+            {
+                "name": "clone",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "doFinal",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "doFinal",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "doFinal",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getAlgorithm",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getInstance",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "getInstance",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "getInstance",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "getMacLength",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getProvider",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "init",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "init",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "reset",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "update",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "update",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "update",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "update",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "javax.crypto.MacSpi",
+        "type": "class",
+        "modifiers": [
+            "abstract"
+        ],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "clone",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "engineDoFinal",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "engineGetMacLength",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "engineInit",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "engineReset",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "engineUpdate",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "engineUpdate",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "engineUpdate",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "javax.crypto.NoSuchPaddingException",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.security.GeneralSecurityException"
+        ],
+        "implements": [],
+        "members": []
+    },
+    {
+        "name": "javax.crypto.NullCipher",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "javax.crypto.Cipher"
+        ],
+        "implements": [],
+        "members": []
+    },
+    {
+        "name": "javax.crypto.SealedObject",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [
+            "java.io.Serializable"
+        ],
+        "members": [
+            {
+                "name": "encodedParams",
+                "modifiers": [],
+                "type": "field"
+            },
+            {
+                "name": "getAlgorithm",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getObject",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getObject",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getObject",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "javax.crypto.SecretKey",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [
+            "java.security.Key",
+            "javax.security.auth.Destroyable"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "serialVersionUID",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            }
+        ]
+    },
+    {
+        "name": "javax.crypto.SecretKeyFactory",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "generateSecret",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getAlgorithm",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getInstance",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "getInstance",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "getInstance",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "getKeySpec",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getProvider",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "translateKey",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "javax.crypto.SecretKeyFactorySpi",
+        "type": "class",
+        "modifiers": [
+            "abstract"
+        ],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "engineGenerateSecret",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "engineGetKeySpec",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "engineTranslateKey",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "javax.crypto.ShortBufferException",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.security.GeneralSecurityException"
+        ],
+        "implements": [],
+        "members": []
+    }
+]

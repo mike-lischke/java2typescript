@@ -36,7 +36,6 @@ describe("Options Tests", () => {
                 convertAnnotations: false,
                 autoAddBraces: true,
                 addIndexFiles: true,
-                suppressTSErrorsForECI: true,
             },
         });
         await converter.startConversion();

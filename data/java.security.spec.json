@@ -1,0 +1,899 @@
+[
+    {
+        "name": "java.security.spec.AlgorithmParameterSpec",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [],
+        "implements": [],
+        "members": []
+    },
+    {
+        "name": "java.security.spec.DSAGenParameterSpec",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [
+            "java.security.spec.AlgorithmParameterSpec"
+        ],
+        "members": [
+            {
+                "name": "getPrimePLength",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getSeedLength",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getSubprimeQLength",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.security.spec.DSAParameterSpec",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [
+            "java.security.spec.AlgorithmParameterSpec",
+            "java.security.interfaces.DSAParams"
+        ],
+        "members": [
+            {
+                "name": "getG",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getP",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getQ",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.security.spec.DSAPrivateKeySpec",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [
+            "java.security.spec.KeySpec"
+        ],
+        "members": [
+            {
+                "name": "getG",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getP",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getQ",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getX",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.security.spec.DSAPublicKeySpec",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [
+            "java.security.spec.KeySpec"
+        ],
+        "members": [
+            {
+                "name": "getG",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getP",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getQ",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getY",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.security.spec.ECField",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [],
+        "implements": [],
+        "members": [
+            {
+                "name": "getFieldSize",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.security.spec.ECFieldF2m",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [
+            "java.security.spec.ECField"
+        ],
+        "members": [
+            {
+                "name": "equals",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getFieldSize",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getM",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getMidTermsOfReductionPolynomial",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getReductionPolynomial",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "hashCode",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.security.spec.ECFieldFp",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [
+            "java.security.spec.ECField"
+        ],
+        "members": [
+            {
+                "name": "equals",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getFieldSize",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getP",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "hashCode",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.security.spec.ECGenParameterSpec",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.security.spec.NamedParameterSpec"
+        ],
+        "implements": [],
+        "members": []
+    },
+    {
+        "name": "java.security.spec.ECParameterSpec",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [
+            "java.security.spec.AlgorithmParameterSpec"
+        ],
+        "members": [
+            {
+                "name": "getCofactor",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getCurve",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getGenerator",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getOrder",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.security.spec.ECPoint",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "POINT_INFINITY",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "equals",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getAffineX",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getAffineY",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "hashCode",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.security.spec.ECPrivateKeySpec",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [
+            "java.security.spec.KeySpec"
+        ],
+        "members": [
+            {
+                "name": "getParams",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getS",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.security.spec.ECPublicKeySpec",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [
+            "java.security.spec.KeySpec"
+        ],
+        "members": [
+            {
+                "name": "getParams",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getW",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.security.spec.EllipticCurve",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "equals",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getA",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getB",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getField",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getSeed",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "hashCode",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.security.spec.EncodedKeySpec",
+        "type": "class",
+        "modifiers": [
+            "abstract"
+        ],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [
+            "java.security.spec.KeySpec"
+        ],
+        "members": [
+            {
+                "name": "getAlgorithm",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getEncoded",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getFormat",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.security.spec.InvalidKeySpecException",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.security.GeneralSecurityException"
+        ],
+        "implements": [],
+        "members": []
+    },
+    {
+        "name": "java.security.spec.InvalidParameterSpecException",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.security.GeneralSecurityException"
+        ],
+        "implements": [],
+        "members": []
+    },
+    {
+        "name": "java.security.spec.KeySpec",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [],
+        "implements": [],
+        "members": []
+    },
+    {
+        "name": "java.security.spec.MGF1ParameterSpec",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [
+            "java.security.spec.AlgorithmParameterSpec"
+        ],
+        "members": [
+            {
+                "name": "SHA1",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "SHA224",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "SHA256",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "SHA384",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "SHA512",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "SHA512_224",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "SHA512_256",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "getDigestAlgorithm",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.security.spec.NamedParameterSpec",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [
+            "java.security.spec.AlgorithmParameterSpec"
+        ],
+        "members": [
+            {
+                "name": "X25519",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "X448",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "getName",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.security.spec.PKCS8EncodedKeySpec",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.security.spec.EncodedKeySpec"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "getEncoded",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getFormat",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.security.spec.PSSParameterSpec",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [
+            "java.security.spec.AlgorithmParameterSpec"
+        ],
+        "members": [
+            {
+                "name": "DEFAULT",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "TRAILER_FIELD_BC",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "getDigestAlgorithm",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getMGFAlgorithm",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getMGFParameters",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getSaltLength",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getTrailerField",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.security.spec.RSAKeyGenParameterSpec",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [
+            "java.security.spec.AlgorithmParameterSpec"
+        ],
+        "members": [
+            {
+                "name": "F0",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "F4",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "getKeyParams",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getKeysize",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getPublicExponent",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.security.spec.RSAMultiPrimePrivateCrtKeySpec",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.security.spec.RSAPrivateKeySpec"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "getCrtCoefficient",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getOtherPrimeInfo",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getPrimeExponentP",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getPrimeExponentQ",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getPrimeP",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getPrimeQ",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getPublicExponent",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.security.spec.RSAOtherPrimeInfo",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "getCrtCoefficient",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getExponent",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getPrime",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.security.spec.RSAPrivateCrtKeySpec",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.security.spec.RSAPrivateKeySpec"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "getCrtCoefficient",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getPrimeExponentP",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getPrimeExponentQ",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getPrimeP",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getPrimeQ",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getPublicExponent",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.security.spec.RSAPrivateKeySpec",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [
+            "java.security.spec.KeySpec"
+        ],
+        "members": [
+            {
+                "name": "getModulus",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getParams",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getPrivateExponent",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.security.spec.RSAPublicKeySpec",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [
+            "java.security.spec.KeySpec"
+        ],
+        "members": [
+            {
+                "name": "getModulus",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getParams",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getPublicExponent",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.security.spec.X509EncodedKeySpec",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.security.spec.EncodedKeySpec"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "getEncoded",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getFormat",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.security.spec.XECPrivateKeySpec",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [
+            "java.security.spec.KeySpec"
+        ],
+        "members": [
+            {
+                "name": "getParams",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getScalar",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.security.spec.XECPublicKeySpec",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [
+            "java.security.spec.KeySpec"
+        ],
+        "members": [
+            {
+                "name": "getParams",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getU",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    }
+]

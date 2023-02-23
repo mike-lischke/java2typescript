@@ -1,0 +1,16 @@
+[
+    {
+        "name": "java.net.spi.URLStreamHandlerProvider",
+        "type": "class",
+        "modifiers": [
+            "abstract"
+        ],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [
+            "java.net.URLStreamHandlerFactory"
+        ],
+        "members": []
+    }
+]

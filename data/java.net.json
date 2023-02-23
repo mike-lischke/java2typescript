@@ -1,0 +1,4221 @@
+[
+    {
+        "name": "java.net.Authenticator",
+        "type": "class",
+        "modifiers": [
+            "abstract"
+        ],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "Authenticator.RequestorType",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "class"
+            },
+            {
+                "name": "getDefault",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "getPasswordAuthentication",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getRequestingHost",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getRequestingPort",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getRequestingPrompt",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getRequestingProtocol",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getRequestingScheme",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getRequestingSite",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getRequestingURL",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getRequestorType",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "requestPasswordAuthentication",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "requestPasswordAuthentication",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "requestPasswordAuthentication",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "requestPasswordAuthentication",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "requestPasswordAuthenticationInstance",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setDefault",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.net.Authenticator.RequestorType",
+        "type": "enum",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Enum"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "valueOf",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "values",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.net.BindException",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.net.SocketException"
+        ],
+        "implements": [],
+        "members": []
+    },
+    {
+        "name": "java.net.CacheRequest",
+        "type": "class",
+        "modifiers": [
+            "abstract"
+        ],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "abort",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getBody",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.net.CacheResponse",
+        "type": "class",
+        "modifiers": [
+            "abstract"
+        ],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "getBody",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getHeaders",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.net.ConnectException",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.net.SocketException"
+        ],
+        "implements": [],
+        "members": []
+    },
+    {
+        "name": "java.net.ContentHandler",
+        "type": "class",
+        "modifiers": [
+            "abstract"
+        ],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "getContent",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getContent",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.net.ContentHandlerFactory",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [],
+        "implements": [],
+        "members": [
+            {
+                "name": "createContentHandler",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.net.CookieHandler",
+        "type": "class",
+        "modifiers": [
+            "abstract"
+        ],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "get",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getDefault",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "put",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setDefault",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.net.CookieManager",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.net.CookieHandler"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "getCookieStore",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setCookiePolicy",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.net.CookiePolicy",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [],
+        "implements": [],
+        "members": [
+            {
+                "name": "ACCEPT_ALL",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "ACCEPT_NONE",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "ACCEPT_ORIGINAL_SERVER",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "shouldAccept",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.net.CookieStore",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [],
+        "implements": [],
+        "members": [
+            {
+                "name": "add",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "get",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getCookies",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getURIs",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "remove",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "removeAll",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.net.DatagramPacket",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "getAddress",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getData",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getLength",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getOffset",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getPort",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getSocketAddress",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setAddress",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setData",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setData",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setLength",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setPort",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setSocketAddress",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.net.DatagramSocket",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [
+            "java.io.Closeable"
+        ],
+        "members": [
+            {
+                "name": "bind",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "close",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "connect",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "connect",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "disconnect",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getBroadcast",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getChannel",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getInetAddress",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getLocalAddress",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getLocalPort",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getLocalSocketAddress",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getOption",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getPort",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getReceiveBufferSize",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getRemoteSocketAddress",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getReuseAddress",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getSendBufferSize",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getSoTimeout",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getTrafficClass",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isBound",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isClosed",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isConnected",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "receive",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "send",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setBroadcast",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setDatagramSocketImplFactory",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "setOption",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setReceiveBufferSize",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setReuseAddress",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setSendBufferSize",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setSoTimeout",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setTrafficClass",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "supportedOptions",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.net.DatagramSocketImpl",
+        "type": "class",
+        "modifiers": [
+            "abstract"
+        ],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [
+            "java.net.SocketOptions"
+        ],
+        "members": [
+            {
+                "name": "fd",
+                "modifiers": [],
+                "type": "field"
+            },
+            {
+                "name": "localPort",
+                "modifiers": [],
+                "type": "field"
+            },
+            {
+                "name": "bind",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "close",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "connect",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "create",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "disconnect",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getFileDescriptor",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getLocalPort",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getOption",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getTimeToLive",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getTTL",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "join",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "joinGroup",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "leave",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "leaveGroup",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "peek",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "peekData",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "receive",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "send",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setOption",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setTimeToLive",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setTTL",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "supportedOptions",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.net.DatagramSocketImplFactory",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [],
+        "implements": [],
+        "members": [
+            {
+                "name": "createDatagramSocketImpl",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.net.FileNameMap",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [],
+        "implements": [],
+        "members": [
+            {
+                "name": "getContentTypeFor",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.net.HttpCookie",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [
+            "java.lang.Cloneable"
+        ],
+        "members": [
+            {
+                "name": "clone",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "domainMatches",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "equals",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getComment",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getCommentURL",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getDiscard",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getDomain",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getMaxAge",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getName",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getPath",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getPortlist",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getSecure",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getValue",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getVersion",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "hasExpired",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "hashCode",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isHttpOnly",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "parse",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "setComment",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setCommentURL",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setDiscard",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setDomain",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setHttpOnly",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setMaxAge",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setPath",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setPortlist",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setSecure",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setValue",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setVersion",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "toString",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.net.HttpRetryException",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.io.IOException"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "getLocation",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getReason",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "responseCode",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.net.HttpURLConnection",
+        "type": "class",
+        "modifiers": [
+            "abstract"
+        ],
+        "extends": [
+            "java.net.URLConnection"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "chunkLength",
+                "modifiers": [],
+                "type": "field"
+            },
+            {
+                "name": "fixedContentLength",
+                "modifiers": [],
+                "type": "field"
+            },
+            {
+                "name": "fixedContentLengthLong",
+                "modifiers": [],
+                "type": "field"
+            },
+            {
+                "name": "HTTP_ACCEPTED",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "HTTP_BAD_GATEWAY",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "HTTP_BAD_METHOD",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "HTTP_BAD_REQUEST",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "HTTP_CLIENT_TIMEOUT",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "HTTP_CONFLICT",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "HTTP_CREATED",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "HTTP_ENTITY_TOO_LARGE",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "HTTP_FORBIDDEN",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "HTTP_GATEWAY_TIMEOUT",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "HTTP_GONE",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "HTTP_INTERNAL_ERROR",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "HTTP_LENGTH_REQUIRED",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "HTTP_MOVED_PERM",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "HTTP_MOVED_TEMP",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "HTTP_MULT_CHOICE",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "HTTP_NO_CONTENT",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "HTTP_NOT_ACCEPTABLE",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "HTTP_NOT_AUTHORITATIVE",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "HTTP_NOT_FOUND",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "HTTP_NOT_IMPLEMENTED",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "HTTP_NOT_MODIFIED",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "HTTP_OK",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "HTTP_PARTIAL",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "HTTP_PAYMENT_REQUIRED",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "HTTP_PRECON_FAILED",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "HTTP_PROXY_AUTH",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "HTTP_REQ_TOO_LONG",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "HTTP_RESET",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "HTTP_SEE_OTHER",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "HTTP_SERVER_ERROR",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "HTTP_UNAUTHORIZED",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "HTTP_UNAVAILABLE",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "HTTP_UNSUPPORTED_TYPE",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "HTTP_USE_PROXY",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "HTTP_VERSION",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "instanceFollowRedirects",
+                "modifiers": [],
+                "type": "field"
+            },
+            {
+                "name": "method",
+                "modifiers": [],
+                "type": "field"
+            },
+            {
+                "name": "responseCode",
+                "modifiers": [],
+                "type": "field"
+            },
+            {
+                "name": "responseMessage",
+                "modifiers": [],
+                "type": "field"
+            },
+            {
+                "name": "disconnect",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getErrorStream",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getFollowRedirects",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "getHeaderField",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getHeaderFieldKey",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getInstanceFollowRedirects",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getPermission",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getRequestMethod",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getResponseCode",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getResponseMessage",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setAuthenticator",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setChunkedStreamingMode",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setFixedLengthStreamingMode",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setFixedLengthStreamingMode",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setFollowRedirects",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "setInstanceFollowRedirects",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setRequestMethod",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "usingProxy",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.net.IDN",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "ALLOW_UNASSIGNED",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "USE_STD3_ASCII_RULES",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "toASCII",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "toASCII",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "toUnicode",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "toUnicode",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.net.Inet4Address",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.net.InetAddress"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "equals",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getAddress",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getHostAddress",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "hashCode",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isAnyLocalAddress",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isLinkLocalAddress",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isLoopbackAddress",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isMCGlobal",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isMCLinkLocal",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isMCNodeLocal",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isMCOrgLocal",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isMCSiteLocal",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isMulticastAddress",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isSiteLocalAddress",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.net.Inet6Address",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.net.InetAddress"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "equals",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getAddress",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getByAddress",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "getByAddress",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "getHostAddress",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getScopedInterface",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getScopeId",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "hashCode",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isAnyLocalAddress",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isIPv4CompatibleAddress",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isLinkLocalAddress",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isLoopbackAddress",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isMCGlobal",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isMCLinkLocal",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isMCNodeLocal",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isMCOrgLocal",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isMCSiteLocal",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isMulticastAddress",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isSiteLocalAddress",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.net.InetAddress",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [
+            "java.io.Serializable"
+        ],
+        "members": [
+            {
+                "name": "equals",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getAddress",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getAllByName",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "getByAddress",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "getByAddress",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "getByName",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "getCanonicalHostName",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getHostAddress",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getHostName",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getLocalHost",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "getLoopbackAddress",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "hashCode",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isAnyLocalAddress",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isLinkLocalAddress",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isLoopbackAddress",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isMCGlobal",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isMCLinkLocal",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isMCNodeLocal",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isMCOrgLocal",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isMCSiteLocal",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isMulticastAddress",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isReachable",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isReachable",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isSiteLocalAddress",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "toString",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.net.InetSocketAddress",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.net.SocketAddress"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "createUnresolved",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "equals",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getAddress",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getHostName",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getHostString",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getPort",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "hashCode",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isUnresolved",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "toString",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.net.InterfaceAddress",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "equals",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getAddress",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getBroadcast",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getNetworkPrefixLength",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "hashCode",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "toString",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.net.JarURLConnection",
+        "type": "class",
+        "modifiers": [
+            "abstract"
+        ],
+        "extends": [
+            "java.net.URLConnection"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "jarFileURLConnection",
+                "modifiers": [],
+                "type": "field"
+            },
+            {
+                "name": "getAttributes",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getCertificates",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getEntryName",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getJarEntry",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getJarFile",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getJarFileURL",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getMainAttributes",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getManifest",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.net.MalformedURLException",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.io.IOException"
+        ],
+        "implements": [],
+        "members": []
+    },
+    {
+        "name": "java.net.MulticastSocket",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.net.DatagramSocket"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "getInterface",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getLoopbackMode",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getNetworkInterface",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getTimeToLive",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getTTL",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "joinGroup",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "joinGroup",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "leaveGroup",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "leaveGroup",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "send",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setInterface",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setLoopbackMode",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setNetworkInterface",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setTimeToLive",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setTTL",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.net.NetPermission",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.security.BasicPermission"
+        ],
+        "implements": [],
+        "members": []
+    },
+    {
+        "name": "java.net.NetworkInterface",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "equals",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getByIndex",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "getByInetAddress",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "getByName",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "getDisplayName",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getHardwareAddress",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getIndex",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getInetAddresses",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getInterfaceAddresses",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getMTU",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getName",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getNetworkInterfaces",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "getParent",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getSubInterfaces",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "inetAddresses",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isLoopback",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isPointToPoint",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isUp",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isVirtual",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "networkInterfaces",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "subInterfaces",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "supportsMulticast",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.net.NoRouteToHostException",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.net.SocketException"
+        ],
+        "implements": [],
+        "members": []
+    },
+    {
+        "name": "java.net.PasswordAuthentication",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "getPassword",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getUserName",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.net.PortUnreachableException",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.net.SocketException"
+        ],
+        "implements": [],
+        "members": []
+    },
+    {
+        "name": "java.net.ProtocolException",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.io.IOException"
+        ],
+        "implements": [],
+        "members": []
+    },
+    {
+        "name": "java.net.ProtocolFamily",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [],
+        "implements": [],
+        "members": [
+            {
+                "name": "name",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.net.Proxy",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "Proxy.Type",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "class"
+            },
+            {
+                "name": "NO_PROXY",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "address",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "equals",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "hashCode",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "toString",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "type",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.net.Proxy.Type",
+        "type": "enum",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Enum"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "valueOf",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "values",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.net.ProxySelector",
+        "type": "class",
+        "modifiers": [
+            "abstract"
+        ],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "connectFailed",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getDefault",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "of",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "select",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setDefault",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.net.ResponseCache",
+        "type": "class",
+        "modifiers": [
+            "abstract"
+        ],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "get",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getDefault",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "put",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setDefault",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.net.SecureCacheResponse",
+        "type": "class",
+        "modifiers": [
+            "abstract"
+        ],
+        "extends": [
+            "java.net.CacheResponse"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "getCipherSuite",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getLocalCertificateChain",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getLocalPrincipal",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getPeerPrincipal",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getServerCertificateChain",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.net.ServerSocket",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [
+            "java.io.Closeable"
+        ],
+        "members": [
+            {
+                "name": "accept",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "bind",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "bind",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "close",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getChannel",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getInetAddress",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getLocalPort",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getLocalSocketAddress",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getOption",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getReceiveBufferSize",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getReuseAddress",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getSoTimeout",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "implAccept",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isBound",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isClosed",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setOption",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setPerformancePreferences",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setReceiveBufferSize",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setReuseAddress",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setSocketFactory",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "setSoTimeout",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "supportedOptions",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "toString",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.net.Socket",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [
+            "java.io.Closeable"
+        ],
+        "members": [
+            {
+                "name": "bind",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "close",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "connect",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "connect",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getChannel",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getInetAddress",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getInputStream",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getKeepAlive",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getLocalAddress",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getLocalPort",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getLocalSocketAddress",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getOOBInline",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getOption",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getOutputStream",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getPort",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getReceiveBufferSize",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getRemoteSocketAddress",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getReuseAddress",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getSendBufferSize",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getSoLinger",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getSoTimeout",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getTcpNoDelay",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getTrafficClass",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isBound",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isClosed",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isConnected",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isInputShutdown",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isOutputShutdown",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "sendUrgentData",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setKeepAlive",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setOOBInline",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setOption",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setPerformancePreferences",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setReceiveBufferSize",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setReuseAddress",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setSendBufferSize",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setSocketImplFactory",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "setSoLinger",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setSoTimeout",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setTcpNoDelay",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setTrafficClass",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "shutdownInput",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "shutdownOutput",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "supportedOptions",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "toString",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.net.SocketAddress",
+        "type": "class",
+        "modifiers": [
+            "abstract"
+        ],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [
+            "java.io.Serializable"
+        ],
+        "members": []
+    },
+    {
+        "name": "java.net.SocketException",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.io.IOException"
+        ],
+        "implements": [],
+        "members": []
+    },
+    {
+        "name": "java.net.SocketImpl",
+        "type": "class",
+        "modifiers": [
+            "abstract"
+        ],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [
+            "java.net.SocketOptions"
+        ],
+        "members": [
+            {
+                "name": "address",
+                "modifiers": [],
+                "type": "field"
+            },
+            {
+                "name": "fd",
+                "modifiers": [],
+                "type": "field"
+            },
+            {
+                "name": "localport",
+                "modifiers": [],
+                "type": "field"
+            },
+            {
+                "name": "port",
+                "modifiers": [],
+                "type": "field"
+            },
+            {
+                "name": "accept",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "available",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "bind",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "close",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "connect",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "connect",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "connect",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "create",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getFileDescriptor",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getInetAddress",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getInputStream",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getLocalPort",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getOption",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getOutputStream",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getPort",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "listen",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "sendUrgentData",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setOption",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setPerformancePreferences",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "shutdownInput",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "shutdownOutput",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "supportedOptions",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "supportsUrgentData",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "toString",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.net.SocketImplFactory",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [],
+        "implements": [],
+        "members": [
+            {
+                "name": "createSocketImpl",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.net.SocketOption",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [],
+        "implements": [],
+        "members": [
+            {
+                "name": "name",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "type",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.net.SocketOptions",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [],
+        "implements": [],
+        "members": [
+            {
+                "name": "IP_MULTICAST_IF",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "IP_MULTICAST_IF2",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "IP_MULTICAST_LOOP",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "IP_TOS",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "SO_BINDADDR",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "SO_BROADCAST",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "SO_KEEPALIVE",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "SO_LINGER",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "SO_OOBINLINE",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "SO_RCVBUF",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "SO_REUSEADDR",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "SO_REUSEPORT",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "SO_SNDBUF",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "SO_TIMEOUT",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "TCP_NODELAY",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "getOption",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setOption",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.net.SocketPermission",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.security.Permission"
+        ],
+        "implements": [
+            "java.io.Serializable"
+        ],
+        "members": [
+            {
+                "name": "equals",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getActions",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "hashCode",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "implies",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "newPermissionCollection",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.net.SocketTimeoutException",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.io.InterruptedIOException"
+        ],
+        "implements": [],
+        "members": []
+    },
+    {
+        "name": "java.net.StandardProtocolFamily",
+        "type": "enum",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Enum"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "valueOf",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "values",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.net.StandardSocketOptions",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "IP_MULTICAST_IF",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "IP_MULTICAST_LOOP",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "IP_MULTICAST_TTL",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "IP_TOS",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "SO_BROADCAST",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "SO_KEEPALIVE",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "SO_LINGER",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "SO_RCVBUF",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "SO_REUSEADDR",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "SO_REUSEPORT",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "SO_SNDBUF",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "TCP_NODELAY",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            }
+        ]
+    },
+    {
+        "name": "java.net.UnknownHostException",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.io.IOException"
+        ],
+        "implements": [],
+        "members": []
+    },
+    {
+        "name": "java.net.UnknownServiceException",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.io.IOException"
+        ],
+        "implements": [],
+        "members": []
+    },
+    {
+        "name": "java.net.URI",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [
+            "java.lang.Comparable"
+        ],
+        "members": [
+            {
+                "name": "compareTo",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "create",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "equals",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getAuthority",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getFragment",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getHost",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getPath",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getPort",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getQuery",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getRawAuthority",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getRawFragment",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getRawPath",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getRawQuery",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getRawSchemeSpecificPart",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getRawUserInfo",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getScheme",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getSchemeSpecificPart",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getUserInfo",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "hashCode",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isAbsolute",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isOpaque",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "normalize",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "parseServerAuthority",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "relativize",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "resolve",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "resolve",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "toASCIIString",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "toString",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "toURL",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.net.URISyntaxException",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Exception"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "getIndex",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getInput",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getMessage",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getReason",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.net.URL",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [
+            "java.io.Serializable"
+        ],
+        "members": [
+            {
+                "name": "equals",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getAuthority",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getContent",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getContent",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getDefaultPort",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getFile",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getHost",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getPath",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getPort",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getProtocol",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getQuery",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getRef",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getUserInfo",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "hashCode",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "openConnection",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "openConnection",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "openStream",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "sameFile",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setURLStreamHandlerFactory",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "toExternalForm",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "toString",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "toURI",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.net.URLClassLoader",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.security.SecureClassLoader"
+        ],
+        "implements": [
+            "java.io.Closeable"
+        ],
+        "members": [
+            {
+                "name": "addURL",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "close",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "definePackage",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "findClass",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "findResource",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "findResources",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getPermissions",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getResourceAsStream",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getURLs",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "newInstance",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "newInstance",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.net.URLConnection",
+        "type": "class",
+        "modifiers": [
+            "abstract"
+        ],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "allowUserInteraction",
+                "modifiers": [],
+                "type": "field"
+            },
+            {
+                "name": "connected",
+                "modifiers": [],
+                "type": "field"
+            },
+            {
+                "name": "doInput",
+                "modifiers": [],
+                "type": "field"
+            },
+            {
+                "name": "doOutput",
+                "modifiers": [],
+                "type": "field"
+            },
+            {
+                "name": "ifModifiedSince",
+                "modifiers": [],
+                "type": "field"
+            },
+            {
+                "name": "url",
+                "modifiers": [],
+                "type": "field"
+            },
+            {
+                "name": "useCaches",
+                "modifiers": [],
+                "type": "field"
+            },
+            {
+                "name": "addRequestProperty",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "connect",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getAllowUserInteraction",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getConnectTimeout",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getContent",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getContent",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getContentEncoding",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getContentLength",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getContentLengthLong",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getContentType",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getDate",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getDefaultAllowUserInteraction",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "getDefaultRequestProperty",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "getDefaultUseCaches",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getDefaultUseCaches",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "getDoInput",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getDoOutput",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getExpiration",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getFileNameMap",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "getHeaderField",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getHeaderField",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getHeaderFieldDate",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getHeaderFieldInt",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getHeaderFieldKey",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getHeaderFieldLong",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getHeaderFields",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getIfModifiedSince",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getInputStream",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getLastModified",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getOutputStream",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getPermission",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getReadTimeout",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getRequestProperties",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getRequestProperty",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getURL",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getUseCaches",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "guessContentTypeFromName",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "guessContentTypeFromStream",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "setAllowUserInteraction",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setConnectTimeout",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setContentHandlerFactory",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "setDefaultAllowUserInteraction",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "setDefaultRequestProperty",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "setDefaultUseCaches",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setDefaultUseCaches",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "setDoInput",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setDoOutput",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setFileNameMap",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "setIfModifiedSince",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setReadTimeout",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setRequestProperty",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setUseCaches",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "toString",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.net.URLDecoder",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "decode",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "decode",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "decode",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.net.URLEncoder",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "encode",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "encode",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "encode",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.net.URLPermission",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.security.Permission"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "equals",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getActions",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "hashCode",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "implies",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.net.URLStreamHandler",
+        "type": "class",
+        "modifiers": [
+            "abstract"
+        ],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "equals",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getDefaultPort",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getHostAddress",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "hashCode",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "hostsEqual",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "openConnection",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "openConnection",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "parseURL",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "sameFile",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setURL",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setURL",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "toExternalForm",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.net.URLStreamHandlerFactory",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [],
+        "implements": [],
+        "members": [
+            {
+                "name": "createURLStreamHandler",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    }
+]

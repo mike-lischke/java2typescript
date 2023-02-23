@@ -1,0 +1,3798 @@
+[
+    {
+        "name": "java.security.AccessControlContext",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "checkPermission",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "equals",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getDomainCombiner",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "hashCode",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.security.AccessControlException",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.SecurityException"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "getPermission",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.security.AccessController",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "checkPermission",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "doPrivileged",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "doPrivileged",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "doPrivileged",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "doPrivileged",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "doPrivileged",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "doPrivileged",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "doPrivilegedWithCombiner",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "doPrivilegedWithCombiner",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "doPrivilegedWithCombiner",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "doPrivilegedWithCombiner",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "getContext",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.security.AlgorithmConstraints",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [],
+        "implements": [],
+        "members": [
+            {
+                "name": "permits",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "permits",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "permits",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.security.AlgorithmParameterGenerator",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "generateParameters",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getAlgorithm",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getInstance",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "getInstance",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "getInstance",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "getProvider",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "init",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "init",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "init",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "init",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.security.AlgorithmParameterGeneratorSpi",
+        "type": "class",
+        "modifiers": [
+            "abstract"
+        ],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "engineGenerateParameters",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "engineInit",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "engineInit",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.security.AlgorithmParameters",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "getAlgorithm",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getEncoded",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getEncoded",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getInstance",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "getInstance",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "getInstance",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "getParameterSpec",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getProvider",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "init",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "init",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "init",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "toString",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.security.AlgorithmParametersSpi",
+        "type": "class",
+        "modifiers": [
+            "abstract"
+        ],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "engineGetEncoded",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "engineGetEncoded",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "engineGetParameterSpec",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "engineInit",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "engineInit",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "engineInit",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "engineToString",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.security.AllPermission",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.security.Permission"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "equals",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getActions",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "hashCode",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "implies",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "newPermissionCollection",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.security.AuthProvider",
+        "type": "class",
+        "modifiers": [
+            "abstract"
+        ],
+        "extends": [
+            "java.security.Provider"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "login",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "logout",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setCallbackHandler",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.security.BasicPermission",
+        "type": "class",
+        "modifiers": [
+            "abstract"
+        ],
+        "extends": [
+            "java.security.Permission"
+        ],
+        "implements": [
+            "java.io.Serializable"
+        ],
+        "members": [
+            {
+                "name": "equals",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getActions",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "hashCode",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "implies",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "newPermissionCollection",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.security.Certificate",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "decode",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "encode",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getFormat",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getGuarantor",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getPrincipal",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getPublicKey",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "toString",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.security.CodeSigner",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [
+            "java.io.Serializable"
+        ],
+        "members": [
+            {
+                "name": "equals",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getSignerCertPath",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getTimestamp",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "hashCode",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "toString",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.security.CodeSource",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [
+            "java.io.Serializable"
+        ],
+        "members": [
+            {
+                "name": "equals",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getCertificates",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getCodeSigners",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getLocation",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "hashCode",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "implies",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "toString",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.security.CryptoPrimitive",
+        "type": "enum",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Enum"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "valueOf",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "values",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.security.DigestException",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.security.GeneralSecurityException"
+        ],
+        "implements": [],
+        "members": []
+    },
+    {
+        "name": "java.security.DigestInputStream",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.io.FilterInputStream"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "digest",
+                "modifiers": [],
+                "type": "field"
+            },
+            {
+                "name": "getMessageDigest",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "on",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "read",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "read",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setMessageDigest",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "toString",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.security.DigestOutputStream",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.io.FilterOutputStream"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "digest",
+                "modifiers": [],
+                "type": "field"
+            },
+            {
+                "name": "getMessageDigest",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "on",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setMessageDigest",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "toString",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "write",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "write",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.security.DomainCombiner",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [],
+        "implements": [],
+        "members": [
+            {
+                "name": "combine",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.security.DomainLoadStoreParameter",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [
+            "java.security.KeyStore.LoadStoreParameter"
+        ],
+        "members": [
+            {
+                "name": "getConfiguration",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getProtectionParameter",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getProtectionParams",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.security.DrbgParameters",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "DrbgParameters.Capability",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "class"
+            },
+            {
+                "name": "DrbgParameters.Instantiation",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "class"
+            },
+            {
+                "name": "DrbgParameters.NextBytes",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "class"
+            },
+            {
+                "name": "DrbgParameters.Reseed",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "class"
+            },
+            {
+                "name": "instantiation",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "nextBytes",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "reseed",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.security.DrbgParameters.Capability",
+        "type": "enum",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Enum"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "supportsPredictionResistance",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "supportsReseeding",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "valueOf",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "values",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.security.DrbgParameters.Instantiation",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [
+            "java.security.SecureRandomParameters"
+        ],
+        "members": [
+            {
+                "name": "getCapability",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getPersonalizationString",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getStrength",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "toString",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.security.DrbgParameters.NextBytes",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [
+            "java.security.SecureRandomParameters"
+        ],
+        "members": [
+            {
+                "name": "getAdditionalInput",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getPredictionResistance",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getStrength",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.security.DrbgParameters.Reseed",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [
+            "java.security.SecureRandomParameters"
+        ],
+        "members": [
+            {
+                "name": "getAdditionalInput",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getPredictionResistance",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.security.GeneralSecurityException",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Exception"
+        ],
+        "implements": [],
+        "members": []
+    },
+    {
+        "name": "java.security.Guard",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [],
+        "implements": [],
+        "members": [
+            {
+                "name": "checkGuard",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.security.GuardedObject",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [
+            "java.io.Serializable"
+        ],
+        "members": [
+            {
+                "name": "getObject",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.security.Identity",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [
+            "java.security.Principal",
+            "java.io.Serializable"
+        ],
+        "members": [
+            {
+                "name": "addCertificate",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "certificates",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "equals",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getInfo",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getName",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getPublicKey",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getScope",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "hashCode",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "identityEquals",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "removeCertificate",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setInfo",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setPublicKey",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "toString",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "toString",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.security.IdentityScope",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.security.Identity"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "addIdentity",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getIdentity",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getIdentity",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getIdentity",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getSystemScope",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "identities",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "removeIdentity",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setSystemScope",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "size",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "toString",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.security.InvalidAlgorithmParameterException",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.security.GeneralSecurityException"
+        ],
+        "implements": [],
+        "members": []
+    },
+    {
+        "name": "java.security.InvalidKeyException",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.security.KeyException"
+        ],
+        "implements": [],
+        "members": []
+    },
+    {
+        "name": "java.security.InvalidParameterException",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.IllegalArgumentException"
+        ],
+        "implements": [],
+        "members": []
+    },
+    {
+        "name": "java.security.Key",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [
+            "java.io.Serializable"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "serialVersionUID",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "getAlgorithm",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getEncoded",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getFormat",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.security.KeyException",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.security.GeneralSecurityException"
+        ],
+        "implements": [],
+        "members": []
+    },
+    {
+        "name": "java.security.KeyFactory",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "generatePrivate",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "generatePublic",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getAlgorithm",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getInstance",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "getInstance",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "getInstance",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "getKeySpec",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getProvider",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "translateKey",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.security.KeyFactorySpi",
+        "type": "class",
+        "modifiers": [
+            "abstract"
+        ],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "engineGeneratePrivate",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "engineGeneratePublic",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "engineGetKeySpec",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "engineTranslateKey",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.security.KeyManagementException",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.security.KeyException"
+        ],
+        "implements": [],
+        "members": []
+    },
+    {
+        "name": "java.security.KeyPair",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [
+            "java.io.Serializable"
+        ],
+        "members": [
+            {
+                "name": "getPrivate",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getPublic",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.security.KeyPairGenerator",
+        "type": "class",
+        "modifiers": [
+            "abstract"
+        ],
+        "extends": [
+            "java.security.KeyPairGeneratorSpi"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "generateKeyPair",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "genKeyPair",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getAlgorithm",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getInstance",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "getInstance",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "getInstance",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "getProvider",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "initialize",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "initialize",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "initialize",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "initialize",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.security.KeyPairGeneratorSpi",
+        "type": "class",
+        "modifiers": [
+            "abstract"
+        ],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "generateKeyPair",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "initialize",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "initialize",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.security.KeyRep",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [
+            "java.io.Serializable"
+        ],
+        "members": [
+            {
+                "name": "KeyRep.Type",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "class"
+            },
+            {
+                "name": "readResolve",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.security.KeyRep.Type",
+        "type": "enum",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Enum"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "valueOf",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "values",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.security.KeyStore",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "KeyStore.Builder",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "class"
+            },
+            {
+                "name": "KeyStore.CallbackHandlerProtection",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "class"
+            },
+            {
+                "name": "KeyStore.Entry",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "class"
+            },
+            {
+                "name": "KeyStore.LoadStoreParameter",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "class"
+            },
+            {
+                "name": "KeyStore.PasswordProtection",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "class"
+            },
+            {
+                "name": "KeyStore.PrivateKeyEntry",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "class"
+            },
+            {
+                "name": "KeyStore.ProtectionParameter",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "class"
+            },
+            {
+                "name": "KeyStore.SecretKeyEntry",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "class"
+            },
+            {
+                "name": "KeyStore.TrustedCertificateEntry",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "class"
+            },
+            {
+                "name": "aliases",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "containsAlias",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "deleteEntry",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "entryInstanceOf",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getCertificate",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getCertificateAlias",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getCertificateChain",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getCreationDate",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getDefaultType",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "getEntry",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getInstance",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "getInstance",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "getInstance",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "getInstance",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "getInstance",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "getKey",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getProvider",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getType",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isCertificateEntry",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isKeyEntry",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "load",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "load",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setCertificateEntry",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setEntry",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setKeyEntry",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setKeyEntry",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "size",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "store",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "store",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.security.KeyStore.Builder",
+        "type": "class",
+        "modifiers": [
+            "abstract"
+        ],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "getKeyStore",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getProtectionParameter",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "newInstance",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "newInstance",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "newInstance",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "newInstance",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.security.KeyStore.CallbackHandlerProtection",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [
+            "java.security.KeyStore.ProtectionParameter"
+        ],
+        "members": [
+            {
+                "name": "getCallbackHandler",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.security.KeyStore.Entry",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [],
+        "implements": [],
+        "members": [
+            {
+                "name": "KeyStore.Entry.Attribute",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "class"
+            },
+            {
+                "name": "getAttributes",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.security.KeyStore.Entry.Attribute",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [],
+        "implements": [],
+        "members": [
+            {
+                "name": "getName",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getValue",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.security.KeyStore.LoadStoreParameter",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [],
+        "implements": [],
+        "members": [
+            {
+                "name": "getProtectionParameter",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.security.KeyStore.PasswordProtection",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [
+            "java.security.KeyStore.ProtectionParameter",
+            "javax.security.auth.Destroyable"
+        ],
+        "members": [
+            {
+                "name": "destroy",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getPassword",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getProtectionAlgorithm",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getProtectionParameters",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isDestroyed",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.security.KeyStore.PrivateKeyEntry",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [
+            "java.security.KeyStore.Entry"
+        ],
+        "members": [
+            {
+                "name": "getAttributes",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getCertificate",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getCertificateChain",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getPrivateKey",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "toString",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.security.KeyStore.ProtectionParameter",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [],
+        "implements": [],
+        "members": []
+    },
+    {
+        "name": "java.security.KeyStore.SecretKeyEntry",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [
+            "java.security.KeyStore.Entry"
+        ],
+        "members": [
+            {
+                "name": "getAttributes",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getSecretKey",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "toString",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.security.KeyStore.TrustedCertificateEntry",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [
+            "java.security.KeyStore.Entry"
+        ],
+        "members": [
+            {
+                "name": "getAttributes",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getTrustedCertificate",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "toString",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.security.KeyStoreException",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.security.GeneralSecurityException"
+        ],
+        "implements": [],
+        "members": []
+    },
+    {
+        "name": "java.security.KeyStoreSpi",
+        "type": "class",
+        "modifiers": [
+            "abstract"
+        ],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "engineAliases",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "engineContainsAlias",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "engineDeleteEntry",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "engineEntryInstanceOf",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "engineGetCertificate",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "engineGetCertificateAlias",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "engineGetCertificateChain",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "engineGetCreationDate",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "engineGetEntry",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "engineGetKey",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "engineIsCertificateEntry",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "engineIsKeyEntry",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "engineLoad",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "engineLoad",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "engineProbe",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "engineSetCertificateEntry",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "engineSetEntry",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "engineSetKeyEntry",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "engineSetKeyEntry",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "engineSize",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "engineStore",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "engineStore",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.security.MessageDigest",
+        "type": "class",
+        "modifiers": [
+            "abstract"
+        ],
+        "extends": [
+            "java.security.MessageDigestSpi"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "clone",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "digest",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "digest",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "digest",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getAlgorithm",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getDigestLength",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getInstance",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "getInstance",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "getInstance",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "getProvider",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isEqual",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "reset",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "toString",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "update",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "update",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "update",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "update",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.security.MessageDigestSpi",
+        "type": "class",
+        "modifiers": [
+            "abstract"
+        ],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "clone",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "engineDigest",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "engineDigest",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "engineGetDigestLength",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "engineReset",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "engineUpdate",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "engineUpdate",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "engineUpdate",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.security.NoSuchAlgorithmException",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.security.GeneralSecurityException"
+        ],
+        "implements": [],
+        "members": []
+    },
+    {
+        "name": "java.security.NoSuchProviderException",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.security.GeneralSecurityException"
+        ],
+        "implements": [],
+        "members": []
+    },
+    {
+        "name": "java.security.Permission",
+        "type": "class",
+        "modifiers": [
+            "abstract"
+        ],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [
+            "java.security.Guard",
+            "java.io.Serializable"
+        ],
+        "members": [
+            {
+                "name": "checkGuard",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "equals",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getActions",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getName",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "hashCode",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "implies",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "newPermissionCollection",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "toString",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.security.PermissionCollection",
+        "type": "class",
+        "modifiers": [
+            "abstract"
+        ],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [
+            "java.io.Serializable"
+        ],
+        "members": [
+            {
+                "name": "add",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "elements",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "elementsAsStream",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "implies",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isReadOnly",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setReadOnly",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "toString",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.security.Permissions",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.security.PermissionCollection"
+        ],
+        "implements": [
+            "java.io.Serializable"
+        ],
+        "members": [
+            {
+                "name": "add",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "elements",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "implies",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.security.PKCS12Attribute",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [
+            "java.security.KeyStore.Entry.Attribute"
+        ],
+        "members": [
+            {
+                "name": "equals",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getEncoded",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getName",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getValue",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "hashCode",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "toString",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.security.Policy",
+        "type": "class",
+        "modifiers": [
+            "abstract"
+        ],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "Policy.Parameters",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "class"
+            },
+            {
+                "name": "UNSUPPORTED_EMPTY_COLLECTION",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "getInstance",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "getInstance",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "getInstance",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "getParameters",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getPermissions",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getPermissions",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getPolicy",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "getProvider",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getType",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "implies",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "refresh",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setPolicy",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.security.Policy.Parameters",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [],
+        "implements": [],
+        "members": []
+    },
+    {
+        "name": "java.security.PolicySpi",
+        "type": "class",
+        "modifiers": [
+            "abstract"
+        ],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "engineGetPermissions",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "engineGetPermissions",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "engineImplies",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "engineRefresh",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.security.Principal",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [],
+        "implements": [],
+        "members": [
+            {
+                "name": "equals",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getName",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "hashCode",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "implies",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "toString",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.security.PrivateKey",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [
+            "java.security.Key",
+            "javax.security.auth.Destroyable"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "serialVersionUID",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            }
+        ]
+    },
+    {
+        "name": "java.security.PrivilegedAction",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [],
+        "implements": [],
+        "members": [
+            {
+                "name": "run",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.security.PrivilegedActionException",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Exception"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "getCause",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getException",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.security.PrivilegedExceptionAction",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [],
+        "implements": [],
+        "members": [
+            {
+                "name": "run",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.security.ProtectionDomain",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "getClassLoader",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getCodeSource",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getPermissions",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getPrincipals",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "implies",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "staticPermissionsOnly",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "toString",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.security.Provider",
+        "type": "class",
+        "modifiers": [
+            "abstract"
+        ],
+        "extends": [
+            "java.util.Properties"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "Provider.Service",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "class"
+            },
+            {
+                "name": "clear",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "compute",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "computeIfAbsent",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "computeIfPresent",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "configure",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "entrySet",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "forEach",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getInfo",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getName",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getOrDefault",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getService",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getServices",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getVersion",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getVersionStr",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isConfigured",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "keySet",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "load",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "merge",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "put",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "putAll",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "putIfAbsent",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "putService",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "remove",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "remove",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "removeService",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "replace",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "replace",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "replaceAll",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "toString",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "values",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.security.Provider.Service",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "getAlgorithm",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getAttribute",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getClassName",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getProvider",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getType",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "newInstance",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "supportsParameter",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "toString",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.security.ProviderException",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.RuntimeException"
+        ],
+        "implements": [],
+        "members": []
+    },
+    {
+        "name": "java.security.PublicKey",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [
+            "java.security.Key"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "serialVersionUID",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            }
+        ]
+    },
+    {
+        "name": "java.security.SecureClassLoader",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.ClassLoader"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "defineClass",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "defineClass",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getPermissions",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.security.SecureRandom",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.util.Random"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "generateSeed",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getAlgorithm",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getInstance",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "getInstance",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "getInstance",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "getInstance",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "getInstance",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "getInstance",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "getInstanceStrong",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "getParameters",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getProvider",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getSeed",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "next",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "nextBytes",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "nextBytes",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "reseed",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "reseed",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setSeed",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setSeed",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "toString",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.security.SecureRandomParameters",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [],
+        "implements": [],
+        "members": []
+    },
+    {
+        "name": "java.security.SecureRandomSpi",
+        "type": "class",
+        "modifiers": [
+            "abstract"
+        ],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [
+            "java.io.Serializable"
+        ],
+        "members": [
+            {
+                "name": "engineGenerateSeed",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "engineGetParameters",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "engineNextBytes",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "engineNextBytes",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "engineReseed",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "engineSetSeed",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "toString",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.security.Security",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "addProvider",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "getAlgorithmProperty",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "getAlgorithms",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "getProperty",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "getProvider",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "getProviders",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "getProviders",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "getProviders",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "insertProviderAt",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "removeProvider",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "setProperty",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.security.SecurityPermission",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.security.BasicPermission"
+        ],
+        "implements": [],
+        "members": []
+    },
+    {
+        "name": "java.security.Signature",
+        "type": "class",
+        "modifiers": [
+            "abstract"
+        ],
+        "extends": [
+            "java.security.SignatureSpi"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "SIGN",
+                "modifiers": [],
+                "type": "field"
+            },
+            {
+                "name": "state",
+                "modifiers": [],
+                "type": "field"
+            },
+            {
+                "name": "UNINITIALIZED",
+                "modifiers": [],
+                "type": "field"
+            },
+            {
+                "name": "VERIFY",
+                "modifiers": [],
+                "type": "field"
+            },
+            {
+                "name": "clone",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getAlgorithm",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getInstance",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "getInstance",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "getInstance",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "getParameter",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getParameters",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getProvider",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "initSign",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "initSign",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "initVerify",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "initVerify",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setParameter",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setParameter",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "sign",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "sign",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "toString",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "update",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "update",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "update",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "update",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "verify",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "verify",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.security.SignatureException",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.security.GeneralSecurityException"
+        ],
+        "implements": [],
+        "members": []
+    },
+    {
+        "name": "java.security.SignatureSpi",
+        "type": "class",
+        "modifiers": [
+            "abstract"
+        ],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "appRandom",
+                "modifiers": [],
+                "type": "field"
+            },
+            {
+                "name": "clone",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "engineGetParameter",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "engineGetParameters",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "engineInitSign",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "engineInitSign",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "engineInitVerify",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "engineSetParameter",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "engineSetParameter",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "engineSign",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "engineSign",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "engineUpdate",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "engineUpdate",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "engineUpdate",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "engineVerify",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "engineVerify",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.security.SignedObject",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [
+            "java.io.Serializable"
+        ],
+        "members": [
+            {
+                "name": "getAlgorithm",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getObject",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getSignature",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "verify",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.security.Signer",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.security.Identity"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "getPrivateKey",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setKeyPair",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "toString",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.security.Timestamp",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [
+            "java.io.Serializable"
+        ],
+        "members": [
+            {
+                "name": "equals",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getSignerCertPath",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getTimestamp",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "hashCode",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "toString",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.security.UnrecoverableEntryException",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.security.GeneralSecurityException"
+        ],
+        "implements": [],
+        "members": []
+    },
+    {
+        "name": "java.security.UnrecoverableKeyException",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.security.UnrecoverableEntryException"
+        ],
+        "implements": [],
+        "members": []
+    },
+    {
+        "name": "java.security.UnresolvedPermission",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.security.Permission"
+        ],
+        "implements": [
+            "java.io.Serializable"
+        ],
+        "members": [
+            {
+                "name": "equals",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getActions",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getUnresolvedActions",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getUnresolvedCerts",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getUnresolvedName",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getUnresolvedType",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "hashCode",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "implies",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "newPermissionCollection",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "toString",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.security.URIParameter",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [
+            "java.security.Policy.Parameters",
+            "javax.security.auth.login.Configuration.Parameters"
+        ],
+        "members": [
+            {
+                "name": "getURI",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    }
+]

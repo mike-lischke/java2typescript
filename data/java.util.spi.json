@@ -1,0 +1,244 @@
+[
+    {
+        "name": "java.util.spi.AbstractResourceBundleProvider",
+        "type": "class",
+        "modifiers": [
+            "abstract"
+        ],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [
+            "java.util.spi.ResourceBundleProvider"
+        ],
+        "members": [
+            {
+                "name": "getBundle",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "toBundleName",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.util.spi.CalendarDataProvider",
+        "type": "class",
+        "modifiers": [
+            "abstract"
+        ],
+        "extends": [
+            "java.util.spi.LocaleServiceProvider"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "getFirstDayOfWeek",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getMinimalDaysInFirstWeek",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.util.spi.CalendarNameProvider",
+        "type": "class",
+        "modifiers": [
+            "abstract"
+        ],
+        "extends": [
+            "java.util.spi.LocaleServiceProvider"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "getDisplayName",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getDisplayNames",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.util.spi.CurrencyNameProvider",
+        "type": "class",
+        "modifiers": [
+            "abstract"
+        ],
+        "extends": [
+            "java.util.spi.LocaleServiceProvider"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "getDisplayName",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getSymbol",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.util.spi.LocaleNameProvider",
+        "type": "class",
+        "modifiers": [
+            "abstract"
+        ],
+        "extends": [
+            "java.util.spi.LocaleServiceProvider"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "getDisplayCountry",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getDisplayLanguage",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getDisplayScript",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getDisplayUnicodeExtensionKey",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getDisplayUnicodeExtensionType",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getDisplayVariant",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.util.spi.LocaleServiceProvider",
+        "type": "class",
+        "modifiers": [
+            "abstract"
+        ],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "getAvailableLocales",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isSupportedLocale",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.util.spi.ResourceBundleControlProvider",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [],
+        "implements": [],
+        "members": [
+            {
+                "name": "getControl",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.util.spi.ResourceBundleProvider",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [],
+        "implements": [],
+        "members": [
+            {
+                "name": "getBundle",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.util.spi.TimeZoneNameProvider",
+        "type": "class",
+        "modifiers": [
+            "abstract"
+        ],
+        "extends": [
+            "java.util.spi.LocaleServiceProvider"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "getDisplayName",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getGenericDisplayName",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.util.spi.ToolProvider",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [],
+        "implements": [],
+        "members": [
+            {
+                "name": "findFirst",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "name",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "run",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "run",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    }
+]

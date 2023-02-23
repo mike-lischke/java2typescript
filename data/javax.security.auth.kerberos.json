@@ -1,0 +1,556 @@
+[
+    {
+        "name": "javax.security.auth.kerberos.DelegationPermission",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.security.BasicPermission"
+        ],
+        "implements": [
+            "java.io.Serializable"
+        ],
+        "members": [
+            {
+                "name": "equals",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "hashCode",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "implies",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "newPermissionCollection",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "javax.security.auth.kerberos.EncryptionKey",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [
+            "javax.crypto.SecretKey"
+        ],
+        "members": [
+            {
+                "name": "destroy",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "equals",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getAlgorithm",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getEncoded",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getFormat",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getKeyType",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "hashCode",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "toString",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "javax.security.auth.kerberos.KerberosCredMessage",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [
+            "javax.security.auth.Destroyable"
+        ],
+        "members": [
+            {
+                "name": "destroy",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "equals",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getEncoded",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getRecipient",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getSender",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "hashCode",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "toString",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "javax.security.auth.kerberos.KerberosKey",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [
+            "javax.crypto.SecretKey"
+        ],
+        "members": [
+            {
+                "name": "destroy",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "equals",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getAlgorithm",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getEncoded",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getFormat",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getKeyType",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getPrincipal",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getVersionNumber",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "hashCode",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isDestroyed",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "toString",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "javax.security.auth.kerberos.KerberosPrincipal",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [
+            "java.security.Principal",
+            "java.io.Serializable"
+        ],
+        "members": [
+            {
+                "name": "KRB_NT_PRINCIPAL",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "KRB_NT_SRV_HST",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "KRB_NT_SRV_INST",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "KRB_NT_SRV_XHST",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "KRB_NT_UID",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "KRB_NT_UNKNOWN",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "equals",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getName",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getNameType",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getRealm",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "hashCode",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "toString",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "javax.security.auth.kerberos.KerberosTicket",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [
+            "javax.security.auth.Destroyable",
+            "javax.security.auth.Refreshable",
+            "java.io.Serializable"
+        ],
+        "members": [
+            {
+                "name": "destroy",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "equals",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getAuthTime",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getClient",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getClientAddresses",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getEncoded",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getEndTime",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getFlags",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getRenewTill",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getServer",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getSessionKey",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getSessionKeyType",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getStartTime",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "hashCode",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isCurrent",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isDestroyed",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isForwardable",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isForwarded",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isInitial",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isPostdated",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isProxiable",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isProxy",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isRenewable",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "refresh",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "toString",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "javax.security.auth.kerberos.KeyTab",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "equals",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "exists",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getInstance",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "getInstance",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "getInstance",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "getInstance",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "getKeys",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getPrincipal",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getUnboundInstance",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "getUnboundInstance",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "hashCode",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isBound",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "toString",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "javax.security.auth.kerberos.ServicePermission",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.security.Permission"
+        ],
+        "implements": [
+            "java.io.Serializable"
+        ],
+        "members": [
+            {
+                "name": "equals",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getActions",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "hashCode",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "implies",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "newPermissionCollection",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    }
+]

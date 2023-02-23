@@ -1,0 +1,742 @@
+[
+    {
+        "name": "java.time.format.DateTimeFormatter",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "BASIC_ISO_DATE",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "ISO_DATE",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "ISO_DATE_TIME",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "ISO_INSTANT",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "ISO_LOCAL_DATE",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "ISO_LOCAL_DATE_TIME",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "ISO_LOCAL_TIME",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "ISO_OFFSET_DATE",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "ISO_OFFSET_DATE_TIME",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "ISO_OFFSET_TIME",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "ISO_ORDINAL_DATE",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "ISO_TIME",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "ISO_WEEK_DATE",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "ISO_ZONED_DATE_TIME",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "RFC_1123_DATE_TIME",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "format",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "formatTo",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getChronology",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getDecimalStyle",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getLocale",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getResolverFields",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getResolverStyle",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getZone",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "localizedBy",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "ofLocalizedDate",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "ofLocalizedDateTime",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "ofLocalizedDateTime",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "ofLocalizedTime",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "ofPattern",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "ofPattern",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "parse",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "parse",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "parse",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "parseBest",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "parsedExcessDays",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "parsedLeapSecond",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "parseUnresolved",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "toFormat",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "toFormat",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "toString",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "withChronology",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "withDecimalStyle",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "withLocale",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "withResolverFields",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "withResolverFields",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "withResolverStyle",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "withZone",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.time.format.DateTimeFormatterBuilder",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "append",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "appendChronologyId",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "appendChronologyText",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "appendFraction",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "appendGenericZoneText",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "appendGenericZoneText",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "appendInstant",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "appendInstant",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "appendLiteral",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "appendLiteral",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "appendLocalized",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "appendLocalizedOffset",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "appendOffset",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "appendOffsetId",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "appendOptional",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "appendPattern",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "appendText",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "appendText",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "appendText",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "appendValue",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "appendValue",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "appendValue",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "appendValueReduced",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "appendValueReduced",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "appendZoneId",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "appendZoneOrOffsetId",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "appendZoneRegionId",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "appendZoneText",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "appendZoneText",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getLocalizedDateTimePattern",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "optionalEnd",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "optionalStart",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "padNext",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "padNext",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "parseCaseInsensitive",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "parseCaseSensitive",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "parseDefaulting",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "parseLenient",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "parseStrict",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "toFormatter",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "toFormatter",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.time.format.DateTimeParseException",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.time.DateTimeException"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "getErrorIndex",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getParsedString",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.time.format.DecimalStyle",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "STANDARD",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "equals",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getAvailableLocales",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "getDecimalSeparator",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getNegativeSign",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getPositiveSign",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getZeroDigit",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "hashCode",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "of",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "ofDefaultLocale",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "toString",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "withDecimalSeparator",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "withNegativeSign",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "withPositiveSign",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "withZeroDigit",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.time.format.FormatStyle",
+        "type": "enum",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Enum"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "valueOf",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "values",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.time.format.ResolverStyle",
+        "type": "enum",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Enum"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "valueOf",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "values",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.time.format.SignStyle",
+        "type": "enum",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Enum"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "valueOf",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "values",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.time.format.TextStyle",
+        "type": "enum",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Enum"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "asNormal",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "asStandalone",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isStandalone",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "valueOf",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "values",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            }
+        ]
+    }
+]

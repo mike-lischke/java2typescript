@@ -1,0 +1,4725 @@
+[
+    {
+        "name": "java.io.BufferedInputStream",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.io.FilterInputStream"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "buf",
+                "modifiers": [],
+                "type": "field"
+            },
+            {
+                "name": "count",
+                "modifiers": [],
+                "type": "field"
+            },
+            {
+                "name": "marklimit",
+                "modifiers": [],
+                "type": "field"
+            },
+            {
+                "name": "markpos",
+                "modifiers": [],
+                "type": "field"
+            },
+            {
+                "name": "pos",
+                "modifiers": [],
+                "type": "field"
+            },
+            {
+                "name": "available",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "close",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "mark",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "markSupported",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "read",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "read",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "reset",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "skip",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.io.BufferedOutputStream",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.io.FilterOutputStream"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "buf",
+                "modifiers": [],
+                "type": "field"
+            },
+            {
+                "name": "count",
+                "modifiers": [],
+                "type": "field"
+            },
+            {
+                "name": "flush",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "write",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "write",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.io.BufferedReader",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.io.Reader"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "lines",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "mark",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "markSupported",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "read",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "read",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "readLine",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "ready",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "reset",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "skip",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.io.BufferedWriter",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.io.Writer"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "flush",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "newLine",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "write",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "write",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "write",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.io.ByteArrayInputStream",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.io.InputStream"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "buf",
+                "modifiers": [],
+                "type": "field"
+            },
+            {
+                "name": "count",
+                "modifiers": [],
+                "type": "field"
+            },
+            {
+                "name": "mark",
+                "modifiers": [],
+                "type": "field"
+            },
+            {
+                "name": "pos",
+                "modifiers": [],
+                "type": "field"
+            },
+            {
+                "name": "available",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "close",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "mark",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "markSupported",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "read",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "read",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "reset",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "skip",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.io.ByteArrayOutputStream",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.io.OutputStream"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "buf",
+                "modifiers": [],
+                "type": "field"
+            },
+            {
+                "name": "count",
+                "modifiers": [],
+                "type": "field"
+            },
+            {
+                "name": "close",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "reset",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "size",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "toByteArray",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "toString",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "toString",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "toString",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "toString",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "write",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "write",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "writeBytes",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "writeTo",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.io.CharArrayReader",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.io.Reader"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "buf",
+                "modifiers": [],
+                "type": "field"
+            },
+            {
+                "name": "count",
+                "modifiers": [],
+                "type": "field"
+            },
+            {
+                "name": "markedPos",
+                "modifiers": [],
+                "type": "field"
+            },
+            {
+                "name": "pos",
+                "modifiers": [],
+                "type": "field"
+            },
+            {
+                "name": "close",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "mark",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "markSupported",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "read",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "read",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "ready",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "reset",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "skip",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.io.CharArrayWriter",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.io.Writer"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "buf",
+                "modifiers": [],
+                "type": "field"
+            },
+            {
+                "name": "count",
+                "modifiers": [],
+                "type": "field"
+            },
+            {
+                "name": "append",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "append",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "append",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "close",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "flush",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "reset",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "size",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "toCharArray",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "toString",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "write",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "write",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "write",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "writeTo",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.io.CharConversionException",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.io.IOException"
+        ],
+        "implements": [],
+        "members": []
+    },
+    {
+        "name": "java.io.Closeable",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [
+            "java.lang.AutoCloseable"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "close",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.io.Console",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [
+            "java.io.Flushable"
+        ],
+        "members": [
+            {
+                "name": "flush",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "format",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "printf",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "reader",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "readLine",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "readLine",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "readPassword",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "readPassword",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "writer",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.io.DataInput",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [],
+        "implements": [],
+        "members": [
+            {
+                "name": "readBoolean",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "readByte",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "readChar",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "readDouble",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "readFloat",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "readFully",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "readFully",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "readInt",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "readLine",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "readLong",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "readShort",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "readUnsignedByte",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "readUnsignedShort",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "readUTF",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "skipBytes",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.io.DataInputStream",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.io.FilterInputStream"
+        ],
+        "implements": [
+            "java.io.DataInput"
+        ],
+        "members": [
+            {
+                "name": "read",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "read",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "readBoolean",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "readByte",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "readChar",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "readDouble",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "readFloat",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "readFully",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "readFully",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "readInt",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "readLine",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "readLong",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "readShort",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "readUnsignedByte",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "readUnsignedShort",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "readUTF",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "readUTF",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "skipBytes",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.io.DataOutput",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [],
+        "implements": [],
+        "members": [
+            {
+                "name": "write",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "write",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "write",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "writeBoolean",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "writeByte",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "writeBytes",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "writeChar",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "writeChars",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "writeDouble",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "writeFloat",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "writeInt",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "writeLong",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "writeShort",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "writeUTF",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.io.DataOutputStream",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.io.FilterOutputStream"
+        ],
+        "implements": [
+            "java.io.DataOutput"
+        ],
+        "members": [
+            {
+                "name": "written",
+                "modifiers": [],
+                "type": "field"
+            },
+            {
+                "name": "flush",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "size",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "write",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "write",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "writeBoolean",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "writeByte",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "writeBytes",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "writeChar",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "writeChars",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "writeDouble",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "writeFloat",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "writeInt",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "writeLong",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "writeShort",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "writeUTF",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.io.EOFException",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.io.IOException"
+        ],
+        "implements": [],
+        "members": []
+    },
+    {
+        "name": "java.io.Externalizable",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [
+            "java.io.Serializable"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "readExternal",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "writeExternal",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.io.File",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [
+            "java.io.Serializable",
+            "java.lang.Comparable"
+        ],
+        "members": [
+            {
+                "name": "pathSeparator",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "pathSeparatorChar",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "separator",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "separatorChar",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "canExecute",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "canRead",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "canWrite",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "compareTo",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "createNewFile",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "createTempFile",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "createTempFile",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "delete",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "deleteOnExit",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "equals",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "exists",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getAbsoluteFile",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getAbsolutePath",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getCanonicalFile",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getCanonicalPath",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getFreeSpace",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getName",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getParent",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getParentFile",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getPath",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getTotalSpace",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getUsableSpace",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "hashCode",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isAbsolute",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isDirectory",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isFile",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isHidden",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "lastModified",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "length",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "list",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "list",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "listFiles",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "listFiles",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "listFiles",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "listRoots",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "mkdir",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "mkdirs",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "renameTo",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setExecutable",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setExecutable",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setLastModified",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setReadable",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setReadable",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setReadOnly",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setWritable",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setWritable",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "toPath",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "toString",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "toURI",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "toURL",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.io.FileDescriptor",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "err",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "in",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "out",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "sync",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "valid",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.io.FileFilter",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "accept",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.io.FileInputStream",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.io.InputStream"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "available",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "close",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "finalize",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getChannel",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getFD",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "read",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "read",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "read",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "skip",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.io.FilenameFilter",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "accept",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.io.FileNotFoundException",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.io.IOException"
+        ],
+        "implements": [],
+        "members": []
+    },
+    {
+        "name": "java.io.FileOutputStream",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.io.OutputStream"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "close",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "finalize",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getChannel",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getFD",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "write",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "write",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "write",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.io.FilePermission",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.security.Permission"
+        ],
+        "implements": [
+            "java.io.Serializable"
+        ],
+        "members": [
+            {
+                "name": "equals",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getActions",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "hashCode",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "implies",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "newPermissionCollection",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.io.FileReader",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.io.InputStreamReader"
+        ],
+        "implements": [],
+        "members": []
+    },
+    {
+        "name": "java.io.FileWriter",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.io.OutputStreamWriter"
+        ],
+        "implements": [],
+        "members": []
+    },
+    {
+        "name": "java.io.FilterInputStream",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.io.InputStream"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "in",
+                "modifiers": [],
+                "type": "field"
+            },
+            {
+                "name": "available",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "close",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "mark",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "markSupported",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "read",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "read",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "read",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "reset",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "skip",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.io.FilterOutputStream",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.io.OutputStream"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "out",
+                "modifiers": [],
+                "type": "field"
+            },
+            {
+                "name": "close",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "flush",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "write",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "write",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "write",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.io.FilterReader",
+        "type": "class",
+        "modifiers": [
+            "abstract"
+        ],
+        "extends": [
+            "java.io.Reader"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "in",
+                "modifiers": [],
+                "type": "field"
+            },
+            {
+                "name": "mark",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "markSupported",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "read",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "read",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "ready",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "reset",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "skip",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.io.FilterWriter",
+        "type": "class",
+        "modifiers": [
+            "abstract"
+        ],
+        "extends": [
+            "java.io.Writer"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "out",
+                "modifiers": [],
+                "type": "field"
+            },
+            {
+                "name": "flush",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "write",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "write",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "write",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.io.Flushable",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [],
+        "implements": [],
+        "members": [
+            {
+                "name": "flush",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.io.InputStream",
+        "type": "class",
+        "modifiers": [
+            "abstract"
+        ],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [
+            "java.io.Closeable"
+        ],
+        "members": [
+            {
+                "name": "available",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "close",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "mark",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "markSupported",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "nullInputStream",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "read",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "read",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "read",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "readAllBytes",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "readNBytes",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "readNBytes",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "reset",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "skip",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "transferTo",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.io.InputStreamReader",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.io.Reader"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "getEncoding",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "read",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "read",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "ready",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.io.InterruptedIOException",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.io.IOException"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "bytesTransferred",
+                "modifiers": [],
+                "type": "field"
+            }
+        ]
+    },
+    {
+        "name": "java.io.InvalidClassException",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.io.ObjectStreamException"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "classname",
+                "modifiers": [],
+                "type": "field"
+            },
+            {
+                "name": "getMessage",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.io.InvalidObjectException",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.io.ObjectStreamException"
+        ],
+        "implements": [],
+        "members": []
+    },
+    {
+        "name": "java.io.IOError",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Error"
+        ],
+        "implements": [],
+        "members": []
+    },
+    {
+        "name": "java.io.IOException",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Exception"
+        ],
+        "implements": [],
+        "members": []
+    },
+    {
+        "name": "java.io.LineNumberInputStream",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.io.FilterInputStream"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "available",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getLineNumber",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "mark",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "read",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "read",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "reset",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setLineNumber",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "skip",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.io.LineNumberReader",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.io.BufferedReader"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "getLineNumber",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "mark",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "read",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "read",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "readLine",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "reset",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setLineNumber",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "skip",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.io.NotActiveException",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.io.ObjectStreamException"
+        ],
+        "implements": [],
+        "members": []
+    },
+    {
+        "name": "java.io.NotSerializableException",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.io.ObjectStreamException"
+        ],
+        "implements": [],
+        "members": []
+    },
+    {
+        "name": "java.io.ObjectInput",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [
+            "java.io.DataInput",
+            "java.lang.AutoCloseable"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "available",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "close",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "read",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "read",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "read",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "readObject",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "skip",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.io.ObjectInputFilter",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "ObjectInputFilter.Config",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "class"
+            },
+            {
+                "name": "ObjectInputFilter.FilterInfo",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "class"
+            },
+            {
+                "name": "ObjectInputFilter.Status",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "class"
+            },
+            {
+                "name": "checkInput",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.io.ObjectInputFilter.Config",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "createFilter",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "getSerialFilter",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "setSerialFilter",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.io.ObjectInputFilter.FilterInfo",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [],
+        "implements": [],
+        "members": [
+            {
+                "name": "arrayLength",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "depth",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "references",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "serialClass",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "streamBytes",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.io.ObjectInputFilter.Status",
+        "type": "enum",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Enum"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "valueOf",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "values",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.io.ObjectInputStream",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.io.InputStream"
+        ],
+        "implements": [
+            "java.io.ObjectInput",
+            "java.io.ObjectStreamConstants"
+        ],
+        "members": [
+            {
+                "name": "ObjectInputStream.GetField",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "class"
+            },
+            {
+                "name": "available",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "close",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "defaultReadObject",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "enableResolveObject",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getObjectInputFilter",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "read",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "read",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "readBoolean",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "readByte",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "readChar",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "readClassDescriptor",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "readDouble",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "readFields",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "readFloat",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "readFully",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "readFully",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "readInt",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "readLine",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "readLong",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "readObject",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "readObjectOverride",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "readShort",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "readStreamHeader",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "readUnshared",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "readUnsignedByte",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "readUnsignedShort",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "readUTF",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "registerValidation",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "resolveClass",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "resolveObject",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "resolveProxyClass",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setObjectInputFilter",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "skipBytes",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.io.ObjectInputStream.GetField",
+        "type": "class",
+        "modifiers": [
+            "abstract"
+        ],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "defaulted",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "get",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "get",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "get",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "get",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "get",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "get",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "get",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "get",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "get",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getObjectStreamClass",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.io.ObjectInputValidation",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [],
+        "implements": [],
+        "members": [
+            {
+                "name": "validateObject",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.io.ObjectOutput",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [
+            "java.io.DataOutput",
+            "java.lang.AutoCloseable"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "close",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "flush",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "write",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "write",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "write",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "writeObject",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.io.ObjectOutputStream",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.io.OutputStream"
+        ],
+        "implements": [
+            "java.io.ObjectOutput",
+            "java.io.ObjectStreamConstants"
+        ],
+        "members": [
+            {
+                "name": "ObjectOutputStream.PutField",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "class"
+            },
+            {
+                "name": "annotateClass",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "annotateProxyClass",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "close",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "defaultWriteObject",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "drain",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "enableReplaceObject",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "flush",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "putFields",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "replaceObject",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "reset",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "useProtocolVersion",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "write",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "write",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "write",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "writeBoolean",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "writeByte",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "writeBytes",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "writeChar",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "writeChars",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "writeClassDescriptor",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "writeDouble",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "writeFields",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "writeFloat",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "writeInt",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "writeLong",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "writeObject",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "writeObjectOverride",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "writeShort",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "writeStreamHeader",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "writeUnshared",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "writeUTF",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.io.ObjectOutputStream.PutField",
+        "type": "class",
+        "modifiers": [
+            "abstract"
+        ],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "put",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "put",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "put",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "put",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "put",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "put",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "put",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "put",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "put",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "write",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.io.ObjectStreamClass",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [
+            "java.io.Serializable"
+        ],
+        "members": [
+            {
+                "name": "NO_FIELDS",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "forClass",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getField",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getFields",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getName",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getSerialVersionUID",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "lookup",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "lookupAny",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "toString",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.io.ObjectStreamConstants",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [],
+        "implements": [],
+        "members": [
+            {
+                "name": "baseWireHandle",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "PROTOCOL_VERSION_1",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "PROTOCOL_VERSION_2",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "SC_BLOCK_DATA",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "SC_ENUM",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "SC_EXTERNALIZABLE",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "SC_SERIALIZABLE",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "SC_WRITE_METHOD",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "SERIAL_FILTER_PERMISSION",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "STREAM_MAGIC",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "STREAM_VERSION",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "SUBCLASS_IMPLEMENTATION_PERMISSION",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "SUBSTITUTION_PERMISSION",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "TC_ARRAY",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "TC_BASE",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "TC_BLOCKDATA",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "TC_BLOCKDATALONG",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "TC_CLASS",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "TC_CLASSDESC",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "TC_ENDBLOCKDATA",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "TC_ENUM",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "TC_EXCEPTION",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "TC_LONGSTRING",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "TC_MAX",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "TC_NULL",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "TC_OBJECT",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "TC_PROXYCLASSDESC",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "TC_REFERENCE",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "TC_RESET",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "TC_STRING",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            }
+        ]
+    },
+    {
+        "name": "java.io.ObjectStreamException",
+        "type": "class",
+        "modifiers": [
+            "abstract"
+        ],
+        "extends": [
+            "java.io.IOException"
+        ],
+        "implements": [],
+        "members": []
+    },
+    {
+        "name": "java.io.ObjectStreamField",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [
+            "java.lang.Comparable"
+        ],
+        "members": [
+            {
+                "name": "compareTo",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getName",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getOffset",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getType",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getTypeCode",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getTypeString",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isPrimitive",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isUnshared",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setOffset",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "toString",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.io.OptionalDataException",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.io.ObjectStreamException"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "eof",
+                "modifiers": [],
+                "type": "field"
+            },
+            {
+                "name": "length",
+                "modifiers": [],
+                "type": "field"
+            }
+        ]
+    },
+    {
+        "name": "java.io.OutputStream",
+        "type": "class",
+        "modifiers": [
+            "abstract"
+        ],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [
+            "java.io.Closeable",
+            "java.io.Flushable"
+        ],
+        "members": [
+            {
+                "name": "close",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "flush",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "nullOutputStream",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "write",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "write",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "write",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.io.OutputStreamWriter",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.io.Writer"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "flush",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getEncoding",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "write",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "write",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "write",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.io.PipedInputStream",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.io.InputStream"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "buffer",
+                "modifiers": [],
+                "type": "field"
+            },
+            {
+                "name": "in",
+                "modifiers": [],
+                "type": "field"
+            },
+            {
+                "name": "out",
+                "modifiers": [],
+                "type": "field"
+            },
+            {
+                "name": "PIPE_SIZE",
+                "modifiers": [],
+                "type": "field"
+            },
+            {
+                "name": "available",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "close",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "connect",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "read",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "read",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "receive",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.io.PipedOutputStream",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.io.OutputStream"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "close",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "connect",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "flush",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "write",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "write",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.io.PipedReader",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.io.Reader"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "close",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "connect",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "read",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "read",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "ready",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.io.PipedWriter",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.io.Writer"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "close",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "connect",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "flush",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "write",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "write",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.io.PrintStream",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.io.FilterOutputStream"
+        ],
+        "implements": [
+            "java.lang.Appendable",
+            "java.io.Closeable"
+        ],
+        "members": [
+            {
+                "name": "append",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "append",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "append",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "checkError",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "clearError",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "close",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "flush",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "format",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "format",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "print",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "print",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "print",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "print",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "print",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "print",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "print",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "print",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "print",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "printf",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "printf",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "println",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "println",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "println",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "println",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "println",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "println",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "println",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "println",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "println",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "println",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setError",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "write",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "write",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.io.PrintWriter",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.io.Writer"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "out",
+                "modifiers": [],
+                "type": "field"
+            },
+            {
+                "name": "append",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "append",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "append",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "checkError",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "clearError",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "close",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "flush",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "format",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "format",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "print",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "print",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "print",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "print",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "print",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "print",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "print",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "print",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "print",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "printf",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "printf",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "println",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "println",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "println",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "println",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "println",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "println",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "println",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "println",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "println",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "println",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setError",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "write",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "write",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "write",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "write",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "write",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.io.PushbackInputStream",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.io.FilterInputStream"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "buf",
+                "modifiers": [],
+                "type": "field"
+            },
+            {
+                "name": "pos",
+                "modifiers": [],
+                "type": "field"
+            },
+            {
+                "name": "available",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "close",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "mark",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "markSupported",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "read",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "read",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "reset",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "skip",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "unread",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "unread",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "unread",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.io.PushbackReader",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.io.FilterReader"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "close",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "mark",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "markSupported",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "read",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "read",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "ready",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "reset",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "skip",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "unread",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "unread",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "unread",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.io.RandomAccessFile",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [
+            "java.io.DataOutput",
+            "java.io.DataInput",
+            "java.io.Closeable"
+        ],
+        "members": [
+            {
+                "name": "close",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getChannel",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getFD",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getFilePointer",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "length",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "read",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "read",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "read",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "readBoolean",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "readByte",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "readChar",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "readDouble",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "readFloat",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "readFully",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "readFully",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "readInt",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "readLine",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "readLong",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "readShort",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "readUnsignedByte",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "readUnsignedShort",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "readUTF",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "seek",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setLength",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "skipBytes",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "write",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "write",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "write",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "writeBoolean",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "writeByte",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "writeBytes",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "writeChar",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "writeChars",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "writeDouble",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "writeFloat",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "writeInt",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "writeLong",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "writeShort",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "writeUTF",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.io.Reader",
+        "type": "class",
+        "modifiers": [
+            "abstract"
+        ],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [
+            "java.lang.Readable",
+            "java.io.Closeable"
+        ],
+        "members": [
+            {
+                "name": "lock",
+                "modifiers": [],
+                "type": "field"
+            },
+            {
+                "name": "close",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "mark",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "markSupported",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "nullReader",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "read",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "read",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "read",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "read",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "ready",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "reset",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "skip",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "transferTo",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.io.SequenceInputStream",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.io.InputStream"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "available",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "close",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "read",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "read",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.io.Serializable",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [],
+        "implements": [],
+        "members": []
+    },
+    {
+        "name": "java.io.SerializablePermission",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.security.BasicPermission"
+        ],
+        "implements": [],
+        "members": []
+    },
+    {
+        "name": "java.io.StreamCorruptedException",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.io.ObjectStreamException"
+        ],
+        "implements": [],
+        "members": []
+    },
+    {
+        "name": "java.io.StreamTokenizer",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "nval",
+                "modifiers": [],
+                "type": "field"
+            },
+            {
+                "name": "sval",
+                "modifiers": [],
+                "type": "field"
+            },
+            {
+                "name": "TT_EOF",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "TT_EOL",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "TT_NUMBER",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "TT_WORD",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "ttype",
+                "modifiers": [],
+                "type": "field"
+            },
+            {
+                "name": "commentChar",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "eolIsSignificant",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "lineno",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "lowerCaseMode",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "nextToken",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "ordinaryChar",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "ordinaryChars",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "parseNumbers",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "pushBack",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "quoteChar",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "resetSyntax",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "slashSlashComments",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "slashStarComments",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "toString",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "whitespaceChars",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "wordChars",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.io.StringBufferInputStream",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.io.InputStream"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "buffer",
+                "modifiers": [],
+                "type": "field"
+            },
+            {
+                "name": "count",
+                "modifiers": [],
+                "type": "field"
+            },
+            {
+                "name": "pos",
+                "modifiers": [],
+                "type": "field"
+            },
+            {
+                "name": "available",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "read",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "read",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "reset",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "skip",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.io.StringReader",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.io.Reader"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "close",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "mark",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "markSupported",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "read",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "read",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "ready",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "reset",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "skip",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.io.StringWriter",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.io.Writer"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "append",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "append",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "append",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "close",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "flush",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getBuffer",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "toString",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "write",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "write",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "write",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "write",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.io.SyncFailedException",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.io.IOException"
+        ],
+        "implements": [],
+        "members": []
+    },
+    {
+        "name": "java.io.UncheckedIOException",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.RuntimeException"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "getCause",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.io.UnsupportedEncodingException",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.io.IOException"
+        ],
+        "implements": [],
+        "members": []
+    },
+    {
+        "name": "java.io.UTFDataFormatException",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.io.IOException"
+        ],
+        "implements": [],
+        "members": []
+    },
+    {
+        "name": "java.io.WriteAbortedException",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.io.ObjectStreamException"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "detail",
+                "modifiers": [],
+                "type": "field"
+            },
+            {
+                "name": "getCause",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getMessage",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.io.Writer",
+        "type": "class",
+        "modifiers": [
+            "abstract"
+        ],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [
+            "java.lang.Appendable",
+            "java.io.Closeable",
+            "java.io.Flushable"
+        ],
+        "members": [
+            {
+                "name": "lock",
+                "modifiers": [],
+                "type": "field"
+            },
+            {
+                "name": "append",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "append",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "append",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "close",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "flush",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "nullWriter",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "write",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "write",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "write",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "write",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "write",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    }
+]

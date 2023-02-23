@@ -1,0 +1,110 @@
+[
+    {
+        "name": "javax.security.auth.x500.X500Principal",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [
+            "java.security.Principal",
+            "java.io.Serializable"
+        ],
+        "members": [
+            {
+                "name": "CANONICAL",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "RFC1779",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "RFC2253",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "equals",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getEncoded",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getName",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getName",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getName",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "hashCode",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "toString",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "javax.security.auth.x500.X500PrivateCredential",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [
+            "javax.security.auth.Destroyable"
+        ],
+        "members": [
+            {
+                "name": "destroy",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getAlias",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getCertificate",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getPrivateKey",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isDestroyed",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    }
+]

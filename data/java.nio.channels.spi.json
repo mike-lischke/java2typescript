@@ -1,0 +1,247 @@
+[
+    {
+        "name": "java.nio.channels.spi.AbstractInterruptibleChannel",
+        "type": "class",
+        "modifiers": [
+            "abstract"
+        ],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [
+            "java.nio.channels.Channel",
+            "java.nio.channels.InterruptibleChannel"
+        ],
+        "members": [
+            {
+                "name": "begin",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "close",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "end",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "implCloseChannel",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.nio.channels.spi.AbstractSelectableChannel",
+        "type": "class",
+        "modifiers": [
+            "abstract"
+        ],
+        "extends": [
+            "java.nio.channels.SelectableChannel"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "configureBlocking",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "implCloseChannel",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "implCloseSelectableChannel",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "implConfigureBlocking",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "provider",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "register",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.nio.channels.spi.AbstractSelectionKey",
+        "type": "class",
+        "modifiers": [
+            "abstract"
+        ],
+        "extends": [
+            "java.nio.channels.SelectionKey"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "cancel",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.nio.channels.spi.AbstractSelector",
+        "type": "class",
+        "modifiers": [
+            "abstract"
+        ],
+        "extends": [
+            "java.nio.channels.Selector"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "begin",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "cancelledKeys",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "close",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "deregister",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "end",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "implCloseSelector",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "provider",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "register",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.nio.channels.spi.AsynchronousChannelProvider",
+        "type": "class",
+        "modifiers": [
+            "abstract"
+        ],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "openAsynchronousChannelGroup",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "openAsynchronousChannelGroup",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "openAsynchronousServerSocketChannel",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "openAsynchronousSocketChannel",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "provider",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.nio.channels.spi.SelectorProvider",
+        "type": "class",
+        "modifiers": [
+            "abstract"
+        ],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "inheritedChannel",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "openDatagramChannel",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "openDatagramChannel",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "openPipe",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "openSelector",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "openServerSocketChannel",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "openSocketChannel",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "provider",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            }
+        ]
+    }
+]

@@ -1,0 +1,87 @@
+[
+    {
+        "name": "javax.net.ServerSocketFactory",
+        "type": "class",
+        "modifiers": [
+            "abstract"
+        ],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "createServerSocket",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "createServerSocket",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "createServerSocket",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "createServerSocket",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getDefault",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "javax.net.SocketFactory",
+        "type": "class",
+        "modifiers": [
+            "abstract"
+        ],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "createSocket",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "createSocket",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "createSocket",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "createSocket",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "createSocket",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getDefault",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            }
+        ]
+    }
+]

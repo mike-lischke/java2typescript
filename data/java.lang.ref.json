@@ -1,0 +1,166 @@
+[
+    {
+        "name": "java.lang.ref.Cleaner",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "Cleaner.Cleanable",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "class"
+            },
+            {
+                "name": "create",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "create",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "register",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.lang.ref.Cleaner.Cleanable",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [],
+        "implements": [],
+        "members": [
+            {
+                "name": "clean",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.lang.ref.PhantomReference",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.ref.Reference"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "get",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.lang.ref.Reference",
+        "type": "class",
+        "modifiers": [
+            "abstract"
+        ],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "clear",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "clone",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "enqueue",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "get",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isEnqueued",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "reachabilityFence",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.lang.ref.ReferenceQueue",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "poll",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "remove",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "remove",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.lang.ref.SoftReference",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.ref.Reference"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "get",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.lang.ref.WeakReference",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.ref.Reference"
+        ],
+        "implements": [],
+        "members": []
+    }
+]

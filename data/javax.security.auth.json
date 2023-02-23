@@ -1,0 +1,242 @@
+[
+    {
+        "name": "javax.security.auth.AuthPermission",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.security.BasicPermission"
+        ],
+        "implements": [],
+        "members": []
+    },
+    {
+        "name": "javax.security.auth.Destroyable",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [],
+        "implements": [],
+        "members": [
+            {
+                "name": "destroy",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isDestroyed",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "javax.security.auth.DestroyFailedException",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Exception"
+        ],
+        "implements": [],
+        "members": []
+    },
+    {
+        "name": "javax.security.auth.PrivateCredentialPermission",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.security.Permission"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "equals",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getActions",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getCredentialClass",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getPrincipals",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "hashCode",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "implies",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "newPermissionCollection",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "javax.security.auth.Refreshable",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [],
+        "implements": [],
+        "members": [
+            {
+                "name": "isCurrent",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "refresh",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "javax.security.auth.RefreshFailedException",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Exception"
+        ],
+        "implements": [],
+        "members": []
+    },
+    {
+        "name": "javax.security.auth.Subject",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [
+            "java.io.Serializable"
+        ],
+        "members": [
+            {
+                "name": "doAs",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "doAs",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "doAsPrivileged",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "doAsPrivileged",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "equals",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getPrincipals",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getPrincipals",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getPrivateCredentials",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getPrivateCredentials",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getPublicCredentials",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getPublicCredentials",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getSubject",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "hashCode",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isReadOnly",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setReadOnly",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "toString",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "javax.security.auth.SubjectDomainCombiner",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [
+            "java.security.DomainCombiner"
+        ],
+        "members": [
+            {
+                "name": "combine",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getSubject",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    }
+]

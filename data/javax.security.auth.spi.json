@@ -1,0 +1,36 @@
+[
+    {
+        "name": "javax.security.auth.spi.LoginModule",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [],
+        "implements": [],
+        "members": [
+            {
+                "name": "abort",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "commit",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "initialize",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "login",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "logout",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    }
+]

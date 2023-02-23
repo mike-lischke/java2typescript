@@ -1,0 +1,511 @@
+[
+    {
+        "name": "javax.crypto.spec.ChaCha20ParameterSpec",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [
+            "java.security.spec.AlgorithmParameterSpec"
+        ],
+        "members": [
+            {
+                "name": "getCounter",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getNonce",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "javax.crypto.spec.DESedeKeySpec",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [
+            "java.security.spec.KeySpec"
+        ],
+        "members": [
+            {
+                "name": "DES_EDE_KEY_LEN",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "getKey",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isParityAdjusted",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "javax.crypto.spec.DESKeySpec",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [
+            "java.security.spec.KeySpec"
+        ],
+        "members": [
+            {
+                "name": "DES_KEY_LEN",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "getKey",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isParityAdjusted",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "isWeak",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "javax.crypto.spec.DHGenParameterSpec",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [
+            "java.security.spec.AlgorithmParameterSpec"
+        ],
+        "members": [
+            {
+                "name": "getExponentSize",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getPrimeSize",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "javax.crypto.spec.DHParameterSpec",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [
+            "java.security.spec.AlgorithmParameterSpec"
+        ],
+        "members": [
+            {
+                "name": "getG",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getL",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getP",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "javax.crypto.spec.DHPrivateKeySpec",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [
+            "java.security.spec.KeySpec"
+        ],
+        "members": [
+            {
+                "name": "getG",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getP",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getX",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "javax.crypto.spec.DHPublicKeySpec",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [
+            "java.security.spec.KeySpec"
+        ],
+        "members": [
+            {
+                "name": "getG",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getP",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getY",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "javax.crypto.spec.GCMParameterSpec",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [
+            "java.security.spec.AlgorithmParameterSpec"
+        ],
+        "members": [
+            {
+                "name": "getIV",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getTLen",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "javax.crypto.spec.IvParameterSpec",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [
+            "java.security.spec.AlgorithmParameterSpec"
+        ],
+        "members": [
+            {
+                "name": "getIV",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "javax.crypto.spec.OAEPParameterSpec",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [
+            "java.security.spec.AlgorithmParameterSpec"
+        ],
+        "members": [
+            {
+                "name": "DEFAULT",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "getDigestAlgorithm",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getMGFAlgorithm",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getMGFParameters",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getPSource",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "javax.crypto.spec.PBEKeySpec",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [
+            "java.security.spec.KeySpec"
+        ],
+        "members": [
+            {
+                "name": "clearPassword",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getIterationCount",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getKeyLength",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getPassword",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getSalt",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "javax.crypto.spec.PBEParameterSpec",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [
+            "java.security.spec.AlgorithmParameterSpec"
+        ],
+        "members": [
+            {
+                "name": "getIterationCount",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getParameterSpec",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getSalt",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "javax.crypto.spec.PSource",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "PSource.PSpecified",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "class"
+            },
+            {
+                "name": "getAlgorithm",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "javax.crypto.spec.PSource.PSpecified",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "javax.crypto.spec.PSource"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "DEFAULT",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "getValue",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "javax.crypto.spec.RC2ParameterSpec",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [
+            "java.security.spec.AlgorithmParameterSpec"
+        ],
+        "members": [
+            {
+                "name": "equals",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getEffectiveKeyBits",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getIV",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "hashCode",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "javax.crypto.spec.RC5ParameterSpec",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [
+            "java.security.spec.AlgorithmParameterSpec"
+        ],
+        "members": [
+            {
+                "name": "equals",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getIV",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getRounds",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getVersion",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getWordSize",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "hashCode",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "javax.crypto.spec.SecretKeySpec",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [
+            "java.security.spec.KeySpec",
+            "javax.crypto.SecretKey"
+        ],
+        "members": [
+            {
+                "name": "equals",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getAlgorithm",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getEncoded",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getFormat",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "hashCode",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    }
+]

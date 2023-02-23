@@ -1,0 +1,1168 @@
+[
+    {
+        "name": "java.net.http.HttpClient",
+        "type": "class",
+        "modifiers": [
+            "abstract"
+        ],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "HttpClient.Builder",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "class"
+            },
+            {
+                "name": "HttpClient.Redirect",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "class"
+            },
+            {
+                "name": "HttpClient.Version",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "class"
+            },
+            {
+                "name": "authenticator",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "connectTimeout",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "cookieHandler",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "executor",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "followRedirects",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "newBuilder",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "newHttpClient",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "newWebSocketBuilder",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "proxy",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "send",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "sendAsync",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "sendAsync",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "sslContext",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "sslParameters",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "version",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.net.http.HttpClient.Builder",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [],
+        "implements": [],
+        "members": [
+            {
+                "name": "NO_PROXY",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "authenticator",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "build",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "connectTimeout",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "cookieHandler",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "executor",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "followRedirects",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "priority",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "proxy",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "sslContext",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "sslParameters",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "version",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.net.http.HttpClient.Redirect",
+        "type": "enum",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Enum"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "valueOf",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "values",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.net.http.HttpClient.Version",
+        "type": "enum",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Enum"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "valueOf",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "values",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.net.http.HttpConnectTimeoutException",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.net.http.HttpTimeoutException"
+        ],
+        "implements": [],
+        "members": []
+    },
+    {
+        "name": "java.net.http.HttpHeaders",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "allValues",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "equals",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "firstValue",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "firstValueAsLong",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "hashCode",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "map",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "of",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "toString",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.net.http.HttpRequest",
+        "type": "class",
+        "modifiers": [
+            "abstract"
+        ],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "HttpRequest.BodyPublisher",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "class"
+            },
+            {
+                "name": "HttpRequest.BodyPublishers",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "class"
+            },
+            {
+                "name": "HttpRequest.Builder",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "class"
+            },
+            {
+                "name": "bodyPublisher",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "equals",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "expectContinue",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "hashCode",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "headers",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "method",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "newBuilder",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "newBuilder",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "timeout",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "uri",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "version",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.net.http.HttpRequest.BodyPublisher",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [
+            "java.util.concurrent.Flow.Publisher"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "contentLength",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.net.http.HttpRequest.BodyPublishers",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "fromPublisher",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "fromPublisher",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "noBody",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "ofByteArray",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "ofByteArray",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "ofByteArrays",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "ofFile",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "ofInputStream",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "ofString",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "ofString",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.net.http.HttpRequest.Builder",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [],
+        "implements": [],
+        "members": [
+            {
+                "name": "build",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "copy",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "DELETE",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "expectContinue",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "GET",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "header",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "headers",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "method",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "POST",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "PUT",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setHeader",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "timeout",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "uri",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "version",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.net.http.HttpResponse",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [],
+        "implements": [],
+        "members": [
+            {
+                "name": "HttpResponse.BodyHandler",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "class"
+            },
+            {
+                "name": "HttpResponse.BodyHandlers",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "class"
+            },
+            {
+                "name": "HttpResponse.BodySubscriber",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "class"
+            },
+            {
+                "name": "HttpResponse.BodySubscribers",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "class"
+            },
+            {
+                "name": "HttpResponse.PushPromiseHandler",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "class"
+            },
+            {
+                "name": "HttpResponse.ResponseInfo",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "class"
+            },
+            {
+                "name": "body",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "headers",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "previousResponse",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "request",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "sslSession",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "statusCode",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "uri",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "version",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.net.http.HttpResponse.BodyHandler",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "apply",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.net.http.HttpResponse.BodyHandlers",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "buffering",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "discarding",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "fromLineSubscriber",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "fromLineSubscriber",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "fromSubscriber",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "fromSubscriber",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "ofByteArray",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "ofByteArrayConsumer",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "ofFile",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "ofFile",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "ofFileDownload",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "ofInputStream",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "ofLines",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "ofPublisher",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "ofString",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "ofString",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "replacing",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.net.http.HttpResponse.BodySubscriber",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [
+            "java.util.concurrent.Flow.Subscriber"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "getBody",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.net.http.HttpResponse.BodySubscribers",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "buffering",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "discarding",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "fromLineSubscriber",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "fromLineSubscriber",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "fromSubscriber",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "fromSubscriber",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "mapping",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "ofByteArray",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "ofByteArrayConsumer",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "ofFile",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "ofFile",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "ofInputStream",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "ofLines",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "ofPublisher",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "ofString",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "replacing",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.net.http.HttpResponse.PushPromiseHandler",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [],
+        "implements": [],
+        "members": [
+            {
+                "name": "applyPushPromise",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "of",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.net.http.HttpResponse.ResponseInfo",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [],
+        "implements": [],
+        "members": [
+            {
+                "name": "headers",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "statusCode",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "version",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.net.http.HttpTimeoutException",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.io.IOException"
+        ],
+        "implements": [],
+        "members": []
+    },
+    {
+        "name": "java.net.http.WebSocket",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [],
+        "implements": [],
+        "members": [
+            {
+                "name": "WebSocket.Builder",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "class"
+            },
+            {
+                "name": "WebSocket.Listener",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "class"
+            },
+            {
+                "name": "NORMAL_CLOSURE",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "abort",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getSubprotocol",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isInputClosed",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isOutputClosed",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "request",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "sendBinary",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "sendClose",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "sendPing",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "sendPong",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "sendText",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.net.http.WebSocket.Builder",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [],
+        "implements": [],
+        "members": [
+            {
+                "name": "buildAsync",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "connectTimeout",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "header",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "subprotocols",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.net.http.WebSocket.Listener",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [],
+        "implements": [],
+        "members": [
+            {
+                "name": "onBinary",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "onClose",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "onError",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "onOpen",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "onPing",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "onPong",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "onText",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.net.http.WebSocketHandshakeException",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.io.IOException"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "getResponse",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    }
+]

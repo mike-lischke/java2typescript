@@ -1,0 +1,1032 @@
+[
+    {
+        "name": "java.util.concurrent.locks.AbstractOwnableSynchronizer",
+        "type": "class",
+        "modifiers": [
+            "abstract"
+        ],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [
+            "java.io.Serializable"
+        ],
+        "members": [
+            {
+                "name": "getExclusiveOwnerThread",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setExclusiveOwnerThread",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.util.concurrent.locks.AbstractQueuedLongSynchronizer",
+        "type": "class",
+        "modifiers": [
+            "abstract"
+        ],
+        "extends": [
+            "java.util.concurrent.locks.AbstractOwnableSynchronizer"
+        ],
+        "implements": [
+            "java.io.Serializable"
+        ],
+        "members": [
+            {
+                "name": "AbstractQueuedLongSynchronizer.ConditionObject",
+                "modifiers": [],
+                "type": "class"
+            },
+            {
+                "name": "acquire",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "acquireInterruptibly",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "acquireShared",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "acquireSharedInterruptibly",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "compareAndSetState",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getExclusiveQueuedThreads",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getFirstQueuedThread",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getQueuedThreads",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getQueueLength",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getSharedQueuedThreads",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getState",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getWaitingThreads",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getWaitQueueLength",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "hasContended",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "hasQueuedPredecessors",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "hasQueuedThreads",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "hasWaiters",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isHeldExclusively",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isQueued",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "owns",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "release",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "releaseShared",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setState",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "toString",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "tryAcquire",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "tryAcquireNanos",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "tryAcquireShared",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "tryAcquireSharedNanos",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "tryRelease",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "tryReleaseShared",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.util.concurrent.locks.AbstractQueuedSynchronizer",
+        "type": "class",
+        "modifiers": [
+            "abstract"
+        ],
+        "extends": [
+            "java.util.concurrent.locks.AbstractOwnableSynchronizer"
+        ],
+        "implements": [
+            "java.io.Serializable"
+        ],
+        "members": [
+            {
+                "name": "AbstractQueuedSynchronizer.ConditionObject",
+                "modifiers": [],
+                "type": "class"
+            },
+            {
+                "name": "acquire",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "acquireInterruptibly",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "acquireShared",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "acquireSharedInterruptibly",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "compareAndSetState",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getExclusiveQueuedThreads",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getFirstQueuedThread",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getQueuedThreads",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getQueueLength",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getSharedQueuedThreads",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getState",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getWaitingThreads",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getWaitQueueLength",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "hasContended",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "hasQueuedPredecessors",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "hasQueuedThreads",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "hasWaiters",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isHeldExclusively",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isQueued",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "owns",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "release",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "releaseShared",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setState",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "toString",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "tryAcquire",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "tryAcquireNanos",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "tryAcquireShared",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "tryAcquireSharedNanos",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "tryRelease",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "tryReleaseShared",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.util.concurrent.locks.Condition",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [],
+        "implements": [],
+        "members": [
+            {
+                "name": "await",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "await",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "awaitNanos",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "awaitUninterruptibly",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "awaitUntil",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "signal",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "signalAll",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.util.concurrent.locks.Lock",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [],
+        "implements": [],
+        "members": [
+            {
+                "name": "lock",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "lockInterruptibly",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "newCondition",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "tryLock",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "tryLock",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "unlock",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.util.concurrent.locks.LockSupport",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "getBlocker",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "park",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "park",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "parkNanos",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "parkNanos",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "parkUntil",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "parkUntil",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "unpark",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.util.concurrent.locks.ReadWriteLock",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [],
+        "implements": [],
+        "members": [
+            {
+                "name": "readLock",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "writeLock",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.util.concurrent.locks.ReentrantLock",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [
+            "java.util.concurrent.locks.Lock",
+            "java.io.Serializable"
+        ],
+        "members": [
+            {
+                "name": "getHoldCount",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getOwner",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getQueuedThreads",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getQueueLength",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getWaitingThreads",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getWaitQueueLength",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "hasQueuedThread",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "hasQueuedThreads",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "hasWaiters",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isFair",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isHeldByCurrentThread",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isLocked",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "lock",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "lockInterruptibly",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "newCondition",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "toString",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "tryLock",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "tryLock",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "unlock",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.util.concurrent.locks.ReentrantReadWriteLock",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [
+            "java.util.concurrent.locks.ReadWriteLock",
+            "java.io.Serializable"
+        ],
+        "members": [
+            {
+                "name": "ReentrantReadWriteLock.ReadLock",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "class"
+            },
+            {
+                "name": "ReentrantReadWriteLock.WriteLock",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "class"
+            },
+            {
+                "name": "getOwner",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getQueuedReaderThreads",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getQueuedThreads",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getQueuedWriterThreads",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getQueueLength",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getReadHoldCount",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getReadLockCount",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getWaitingThreads",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getWaitQueueLength",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getWriteHoldCount",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "hasQueuedThread",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "hasQueuedThreads",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "hasWaiters",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isFair",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isWriteLocked",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isWriteLockedByCurrentThread",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "toString",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.util.concurrent.locks.ReentrantReadWriteLock.ReadLock",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [
+            "java.util.concurrent.locks.Lock",
+            "java.io.Serializable"
+        ],
+        "members": [
+            {
+                "name": "lock",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "lockInterruptibly",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "newCondition",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "toString",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "tryLock",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "tryLock",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "unlock",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.util.concurrent.locks.ReentrantReadWriteLock.WriteLock",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [
+            "java.util.concurrent.locks.Lock",
+            "java.io.Serializable"
+        ],
+        "members": [
+            {
+                "name": "getHoldCount",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isHeldByCurrentThread",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "lock",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "lockInterruptibly",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "newCondition",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "toString",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "tryLock",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "tryLock",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "unlock",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.util.concurrent.locks.StampedLock",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [
+            "java.io.Serializable"
+        ],
+        "members": [
+            {
+                "name": "asReadLock",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "asReadWriteLock",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "asWriteLock",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getReadLockCount",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isLockStamp",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "isOptimisticReadStamp",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "isReadLocked",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isReadLockStamp",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "isWriteLocked",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isWriteLockStamp",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "readLock",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "readLockInterruptibly",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "toString",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "tryConvertToOptimisticRead",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "tryConvertToReadLock",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "tryConvertToWriteLock",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "tryOptimisticRead",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "tryReadLock",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "tryReadLock",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "tryUnlockRead",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "tryUnlockWrite",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "tryWriteLock",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "tryWriteLock",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "unlock",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "unlockRead",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "unlockWrite",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "validate",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "writeLock",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "writeLockInterruptibly",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    }
+]

@@ -1,0 +1,175 @@
+[
+    {
+        "name": "java.nio.file.spi.FileSystemProvider",
+        "type": "class",
+        "modifiers": [
+            "abstract"
+        ],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "checkAccess",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "copy",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "createDirectory",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "createLink",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "createSymbolicLink",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "delete",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "deleteIfExists",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getFileAttributeView",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getFileStore",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getFileSystem",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getPath",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getScheme",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "installedProviders",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "isHidden",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isSameFile",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "move",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "newAsynchronousFileChannel",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "newByteChannel",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "newDirectoryStream",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "newFileChannel",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "newFileSystem",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "newFileSystem",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "newInputStream",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "newOutputStream",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "readAttributes",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "readAttributes",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "readSymbolicLink",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setAttribute",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.nio.file.spi.FileTypeDetector",
+        "type": "class",
+        "modifiers": [
+            "abstract"
+        ],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "probeContentType",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    }
+]

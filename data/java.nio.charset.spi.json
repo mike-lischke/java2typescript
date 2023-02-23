@@ -1,0 +1,25 @@
+[
+    {
+        "name": "java.nio.charset.spi.CharsetProvider",
+        "type": "class",
+        "modifiers": [
+            "abstract"
+        ],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "charsetForName",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "charsets",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    }
+]

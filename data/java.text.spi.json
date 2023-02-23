@@ -1,0 +1,150 @@
+[
+    {
+        "name": "java.text.spi.BreakIteratorProvider",
+        "type": "class",
+        "modifiers": [
+            "abstract"
+        ],
+        "extends": [
+            "java.util.spi.LocaleServiceProvider"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "getCharacterInstance",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getLineInstance",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getSentenceInstance",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getWordInstance",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.text.spi.CollatorProvider",
+        "type": "class",
+        "modifiers": [
+            "abstract"
+        ],
+        "extends": [
+            "java.util.spi.LocaleServiceProvider"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "getInstance",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.text.spi.DateFormatProvider",
+        "type": "class",
+        "modifiers": [
+            "abstract"
+        ],
+        "extends": [
+            "java.util.spi.LocaleServiceProvider"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "getDateInstance",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getDateTimeInstance",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getTimeInstance",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.text.spi.DateFormatSymbolsProvider",
+        "type": "class",
+        "modifiers": [
+            "abstract"
+        ],
+        "extends": [
+            "java.util.spi.LocaleServiceProvider"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "getInstance",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.text.spi.DecimalFormatSymbolsProvider",
+        "type": "class",
+        "modifiers": [
+            "abstract"
+        ],
+        "extends": [
+            "java.util.spi.LocaleServiceProvider"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "getInstance",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.text.spi.NumberFormatProvider",
+        "type": "class",
+        "modifiers": [
+            "abstract"
+        ],
+        "extends": [
+            "java.util.spi.LocaleServiceProvider"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "getCurrencyInstance",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getIntegerInstance",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getNumberInstance",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getPercentInstance",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    }
+]

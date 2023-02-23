@@ -1,0 +1,796 @@
+[
+    {
+        "name": "java.math.BigDecimal",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Number"
+        ],
+        "implements": [
+            "java.lang.Comparable"
+        ],
+        "members": [
+            {
+                "name": "ONE",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "ROUND_CEILING",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "ROUND_DOWN",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "ROUND_FLOOR",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "ROUND_HALF_DOWN",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "ROUND_HALF_EVEN",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "ROUND_HALF_UP",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "ROUND_UNNECESSARY",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "ROUND_UP",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "TEN",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "ZERO",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "abs",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "abs",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "add",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "add",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "byteValueExact",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "compareTo",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "divide",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "divide",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "divide",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "divide",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "divide",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "divide",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "divideAndRemainder",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "divideAndRemainder",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "divideToIntegralValue",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "divideToIntegralValue",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "doubleValue",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "equals",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "floatValue",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "hashCode",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "intValue",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "intValueExact",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "longValue",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "longValueExact",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "max",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "min",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "movePointLeft",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "movePointRight",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "multiply",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "multiply",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "negate",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "negate",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "plus",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "plus",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "pow",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "pow",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "precision",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "remainder",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "remainder",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "round",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "scale",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "scaleByPowerOfTen",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setScale",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setScale",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setScale",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "shortValueExact",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "signum",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "sqrt",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "stripTrailingZeros",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "subtract",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "subtract",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "toBigInteger",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "toBigIntegerExact",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "toEngineeringString",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "toPlainString",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "toString",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "ulp",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "unscaledValue",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "valueOf",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "valueOf",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "valueOf",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.math.BigInteger",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Number"
+        ],
+        "implements": [
+            "java.lang.Comparable"
+        ],
+        "members": [
+            {
+                "name": "ONE",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "TEN",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "TWO",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "ZERO",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "abs",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "add",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "and",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "andNot",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "bitCount",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "bitLength",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "byteValueExact",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "clearBit",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "compareTo",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "divide",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "divideAndRemainder",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "doubleValue",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "equals",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "flipBit",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "floatValue",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "gcd",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getLowestSetBit",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "hashCode",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "intValue",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "intValueExact",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isProbablePrime",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "longValue",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "longValueExact",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "max",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "min",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "mod",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "modInverse",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "modPow",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "multiply",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "negate",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "nextProbablePrime",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "not",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "or",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "pow",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "probablePrime",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "remainder",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setBit",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "shiftLeft",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "shiftRight",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "shortValueExact",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "signum",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "sqrt",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "sqrtAndRemainder",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "subtract",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "testBit",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "toByteArray",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "toString",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "toString",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "valueOf",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "xor",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.math.MathContext",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [
+            "java.io.Serializable"
+        ],
+        "members": [
+            {
+                "name": "DECIMAL128",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "DECIMAL32",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "DECIMAL64",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "UNLIMITED",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "equals",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getPrecision",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getRoundingMode",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "hashCode",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "toString",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.math.RoundingMode",
+        "type": "enum",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Enum"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "valueOf",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "valueOf",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "values",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            }
+        ]
+    }
+]

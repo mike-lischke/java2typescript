@@ -5,12 +5,11 @@
 - [Introduction](#introduction)
 - [Generics and Type Wildcards](#generics-and-type-wildcards)
 - [Interfaces](#interfaces)
-- [Abstract Intermediate Classes](#abstract-intermediate-classes)
 - [Modifiers and Access Levels](#modifiers-and-access-levels)
 - [Enumerations](#enumerations)
 - [Iterators](#iterators)
 - [Methods, Rest Parameters and Overloading](#methods-rest-parameters-and-overloading)
-- [Implicit Nullability, the `null`, and Undefined Values](#implicit-nullability-the-null-and-undefined-values)
+- [Implicit Nullability, the `null`, and undefined values](#implicit-nullability-the-null-and-undefined-values)
 - [Arrays](#arrays)
 - [Numbers](#numbers)
 - [Char and String](#char-and-string)
@@ -19,17 +18,12 @@
 - [Initialisers](#initialisers)
 - [Containers and Equality](#containers-and-equality)
 - [Buffers](#buffers)
-- [Nested Types](#nested-types)
-  - [Static Nested Types](#static-nested-types)
-  - [Inner Types](#inner-types)
-  - [Local Classes](#local-classes)
-  - [Anonymous Classes](#anonymous-classes)
+- [Nested Classes and Interfaces](#nested-classes-and-interfaces)
 - [Constructors](#constructors)
   - [Explicit Constructor Invocation](#explicit-constructor-invocation)
 - [Exception Handling and Try-with-resources](#exception-handling-and-try-with-resources)
 - [Reflection](#reflection)
 - [System Properties](#system-properties)
-- [Others](#other)
 - [Unsupported Features](#unsupported-features)
   - [Annotations](#annotations)
   - [Serialisation and Deserialisation](#serialisation-and-deserialisation)
@@ -52,42 +46,11 @@ Generic semantics in Java and TS are pretty much the same, with the exception of
 - `compare<U extends T>`: an upper bounded type parameter, supported exactly like that in TS.
 - `compared<? extends T>`: an upper bounded type parameter with a wildcard, this corresponds to the first scenario in TS.
 - `compare<? super T>`: a lower bounded type parameter with a wildcard, a concept not supported by TS (see also [this discussion](https://github.com/Microsoft/TypeScript/issues/14520)). Such an expression is converted to just `compare<T>`, which is not entirely correct and must be handled manually if required.
-- `const s: Set<?> = ...`: a wildcard capture,  which is converted to `const s: Set<unknown>`.
+- `const s: Set<?> = ...`: a wildcard capture,  which is converted to `const s: Set<unknown>`. The explicit type can be removed manually, if such a variable is initialized in the definition (its type is then automatically inferred).
 
 ## <a name="interfaces">Interfaces</a>
 
-Java interfaces are more than interfaces in the original sense (API contracts), as they can have actual code, much like classes. As this is not supported in Typescript different paths are taken in the conversion process. Java interfaces without methods that have a body and non-static initialized fields are converted directly to their TS interface equivalent. Otherwise they are implemented as abstract classes, which is an acceptable workaround, especially, as TS interfaces can extend TS classes.
-
-Static initialized fields are moved to a sidecar namespace, similar to what is done for nested types. This bears a problem, however, because such fields can be inherited in Java, while in Typescript they can not. If that's needed and the interface should be kept, then another static field in the "derived namespace" must be added with the same name and value, manually.
-
-A sideshow of the different interface implementation is the possibility to overload interface methods in a class, which also violates the idea of interfaces, as this allows to implement a method differently than what the interface dictates. In Typescript this produces an error, which must be solved manually, by excluding the "overloaded" interface method from the implemented interface. For example:
-
-```typescript
-class Test implements Omit<java.lang.Collection<number>, "add"> {
-    public add(n: number, doSomething: boolean) {
-        ...
-    }
-}
-```
-
-The class `Test` implements the `add` method in a way, which does not conform to the interface `java.lang.Collection`. Totally legal in Java, but needs the `Omit` type trait in Typescript. With this change the `Test` class cannot be used when a `java.lang.Collection` is accepted, as it violates that interface.
-
-## <a name="abstract-classes">Abstract Intermediate Classes</a>
-
-Java often uses abstract intermediate classes (e.g. `java.util.AbstractList`). Such intermediate classes are rarely modelled in the JREE and concrete classes usually derive directly from their non-abstract ancestors, avoiding so large derivation chains and unnecessary work. For example the chain
-
-`java.lang.Object`
-    -> `java.util.AbstractCollection<E>`
-        -> `java.util.AbstractList<E>`
-            -> `java.util.AbstractSequentialList<E>`
-                -> `java.util.LinkedList<E>`
-
-is currently modelled as
-
-`java.lang.Object`
-    -> `java.util.LinkedList<E>`
-
-but this may be changed later, if the need arises.
+Java interfaces are more than interfaces in the original sense (API contracts), as they can have actual code, much like classes. As this is not supported in Typescript different paths are taken in the conversion process. Java interfaces without methods and initialized fields are converted directly to their TS interface equivalent. Otherwise they are implemented as abstract classes, which is an acceptable workaround. Especially, as TS interfaces can extend TS classes.
 
 ## <a name="modifiers">Modifiers and Access Levels</a>
 
@@ -126,11 +89,7 @@ The conversion to TS method overloading (with their overloading signatures and t
 
 Rest parameters are supported but need manual resolution in overloading scenarios, because the implementation signature becomes just a single rest parameter (which can represent any of the overload parameters).
 
-## <a name="lambdas">Lambdas</a>
-
-Lambdas are fully supported.
-
-## <a name="nullability">Implicit Nullability, the `null`, and Undefined Values</a>
+## <a name="nullability">Implicit Nullability, the `null`, and undefined values</a>
 
 All parameters, fields and variables with an object type can be `null`, without explicit notation. This must not be confused with an undefined value. Just like in TS `null` is a (special) value and accepting it as method parameter does not mean this value can be undefined, at least when strictly comparing values. In Java, especially in method overloading scenarios, `null` and `undefined` can have a different meaning. Example:
 
@@ -207,8 +166,8 @@ console.log("abc" + s);
 which prints `abcdef`. Or for numbers:
 
 ```typescript
-const i1 = I`567`; // Using a string literal (i1 is of type java.lang.Integer).
-const i2 = I`${890}`; // Using a number literal (i1 is of type java.lang.Integer).
+const i1 = I`567`; // Using a string literal.
+const i2 = I`${890}`; // Using a number literal.
 console.log(1 + i1 + i2);
 ```
 
@@ -243,48 +202,13 @@ Primitive types, on the other hand, are always compared by value (both in Java a
 
 Buffers (like `lang.nio.CharBuffer` or `lang.nio.IntBuffer`) are implemented as specified in Java. However, there's no support for direct and indirect buffers. All buffers use `ArrayBuffer` as underlying storage structure, plus typed arrays (and `DataView` for byte buffers) as interface between the app and the back buffer.
 
-## <a name="nested-types">Nested Types</a>
+## <a name="classes">Nested Classes and Interfaces</a>
 
-Classes, interfaces, enums and annotations can be nested, that is, defined within the scope of another class, interface or enum. The tool implements such [nested types](https://docs.oracle.com/javase/tutorial/java/javaOO/nested.html) in two different ways, depending on whether they are static (aka. static nested types) or non-static (aka. inner types).
+Nested classes and types are converted to local classes in Typescript by using either a class expression (for static nested classes) or class factory methods (for non-static nested classes). This concept allows non-static inner classes to access all members of the outer class (including private ones) and supports inheritance between local classes (and external use anyhow).
 
-Declaration merging is used to define an instance type for such members (to allow using them as type in expressions), by adding a namespace with the same name as the outer type and exporting that [InstanceType](https://www.typescriptlang.org/docs/handbook/utility-types.html#instancetypetype) from there. This works also recursively, by using sub declaration merging of types within a namespace. Interfaces don't need a class expression and are just exported as itself from the additional namespace.
+To allow use of such local classes as a type, a namespace declaration is automatically added at the end of the generated file.
 
-> Note: exporting an instance type in the sidecar namespace requires that its constructor is public.
-
-### <a name="static-nested-types">Static Nested Types</a>
-
-Static nested types are implemented as class expressions (classes and enums). Enums, interfaces and annotations are implicitly static.
-
-### <a name="inner-types">Inner Types</a>
-
-Inner types on the other hand are converted to class factory functions (a function that returns a class expression), which when instantiated gets access to the owning class (which must exist to actually instantiate the inner class), including private members. Only classes can be inner types.
-
-To use such classes as types you have to wrap them like this:
-
-```typescript
-const instance: InstanceType<typeof OuterClass.InnerClass>;
-```
-
-When using them as values you can write:
-
-```typescript
-const outer = new OuterClass();
-const inner = new outer.InnerClass();
-```
-
-> Note: also for inner types the same rules for access modifiers apply. Package private access (which is converted to protected access) works in Java, but not in Typescript and you have to make such elements public to allow access to them from the outer class.
-
-The other direction (access to fields in the outer type from within the inner class) is fully supported by using a special construct, which even works for private members of the outer type. The factory function gets the outer type reference (`this`) passed in as parameter `$outer`, which in turn can be used to access all fields of the outer class.
-
-> Note: currently [member shadowing](https://docs.oracle.com/javase/tutorial/java/javaOO/nested.html#shadowing) is not supported, nor is access via `OuterClass.this.member` (which is required to access shadowed values) implemented. This might be added at a later stage.
-
-### <a name="local-classes">Local Classes</a>
-
-Local classes (which behave much like inner classes) are currently not properly handled.
-
-### <a name="anonymous-classes">Anonymous Classes</a>
-
-The concept of declaring and creating a class in-place is also supported by Typescript and uses class expressions for the implementation.
+> Note: in opposition to Java it is not possible for the outer class to access non-public members of nested classes. You have to convert all members that are required outside of the nested class to be publicly accessible. This shouldn't cause any trouble if the nested class itself is defined as non-public.
 
 ## <a name="constructors">Constructors</a>
 
@@ -352,13 +276,7 @@ This all won't help much, so it's probably most of the time necessary to manuall
 
 System properties are supported just like in Java, and get their initial values from the current environment (either `navigator` or `os` and `process` Node JS modules). JVM, Java and JRE specific entries (see [java keys](https://docs.oracle.com/javase/7/docs/api/java/lang/System.html#getProperties()) are filled with arbitrary values, e.g. matching the supported Java version of the java2ts tool. Applications using such properties in generated code should replace the default values with something that matches the expected values.
 
-## <a name="others">Others</a>
-
-Anything else which deserves a note is listed here:
-
 ## <a name="unsupported">Unsupported Features</a>
-
-There are a number of Java features, which will probably never be implemented in converted code, as there's no equivalent for them.
 
 ### <a name="Annotations">Annotations</a>
 
@@ -419,4 +337,4 @@ const importResolver = (packageId: string): PackageSource[] => {
 
 In this example the resolver creates empty sources for each known JRE package (which could not be resolved otherwise). An empty source has an empty symbol table and can hence not resolve symbols. So they serve rather as placeholders. If a package cannot be resolved `java2typescript` implicitly creates an empty source (and logs that in the console).
 
-Normally you would, however, not create an empty source, but one that can deal with symbols and return fully qualified names. For an example how to do that check the `JavaPackageSource.ts` file, which manually creates a symbol table for all supported Java types, and holds the target path to the TS implementations (JREE) for path resolution.
+Normally you would, however, not create an empty source, but one that can deal with symbols and return fully qualified names. For an example how to do that check the `JavaPackageSource.ts` file, which manually creates a symbol table for all supported Java types, and holds the target path to the TS implementations (shims) for path resolution.

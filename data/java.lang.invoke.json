@@ -1,0 +1,1590 @@
+[
+    {
+        "name": "java.lang.invoke.CallSite",
+        "type": "class",
+        "modifiers": [
+            "abstract"
+        ],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "dynamicInvoker",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getTarget",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setTarget",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "type",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.lang.invoke.ConstantBootstraps",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "arrayVarHandle",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "enumConstant",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "fieldVarHandle",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "getStaticFinal",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "getStaticFinal",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "invoke",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "nullConstant",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "primitiveClass",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "staticFieldVarHandle",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.lang.invoke.ConstantCallSite",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.invoke.CallSite"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "dynamicInvoker",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getTarget",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setTarget",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.lang.invoke.LambdaConversionException",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Exception"
+        ],
+        "implements": [],
+        "members": []
+    },
+    {
+        "name": "java.lang.invoke.LambdaMetafactory",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "FLAG_BRIDGES",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "FLAG_MARKERS",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "FLAG_SERIALIZABLE",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "altMetafactory",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "metafactory",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.lang.invoke.MethodHandle",
+        "type": "class",
+        "modifiers": [
+            "abstract"
+        ],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "asCollector",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "asCollector",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "asFixedArity",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "asSpreader",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "asSpreader",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "asType",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "asVarargsCollector",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "bindTo",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "invoke",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "invokeExact",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "invokeWithArguments",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "invokeWithArguments",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isVarargsCollector",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "toString",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "type",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "withVarargs",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.lang.invoke.MethodHandleInfo",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [],
+        "implements": [],
+        "members": [
+            {
+                "name": "REF_getField",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "REF_getStatic",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "REF_invokeInterface",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "REF_invokeSpecial",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "REF_invokeStatic",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "REF_invokeVirtual",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "REF_newInvokeSpecial",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "REF_putField",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "REF_putStatic",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "getDeclaringClass",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getMethodType",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getModifiers",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getName",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getReferenceKind",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isVarArgs",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "referenceKindToString",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "reflectAs",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "toString",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.lang.invoke.MethodHandleProxies",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "asInterfaceInstance",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "isWrapperInstance",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "wrapperInstanceTarget",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "wrapperInstanceType",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.lang.invoke.MethodHandles",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "MethodHandles.Lookup",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "class"
+            },
+            {
+                "name": "arrayConstructor",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "arrayElementGetter",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "arrayElementSetter",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "arrayElementVarHandle",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "arrayLength",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "byteArrayViewVarHandle",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "byteBufferViewVarHandle",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "catchException",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "collectArguments",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "constant",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "countedLoop",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "countedLoop",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "doWhileLoop",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "dropArguments",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "dropArguments",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "dropArgumentsToMatch",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "empty",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "exactInvoker",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "explicitCastArguments",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "filterArguments",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "filterReturnValue",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "foldArguments",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "foldArguments",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "guardWithTest",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "identity",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "insertArguments",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "invoker",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "iteratedLoop",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "lookup",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "loop",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "permuteArguments",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "privateLookupIn",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "publicLookup",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "reflectAs",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "spreadInvoker",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "throwException",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "tryFinally",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "varHandleExactInvoker",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "varHandleInvoker",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "whileLoop",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "zero",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.lang.invoke.MethodHandles.Lookup",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "MODULE",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "PACKAGE",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "PRIVATE",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "PROTECTED",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "PUBLIC",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "UNCONDITIONAL",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "accessClass",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "bind",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "defineClass",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "dropLookupMode",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "findClass",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "findConstructor",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "findGetter",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "findSetter",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "findSpecial",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "findStatic",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "findStaticGetter",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "findStaticSetter",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "findStaticVarHandle",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "findVarHandle",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "findVirtual",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "hasPrivateAccess",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "in",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "lookupClass",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "lookupModes",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "revealDirect",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "toString",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "unreflect",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "unreflectConstructor",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "unreflectGetter",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "unreflectSetter",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "unreflectSpecial",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "unreflectVarHandle",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.lang.invoke.MethodType",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [
+            "java.io.Serializable"
+        ],
+        "members": [
+            {
+                "name": "appendParameterTypes",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "appendParameterTypes",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "changeParameterType",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "changeReturnType",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "dropParameterTypes",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "equals",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "erase",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "fromMethodDescriptorString",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "generic",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "genericMethodType",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "genericMethodType",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "hashCode",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "hasPrimitives",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "hasWrappers",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "insertParameterTypes",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "insertParameterTypes",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "lastParameterType",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "methodType",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "methodType",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "methodType",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "methodType",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "methodType",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "methodType",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "parameterArray",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "parameterCount",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "parameterList",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "parameterType",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "returnType",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "toMethodDescriptorString",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "toString",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "unwrap",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "wrap",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.lang.invoke.MutableCallSite",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.invoke.CallSite"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "getTarget",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setTarget",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "syncAll",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.lang.invoke.SerializedLambda",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [
+            "java.io.Serializable"
+        ],
+        "members": [
+            {
+                "name": "getCapturedArg",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getCapturedArgCount",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getCapturingClass",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getFunctionalInterfaceClass",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getFunctionalInterfaceMethodName",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getFunctionalInterfaceMethodSignature",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getImplClass",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getImplMethodKind",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getImplMethodName",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getImplMethodSignature",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getInstantiatedMethodType",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.lang.invoke.StringConcatException",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Exception"
+        ],
+        "implements": [],
+        "members": []
+    },
+    {
+        "name": "java.lang.invoke.StringConcatFactory",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "makeConcat",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "makeConcatWithConstants",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.lang.invoke.SwitchPoint",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "guardWithTest",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "hasBeenInvalidated",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "invalidateAll",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.lang.invoke.VarHandle",
+        "type": "class",
+        "modifiers": [
+            "abstract"
+        ],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "VarHandle.AccessMode",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "class"
+            },
+            {
+                "name": "accessModeType",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "acquireFence",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "compareAndExchange",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "compareAndExchangeAcquire",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "compareAndExchangeRelease",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "compareAndSet",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "coordinateTypes",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "fullFence",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "get",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getAcquire",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getAndAdd",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getAndAddAcquire",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getAndAddRelease",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getAndBitwiseAnd",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getAndBitwiseAndAcquire",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getAndBitwiseAndRelease",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getAndBitwiseOr",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getAndBitwiseOrAcquire",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getAndBitwiseOrRelease",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getAndBitwiseXor",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getAndBitwiseXorAcquire",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getAndBitwiseXorRelease",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getAndSet",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getAndSetAcquire",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getAndSetRelease",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getOpaque",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getVolatile",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isAccessModeSupported",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "loadLoadFence",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "releaseFence",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "set",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setOpaque",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setRelease",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setVolatile",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "storeStoreFence",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "toMethodHandle",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "varType",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "weakCompareAndSet",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "weakCompareAndSetAcquire",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "weakCompareAndSetPlain",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "weakCompareAndSetRelease",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.lang.invoke.VarHandle.AccessMode",
+        "type": "enum",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Enum"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "methodName",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "valueFromMethodName",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "valueOf",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "values",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.lang.invoke.VolatileCallSite",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.invoke.CallSite"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "getTarget",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "setTarget",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.lang.invoke.WrongMethodTypeException",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.RuntimeException"
+        ],
+        "implements": [],
+        "members": []
+    }
+]

@@ -56,12 +56,12 @@ const convertAntlr4Runtime = async () => {
     const antlrToolOptions: IConverterConfiguration = {
         packageRoot: path.resolve(process.cwd(), "../antlr4/runtime/Java/src"),
         include: [
-            "/ParseTreePatternMatcher.java",
+            "/CharStreams.java",
         ],
         exclude: [
             "AbstractEqualityComparator.java",
             "NotNull.java",
-            //"misc/TestRig.java",
+            "misc/TestRig.java",
             "MurmurHash.java",
         ],
         output: "../a4tstool/runtime",
@@ -88,7 +88,6 @@ const convertAntlr4Runtime = async () => {
             preferArrowFunctions: true,
             autoAddBraces: true,
             addIndexFiles: true,
-            suppressTSErrorsForECI: true,
         },
         sourceReplace: new Map([
             [/\n\s+\* {@inheritDoc}/g, ""],
@@ -97,14 +96,14 @@ const convertAntlr4Runtime = async () => {
             [/{@code true}/g, "`true`"],
         ]),
 
-        debug: {
+        /*debug: {
             pathForPosition: {
                 position: {
-                    row: 378,
-                    column: 17,
+                    row: 63,
+                    column: 8,
                 },
             },
-        },
+        },*/
 
     };
 
@@ -112,8 +111,4 @@ const convertAntlr4Runtime = async () => {
     await converter.startConversion();
 };
 
-(async () => {
-    await convertAntlr4Runtime();
-})().catch((e: Error) => {
-    console.error("\nError during conversion: " + (e.stack ?? ""));
-});
+await convertAntlr4Runtime();

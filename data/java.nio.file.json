@@ -1,0 +1,1652 @@
+[
+    {
+        "name": "java.nio.file.AccessDeniedException",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.nio.file.FileSystemException"
+        ],
+        "implements": [],
+        "members": []
+    },
+    {
+        "name": "java.nio.file.AccessMode",
+        "type": "enum",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Enum"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "valueOf",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "values",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.nio.file.AtomicMoveNotSupportedException",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.nio.file.FileSystemException"
+        ],
+        "implements": [],
+        "members": []
+    },
+    {
+        "name": "java.nio.file.ClosedDirectoryStreamException",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.IllegalStateException"
+        ],
+        "implements": [],
+        "members": []
+    },
+    {
+        "name": "java.nio.file.ClosedFileSystemException",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.IllegalStateException"
+        ],
+        "implements": [],
+        "members": []
+    },
+    {
+        "name": "java.nio.file.ClosedWatchServiceException",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.IllegalStateException"
+        ],
+        "implements": [],
+        "members": []
+    },
+    {
+        "name": "java.nio.file.CopyOption",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [],
+        "implements": [],
+        "members": []
+    },
+    {
+        "name": "java.nio.file.DirectoryIteratorException",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.util.ConcurrentModificationException"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "getCause",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.nio.file.DirectoryNotEmptyException",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.nio.file.FileSystemException"
+        ],
+        "implements": [],
+        "members": []
+    },
+    {
+        "name": "java.nio.file.DirectoryStream",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [
+            "java.io.Closeable",
+            "java.lang.Iterable"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "DirectoryStream.Filter",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "class"
+            },
+            {
+                "name": "iterator",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.nio.file.DirectoryStream.Filter",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "accept",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.nio.file.FileAlreadyExistsException",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.nio.file.FileSystemException"
+        ],
+        "implements": [],
+        "members": []
+    },
+    {
+        "name": "java.nio.file.Files",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "copy",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "copy",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "copy",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "createDirectories",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "createDirectory",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "createFile",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "createLink",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "createSymbolicLink",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "createTempDirectory",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "createTempDirectory",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "createTempFile",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "createTempFile",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "delete",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "deleteIfExists",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "exists",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "find",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "getAttribute",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "getFileAttributeView",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "getFileStore",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "getLastModifiedTime",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "getOwner",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "getPosixFilePermissions",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "isDirectory",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "isExecutable",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "isHidden",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "isReadable",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "isRegularFile",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "isSameFile",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "isSymbolicLink",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "isWritable",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "lines",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "lines",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "list",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "move",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "newBufferedReader",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "newBufferedReader",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "newBufferedWriter",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "newBufferedWriter",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "newByteChannel",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "newByteChannel",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "newDirectoryStream",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "newDirectoryStream",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "newDirectoryStream",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "newInputStream",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "newOutputStream",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "notExists",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "probeContentType",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "readAllBytes",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "readAllLines",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "readAllLines",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "readAttributes",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "readAttributes",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "readString",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "readString",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "readSymbolicLink",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "setAttribute",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "setLastModifiedTime",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "setOwner",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "setPosixFilePermissions",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "size",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "walk",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "walk",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "walkFileTree",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "walkFileTree",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "write",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "write",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "write",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "writeString",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "writeString",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.nio.file.FileStore",
+        "type": "class",
+        "modifiers": [
+            "abstract"
+        ],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "getAttribute",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getBlockSize",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getFileStoreAttributeView",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getTotalSpace",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getUnallocatedSpace",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getUsableSpace",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isReadOnly",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "name",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "supportsFileAttributeView",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "supportsFileAttributeView",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "type",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.nio.file.FileSystem",
+        "type": "class",
+        "modifiers": [
+            "abstract"
+        ],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [
+            "java.io.Closeable"
+        ],
+        "members": [
+            {
+                "name": "close",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getFileStores",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getPath",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getPathMatcher",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getRootDirectories",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getSeparator",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getUserPrincipalLookupService",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isOpen",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isReadOnly",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "newWatchService",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "provider",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "supportedFileAttributeViews",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.nio.file.FileSystemAlreadyExistsException",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.RuntimeException"
+        ],
+        "implements": [],
+        "members": []
+    },
+    {
+        "name": "java.nio.file.FileSystemException",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.io.IOException"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "getFile",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getMessage",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getOtherFile",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getReason",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.nio.file.FileSystemLoopException",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.nio.file.FileSystemException"
+        ],
+        "implements": [],
+        "members": []
+    },
+    {
+        "name": "java.nio.file.FileSystemNotFoundException",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.RuntimeException"
+        ],
+        "implements": [],
+        "members": []
+    },
+    {
+        "name": "java.nio.file.FileSystems",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "getDefault",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "getFileSystem",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "newFileSystem",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "newFileSystem",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "newFileSystem",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.nio.file.FileVisitOption",
+        "type": "enum",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Enum"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "valueOf",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "values",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.nio.file.FileVisitor",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [],
+        "implements": [],
+        "members": [
+            {
+                "name": "postVisitDirectory",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "preVisitDirectory",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "visitFile",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "visitFileFailed",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.nio.file.FileVisitResult",
+        "type": "enum",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Enum"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "valueOf",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "values",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.nio.file.InvalidPathException",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.IllegalArgumentException"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "getIndex",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getInput",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getMessage",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getReason",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.nio.file.LinkOption",
+        "type": "enum",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Enum"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "valueOf",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "values",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.nio.file.LinkPermission",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.security.BasicPermission"
+        ],
+        "implements": [],
+        "members": []
+    },
+    {
+        "name": "java.nio.file.NoSuchFileException",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.nio.file.FileSystemException"
+        ],
+        "implements": [],
+        "members": []
+    },
+    {
+        "name": "java.nio.file.NotDirectoryException",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.nio.file.FileSystemException"
+        ],
+        "implements": [],
+        "members": []
+    },
+    {
+        "name": "java.nio.file.NotLinkException",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.nio.file.FileSystemException"
+        ],
+        "implements": [],
+        "members": []
+    },
+    {
+        "name": "java.nio.file.OpenOption",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [],
+        "implements": [],
+        "members": []
+    },
+    {
+        "name": "java.nio.file.Path",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Comparable"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "compareTo",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "endsWith",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "endsWith",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "equals",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getFileName",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getFileSystem",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getName",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getNameCount",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getParent",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getRoot",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "hashCode",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isAbsolute",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "iterator",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "normalize",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "of",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "of",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "register",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "register",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "relativize",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "resolve",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "resolve",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "resolveSibling",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "resolveSibling",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "startsWith",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "startsWith",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "subpath",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "toAbsolutePath",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "toFile",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "toRealPath",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "toString",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "toUri",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.nio.file.PathMatcher",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "matches",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.nio.file.Paths",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "get",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "get",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.nio.file.ProviderMismatchException",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.IllegalArgumentException"
+        ],
+        "implements": [],
+        "members": []
+    },
+    {
+        "name": "java.nio.file.ProviderNotFoundException",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.RuntimeException"
+        ],
+        "implements": [],
+        "members": []
+    },
+    {
+        "name": "java.nio.file.ReadOnlyFileSystemException",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.UnsupportedOperationException"
+        ],
+        "implements": [],
+        "members": []
+    },
+    {
+        "name": "java.nio.file.SecureDirectoryStream",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [
+            "java.nio.file.DirectoryStream"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "deleteDirectory",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "deleteFile",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getFileAttributeView",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "getFileAttributeView",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "move",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "newByteChannel",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "newDirectoryStream",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.nio.file.SimpleFileVisitor",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [
+            "java.nio.file.FileVisitor"
+        ],
+        "members": [
+            {
+                "name": "postVisitDirectory",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "preVisitDirectory",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "visitFile",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "visitFileFailed",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.nio.file.StandardCopyOption",
+        "type": "enum",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Enum"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "valueOf",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "values",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.nio.file.StandardOpenOption",
+        "type": "enum",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Enum"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "valueOf",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            },
+            {
+                "name": "values",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.nio.file.StandardWatchEventKinds",
+        "type": "class",
+        "modifiers": [],
+        "extends": [
+            "java.lang.Object"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "ENTRY_CREATE",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "ENTRY_DELETE",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "ENTRY_MODIFY",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            },
+            {
+                "name": "OVERFLOW",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "field"
+            }
+        ]
+    },
+    {
+        "name": "java.nio.file.Watchable",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [],
+        "implements": [],
+        "members": [
+            {
+                "name": "register",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "register",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.nio.file.WatchEvent",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [],
+        "implements": [],
+        "members": [
+            {
+                "name": "WatchEvent.Kind",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "class"
+            },
+            {
+                "name": "WatchEvent.Modifier",
+                "modifiers": [
+                    "static"
+                ],
+                "type": "class"
+            },
+            {
+                "name": "context",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "count",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "kind",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.nio.file.WatchEvent.Kind",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [],
+        "implements": [],
+        "members": [
+            {
+                "name": "name",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "type",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.nio.file.WatchEvent.Modifier",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [],
+        "implements": [],
+        "members": [
+            {
+                "name": "name",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.nio.file.WatchKey",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [],
+        "implements": [],
+        "members": [
+            {
+                "name": "cancel",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "isValid",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "pollEvents",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "reset",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "watchable",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    },
+    {
+        "name": "java.nio.file.WatchService",
+        "type": "interface",
+        "modifiers": [],
+        "extends": [
+            "java.io.Closeable"
+        ],
+        "implements": [],
+        "members": [
+            {
+                "name": "close",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "poll",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "poll",
+                "modifiers": [],
+                "type": "method"
+            },
+            {
+                "name": "take",
+                "modifiers": [],
+                "type": "method"
+            }
+        ]
+    }
+]
