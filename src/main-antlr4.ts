@@ -56,7 +56,7 @@ const convertAntlr4Runtime = async () => {
     const antlrToolOptions: IConverterConfiguration = {
         packageRoot: path.resolve(process.cwd(), "../antlr4/runtime/Java/src"),
         include: [
-            "/CharStreams.java",
+            "/UnbufferedTokenStream.java",
         ],
         exclude: [
             "AbstractEqualityComparator.java",
@@ -96,14 +96,15 @@ const convertAntlr4Runtime = async () => {
             [/{@code true}/g, "`true`"],
         ]),
 
-        /*debug: {
+        debug: {
             pathForPosition: {
+                filePattern: "TokenStreamRewriter.java",
                 position: {
-                    row: 63,
-                    column: 8,
+                    row: 117,
+                    column: 11,
                 },
             },
-        },*/
+        },
 
     };
 

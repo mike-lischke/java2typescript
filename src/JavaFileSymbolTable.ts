@@ -191,7 +191,8 @@ export class JavaFileSymbolTable extends SymbolTable {
                 symbol,
                 qualifiedName: symbol.name,
             };
-        } else if (symbol.parent instanceof ClassSymbol || symbol.parent instanceof InterfaceSymbol) {
+        } else if (symbol.parent instanceof ClassSymbol || symbol.parent instanceof ClassCreatorSymbol
+            || symbol.parent instanceof InterfaceSymbol) {
             // Member of a class or interface.
             if (symbol.modifiers.has(Modifier.Static)) {
                 return {
@@ -203,7 +204,7 @@ export class JavaFileSymbolTable extends SymbolTable {
                 // At this point we know it's a non-static member of the class we are in. However in nested classes
                 // we cannot directly access such a member from the outer class. Instead we have to use the special
                 // `$outer` parameter, which is generated for such scenarios.
-                if (this.needOuterScope(block)) {
+                if (this.needOuterScope(block, symbol.parent)) {
                     return {
                         symbol,
                         qualifiedName: "$outer." + name,
@@ -383,13 +384,21 @@ export class JavaFileSymbolTable extends SymbolTable {
         }
     };
 
-    private needOuterScope = (scope: Symbol): boolean => {
-        // Find the directly owning class.
+    /**
+     * Determines if the given scope needs to be resolved in the outer scope.
+     *
+     * @param scope The scope to walk up from until a class, interface or enum is found.
+     * @param owningClass The class that owns a specific symbol that is accessed from the given scope.
+     *
+     * @returns Returns true if we can reach the owning class from the given scope, otherwise false.
+     */
+    private needOuterScope = (scope: Symbol, owningClass: Symbol): boolean => {
+        // Find the class/interface/enum that contains the scope.
         let run: Symbol | undefined = scope;
         while (run) {
-            if (run instanceof ClassSymbol || run instanceof InterfaceSymbol) {
-                // Is the found class symbol static? If not then we need the outer scope.
-                if (run.modifiers.has(Modifier.Static)) {
+            if (run instanceof ClassSymbol || run instanceof ClassCreatorSymbol || run instanceof InterfaceSymbol) {
+                // Is the found class (expression)/interface symbol the same as the owning class?
+                if (run === owningClass) {
                     return false;
                 }
 
@@ -398,7 +407,7 @@ export class JavaFileSymbolTable extends SymbolTable {
             run = run.parent;
         }
 
-        return run?.parent instanceof ClassSymbol || run?.parent instanceof InterfaceSymbol;
+        return true;
     };
 
     /**

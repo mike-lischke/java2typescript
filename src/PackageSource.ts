@@ -21,14 +21,16 @@ import { ISymbolInfo } from "./conversion/types";
  * Java imports to JS/TS imports and to expand partial type specifiers to their fully qualified name.
  */
 export class PackageSource {
-    // Available symbols from the associated file or package.
+    /** Available symbols from the associated file or package. */
     public symbolTable: SymbolTable;
 
-    // The set of sources imported by this source. Might contain unused imports.
+    /** The set of sources imported by this source. Might contain unused imports. */
     public importList = new Set<PackageSource>();
 
-    // A list of symbol names, which have been resolved at least once, which means they are imported into the
-    // file being converted. Hence those names comprise the TS import list.
+    /**
+     * A list of symbol names, which have been resolved at least once, which means they are imported into the
+     * file being converted. Hence those names comprise the TS import list.
+     */
     protected importedSymbols = new Set<string>();
 
     public constructor(public packageId: string, public sourceFile: string, public targetFile: string) {
@@ -100,7 +102,7 @@ export class PackageSource {
         if (this.targetFile && this.importedSymbols.size > 0) {
             const names = Array.from(this.importedSymbols.values());
             let importPath: string;
-            if (this.targetFile.startsWith("/") || this.targetFile.startsWith(".")) {
+            if (this.targetFile.startsWith("/") || this.targetFile.startsWith("./")) {
                 importPath = path.relative(path.dirname(importingFile), path.dirname(this.targetFile));
                 importPath = path.join(importPath, path.basename(this.targetFile, ".ts"));
 

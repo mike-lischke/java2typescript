@@ -25,7 +25,7 @@
         {
             "type": "node",
             "request": "launch",
-            "name": "Launch converter",
+            "name": "Convert ANTLR4",
             "sourceMaps": true,
             "stopOnEntry": false,
             "smartStep": true,
@@ -35,6 +35,23 @@
                 "--loader",
                 "ts-node/esm",
                 "src/main-antlr4.ts",
+            ],
+            "console": "integratedTerminal",
+            "trace": false
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Convert JDK Tests",
+            "sourceMaps": true,
+            "stopOnEntry": false,
+            "smartStep": true,
+            "args": [],
+            "runtimeArgs": [
+                "--experimental-specifier-resolution=node",
+                "--loader",
+                "ts-node/esm",
+                "src/convertJDKTests.ts",
             ],
             "console": "integratedTerminal",
             "trace": false

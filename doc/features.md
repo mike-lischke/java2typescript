@@ -12,7 +12,9 @@
 - [Implicit Nullability, the `null`, and undefined values](#implicit-nullability-the-null-and-undefined-values)
 - [Arrays](#arrays)
 - [Numbers](#numbers)
-- [Char and String](#char-and-string)
+- [Text](#text)
+  - [Char and String](#char-and-string)
+  - [Encoding and Decoding](#encoding-and-decoding)
 - [Boxing and Unboxing](#boxing-and-unboxing)
 - [Regular Expressions](#regular-expressions)
 - [Initialisers](#initialisers)
@@ -24,11 +26,13 @@
 - [Exception Handling and Try-with-resources](#exception-handling-and-try-with-resources)
 - [Reflection](#reflection)
 - [System Properties](#system-properties)
+- [Others](#others)
 - [Unsupported Features](#unsupported-features)
   - [Annotations](#annotations)
   - [Serialisation and Deserialisation](#serialisation-and-deserialisation)
   - [Security](#security)
   - [Threading](#threading)
+  - [Asynchronous File Operations](#asynchronous-file-operations)
 - [Symbol Resolution and Import Resolvers](#symbol-resolution-and-import-resolvers)
 
 
@@ -121,21 +125,27 @@ Typescript does not support multi-dimensional array creation with array sizes (i
 
 ## <a name="numbers">Numbers</a>
 
-Single primitive numbers (byte, int, short, long, float, double) are converted to `number`. To match Java semantics better there's one exception: `long`, which is converted to `bigint` (64 bits). This creates a problem on TS side. There's no automatic conversion between a number and a bigint, like there is in Java. This must be solved manually.
+There are type aliases for single primitive numbers (byte, int, short, long, float, double) which all represent the Typescript type `number`, except for long, which is mapped to `bigint`. You can continue using these primitive types in your code, but you should be aware that there are no automatic conversions between them. You have to solve this manually.
 
-Numbers in arrays, however, are converted to typed TS arrays according to their Java type. For example `int[]` is converted to `Int32Array`.
+Numbers in arrays, on the other hand, are converted to typed TS arrays according to their Java type. For example `int[]` is converted to `Int32Array`.
 
 There's currently no support for `BigInteger` and `BigNumber`;
 
 Read also the [Boxing and Unboxing chapter](#boxing-and-unboxing).
 
-## <a name="string">Char and String</a>
+## <a name="text>Text</a>
+
+### <a name="string">Char and String</a>
 
 Strings in Java and TS are pretty similar (at least in their respective realm). TS automatically does boxing and unboxing of string literals and string objects (just like Java). However, the Java `String` type has much more functionality, so it is translated like any other class instead of converting occurrences to the TS `string` type. This makes handling the actual strings in a TS context a bit more inconvenient, because this way the auto (un)boxing does not work as easy as between TS `String`, `string` and string literals.
 
 Read also the [Boxing and Unboxing chapter](#boxing-and-unboxing).
 
 In both languages strings are stored in UTF-16 (two bytes per character) and use surrogates for values > 0xFFFF. However, there's no simple `char` type in TS, so we can only use `number` for it. To better distinguish a char type from an ordinary number a type alias is used in TS (`java.lang.char`) for any occurrence of a single `char` (and uses a number as base type, with only the lowest 16 bits). However, using a number for a char is all but optimal, so arrays of chars are converted to `Uint16Array` instead, which should be as efficient as the Java implementation.
+
+### <a name="coding">Encoding and Decoding</a>
+
+The classes `java.nio.charset.Charset`, `java.nio.charset.CharsetEncoder` and `java.nio.charset.CharsetDecoder` are mostly supported by using the `TextEncoder` and `TextDecoder` classes from the browser. With this a large number of charsets are available for decoding. Unfortunately, the `TextEncoder` class does not support encoding to a specific charset, so only UTF-8 is supported for encoding.
 
 ## <a name="boxing">Boxing and Unboxing</a>
 
@@ -276,6 +286,15 @@ This all won't help much, so it's probably most of the time necessary to manuall
 
 System properties are supported just like in Java, and get their initial values from the current environment (either `navigator` or `os` and `process` Node JS modules). JVM, Java and JRE specific entries (see [java keys](https://docs.oracle.com/javase/7/docs/api/java/lang/System.html#getProperties()) are filled with arbitrary values, e.g. matching the supported Java version of the java2ts tool. Applications using such properties in generated code should replace the default values with something that matches the expected values.
 
+## <a name="others">Others</a>
+
+This chapter collects a few other things that are worth to be mentioned.
+
+- `java.lang.Object.toString()` returns a Typescript string, not `java.lang.String` to avoid a circular dependency between the two classes.
+- The same holds true for `java.lang.Class.getName()` and `java.lang.Class.getSimpleName()`.
+- All classes deriving from `java.lang.Object` override the `toString()` method and return `java.lang.String`, however. Unfortunately, the `string` result type cannot be suppressed in derived classes, so you have to cast the result to `java.lang.String` explicitly.
+- All classes and interfaces that have a companion in Typescript (like Number, Object, String, Map etc.) are prefixed with `Java` to avoid confusion (e.g. JavaString, JavaMap etc.) and which allows to import them without conflicts. You still can use fully qualified names with the original class and interface names (e.g. `java.lang.Object`).
+
 ## <a name="unsupported">Unsupported Features</a>
 
 ### <a name="Annotations">Annotations</a>
@@ -295,6 +314,14 @@ Java optionally uses a security manager to manage access to certain resources, l
 Because TS is single threaded (and workers cannot share objects) there's no need to support any of the synchronisation methods from Java. Synchronized blocks are converted to simple blocks, but the `synchronized` keyword is left as a comment in the target code to indicate that a block was originally used in multi threading scenarios and needed special attention.
 
 For the same reason there's no need to add `Hashtable` to the JRE shims as it is essentially just a synchronized `HashMap`.
+
+### <a name="async-file-operations">Asynchronous File Operations</a>
+
+For the same reason (no threads) it is not possible to implement asynchronous file operations (interruptible channels etc.). All of these operations are either synchronous or not implemented (based on the Node.js fs module). This also means it is not possible to interrupt a file/channel operation or wait for it. Maybe at a later point we can use async file APIs to emulate these things.
+
+### <a="memory-mapped-files>Memory Mapped Files</a>
+
+Memory mapped files require support from a native package (Node.js does not support them and in a browser they are totally out of scope). Since I don't want to add such a dependency (like to [mmap](https://www.npmjs.com/package/mmap)) there's no support this feature.
 
 ## <a name="symbol-resolution">Symbol Resolution and Import Resolvers</a>
 

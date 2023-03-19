@@ -70,7 +70,9 @@ export class JavaPackageSource extends PackageSource {
         let records: ITypeRecord[] = [];
         let pending: ITypeRecord[] = [];
 
-        // First read all records into memory to allow sorting them in their dependency order.
+        // First read all records into memory to allow sorting them in their dependency complexity.
+        // The less dependencies a type has, the earlier it can be added to the symbol table.
+        // Create all namespaces while doing so.
         dataFiles.forEach((dataFile) => {
             const namespace = dataFile.substring(0, dataFile.length - 5);
             symbolTable.addNewNamespaceFromPathSync(symbolTable, namespace, ".");

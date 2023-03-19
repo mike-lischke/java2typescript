@@ -11,6 +11,7 @@ import fs from "fs";
 
 import { FileProcessor } from "./FileProcessor";
 import { CustomImportResolver, PackageSourceManager } from "../PackageSourceManager";
+import { IMemberOrderOptions } from "./MemberOrdering";
 
 /** A record for the class resolver map. */
 export interface IClassResolver {
@@ -54,6 +55,30 @@ export interface IConverterOptions {
 
     /** If true the processor will automatically add braces in IF/ELSE/SWITCH statements, if they are missing. */
     autoAddBraces?: boolean;
+
+    /**
+     * If true, the processor will automatically add a `null` alternative to all non-primitive types. Default is: true.
+     */
+    addNullUnionType?: boolean;
+
+    /**
+     * If true, the processor will not the explicit type to a variable/member if it has an initializer.
+     * Default is: false.
+     */
+    suppressTypeWithInitializer?: boolean;
+
+    /**
+     * If true, the process will convert string literals (`"..."`) to a template string (``` S`...` ```) which
+     * automatically creates a java.lang.String object. Default is: false.
+     */
+    wrapStringLiterals?: boolean;
+
+    /**
+     * Takes a set of options as used for the
+     * [`@typescript-eslint/member-ordering`](https://typescript-eslint.io/rules/member-ordering/#options) linter rule.
+     * These options are applied on the transformed members, right before overload handling is done.
+     */
+    memberOrderOptions?: IMemberOrderOptions;
 
     /**
      * For simpler imports index files can be added to each generated output folder, which export all files in that

@@ -1,13 +1,12 @@
 {
     "compilerOptions": {
         "target": "ES2022",
-        "module": "ESNext",
+        "module": "ES2022",
+        "moduleResolution": "bundler",
         "outDir": "./output",
         "sourceMap": true,
         "esModuleInterop": true,
         "isolatedModules": true,
-        "experimentalDecorators": true,
-        "moduleResolution": "Node",
         "strict": true,
         "noImplicitAny": true,
         "strictNullChecks": true,
