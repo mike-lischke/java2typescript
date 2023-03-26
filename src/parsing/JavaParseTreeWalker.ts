@@ -8,7 +8,7 @@
 /* eslint-disable max-classes-per-file */
 
 import {
-    Symbol, BlockSymbol, FieldSymbol, MethodSymbol, ParameterSymbol, ScopedSymbol, SymbolTable, InterfaceSymbol,
+    BaseSymbol, BlockSymbol, FieldSymbol, MethodSymbol, ParameterSymbol, ScopedSymbol, SymbolTable, InterfaceSymbol,
     Modifier, Type, TypeKind, ReferenceKind, VariableSymbol, ClassSymbol,
 } from "antlr4-c3";
 import { java } from "jree";
@@ -35,7 +35,7 @@ import { JavaClassSymbol } from "./JavaClassSymbol";
 export class FileSymbol extends ScopedSymbol { }
 export class AnnotationSymbol extends ScopedSymbol { }
 export class EnumSymbol extends JavaClassSymbol { }
-export class EnumConstantSymbol extends Symbol { }
+export class EnumConstantSymbol extends BaseSymbol { }
 export class SwitchBlockGroup extends ScopedSymbol { }
 export class ConstructorSymbol extends MethodSymbol { }
 
@@ -53,9 +53,9 @@ export class InitializerBlockSymbol extends ScopedSymbol {
     public isStatic = false;
 }
 
-export class TypeSymbol extends Symbol { }
-export class PackageSymbol extends Symbol { }
-export class ImportSymbol extends Symbol { }
+export class TypeSymbol extends BaseSymbol { }
+export class PackageSymbol extends BaseSymbol { }
+export class ImportSymbol extends BaseSymbol { }
 
 export class JavaParseTreeWalker implements JavaParserListener {
 
@@ -283,7 +283,7 @@ export class JavaParseTreeWalker implements JavaParserListener {
         } else {
             // Auto type.
             const id = ctx.variableDeclaratorId().identifier().text;
-            const symbol = this.symbolTable.addNewSymbolOfType(VariableSymbol, block, id);
+            const symbol = this.symbolTable.addNewSymbolOfType(VariableSymbol, block, id, undefined);
             symbol.context = ctx;
         }
     };
@@ -314,7 +314,7 @@ export class JavaParseTreeWalker implements JavaParserListener {
     public enterConstantDeclarator = (ctx: ConstantDeclaratorContext): void => {
         const block = this.symbolStack.peek();
 
-        const symbol = this.symbolTable.addNewSymbolOfType(FieldSymbol, block, ctx.identifier().text);
+        const symbol = this.symbolTable.addNewSymbolOfType(FieldSymbol, block, ctx.identifier().text, undefined);
         symbol.context = ctx;
     };
 
@@ -369,7 +369,7 @@ export class JavaParseTreeWalker implements JavaParserListener {
      *
      * @param symbol The symbol to check.
      */
-    private checkStatic = (symbol: Symbol): void => {
+    private checkStatic = (symbol: BaseSymbol): void => {
         let found = false;
         let run: ParserRuleContext | undefined = symbol.context as ParserRuleContext;
         while (run && !found) {

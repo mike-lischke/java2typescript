@@ -101,8 +101,10 @@ export class MemberOrdering {
                     return;
                 }
 
-                // Find the next entry in the members list that matches the current order item.
+                // Loop over the members list and find all entries that match the current order item.
+                // Each match is moved to the result list and removed from the members list.
                 while (true) {
+                    // Find the next entry in the members list that matches the current order item.
                     const index = members.findIndex((member) => {
                         switch (orderItem.kind) {
                             case "constructor": {

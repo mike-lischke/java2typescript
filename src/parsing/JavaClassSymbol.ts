@@ -5,7 +5,7 @@
  * See LICENSE file for more info.
  */
 
-import { ClassSymbol, Symbol } from "antlr4-c3";
+import { ClassSymbol, BaseSymbol } from "antlr4-c3";
 import { JavaFileSymbolTable } from "../JavaFileSymbolTable";
 
 /**
@@ -13,7 +13,7 @@ import { JavaFileSymbolTable } from "../JavaFileSymbolTable";
  */
 export class JavaClassSymbol extends ClassSymbol {
 
-    public resolveSync(name: string, localOnly?: boolean): Symbol | undefined {
+    public override resolveSync(name: string, localOnly?: boolean): BaseSymbol | undefined {
         // First look for members of the classes this one is derived from.
         if (this.symbolTable instanceof JavaFileSymbolTable) {
             this.symbolTable.resolveReferences();

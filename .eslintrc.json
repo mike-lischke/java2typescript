@@ -20,11 +20,10 @@
         "sourceType": "module",
         "implicitStrict": true,
         "ecmaFeatures": {},
-        "ecmaVersion": 8
+        "ecmaVersion": 14
     },
     "plugins": [
         "@typescript-eslint",
-        "@typescript-eslint/tslint",
         "jsdoc",
         "prefer-arrow",
         "eslint-plugin-import"
@@ -35,7 +34,6 @@
     },
     "rules": {
         // Some base rules must be disabled as they return wrong results.
-        // There are specialized rules instead in the tslint rule section.
         "no-explicit-any": "off",
         "no-use-before-define": "off",
         "no-shadow": "off",
@@ -63,9 +61,7 @@
         "no-const-assign": [
             "warn"
         ],
-        "no-control-regex": [
-            "warn"
-        ],
+        "no-control-regex": "off",
         "no-delete-var": [
             "warn"
         ],
@@ -197,12 +193,7 @@
         "no-octal-escape": [
             "warn"
         ],
-        "no-redeclare": [
-            "warn",
-            {
-                "builtinGlobals": false
-            }
-        ],
+        "no-redeclare": "off",
         "no-regex-spaces": [
             "warn"
         ],
@@ -562,23 +553,6 @@
             "always"
         ],
         "@typescript-eslint/unified-signatures": "error",
-        "@typescript-eslint/tslint/config": [
-            "error",
-            {
-                "rules": {
-                    "import-spacing": true,
-                    "one-line": [
-                        true,
-                        "check-catch",
-                        "check-else",
-                        "check-finally",
-                        "check-open-brace",
-                        "check-whitespace"
-                    ],
-                    "whitespace": true
-                }
-            }
-        ],
         "@typescript-eslint/prefer-regexp-exec": "off",
         "@typescript-eslint/naming-convention": [
             "error",

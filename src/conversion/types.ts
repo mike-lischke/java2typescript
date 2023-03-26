@@ -5,13 +5,12 @@
  * See LICENSE file for more info.
  */
 
-import { Symbol } from "antlr4-c3";
-
+import { BaseSymbol } from "antlr4-c3";
 import { PackageSource } from "../PackageSource";
 
 export interface ISymbolInfo {
     /** The resolved symbol or undefined for anonymous class expressions.  */
-    symbol?: Symbol;
+    symbol?: BaseSymbol;
     qualifiedName: string;
     source?: PackageSource;
 }

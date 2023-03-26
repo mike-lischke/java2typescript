@@ -7,11 +7,11 @@
 
 /* eslint-disable no-underscore-dangle */
 
+import { ParseTree, ParseTreeWalker } from "antlr4ts/tree";
 import {
-    Symbol, ClassSymbol, ScopedSymbol, SymbolTable, InterfaceSymbol, ParameterSymbol, Modifier, NamespaceSymbol,
+    SymbolTable, ClassSymbol, ScopedSymbol, ParameterSymbol, InterfaceSymbol, NamespaceSymbol, Modifier, BaseSymbol,
     TypedSymbol,
 } from "antlr4-c3";
-import { ParseTree, ParseTreeWalker } from "antlr4ts/tree";
 
 import {
     ClassDeclarationContext, ClassOrInterfaceTypeContext, CreatorContext, EnumDeclarationContext, ExpressionContext,
@@ -77,7 +77,7 @@ export class JavaFileSymbolTable extends SymbolTable {
         }
 
         if (!(block instanceof ScopedSymbol)) {
-            block = block.parent;
+            block = block.parent as ScopedSymbol;
         }
 
         if (!block) {
@@ -253,7 +253,7 @@ export class JavaFileSymbolTable extends SymbolTable {
                 if (candidate instanceof CreatorContext) {
                     // Anonymous inner class creation.
                     const type = candidate.createdName().identifier(0).text;
-                    this.resolveTypeName(type, (symbol: Symbol) => {
+                    this.resolveTypeName(type, (symbol: BaseSymbol) => {
                         if (symbol instanceof ClassSymbol) {
                             classSymbol.extends.push(symbol);
                         }
@@ -263,14 +263,14 @@ export class JavaFileSymbolTable extends SymbolTable {
                     if (typeType) { // Implies EXTENDS() is assigned.
                         if (classSymbol.parent instanceof JavaFileSymbolTable) {
                             // A symbol imported from another package.
-                            this.resolveFromImports(typeType, (symbol: Symbol) => {
+                            this.resolveFromImports(typeType, (symbol: BaseSymbol) => {
                                 if (symbol instanceof ClassSymbol) {
                                     classSymbol.extends.push(symbol);
                                 }
                             });
                         } else {
                             // A symbol defined in the same file.
-                            this.resolveLocally(typeType, (symbol: Symbol) => {
+                            this.resolveLocally(typeType, (symbol: BaseSymbol) => {
                                 if (symbol instanceof ClassSymbol) {
                                     classSymbol.extends.push(symbol);
                                 }
@@ -284,7 +284,7 @@ export class JavaFileSymbolTable extends SymbolTable {
                     if (classSymbol.context.IMPLEMENTS()) {
                         // Interfaces to implement.
                         classSymbol.context.typeList(0).typeType().forEach((typeContext) => {
-                            this.resolveFromImports(typeContext, (symbol: Symbol) => {
+                            this.resolveFromImports(typeContext, (symbol: BaseSymbol) => {
                                 if (symbol instanceof ClassSymbol || symbol instanceof InterfaceSymbol) {
                                     classSymbol.implements.push(symbol);
                                 }
@@ -303,7 +303,7 @@ export class JavaFileSymbolTable extends SymbolTable {
             if (context.typeList()) {
                 // Interfaces or classes to extend.
                 context.typeList()?.typeType().forEach((typeContext) => {
-                    this.resolveFromImports(typeContext, (symbol: Symbol) => {
+                    this.resolveFromImports(typeContext, (symbol: BaseSymbol) => {
                         if (symbol instanceof ClassSymbol || symbol instanceof InterfaceSymbol) {
                             interfaceSymbol.extends.push(symbol);
                         }
@@ -313,7 +313,7 @@ export class JavaFileSymbolTable extends SymbolTable {
         });
     };
 
-    private resolveFromImports = (context: TypeTypeContext, add: (symbol: Symbol) => void): void => {
+    private resolveFromImports = (context: TypeTypeContext, add: (symbol: BaseSymbol) => void): void => {
         if (context.classOrInterfaceType()) {
             const parts = context.classOrInterfaceType()?.identifier().map((node) => {
                 return node.text;
@@ -344,7 +344,7 @@ export class JavaFileSymbolTable extends SymbolTable {
         }
     };
 
-    private resolveLocally = (context: TypeTypeContext, add: (symbol: Symbol) => void): void => {
+    private resolveLocally = (context: TypeTypeContext, add: (symbol: BaseSymbol) => void): void => {
         if (context.classOrInterfaceType()) {
             const parts = context.classOrInterfaceType()?.identifier().map((node) => {
                 return node.text;
@@ -372,7 +372,7 @@ export class JavaFileSymbolTable extends SymbolTable {
         }
     };
 
-    private resolveTypeName = (name: string, add: (symbol: Symbol) => void): void => {
+    private resolveTypeName = (name: string, add: (symbol: BaseSymbol) => void): void => {
         for (const source of this.importList) {
             const info = source.resolveType(name);
             if (info?.symbol instanceof ClassSymbol || info?.symbol instanceof InterfaceSymbol
@@ -392,9 +392,9 @@ export class JavaFileSymbolTable extends SymbolTable {
      *
      * @returns Returns true if we can reach the owning class from the given scope, otherwise false.
      */
-    private needOuterScope = (scope: Symbol, owningClass: Symbol): boolean => {
+    private needOuterScope = (scope: BaseSymbol, owningClass: BaseSymbol): boolean => {
         // Find the class/interface/enum that contains the scope.
-        let run: Symbol | undefined = scope;
+        let run: BaseSymbol | undefined = scope;
         while (run) {
             if (run instanceof ClassSymbol || run instanceof ClassCreatorSymbol || run instanceof InterfaceSymbol) {
                 // Is the found class (expression)/interface symbol the same as the owning class?

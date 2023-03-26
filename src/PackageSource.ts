@@ -9,7 +9,7 @@ import path from "path";
 
 import { ParseTree } from "antlr4ts/tree";
 
-import { Symbol, SymbolTable } from "antlr4-c3";
+import { BaseSymbol, SymbolTable } from "antlr4-c3";
 
 import { Interval } from "antlr4ts/misc/Interval";
 import { CompilationUnitContext } from "../parser/generated/JavaParser";
@@ -175,7 +175,7 @@ export class PackageSource {
      *
      * @returns The symbol for the given name, if found.
      */
-    public resolveAndImport = (name: string): Symbol | undefined => {
+    public resolveAndImport = (name: string): BaseSymbol | undefined => {
         // Touch the parse tree, to trigger a parse run of this source, if not yet done.
         void this.parseTree;
 

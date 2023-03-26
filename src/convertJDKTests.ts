@@ -75,15 +75,40 @@ const classResolver = new Map<string, IClassResolver>([
 const convertJDKLangTests = async () => {
     const antlrToolOptions: IConverterConfiguration = {
         packageRoot: path.resolve(process.cwd(), "../jdk/test/jdk/java/lang"),
-        javaLib: "../../../../../src",
+        javaLib: "../../../../../../src",
         include: [
-            "Appendable/Basic.java",
+            "ImplicitStringConcatShapes.java",
         ],
         exclude: [
-            "annotation/",
-            "ClassLoader/",
+            "AssertionError",
+            "ClassLoader",
+            "InheritableThreadLocal",
+            "IntegralPrimitiveToString.java",
+            "ModuleLayer",
+            "ModuleTests",
+            "Package",
+            "PrimitiveSumMinMaxTest.java",
+            "ProcessBuilder",
+            "ProcessHandle",
+            "Runtime",
+            "RuntimePermission",
+            "SecurityManager",
+            "StackWalker",
+            "StrictMath",
+            "System",
+            "Thread",
+            "ThreadGroup",
+            "ThreadLocal",
+            "WeakPairMap",
+            "annotation",
+            "instrument",
+            "invoke",
+            "management",
+            "module",
+            "ref",
+            "reflect",
         ],
-        output: "../jree/test/jdk/java/lang",
+        output: "../jree/tests/jdk/java/lang",
         options: {
             importResolver,
             classResolver,
@@ -99,6 +124,9 @@ const convertJDKLangTests = async () => {
             memberOrderOptions,
             prefix: `
 /* eslint-disable @typescript-eslint/prefer-for-of */
+/* eslint-disable max-len */
+/* cspell: disable */
+/* eslint-disable jsdoc/check-tag-names */
 `,
         },
         sourceReplace: new Map([

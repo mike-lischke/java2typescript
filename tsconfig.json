@@ -9,6 +9,7 @@
         "isolatedModules": true,
         "strict": true,
         "noImplicitAny": true,
+        "noImplicitOverride": false,
         "strictNullChecks": true,
         "strictPropertyInitialization": true,
         "rootDirs": [

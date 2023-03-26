@@ -6,7 +6,9 @@
  */
 
 import * as fs from "fs";
-import { Symbol, FieldSymbol, MethodSymbol, ScopedSymbol, SymbolTable, Modifier } from "antlr4-c3";
+import {
+    FieldSymbol, MethodSymbol, ScopedSymbol, SymbolTable, Modifier, ClassSymbol, InterfaceSymbol,
+} from "antlr4-c3";
 
 import { PackageSource } from "./PackageSource";
 import { JavaClassSymbol } from "./parsing/JavaClassSymbol";
@@ -54,8 +56,8 @@ export class JavaPackageSource extends PackageSource {
      *
      * @returns The created symbol table.
      */
-    protected createSymbolTable(): SymbolTable {
-        const symbolTable = new SymbolTable("Java", { allowDuplicateSymbols: false });
+    protected override createSymbolTable(): SymbolTable {
+        const symbolTable = new SymbolTable("Java", { allowDuplicateSymbols: true });
 
         const dataFiles = fs.readdirSync("data").sort((a, b) => {
             if (a.length < b.length) {
@@ -90,12 +92,12 @@ export class JavaPackageSource extends PackageSource {
             while (records.length > 0) {
                 const next = records.shift();
                 if (next !== undefined) {
-                    const extendsList: Symbol[] = [];
-                    const implementsList: Symbol[] = [];
+                    const extendsList: ClassSymbol[] = [];
+                    const implementsList: Array<ClassSymbol | InterfaceSymbol> = [];
 
                     let ok = next.extends.every((name) => {
                         const s = symbolTable.symbolFromPath(name);
-                        if (s === undefined) {
+                        if (s === undefined || !(s instanceof ClassSymbol)) {
                             return false;
                         }
 
@@ -105,7 +107,7 @@ export class JavaPackageSource extends PackageSource {
                     });
                     ok &&= next.implements.every((name) => {
                         const s = symbolTable.symbolFromPath(name);
-                        if (s === undefined) {
+                        if (s === undefined || (!(s instanceof InterfaceSymbol) && !(s instanceof ClassSymbol))) {
                             return false;
                         }
 
@@ -131,14 +133,14 @@ export class JavaPackageSource extends PackageSource {
                     let mainSymbol: ScopedSymbol;
                     switch (next.type) {
                         case "class": {
-                            mainSymbol = symbolTable.addNewSymbolOfType(JavaClassSymbol, parent, name, extendsList,
+                            mainSymbol = symbolTable.addNewSymbolOfType(JavaClassSymbol, parent, name!, extendsList,
                                 implementsList);
                             break;
                         }
 
                         case "interface": {
-                            const symbol = symbolTable.addNewSymbolOfType(JavaInterfaceSymbol, parent, name,
-                                extendsList, implementsList);
+                            const symbol = symbolTable.addNewSymbolOfType(JavaInterfaceSymbol, parent, name!,
+                                extendsList);
 
                             // All registered interfaces are implemented as native interfaces.
                             symbol.isTypescriptCompatible = true;
@@ -147,7 +149,7 @@ export class JavaPackageSource extends PackageSource {
                         }
 
                         case "enum": {
-                            mainSymbol = symbolTable.addNewSymbolOfType(EnumSymbol, parent, name, extendsList,
+                            mainSymbol = symbolTable.addNewSymbolOfType(EnumSymbol, parent, name!, extendsList,
                                 implementsList);
                             break;
                         }
@@ -164,7 +166,8 @@ export class JavaPackageSource extends PackageSource {
                     next.members.forEach((member) => {
                         switch (member.type) {
                             case "field": {
-                                const s = symbolTable.addNewSymbolOfType(FieldSymbol, mainSymbol, member);
+                                const s = symbolTable.addNewSymbolOfType(FieldSymbol, mainSymbol, member.name,
+                                    undefined);
                                 if (member.modifiers.includes("static")) {
                                     s.modifiers.add(Modifier.Static);
                                 }
@@ -173,7 +176,7 @@ export class JavaPackageSource extends PackageSource {
                             }
 
                             case "method": {
-                                const s = symbolTable.addNewSymbolOfType(MethodSymbol, mainSymbol, member);
+                                const s = symbolTable.addNewSymbolOfType(MethodSymbol, mainSymbol, member.name);
                                 if (member.modifiers.includes("static")) {
                                     s.modifiers.add(Modifier.Static);
                                 }
@@ -182,7 +185,7 @@ export class JavaPackageSource extends PackageSource {
                             }
 
                             case "constructor": {
-                                symbolTable.addNewSymbolOfType(ConstructorSymbol, mainSymbol, member);
+                                symbolTable.addNewSymbolOfType(ConstructorSymbol, mainSymbol, member.name);
                                 break;
                             }
 

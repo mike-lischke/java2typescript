@@ -44,7 +44,7 @@ export class JavaFileSource extends PackageSource {
         super(packageId, sourceFile, targetFile);
     }
 
-    public get parseTree(): CompilationUnitContext | undefined {
+    public override get parseTree(): CompilationUnitContext | undefined {
         if (!this.fileParseInfo) {
             this.parse();
         }
@@ -52,18 +52,18 @@ export class JavaFileSource extends PackageSource {
         return this.fileParseInfo?.tree;
     }
 
-    public getQualifiedSymbol = (context: ParseTree, name: string): ISymbolInfo | undefined => {
+    public override getQualifiedSymbol = (context: ParseTree, name: string): ISymbolInfo | undefined => {
         return (this.symbolTable as JavaFileSymbolTable).getQualifiedSymbol(context, name);
     };
 
-    public printParseTreeForPosition = (position: { column: number; row: number; }): void => {
+    public override printParseTreeForPosition = (position: { column: number; row: number; }): void => {
         if (this.fileParseInfo) {
             printParseTreeStack(this.sourceFile, this.fileParseInfo.tree, this.fileParseInfo.parser.ruleNames,
                 position);
         }
     };
 
-    protected textFromInterval = (interval: Interval): string => {
+    protected override textFromInterval = (interval: Interval): string => {
         return this.fileParseInfo?.inputStream.getText(interval) ?? "";
     };
 

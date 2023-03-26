@@ -11,7 +11,7 @@ import path from "path";
 import { ParserRuleContext } from "antlr4ts";
 import { Interval } from "antlr4ts/misc/";
 import { ParseTree, TerminalNode } from "antlr4ts/tree";
-import { ClassSymbol, InterfaceSymbol, ScopedSymbol, TypedSymbol, Symbol, TypeKind } from "antlr4-c3";
+import { ClassSymbol, InterfaceSymbol, ScopedSymbol, TypedSymbol, BaseSymbol, TypeKind } from "antlr4-c3";
 
 import { java, S } from "jree";
 
@@ -225,7 +225,7 @@ export class FileProcessor {
 
             // Collect nested object definitions for name resolution.
             const getAllNestedSymbols = (symbol: ScopedSymbol) => {
-                let result: Symbol[] = [];
+                let result: BaseSymbol[] = [];
                 symbol.children.forEach((child) => {
                     result.push(child);
                     if (child instanceof ScopedSymbol) {
@@ -426,14 +426,20 @@ export class FileProcessor {
 
             if (context.classDeclaration()) {
                 const details = this.processClassDeclaration(context.classDeclaration(), `${ws}`, modifiers);
-                builder.append(details?.bodyContent);
+                if (details) {
+                    builder.append(details.bodyContent);
+                }
             } else if (context.enumDeclaration()) {
                 const details = this.processEnumDeclaration(context.enumDeclaration(), modifiers);
-                builder.append(details?.bodyContent);
+                if (details) {
+                    builder.append(details.bodyContent);
+                }
             } else if (context.interfaceDeclaration()) {
                 const details = this.processInterfaceDeclaration(context.interfaceDeclaration(), `${ws}`,
                     modifiers.has("export"));
-                builder.append(details?.bodyContent);
+                if (details) {
+                    builder.append(details.bodyContent);
+                }
             } else { // annotationTypeDeclaration
                 this.getContent(builder, context, true);
             }
@@ -1202,11 +1208,13 @@ export class FileProcessor {
                 return `${entry.name}: ${entry.type}`;
             });
 
-            const length = result.signatureContent!.length();
-            result.signatureContent!.delete(length - 1, length);
-            result.signatureContent!.append(", ");
-            result.signatureContent!.append(list.join(", "));
-            result.signatureContent!.append(")");
+            if (result.signatureContent) {
+                const length = result.signatureContent.length();
+                result.signatureContent.delete(length - 1, length);
+                result.signatureContent.append(", ");
+                result.signatureContent.append(list.join(", "));
+                result.signatureContent.append(")");
+            }
 
             if (needSuperCall) {
                 // Should always be true for an enum constructor.
@@ -3575,7 +3583,9 @@ export class FileProcessor {
                     builder.append(modifier);
                     builder.append(member.nameWhitespace ?? "");
                     builder.append(member.name ?? "unknown");
-                    builder.append(member.signatureContent ?? "");
+                    if (member.signatureContent) {
+                        builder.append(member.signatureContent);
+                    }
                     builder.append(member.bodyContent);
 
                     break;
@@ -3601,7 +3611,9 @@ export class FileProcessor {
         pending.forEach((member) => {
             builder.append(member.leadingWhitespace);
             builder.append(member.name ?? "unknown");
-            builder.append(member.signatureContent ?? "");
+            if (member.signatureContent) {
+                builder.append(member.signatureContent);
+            }
             builder.append(member.bodyContent);
         });
 
@@ -3616,7 +3628,9 @@ export class FileProcessor {
                 builder.append(this.createModifierString(member.modifiers));
                 builder.append(member.nameWhitespace ?? "");
                 builder.append(member.name ?? "");
-                builder.append(member.signatureContent ?? "");
+                if (member.signatureContent) {
+                    builder.append(member.signatureContent);
+                }
                 builder.append(member.bodyContent);
             }
         });
@@ -3756,7 +3770,9 @@ export class FileProcessor {
             builder.append(this.createModifierString(member.modifiers));
             builder.append(member.nameWhitespace ?? "");
             builder.append(member.name ?? "");
-            builder.append(member.signatureContent ?? "");
+            if (member.signatureContent) {
+                builder.append(member.signatureContent);
+            }
             builder.append(member.bodyContent);
         }
 
