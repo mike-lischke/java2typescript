@@ -5,13 +5,13 @@
  * See LICENSE-MIT.txt file for more info.
  */
 
-import fs from "fs/promises";
-import path from "path";
+import * as fs from "fs/promises";
+import * as path from "path";
 
-import { JavaToTypescriptConverter } from "../../conversion/JavaToTypeScript";
+import { JavaToTypescriptConverter } from "../../src/conversion/JavaToTypeScript";
 
 describe("Options Tests", () => {
-    const testDir = path.join(process.cwd(), "src", "test");
+    const testDir = path.join(process.cwd(), "tests");
     const dataDir = path.join(testDir, "test-data");
     const targetDir = path.join(testDir, "conversion", "generated");
 

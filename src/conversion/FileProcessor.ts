@@ -3551,11 +3551,12 @@ export class FileProcessor {
         const pending: ITypeMemberDetails[] = [];
 
         // Sort members according to the member order options.
-        members = this.memberOrdering?.apply(members, this.typeStack.peek().type) as ITypeMemberDetails[];
+        if (this.memberOrdering) {
+            members = this.memberOrdering.apply(members, this.typeStack.peek().type) as ITypeMemberDetails[];
+        }
 
         const generatedMembers = this.typeStack.peek().generatedMembers ?? [];
 
-        // Sort members according to the order options.
         while (true) {
             const member = members.shift();
             if (!member) {

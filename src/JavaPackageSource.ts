@@ -59,157 +59,152 @@ export class JavaPackageSource extends PackageSource {
     protected override createSymbolTable(): SymbolTable {
         const symbolTable = new SymbolTable("Java", { allowDuplicateSymbols: true });
 
-        const dataFiles = fs.readdirSync("data").sort((a, b) => {
-            if (a.length < b.length) {
-                return -1;
-            } else if (a.length > b.length) {
-                return 1;
-            }
+        const dataFiles = fs.readdirSync("data");
 
-            return a.localeCompare(b);
-        });
-
-        let records: ITypeRecord[] = [];
-        let pending: ITypeRecord[] = [];
-
-        // First read all records into memory to allow sorting them in their dependency complexity.
-        // The less dependencies a type has, the earlier it can be added to the symbol table.
-        // Create all namespaces while doing so.
+        // First read the definition files one by one and add their types to the symbol table.
+        // Leave their dependencies unresolved for now.
+        const addedSymbols = new Map<ScopedSymbol, ITypeRecord>();
         dataFiles.forEach((dataFile) => {
             const namespace = dataFile.substring(0, dataFile.length - 5);
             symbolTable.addNewNamespaceFromPathSync(symbolTable, namespace, ".");
 
             const content = fs.readFileSync(`data/${dataFile}`, "utf8");
             const data = JSON.parse(content) as ITypeRecord[];
-            pending.push(...data);
-        });
 
-        let lastPendingCount = 0;
-        do {
-            lastPendingCount = pending.length;
-            records = pending;
-            pending = [];
-            while (records.length > 0) {
-                const next = records.shift();
-                if (next !== undefined) {
-                    const extendsList: ClassSymbol[] = [];
-                    const implementsList: Array<ClassSymbol | InterfaceSymbol> = [];
+            // Sort records by their name part counts. This ensures that the parent types are always
+            // added before their children.
+            const records = data.sort((a, b) => {
+                const aParts = a.name.split(".");
+                const bParts = b.name.split(".");
+                if (aParts.length < bParts.length) {
+                    return -1;
+                } else if (aParts.length > bParts.length) {
+                    return 1;
+                }
 
-                    let ok = next.extends.every((name) => {
-                        const s = symbolTable.symbolFromPath(name);
-                        if (s === undefined || !(s instanceof ClassSymbol)) {
-                            return false;
-                        }
+                return 0;
+            });
 
-                        extendsList.push(s);
+            records.forEach((record) => {
+                const parts = record.name.split(".");
+                const name = parts.pop();
+                const parent = symbolTable.symbolFromPath(parts.join(".")) as ScopedSymbol;
+                if (parent === undefined) {
+                    throw new Error(`Parent symbol not found: ${record.name}`);
+                }
 
-                        return true;
-                    });
-                    ok &&= next.implements.every((name) => {
-                        const s = symbolTable.symbolFromPath(name);
-                        if (s === undefined || (!(s instanceof InterfaceSymbol) && !(s instanceof ClassSymbol))) {
-                            return false;
-                        }
-
-                        implementsList.push(s);
-
-                        return true;
-                    });
-
-                    if (!ok) {
-                        pending.push(next);
-                        continue;
+                let newSymbol: ScopedSymbol | undefined;
+                switch (record.type) {
+                    case "class": {
+                        newSymbol = symbolTable.addNewSymbolOfType(JavaClassSymbol, parent, name!, [], []);
+                        break;
                     }
 
-                    const parts = next.name.split(".");
-                    const name = parts.pop();
-                    const parent = symbolTable.symbolFromPath(parts.join(".")) as ScopedSymbol;
-                    if (parent === undefined) {
-                        // For nested types whose parent is not yet available.
-                        pending.push(next);
-                        continue;
+                    case "interface": {
+                        const symbol = symbolTable.addNewSymbolOfType(JavaInterfaceSymbol, parent, name!, []);
+
+                        // All registered interfaces are implemented as native interfaces.
+                        symbol.isTypescriptCompatible = true;
+                        newSymbol = symbol;
+                        break;
                     }
 
-                    let mainSymbol: ScopedSymbol;
-                    switch (next.type) {
-                        case "class": {
-                            mainSymbol = symbolTable.addNewSymbolOfType(JavaClassSymbol, parent, name!, extendsList,
-                                implementsList);
+                    case "enum": {
+                        newSymbol = symbolTable.addNewSymbolOfType(EnumSymbol, parent, name!, [], []);
+                        break;
+                    }
+
+                    case "annotation": {
+                        break;
+                    }
+
+                    default: {
+                        throw new Error(`Unknown type: ${record.type}`);
+                    }
+                }
+
+                record.members.forEach((member) => {
+                    switch (member.type) {
+                        case "field": {
+                            const s = symbolTable.addNewSymbolOfType(FieldSymbol, newSymbol, member.name,
+                                undefined);
+                            if (member.modifiers.includes("static")) {
+                                s.modifiers.add(Modifier.Static);
+                            }
+
                             break;
                         }
 
+                        case "method": {
+                            const s = symbolTable.addNewSymbolOfType(MethodSymbol, newSymbol, member.name);
+                            if (member.modifiers.includes("static")) {
+                                s.modifiers.add(Modifier.Static);
+                            }
+
+                            break;
+                        }
+
+                        case "constructor": {
+                            symbolTable.addNewSymbolOfType(ConstructorSymbol, newSymbol, member.name);
+                            break;
+                        }
+
+                        case "enum":
+                        case "annotation":
+                        case "class":
                         case "interface": {
-                            const symbol = symbolTable.addNewSymbolOfType(JavaInterfaceSymbol, parent, name!,
-                                extendsList);
-
-                            // All registered interfaces are implemented as native interfaces.
-                            symbol.isTypescriptCompatible = true;
-                            mainSymbol = symbol;
-                            break;
-                        }
-
-                        case "enum": {
-                            mainSymbol = symbolTable.addNewSymbolOfType(EnumSymbol, parent, name!, extendsList,
-                                implementsList);
-                            break;
-                        }
-
-                        case "annotation": {
+                            // Nested types are ignored for now.
                             break;
                         }
 
                         default: {
-                            throw new Error(`Unknown type: ${next.type}`);
+                            throw new Error(`Unknown member type: ${member.type}`);
                         }
                     }
+                });
 
-                    next.members.forEach((member) => {
-                        switch (member.type) {
-                            case "field": {
-                                const s = symbolTable.addNewSymbolOfType(FieldSymbol, mainSymbol, member.name,
-                                    undefined);
-                                if (member.modifiers.includes("static")) {
-                                    s.modifiers.add(Modifier.Static);
-                                }
+                if (newSymbol !== undefined) {
+                    addedSymbols.set(newSymbol, record);
+                }
+            });
+        });
 
-                                break;
-                            }
+        // Now resolve the dependencies of the added symbols.
+        addedSymbols.forEach((record, symbol) => {
+            if (symbol instanceof ClassSymbol || symbol instanceof InterfaceSymbol) {
+                record.extends.forEach((extName) => {
+                    const s = symbolTable.symbolFromPath(extName);
+                    if (s === undefined) {
+                        throw new Error(`Symbol not found: ${extName}`);
+                    }
 
-                            case "method": {
-                                const s = symbolTable.addNewSymbolOfType(MethodSymbol, mainSymbol, member.name);
-                                if (member.modifiers.includes("static")) {
-                                    s.modifiers.add(Modifier.Static);
-                                }
+                    if (!(s instanceof ClassSymbol) && !(symbol instanceof InterfaceSymbol)) {
+                        throw new Error(`Symbol must be a class or interface: ${extName}`);
+                    }
 
-                                break;
-                            }
+                    if (symbol instanceof ClassSymbol) {
+                        symbol.extends.push(s as ClassSymbol);
+                    } else {
+                        symbol.extends.push(s as InterfaceSymbol);
+                    }
+                });
 
-                            case "constructor": {
-                                symbolTable.addNewSymbolOfType(ConstructorSymbol, mainSymbol, member.name);
-                                break;
-                            }
-
-                            case "enum":
-                            case "annotation":
-                            case "class":
-                            case "interface": {
-                                // Nested types are ignored for now.
-                                break;
-                            }
-
-                            default: {
-                                throw new Error(`Unknown member type: ${member.type}`);
-                            }
+                if (symbol instanceof ClassSymbol) {
+                    record.implements.forEach((implName) => {
+                        const s = symbolTable.symbolFromPath(implName);
+                        if (s === undefined) {
+                            throw new Error(`Symbol not found: ${implName}`);
                         }
+
+                        if (!(s instanceof InterfaceSymbol)) {
+                            throw new Error(`Symbol must be an interface: ${implName}`);
+                        }
+
+                        symbol.implements.push(s);
                     });
                 }
             }
-
-        } while (lastPendingCount !== pending.length);
-
-        if (pending.length > 0) {
-            throw new Error(`Cannot resolve types: ${pending.map((r) => { return r.name; }).join(", ")}`);
-        }
+        });
 
         return symbolTable;
     }

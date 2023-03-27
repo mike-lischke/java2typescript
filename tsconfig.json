@@ -2,7 +2,7 @@
     "compilerOptions": {
         "target": "ES2022",
         "module": "ES2022",
-        "moduleResolution": "bundler",
+        "moduleResolution": "node",
         "outDir": "./output",
         "sourceMap": true,
         "esModuleInterop": true,
@@ -19,6 +19,7 @@
     "include": [
         "src/**/*.ts",
         "parser/generated/**/*.ts",
+        "jest.config.ts"
     ],
     "exclude": [
         "node_modules/**/*.*",
