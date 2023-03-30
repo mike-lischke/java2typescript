@@ -1,4 +1,4 @@
-[![CircleCI](https://circleci.com/gh/mike-lischke/java2typescript/tree/master.svg?style=svg)](https://circleci.com/gh/mike-lischke/java2typescript/tree/master)
+[![Build & Test](https://github.com/mike-lischke/java2typescript/actions/workflows/nodejs.yml/badge.svg?branch=master)](https://github.com/mike-lischke/java2typescript/actions/workflows/nodejs.yml)
 [![Java 11](https://img.shields.io/badge/java-11-4c7e9f.svg)](http://java.oracle.com)
 
 # Java To Typescript Converter
