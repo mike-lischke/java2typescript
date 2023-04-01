@@ -8,7 +8,7 @@
 import * as fs from "fs/promises";
 import * as path from "path";
 
-import { JavaToTypescriptConverter } from "../../src/conversion/JavaToTypeScript";
+import { JavaToTypescriptConverter } from "../../src/conversion/JavaToTypeScript.js";
 
 describe("Options Tests", () => {
     const testDir = path.join(process.cwd(), "tests");
@@ -24,7 +24,7 @@ describe("Options Tests", () => {
 
         const converter = new JavaToTypescriptConverter({
             packageRoot: path.join(dataDir, "java-sources", "org"),
-            output: targetDir,
+            outputPath: targetDir,
             exclude: [],
             include: [],
             options: {

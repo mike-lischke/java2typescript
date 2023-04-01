@@ -6,7 +6,8 @@
  */
 
 import { ClassSymbol, BaseSymbol } from "antlr4-c3";
-import { JavaFileSymbolTable } from "../JavaFileSymbolTable";
+
+import { JavaFileSymbolTable } from "../JavaFileSymbolTable.js";
 
 /**
  * Extends the standard class symbol type by handling implemented types and adds symbol resolving for inherited members.

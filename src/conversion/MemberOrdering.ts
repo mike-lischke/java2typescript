@@ -7,7 +7,7 @@
 
 import console from "console";
 
-import { ContextType, MemberType as ContextMemberType } from "./types";
+import { ContextType, MemberType as ContextMemberType } from "./types.js";
 
 /**
  * A class and its associated data structures, for converting the `@typescript-eslint/member-ordering`

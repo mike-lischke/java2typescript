@@ -7,14 +7,14 @@
 
 import path from "path";
 
-import { ParseTree } from "antlr4ts/tree";
+import { ParseTree } from "antlr4ts/tree/index.js";
 
 import { BaseSymbol, SymbolTable } from "antlr4-c3";
 
-import { Interval } from "antlr4ts/misc/Interval";
-import { CompilationUnitContext } from "../parser/generated/JavaParser";
-import { PackageSourceManager } from "./PackageSourceManager";
-import { ISymbolInfo } from "./conversion/types";
+import { Interval } from "antlr4ts/misc/";
+import { CompilationUnitContext } from "../parser/generated/JavaParser.js";
+import { PackageSourceManager } from "./PackageSourceManager.js";
+import { ISymbolInfo } from "./conversion/types.js";
 
 /**
  * A class to provide symbol information for a single package or source file. It allows to convert

@@ -10,9 +10,9 @@ import {
     FieldSymbol, MethodSymbol, ScopedSymbol, SymbolTable, Modifier, ClassSymbol, InterfaceSymbol,
 } from "antlr4-c3";
 
-import { PackageSource } from "./PackageSource";
-import { JavaClassSymbol } from "./parsing/JavaClassSymbol";
-import { ConstructorSymbol, EnumSymbol, JavaInterfaceSymbol } from "./parsing/JavaParseTreeWalker";
+import { PackageSource } from "./PackageSource.js";
+import { JavaClassSymbol } from "./parsing/JavaClassSymbol.js";
+import { ConstructorSymbol, EnumSymbol, JavaInterfaceSymbol } from "./parsing/JavaParseTreeWalker.js";
 
 /** Member type strings as used in the package json files. */
 type MemberType = "method" | "field" | "constructor" | "class" | "interface" | "enum" | "annotation";

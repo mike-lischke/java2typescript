@@ -27,6 +27,7 @@
         "whitespaces"
     ],
     "ignoreWords": [
+        "a4tstool",
         "COLONCOLON",
         "FEFFFFFFFFFFFFF",
         "Harwell",

@@ -1,25 +1,30 @@
 {
     "compilerOptions": {
-        "moduleResolution": "node",
+        "moduleResolution": "NodeNext",
         "target": "ES2022",
-        "module": "ES2022",
+        "module": "NodeNext",
+        "outDir": "./output",
         "noEmit": true,
-        "declaration": true,
         "sourceMap": true,
         "esModuleInterop": true,
         "isolatedModules": true,
+        "strict": true,
         "noImplicitAny": true,
         "noImplicitOverride": false,
         "strictNullChecks": true,
         "strictPropertyInitialization": true,
-        "removeComments": false
+        "rootDirs": [
+            "src",
+        ]
     },
     "include": [
         "**/*.spec.ts",
     ],
     "exclude": [
-        "../node_modules",
-        "../src/**/*",
-        "../output/**/*",
-    ]
+        "node_modules/**/*.*",
+        "output/**/*.*"
+    ],
+    "ts-node": {
+        "esm": true,
+    }
 }

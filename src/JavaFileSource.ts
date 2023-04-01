@@ -9,16 +9,16 @@ import fs from "fs";
 
 import { CharStream, CharStreams, CommonTokenStream } from "antlr4ts";
 
-import { JavaLexer } from "../parser/generated/JavaLexer";
-import { JavaParser, CompilationUnitContext } from "../parser/generated/JavaParser";
+import { JavaLexer } from "../parser/generated/JavaLexer.js";
+import { JavaParser, CompilationUnitContext } from "../parser/generated/JavaParser.js";
 
-import { PackageSource } from "./PackageSource";
-import { JavaFileSymbolTable } from "./JavaFileSymbolTable";
-import { JavaErrorListener } from "./parsing/JavaErrorListener";
-import { ParseTree } from "antlr4ts/tree";
-import { Interval } from "antlr4ts/misc/Interval";
-import { printParseTreeStack } from "./Utilities";
-import { ISymbolInfo } from "./conversion/types";
+import { PackageSource } from "./PackageSource.js";
+import { JavaFileSymbolTable } from "./JavaFileSymbolTable.js";
+import { JavaErrorListener } from "./parsing/JavaErrorListener.js";
+import { ParseTree } from "antlr4ts/tree/index.js";
+import { Interval } from "antlr4ts/misc/";
+import { printParseTreeStack } from "./Utilities.js";
+import { ISymbolInfo } from "./conversion/types.js";
 
 /**
  * This interface keeps all concerned parsing parts together, to ensure they stay alive during the entire

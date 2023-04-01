@@ -9,9 +9,9 @@ import glob from "glob";
 import path from "path";
 import fs from "fs";
 
-import { FileProcessor } from "./FileProcessor";
-import { CustomImportResolver, PackageSourceManager } from "../PackageSourceManager";
-import { IMemberOrderOptions } from "./MemberOrdering";
+import { FileProcessor } from "./FileProcessor.js";
+import { CustomImportResolver, PackageSourceManager } from "../PackageSourceManager.js";
+import { IMemberOrderOptions } from "./MemberOrdering.js";
 
 /** A record for the class resolver map. */
 export interface IClassResolver {
@@ -155,7 +155,7 @@ export interface IConverterConfiguration {
     /**
      * The root folder for generated files. Relative paths are kept (like in the source tree).
      */
-    output: string;
+    outputPath: string;
 
     /** Specifies patterns for string replacements to be done in a Java file before it is parsed. */
     sourceReplace?: Map<RegExp, string>;
@@ -199,7 +199,7 @@ export class JavaToTypescriptConverter {
             return;
         }
 
-        fs.mkdirSync(this.configuration.output, { recursive: true });
+        fs.mkdirSync(this.configuration.outputPath, { recursive: true });
 
         console.log(`\nFound ${fileList.length} java files in ${this.configuration.packageRoot}`);
         const root = this.configuration.packageRoot;
@@ -207,7 +207,7 @@ export class JavaToTypescriptConverter {
             const relativeSource = path.relative(this.configuration.packageRoot, entry);
 
             const tsName = relativeSource.substring(0, relativeSource.length - 4) + "ts";
-            const target = this.configuration.output + "/" + tsName;
+            const target = this.configuration.outputPath + "/" + tsName;
 
             const source = PackageSourceManager.fromFile(entry, path.resolve(currentDir, target), root,
                 this.configuration.sourceReplace);
@@ -233,7 +233,7 @@ export class JavaToTypescriptConverter {
 
         if (this.configuration.options.addIndexFiles) {
             console.log("\nAdding index files...");
-            this.addIndexFile(path.resolve(currentDir, this.configuration.output));
+            this.addIndexFile(path.resolve(currentDir, this.configuration.outputPath));
         }
 
         console.log("\nConversion finished");

@@ -7,7 +7,7 @@
 
 /* eslint-disable no-underscore-dangle */
 
-import { ParseTree, ParseTreeWalker } from "antlr4ts/tree";
+import { ParseTree, ParseTreeWalker } from "antlr4ts/tree/index.js";
 import {
     SymbolTable, ClassSymbol, ScopedSymbol, ParameterSymbol, InterfaceSymbol, NamespaceSymbol, Modifier, BaseSymbol,
     TypedSymbol,
@@ -16,14 +16,14 @@ import {
 import {
     ClassDeclarationContext, ClassOrInterfaceTypeContext, CreatorContext, EnumDeclarationContext, ExpressionContext,
     InterfaceDeclarationContext, StatementContext, SwitchLabelContext, TypeTypeContext,
-} from "../parser/generated/JavaParser";
-import { ISymbolInfo } from "./conversion/types";
-import { PackageSource } from "./PackageSource";
-import { JavaClassSymbol } from "./parsing/JavaClassSymbol";
+} from "../parser/generated/JavaParser.js";
+import { ISymbolInfo } from "./conversion/types.js";
+import { PackageSource } from "./PackageSource.js";
+import { JavaClassSymbol } from "./parsing/JavaClassSymbol.js";
 import {
     ClassCreatorSymbol,
     ConstructorSymbol, EnumSymbol, InitializerBlockSymbol, JavaParseTreeWalker, PackageSymbol,
-} from "./parsing/JavaParseTreeWalker";
+} from "./parsing/JavaParseTreeWalker.js";
 
 export class JavaFileSymbolTable extends SymbolTable {
 

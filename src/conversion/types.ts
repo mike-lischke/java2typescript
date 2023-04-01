@@ -6,7 +6,8 @@
  */
 
 import { BaseSymbol } from "antlr4-c3";
-import { PackageSource } from "../PackageSource";
+
+import { PackageSource } from "../PackageSource.js";
 
 export interface ISymbolInfo {
     /** The resolved symbol or undefined for anonymous class expressions.  */

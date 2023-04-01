@@ -6,7 +6,7 @@
  */
 
 import { ParserRuleContext, RuleContext } from "antlr4ts";
-import { TerminalNode, ParseTree } from "antlr4ts/tree";
+import { TerminalNode, ParseTree } from "antlr4ts/tree/index.js";
 
 /**
  * Get the lowest level parse tree, which covers the given position.
@@ -71,7 +71,7 @@ export const parseTreeFromPosition = (root: ParseTree, column: number, row: numb
  * @param position.row The row value.
  */
 export const printParseTreeStack = (fileName: string, root: ParseTree, ruleNames: string[],
-    position: { column: number; row: number }): void => {
+    position: { column: number; row: number; }): void => {
     const tree = parseTreeFromPosition(root, position.column, position.row);
     if (!tree) {
         console.warn(`DEBUG: no parse tree found in ${fileName} at column ${position.column}, row ${position.row}`);

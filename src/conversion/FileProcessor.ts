@@ -9,13 +9,13 @@ import fs from "fs";
 import path from "path";
 
 import { ParserRuleContext } from "antlr4ts";
-import { Interval } from "antlr4ts/misc/";
-import { ParseTree, TerminalNode } from "antlr4ts/tree";
+import { Interval } from "antlr4ts/misc/index.js";
+import { ParseTree, TerminalNode } from "antlr4ts/tree/index.js";
 import { ClassSymbol, InterfaceSymbol, ScopedSymbol, TypedSymbol, BaseSymbol, TypeKind } from "antlr4-c3";
 
 import { java, S } from "jree";
 
-import { JavaLexer } from "../../parser/generated/JavaLexer";
+import { JavaLexer } from "../../parser/generated/JavaLexer.js";
 import {
     AnnotationContext, AnnotationTypeDeclarationContext, ArgumentsContext, ArrayInitializerContext, BlockContext,
     BlockStatementContext, CatchClauseContext, ClassBodyContext, ClassBodyDeclarationContext,
@@ -38,14 +38,14 @@ import {
     TypeArgumentsContext, TypeArgumentsOrDiamondContext, TypeBoundContext, TypeDeclarationContext, TypeListContext,
     TypeParameterContext, TypeParametersContext, TypeTypeContext, TypeTypeOrVoidContext, VariableDeclaratorContext,
     VariableDeclaratorIdContext, VariableDeclaratorsContext, VariableInitializerContext, VariableModifierContext,
-} from "../../parser/generated/JavaParser";
+} from "../../parser/generated/JavaParser.js";
 
-import { PackageSource } from "../PackageSource";
-import { ConverterOptionsPrefixFunc, IClassResolver, IConverterConfiguration } from "./JavaToTypeScript";
-import { EnumSymbol, JavaInterfaceSymbol } from "../parsing/JavaParseTreeWalker";
-import { PackageSourceManager } from "../PackageSourceManager";
-import { ContextType, ISymbolInfo, MemberType } from "./types";
-import { MemberOrdering } from "./MemberOrdering";
+import { PackageSource } from "../PackageSource.js";
+import { ConverterOptionsPrefixFunc, IClassResolver, IConverterConfiguration } from "./JavaToTypeScript.js";
+import { EnumSymbol, JavaInterfaceSymbol } from "../parsing/JavaParseTreeWalker.js";
+import { PackageSourceManager } from "../PackageSourceManager.js";
+import { ContextType, ISymbolInfo, MemberType } from "./types.js";
+import { MemberOrdering } from "./MemberOrdering.js";
 
 enum ModifierType {
     None,

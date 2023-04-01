@@ -14,7 +14,7 @@ import {
 import { java } from "jree";
 
 import { ParserRuleContext } from "antlr4ts";
-import { TerminalNode } from "antlr4ts/tree";
+import { TerminalNode } from "antlr4ts/tree/index.js";
 import {
     AnnotationTypeBodyContext, MethodDeclarationContext, BlockContext, EnumDeclarationContext,
     InterfaceDeclarationContext, AnnotationTypeDeclarationContext, ClassDeclarationContext, ExpressionContext,
@@ -24,13 +24,13 @@ import {
     EnhancedForControlContext, CatchClauseContext, EnumConstantContext, InterfaceCommonBodyDeclarationContext,
     ClassCreatorRestContext,
     SwitchBlockStatementGroupContext,
-} from "../../parser/generated/JavaParser";
-import { JavaParserListener } from "../../parser/generated/JavaParserListener";
+} from "../../parser/generated/JavaParser.js";
+import { JavaParserListener } from "../../parser/generated/JavaParserListener.js";
 
-import { PackageSource } from "../PackageSource";
-import { PackageSourceManager } from "../PackageSourceManager";
+import { PackageSource } from "../PackageSource.js";
+import { PackageSourceManager } from "../PackageSourceManager.js";
 
-import { JavaClassSymbol } from "./JavaClassSymbol";
+import { JavaClassSymbol } from "./JavaClassSymbol.js";
 
 export class FileSymbol extends ScopedSymbol { }
 export class AnnotationSymbol extends ScopedSymbol { }
