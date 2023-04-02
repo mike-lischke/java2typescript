@@ -1,11 +1,11 @@
 /*
- * This file is released under the MIT license.
- * Copyright (c) 2022, Mike Lischke
- *
- * See LICENSE file for more info.
+ * Copyright (c) Mike Lischke. All rights reserved.
+ * Licensed under the MIT License. See License.txt in the project root for license information.
  */
 
 import * as fs from "fs";
+import { fileURLToPath } from "node:url";
+
 import {
     FieldSymbol, MethodSymbol, ScopedSymbol, SymbolTable, Modifier, ClassSymbol, InterfaceSymbol,
 } from "antlr4-c3";
@@ -59,7 +59,8 @@ export class JavaPackageSource extends PackageSource {
     protected override createSymbolTable(): SymbolTable {
         const symbolTable = new SymbolTable("Java", { allowDuplicateSymbols: true });
 
-        const dataFiles = fs.readdirSync("data");
+        const dataPath = fileURLToPath(new URL("../data/", import.meta.url));
+        const dataFiles = fs.readdirSync(dataPath);
 
         // First read the definition files one by one and add their types to the symbol table.
         // Leave their dependencies unresolved for now.
@@ -68,7 +69,7 @@ export class JavaPackageSource extends PackageSource {
             const namespace = dataFile.substring(0, dataFile.length - 5);
             symbolTable.addNewNamespaceFromPathSync(symbolTable, namespace, ".");
 
-            const content = fs.readFileSync(`data/${dataFile}`, "utf8");
+            const content = fs.readFileSync(`${dataPath}/${dataFile}`, "utf8");
             const data = JSON.parse(content) as ITypeRecord[];
 
             // Sort records by their name part counts. This ensures that the parent types are always

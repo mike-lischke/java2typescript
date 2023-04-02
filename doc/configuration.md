@@ -4,7 +4,7 @@ The configuration object (`IConverterConfiguration`) mentioned in the readme fil
 
 * **packageRoot** (string, mandatory): The root path of a Java package tree. Usually not only a single Java file, but a whole package is converted. This root path is used to regenerate the same folder structure in the target root path and to resolve relative paths. Use an absolute path for this to avoid problems with path resolution.
 
-* **javaLib** (string, mandatory): The the root path to the JDK shims. Also this path should be absolute. The java2ts tool comes with a number of JDK shims which you can use in the generated code, but to make that self-contained these shims should be copied to a folder within your target project folder structure. Alternatively you can use a symlink to the original shims, but in any case the target folder should be close to the generated sources to avoid complicated import paths.
+* **javaLib** (string, optional): This value is used to import JRE types. If left empty, the `jree` package is used. Alternatively you can specify a path from which to import those types.
 
 * **include** (array of string or regular expressions, optional): if given only Java files matching one of the entries are converted (all files without the `.java` extension are always ignored). Files are enumerated from the package root and their absolute names used for comparison.
 Note: this setting has no influence on which files are parsed, only which are generated. Usually every file in a package can be parsed if a symbol from it is required, that is, it's imported in one of the listed files.

@@ -1,8 +1,6 @@
 /*
- * This file is released under the MIT license.
- * Copyright (c) 2021, 2022, Mike Lischke
- *
- * See LICENSE file for more info.
+ * Copyright (c) Mike Lischke. All rights reserved.
+ * Licensed under the MIT License. See License.txt in the project root for license information.
  */
 
 import fs from "fs";
@@ -193,9 +191,9 @@ export class FileProcessor {
     public constructor(
         private source: PackageSource,
         private configuration: IConverterConfiguration) {
-        this.classResolver = configuration.options.classResolver ?? new Map();
+        this.classResolver = configuration.options?.classResolver ?? new Map();
 
-        if (configuration.options.memberOrderOptions) {
+        if (configuration.options?.memberOrderOptions) {
             this.memberOrdering = new MemberOrdering(configuration.options.memberOrderOptions);
         }
     }
@@ -264,7 +262,7 @@ export class FileProcessor {
 
             if (this.source.targetFile) {
                 const libPath = path.relative(path.dirname(this.source.targetFile),
-                    this.configuration.options.lib ?? "./");
+                    this.configuration.options?.lib ?? "./");
                 const builder = new java.lang.StringBuilder();
                 this.processCompilationUnit(builder, this.source.targetFile, libPath, this.source.parseTree);
 
@@ -299,7 +297,7 @@ export class FileProcessor {
 
         const firstChild = context.getChild(0);
         const header = new java.lang.StringBuilder();
-        const prefix = this.configuration.options.prefix as ConverterOptionsPrefixFunc;
+        const prefix = this.configuration.options?.prefix as ConverterOptionsPrefixFunc ?? (() => { return ""; });
         if (firstChild instanceof ParserRuleContext) {
             header.append(this.getLeadingWhiteSpaces(firstChild));
 
@@ -513,7 +511,7 @@ export class FileProcessor {
                     break;
                 }
             }
-        } else if (this.configuration.options.convertAnnotations && context.annotation()) {
+        } else if (this.configuration.options?.convertAnnotations && context.annotation()) {
             this.processAnnotation(builder, context.annotation());
         } else {
             this.ignoreContent(context.annotation());
@@ -944,7 +942,7 @@ export class FileProcessor {
 
         if (!this.processTypeTypeOrVoid(returnType, context.typeTypeOrVoid())) {
             // Not a primitive type so make it explicitly nullable.
-            const addNull = this.configuration.options.addNullUnionType ?? true;
+            const addNull = this.configuration.options?.addNullUnionType ?? true;
             if (addNull) {
                 returnType.append(" | null");
             }
@@ -958,7 +956,7 @@ export class FileProcessor {
         result.signature = [];
         result.returnType = `${returnType.toString()}`;
 
-        if (this.configuration.options.preferArrowFunctions) {
+        if (this.configuration.options?.preferArrowFunctions) {
             result.signatureContent.append(result.modifiers?.has("abstract") ? ": " : " = ");
         }
 
@@ -976,7 +974,7 @@ export class FileProcessor {
             this.whiteSpaceAnchor = rightBrackets[rightBrackets.length - 1].symbol.stopIndex + 1;
         }
 
-        if (this.configuration.options.preferArrowFunctions) {
+        if (this.configuration.options?.preferArrowFunctions) {
             if (result.modifiers?.has("abstract")) {
                 result.signatureContent.append(` => ${returnType.toString()}`);
             } else {
@@ -1064,7 +1062,7 @@ export class FileProcessor {
             // generated type string, however, to avoid duplicate null types in overloading scenarios.
             nullable = true;
 
-            const addNull = this.configuration.options.addNullUnionType ?? true;
+            const addNull = this.configuration.options?.addNullUnionType ?? true;
             if (addNull) {
                 nullText = "| null";
             }
@@ -1137,7 +1135,7 @@ export class FileProcessor {
         }
 
         const type = new java.lang.StringBuilder();
-        const addNull = this.configuration.options.addNullUnionType ?? true;
+        const addNull = this.configuration.options?.addNullUnionType ?? true;
         const makeOptional = !this.processTypeType(type, context.typeType()) && addNull;
 
         const list = this.processVariableDeclarators(context.variableDeclarators(), type, modifiers, makeOptional);
@@ -1608,7 +1606,7 @@ export class FileProcessor {
             details.type = MemberType.Method;
         }
 
-        const useArrowFunction = !isTypescriptCompatible && this.configuration.options.preferArrowFunctions;
+        const useArrowFunction = !isTypescriptCompatible && this.configuration.options?.preferArrowFunctions;
         details.name = context.identifier().text;
         details.nameWhitespace = this.getLeadingWhiteSpaces(context.identifier());
         this.ignoreContent(context.identifier());
@@ -1908,7 +1906,7 @@ export class FileProcessor {
         if (type.length() > 0) {
             builder.append(`${ws}${name}`);
 
-            const suppressType = this.configuration.options.suppressTypeWithInitializer ?? false;
+            const suppressType = this.configuration.options?.suppressTypeWithInitializer ?? false;
             if (!hasInitializer || !suppressType) {
                 builder.append(`: ${type}${makeOptional ? " | null" : ""}`);
             }
@@ -2768,7 +2766,7 @@ export class FileProcessor {
                 builder.append(value);
             }
         } else if (context.STRING_LITERAL()) {
-            const wrap = this.configuration.options.wrapStringLiterals ?? false;
+            const wrap = this.configuration.options?.wrapStringLiterals ?? false;
             if (wrap) {
                 const value = context.STRING_LITERAL()?.text ?? "";
                 builder.append(`S\`${value.substring(1, value.length - 1)}\``);
@@ -3066,7 +3064,7 @@ export class FileProcessor {
 
         const needBraces = context.blockStatement().length > 1 || !context.blockStatement(0).statement()
             || !context.blockStatement(0).statement()?.block();
-        const addBraces = needBraces && this.configuration.options.autoAddBraces;
+        const addBraces = needBraces && this.configuration.options?.autoAddBraces;
 
         if (addBraces) {
             builder.append("{");
@@ -3787,7 +3785,7 @@ export class FileProcessor {
      * @param statement The statement to process.
      */
     private expressionWithBraces = (builder: java.lang.StringBuilder, statement: StatementContext): void => {
-        const addBraces = !statement.block() && this.configuration.options.autoAddBraces;
+        const addBraces = !statement.block() && this.configuration.options?.autoAddBraces;
 
         if (addBraces) {
             builder.append(" {\n");

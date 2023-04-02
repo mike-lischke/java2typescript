@@ -1,20 +1,16 @@
 /*
- * This file is released under the MIT license.
- * Copyright (c) 2021, 2023, Mike Lischke
- *
- * See LICENSE file for more info.
+ * Copyright (c) Mike Lischke. All rights reserved.
+ * Licensed under the MIT License. See License.txt in the project root for license information.
  */
 
-/* cspell: ignore a4tstool */
-
-import path from "path";
+import * as path from "path";
 
 import {
     IClassResolver,
     IConverterConfiguration, JavaToTypescriptConverter,
-} from "./conversion/JavaToTypeScript";
-import { PackageSource } from "./PackageSource";
-import { PackageSourceManager } from "./PackageSourceManager";
+} from "../src/conversion/JavaToTypeScript";
+import { PackageSource } from "../src/PackageSource";
+import { PackageSourceManager } from "../src/PackageSourceManager";
 
 // Only packages required for ANTLR4.
 const knownSDKPackages: string[] = [
@@ -56,7 +52,7 @@ const convertAntlr4Runtime = async () => {
     const antlrToolOptions: IConverterConfiguration = {
         packageRoot: path.resolve(process.cwd(), "../antlr4/runtime/Java/src"),
         include: [
-            "/UnbufferedTokenStream.java",
+            //"/UnbufferedTokenStream.java",
         ],
         exclude: [
             "AbstractEqualityComparator.java",
@@ -64,7 +60,7 @@ const convertAntlr4Runtime = async () => {
             "misc/TestRig.java",
             "MurmurHash.java",
         ],
-        output: "../a4tstool/runtime",
+        outputPath: "../a4tstool/runtime",
         options: {
             /*
             prefix: `

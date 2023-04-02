@@ -33,7 +33,8 @@
                 "--experimental-specifier-resolution=node",
                 "--loader",
                 "ts-node/esm",
-                "src/main-antlr4.ts",
+                "src/convert",
+                "config/antlr4.json",
             ],
             "console": "integratedTerminal",
             "trace": false

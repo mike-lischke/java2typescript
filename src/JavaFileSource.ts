@@ -1,8 +1,6 @@
 /*
- * This file is released under the MIT license.
- * Copyright (c) 2022, Mike Lischke
- *
- * See LICENSE file for more info.
+ * Copyright (c) Mike Lischke. All rights reserved.
+ * Licensed under the MIT License. See License.txt in the project root for license information.
  */
 
 import fs from "fs";
@@ -17,7 +15,7 @@ import { JavaFileSymbolTable } from "./JavaFileSymbolTable.js";
 import { JavaErrorListener } from "./parsing/JavaErrorListener.js";
 import { ParseTree } from "antlr4ts/tree/index.js";
 import { Interval } from "antlr4ts/misc/";
-import { printParseTreeStack } from "./Utilities.js";
+import { printParseTreeStack } from "./utilities.js";
 import { ISymbolInfo } from "./conversion/types.js";
 
 /**

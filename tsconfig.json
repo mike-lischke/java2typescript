@@ -5,6 +5,7 @@
         "module": "NodeNext",
         "outDir": "./output",
         "sourceMap": true,
+        "declaration": true,
         "esModuleInterop": true,
         "isolatedModules": true,
         "strict": true,
@@ -12,19 +13,26 @@
         "noImplicitOverride": false,
         "strictNullChecks": true,
         "strictPropertyInitialization": true,
-        "rootDirs": [
-            "src",
-        ]
+        "rootDirs": [],
+        "resolveJsonModule": true
     },
     "include": [
+        "index.ts",
         "src/**/*.ts",
         "parser/generated/**/*.ts",
+        "data/**/*.json"
     ],
     "exclude": [
         "node_modules/**/*.*",
         "output/**/*.*"
     ],
     "ts-node": {
-        "esm": true,
+        "esm": true
+    },
+    "hooks": [
+        "file-permissions"
+    ],
+    "filePermissions": {
+        "output/src/convert.js": "0744"
     }
 }

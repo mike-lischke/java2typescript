@@ -1,8 +1,6 @@
 /*
- * This file is released under the MIT license.
- * Copyright (c) 2021, 2022, Mike Lischke
- *
- * See LICENSE file for more info.
+ * Copyright (c) Mike Lischke. All rights reserved.
+ * Licensed under the MIT License. See License.txt in the project root for license information.
  */
 
 import glob from "glob";
@@ -166,7 +164,7 @@ export interface IConverterConfiguration {
     /**
      * Options for the conversion process.
      */
-    options: IConverterOptions;
+    options?: IConverterOptions;
 
     /**
      * Additional options for debugging the conversion process.
@@ -176,13 +174,15 @@ export interface IConverterConfiguration {
 
 export class JavaToTypescriptConverter {
     public constructor(private configuration: IConverterConfiguration) {
-        PackageSourceManager.configure(configuration.javaLib, configuration.options.importResolver);
+        PackageSourceManager.configure(configuration.javaLib, configuration.options?.importResolver);
 
         configuration.packageRoot = path.resolve(configuration.packageRoot);
 
         // Convert all prefix field variants to a function, so we don't have to test this again later.
-        const prefix = configuration.options.prefix;
-        configuration.options.prefix = typeof prefix === "function" ? prefix : () => { return prefix ?? ""; };
+        if (configuration.options?.prefix) {
+            const prefix = configuration.options.prefix;
+            configuration.options.prefix = typeof prefix === "function" ? prefix : () => { return prefix ?? ""; };
+        }
     }
 
     public async startConversion(): Promise<void> {
@@ -217,7 +217,7 @@ export class JavaToTypescriptConverter {
         });
 
         // Load also all files given by a source mapping. These are never converted, however.
-        for (const { sourcePath, importPath } of this.configuration.options.sourceMappings ?? []) {
+        for (const { sourcePath, importPath } of this.configuration.options?.sourceMappings ?? []) {
             const list = glob.sync(sourcePath + "/**/*.java");
             console.log(`\nFound ${list.length} java files in ${sourcePath}`);
             list.forEach((entry) => {
@@ -231,7 +231,7 @@ export class JavaToTypescriptConverter {
             await processor.convertFile();
         }
 
-        if (this.configuration.options.addIndexFiles) {
+        if (this.configuration.options?.addIndexFiles) {
             console.log("\nAdding index files...");
             this.addIndexFile(path.resolve(currentDir, this.configuration.outputPath));
         }

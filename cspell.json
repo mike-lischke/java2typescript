@@ -27,7 +27,6 @@
         "whitespaces"
     ],
     "ignoreWords": [
-        "a4tstool",
         "COLONCOLON",
         "FEFFFFFFFFFFFFF",
         "Harwell",
@@ -38,6 +37,7 @@
         "RBRACK",
         "RPAREN",
         "Xexact",
+        "a4tstool",
         "allclasses",
         "arraycopy",
         "bitness",
@@ -52,11 +52,13 @@
         "stringtemplate",
         "typeof",
         "unmappable",
+        "unmocked",
         "uxxxx",
         "ᬠᬣᬦᬪᬫᬬᬭ"
     ],
     "ignorePaths": [
         ".eslintrc.json",
-        "parser"
+        "parser",
+        "data"
     ]
 }

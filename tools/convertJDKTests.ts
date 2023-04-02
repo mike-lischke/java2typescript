@@ -1,8 +1,6 @@
 /*
- * This file is released under the MIT license.
- * Copyright (c) 2021, 2023, Mike Lischke
- *
- * See LICENSE file for more info.
+ * Copyright (c) Mike Lischke. All rights reserved.
+ * Licensed under the MIT License. See License.txt in the project root for license information.
  */
 
 /* cspell: ignore a4tstool */
@@ -11,9 +9,9 @@ import path from "path";
 
 import {
     IClassResolver, IConverterConfiguration, JavaToTypescriptConverter,
-} from "./conversion/JavaToTypeScript";
-import { PackageSource } from "./PackageSource";
-import { PackageSourceManager } from "./PackageSourceManager";
+} from "../src/conversion/JavaToTypeScript";
+import { PackageSource } from "../src/PackageSource";
+import { PackageSourceManager } from "../src/PackageSourceManager";
 
 /** Member sorting identifiers as used in the project's eslint configuration. */
 const memberOrderOptions = {
@@ -108,7 +106,7 @@ const convertJDKLangTests = async () => {
             "ref",
             "reflect",
         ],
-        output: "../jree/tests/jdk/java/lang",
+        outputPath: "../jree/tests/jdk/java/lang",
         options: {
             importResolver,
             classResolver,

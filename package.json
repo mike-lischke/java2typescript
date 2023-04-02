@@ -1,5 +1,5 @@
 {
-    "name": "java2ts",
+    "name": "java2typescript",
     "version": "0.1.0",
     "description": "Convert Java Code to Typescript",
     "keywords": [
@@ -34,16 +34,19 @@
         "jest": "29.5.0",
         "ts-jest": "29.0.5",
         "ts-node": "10.9.1",
+        "tsc-hooks": "1.1.2",
         "typescript": "5.0.2"
     },
     "scripts": {
-        "build": "npm run generate && tsc",
+        "build": "tsc",
         "fetch-apis": "ts-node-esm tools/fetchJavaApis.ts",
         "run-antlr4-conversion": "ts-node-esm  ./src/convert.ts config/antlr4.json",
         "test": "jest --config=./tests/jest.config.ts --no-coverage --watchAll=false",
         "test-ci": "jest --config=./tests/jest.config.ts --no-coverage --watchAll=false --silent",
         "test-coverage": "jest --config=./tests/jest.config.ts --coverage --silent",
         "lint": "eslint \"./src/**/*.ts\"",
-        "generate": "antlr4ts -Xexact-output-dir ./parser/JavaLexer.g4 ./parser/JavaParser.g4 -visitor -o ./parser/generated"
+        "generate": "antlr4ts -Xexact-output-dir ./parser/JavaLexer.g4 ./parser/JavaParser.g4 -visitor -o ./parser/generated",
+        "link": "npm link",
+        "unlink": "npm unlink ."
     }
 }
