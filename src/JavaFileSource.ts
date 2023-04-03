@@ -15,7 +15,7 @@ import { JavaFileSymbolTable } from "./JavaFileSymbolTable.js";
 import { JavaErrorListener } from "./parsing/JavaErrorListener.js";
 import { ParseTree } from "antlr4ts/tree/index.js";
 import { Interval } from "antlr4ts/misc/";
-import { printParseTreeStack } from "./utilities1.js";
+import { printParseTreeStack } from "./utilities.js";
 import { ISymbolInfo } from "./conversion/types.js";
 
 /**

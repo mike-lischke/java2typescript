@@ -17,4 +17,4 @@ export * from "./src/JavaFileSymbolTable.js";
 export * from "./src/PackageSource.js";
 export * from "./src/PackageSource.js";
 export * from "./src/PackageSourceManager.js";
-export * from "./src/utilities1.js";
+export * from "./src/utilities.js";
