@@ -1,6 +1,8 @@
 # Conversion Configuration
 
-The configuration object (`IConverterConfiguration`) mentioned in the readme file holds all necessary path information and options to steer the conversion process. Here's a description of each field:
+The configuration object (`IConverterConfiguration`) mentioned in the readme file holds all necessary path information and options to steer the conversion process. Below's a description of each field.
+
+## Top Level Configuration Values
 
 * **packageRoot** (string, mandatory): The root path of a Java package tree. Usually not only a single Java file, but a whole package is converted. This root path is used to regenerate the same folder structure in the target root path and to resolve relative paths. Use an absolute path for this to avoid problems with path resolution.
 
@@ -11,7 +13,7 @@ Note: this setting has no influence on which files are parsed, only which are ge
 
 * **exclude** (array of string or regular expression, optional): if given then files matching any of the patterns are ignored and not converted. The exclusion matching runs after the inclusion matching, which means that a file which is in both lists will not be converted.
 
-* **output** (string, mandatory): specifies where generated files have to be written to. This path can be relative to the current path and gets the same folder structure as found in the package root path.
+* **outputPath** (string, mandatory): specifies where generated files have to be written to. This path can be relative to the current path and gets the same folder structure as found in the package root path.
 
 * **sourceReplace** (map, optional): Specifies patterns for string replacements to be done in a Java file before it is parsed.
 
@@ -21,7 +23,9 @@ Note: this setting has no influence on which files are parsed, only which are ge
 
 * **debug** (object with debug configuration options, optional): see below for a description of the possible values.
 
-The processing options objects (`IConverterOptions`) supports these fields:
+## Converter Options
+
+The `options` field in the top level configuration object accepts the following fields:
 
 * **prefix** (string, optional): content which is inserted before the first generated source line (e.g. linter settings).
 
@@ -33,6 +37,14 @@ The processing options objects (`IConverterOptions`) supports these fields:
 
 * **autoAddBraces** (boolean, optional): if true then the tool automatically adds braces around code in `if`/`else`/`switch` statements, if there are none yet.
 
+* **addNullUnionType**
+
+* **suppressTypeWithInitializer**
+
+* **wrapStringLiterals**
+
+* **memberOrderOptions**
+
 * **addIndexFiles** (boolean, optional): when true then the tool generates an index.ts file in every target (sub) folder, to allow for simpler import statements in generated files.
 
 * **sourceMappings** (array of mapping entries, optional): a rarely used member to provide mappings between Java source files, which do not belong to the current package (and are not converted) and 3rd party JS/TS packages. So these mappings can be used to specify already converted Java packages. Each entry in the array is an object with 2 members (`sourcePath` and `importPath`), the path of the separate Java package and the import path to be used in generated files (if given as relative path then Node.js will try to solve the path in the node_module folder). The source files are only needed to collect symbol information.
@@ -40,8 +52,6 @@ The processing options objects (`IConverterOptions`) supports these fields:
 * **importResolver** (custom import resolver function, optional): described in the next section.
 
 * **classResolver** (map, optional): provides a mapping of a class name to an alternative name. Each value in the map consists of two parts: an alias (optional) and an import path. This allows to swap implementations for not supported Java 3rd party packages and use another JS/TS 3rd party libraries instead. The `importPath` usually specifies a 3rd party node module and the `alias` allows to change the imported type name to something more useful (e.g. the original name of the Java type).
-
-* **suppressTSErrorsForECI** (boolean, optional): when true then the tool will add TS error suppression comments when needed (see also the chapter about explicit constructor invocation in the [feature documentation](features.md)).
 
 There are no default values for any of the settings in this list, except that unspecified boolean values are taken as `false`.
 

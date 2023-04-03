@@ -20,8 +20,6 @@ export interface IClassResolver {
 /**
  * Maps a root package ID to a source path to get the Java source code from, as well as a path that is used
  * for the imports. Source mappings are to provide symbol information for a package, which is however not converted.
- * For example the antlr4ts runtime is already done and available in a node module, but for symbol lookup we have
- * to parse the original Java files.
  */
 export interface ISourceMapping {
     /** The full path to the file to parse. */

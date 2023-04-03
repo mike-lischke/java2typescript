@@ -38,23 +38,25 @@
 
 ## <a name="introduction">Introduction</a>
 
-Java and Typescript are in many aspects pretty similar, which makes a conversion relatively easy. However, there are also quite a few things that must be considered when using the converted Typescript code. Some require manual resolution and some language features are not available in Typescript. You didn't expect anything else, did you?
+Java and Typescript are in many aspects pretty similar, which makes a conversion relatively easy. However, there are also quite a few things that must be considered when using the converted Typescript code. Some require manual resolution and some language features are not available in Typescript.
 
-There are a number of objects which exist in both languages (`String`, `Object` etc.), which may create conflicts when used directly. Instead you should always use a qualified form of a translated class, for example `java.lang.String` instead of just `String`. In fact this principle is used throughout the JRE emulation as well, even if a class imports another class from the same package, except for classes which are used to derive from, in which case the base class is directly imported to avoid the static initialisation order fiasco.
+An important aspect for the conversion is what runtime to use that provides the same API like what's available in the JRE. Such a runtime is the JREE ([Java Runtime Environment Emulation](https://github.com/mike-lischke/jree)), which has been developed as part of the java2typescript development. Some language aspects are only relevant to that runtime and discussed there, while others are purely conversion related and hence listed below.
 
 ## <a name="generics">Generics and Type Wildcards</a>
 
-Generic semantics in Java and TS are pretty much the same, with the exception of bounded type parameters and type wildcards. The concepts are sometimes handled a bit differently in converted code. Java knows these scenarios:
+Generic syntax and semantics in Java and TypeScript are pretty much the same, with the exception of bounded type parameters and type wildcards. The concepts are sometimes handled a bit differently in converted code. Java knows these scenarios:
 
-- `compare<T>`: a straight forward type parameter, supported exactly like that in TS.
-- `compare<U extends T>`: an upper bounded type parameter, supported exactly like that in TS.
-- `compared<? extends T>`: an upper bounded type parameter with a wildcard, this corresponds to the first scenario in TS.
-- `compare<? super T>`: a lower bounded type parameter with a wildcard, a concept not supported by TS (see also [this discussion](https://github.com/Microsoft/TypeScript/issues/14520)). Such an expression is converted to just `compare<T>`, which is not entirely correct and must be handled manually if required.
-- `const s: Set<?> = ...`: a wildcard capture,  which is converted to `const s: Set<unknown>`. The explicit type can be removed manually, if such a variable is initialized in the definition (its type is then automatically inferred).
+- `compare<T>`: a straight forward type parameter, supported exactly like that in TypeScript.
+- `compare<U extends T>`: an upper bounded type parameter, supported exactly like that in TypeScript.
+- `compared<? extends T>`: an upper bounded type parameter with a wildcard, this corresponds to the first scenario in TypeScript.
+- `compare<? super T>`: a lower bounded type parameter with a wildcard, a concept not supported by TypeScript (see also [this discussion](https://github.com/Microsoft/TypeScript/issues/14520)). Such an expression is converted to just `compare<T>`, which is not entirely correct and must be handled manually if required.
+- `s: Set<?>`: a wildcard capture,  which is converted to `s: Set<unknown>`.
 
 ## <a name="interfaces">Interfaces</a>
 
-Java interfaces are more than interfaces in the original sense (API contracts), as they can have actual code, much like classes. As this is not supported in Typescript different paths are taken in the conversion process. Java interfaces without methods and initialized fields are converted directly to their TS interface equivalent. Otherwise they are implemented as abstract classes, which is an acceptable workaround. Especially, as TS interfaces can extend TS classes.
+Java interfaces are more than interfaces in the original sense (API contracts), as they can have actual code, much like classes. As this is not supported in Typescript different paths are taken in the conversion process. Java interfaces without methods and initialized fields are converted directly to their TypeScript interface equivalent. Otherwise they are implemented as abstract classes, which is an acceptable workaround. Especially, as TypeScript interfaces can extend TypeScript classes.
+
+Together with the namespace, which is sometimes generated (see [Nested Classes and Interfaces](#nested-classes-and-interfaces)) this can lead to a file which contains an interface, a class and a namespace, all with the same name.
 
 ## <a name="modifiers">Modifiers and Access Levels</a>
 
@@ -68,7 +70,7 @@ In addition to access levels there's a range of additional modifiers:
 - `volatile`: unsupported, ignored
 - `static`: same meaning in TS, taken over
 - `abstract`: same meaning in TS, taken over
-- `final`: converted to `readonly`
+- `final`: converted to `readonly` for class members, ignored for top level types
 - `strictfp`: unsupported, ignored
 - `sealed`, unsupported (Java 17), ignored
 - `non-sealed`, unsupported (Java 17), ignored
@@ -83,69 +85,49 @@ Read also the [Boxing and Unboxing chapter](#boxing-and-unboxing).
 
 ## <a name="iterators">Iterators</a>
 
-Both the `Iterator` and the `Iterable` interfaces are supported in Java as well as in TS. However, the `Iterator` interface in Java supports additional functionality (namely the mandatory `hasNext()` and optional `remove()` methods), which is not available in TS. For this reason an own implementation is used instead, but that supports the `Iterable` interface, to allow direct translation of `for` loops with iterable objects.
+Both the `Iterator` and the `Iterable` interfaces are supported in Java as well as in TypeScript. However, the `Iterator` interface in Java supports additional functionality (namely the mandatory `hasNext()` and optional `remove()` methods), which is not available in TypeScript. For this reason an own implementation is used instead, but that supports the `Iterable` interface, to allow direct translation of `for` loops with iterable objects.
 
 ## <a name="methods">Methods, Rest Parameters and Overloading</a>
 
 Method overloading is supported up to the point what's possible in Typescript. That excludes mixing static and non-static overloaded methods. All overloaded methods must have the same visibility (public/protected/private) and overloaded methods which override inherited methods may not work out of the box and may hence need manual changes.
 
-The conversion to TS method overloading (with their overloading signatures and the implementation signature) requires sometimes to re-order source code. Because the implementation bodies of the method overloads are combined into one TS method body, it is not possible to maintain the same code structure for them.
+The conversion to TypeScript method overloading (with their overloading signatures and the implementation signature) requires sometimes to re-order source code. Because the implementation bodies of the method overloads are combined into one TypeScript method body, it is not possible to maintain the same code structure for them.
 
-Rest parameters are supported but need manual resolution in overloading scenarios, because the implementation signature becomes just a single rest parameter (which can represent any of the overload parameters).
+The generated implementation signature consists only of a single rest parameter, which has turned out to be the best way to handle different parameter lists, in possibly many overloads. And it allows to have rest parameters in overloads as well. The tool generates a switch statement which acts on the number of parameters found in the rest parameter list. The block for case branch then contains the translated code of the original Java method and often needs additional manual work (e.g. to fix cases where two overloads have the same amount of parameters).
 
-## <a name="nullability">Implicit Nullability, the `null`, and undefined values</a>
+## <a name="nullability">Implicit Nullability, the `null`, and Undefined Values</a>
 
-All parameters, fields and variables with an object type can be `null`, without explicit notation. This must not be confused with an undefined value. Just like in TS `null` is a (special) value and accepting it as method parameter does not mean this value can be undefined, at least when strictly comparing values. In Java, especially in method overloading scenarios, `null` and `undefined` can have a different meaning. Example:
+All parameters, fields and variables with an object type can be `null`, without explicit notation. This must not be confused with an undefined value. Just like in TypeScript `null` is a (special) value and accepting it as method parameter does not mean this value can be undefined, at least when strictly comparing values.
 
-```java
-void method1(int param1) {
-}
-
-void method1(int param1, SomeObject param2) {
-}
-```
-
-Calling `method1(1)` will use the first overload, while both `method(1, null)` and `method(1, objectInstance)` will use the second overload. This requires a special construct for method overloading in Typescript:
-
-```typescript
-public method1(param1: number, param2?: SomeObject | null) {
-    if (param2 === undefined) {
-        // Code from first Java overload.
-    } else {
-         // Code from second Java overload, which may or may not test if param2 is null.
-    }
-}
-```
-
-All non-primitive parameters, variables/fields and return values are converted with an additional `| null` part to indicate the possible null value for them. This may require additional handling, like manually throwing a `java.lang.NullPointerException` for values which must not be `null` and are not tested for `null` in Java code.
+All non-primitive parameters, variables/fields and return values are by default generated with an additional `| null` part to indicate the possible null value for them. This may not always be correct (e.g. when Java originally expects a non-null value) and may require extra work. There's an option value (`addNullUnionType`) to switch this behavior off.
 
 ## <a name="arrays">Arrays</a>
 
-Typescript does not support multi-dimensional array creation with array sizes (initialisers are supported however). That means constructs like `new String[[2][4]]` can only be converted to TS without initial sizes: `= [[[]]]`. This might require manual changes in the code that uses such an array, if it relies on a specific size of an array (by explicitly setting an array member, instead of pushing values to it).
+Typescript does not support multi-dimensional array creation with array sizes (initialisers are supported however). That means constructs like `new String[[2][4]]` can only be converted to TypeScript without initial sizes: `= [[[]]]`. Arrays in Java are of fixed size, which is why they are created with an initial size (or an initializer) and later manipulated using array indexes. You must therefore manually allocate enough space in such arrays.
 
 ## <a name="numbers">Numbers</a>
 
-There are type aliases for single primitive numbers (byte, int, short, long, float, double) which all represent the Typescript type `number`, except for long, which is mapped to `bigint`. You can continue using these primitive types in your code, but you should be aware that there are no automatic conversions between them. You have to solve this manually.
+Typescript only knows 2 number types: `number` and `bigint`. To ease readability Java number types are kept as is. The JRE TS runtime contains type aliases which map all the primitive Java number types to the Typescript `number` (expect for `long` which is aliased to `bigint`). This way you can continue using these primitive types in the converted code, but you should be aware that there are no automatic conversions between them.
 
-Numbers in arrays, on the other hand, are converted to typed TS arrays according to their Java type. For example `int[]` is converted to `Int32Array`.
+For each primitive type there's an object type in both languages (e.g. `int` and `java.lang.Integer` etc.). Unfortunately, it is not possible to automatically convert between the converted types in Typescript (read also the [Boxing and Unboxing chapter](#boxing-and-unboxing)). This requires probably most of the remaining manual work in the converted code, to fix all the assignments, which mix primitive and object types.
+
+For arrays of primitive values the situation is different, however. Typescript knows [typed arrays](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Typed_arrays), which allow to optimize handling for such arrays. As a result `int[]` can be converted to `Int32Array`, `float[]` to `Float32Array`, `double[]` to `Float64Array` etc.
 
 There's currently no support for `BigInteger` and `BigNumber`;
-
-Read also the [Boxing and Unboxing chapter](#boxing-and-unboxing).
 
 ## <a name="text>Text</a>
 
 ### <a name="string">Char and String</a>
 
-Strings in Java and TS are pretty similar (at least in their respective realm). TS automatically does boxing and unboxing of string literals and string objects (just like Java). However, the Java `String` type has much more functionality, so it is translated like any other class instead of converting occurrences to the TS `string` type. This makes handling the actual strings in a TS context a bit more inconvenient, because this way the auto (un)boxing does not work as easy as between TS `String`, `string` and string literals.
+Both Java and TypeScript have a large repertoire to handle strings. Each language automatically converts between string literals and string objects. Sadly, there's no automatic boxing of string literals using `java.lang.String` (just like with any of these primitive wrapper types).
 
 Read also the [Boxing and Unboxing chapter](#boxing-and-unboxing).
 
-In both languages strings are stored in UTF-16 (two bytes per character) and use surrogates for values > 0xFFFF. However, there's no simple `char` type in TS, so we can only use `number` for it. To better distinguish a char type from an ordinary number a type alias is used in TS (`java.lang.char`) for any occurrence of a single `char` (and uses a number as base type, with only the lowest 16 bits). However, using a number for a char is all but optimal, so arrays of chars are converted to `Uint16Array` instead, which should be as efficient as the Java implementation.
+In both languages strings are stored in UTF-16 (two bytes per character) and use surrogates for values > 0xFFFF. However, there's no simple `char` type in TS, so we can only use `number` for it. To better distinguish a char type from an ordinary number a type alias is used (`char`). Arrays of chars, on the other hand, are converted to `Uint16Array` instead, which should be as efficient as the Java implementation.
 
 ### <a name="coding">Encoding and Decoding</a>
 
-The classes `java.nio.charset.Charset`, `java.nio.charset.CharsetEncoder` and `java.nio.charset.CharsetDecoder` are mostly supported by using the `TextEncoder` and `TextDecoder` classes from the browser. With this a large number of charsets are available for decoding. Unfortunately, the `TextEncoder` class does not support encoding to a specific charset, so only UTF-8 is supported for encoding.
+The classes `java.nio.charset.Charset`, `java.nio.charset.CharsetEncoder` and `java.nio.charset.CharsetDecoder` internally use the `TextEncoder` and `TextDecoder` classes from the browser. With them a large number of charsets are available for decoding. Unfortunately, the `TextEncoder` class does not support encoding to other but UTF-8.
 
 ## <a name="boxing">Boxing and Unboxing</a>
 
@@ -153,64 +135,13 @@ Boxing describes the effect of wrapping a primitive value in an object for addit
 
 Automatic wrapping of a primitive value is typically done when assigning a literal or simple value to an object type, or when calling a method on a literal (like `"abc".length`).
 
-Automatic unboxing, on the other hand, is used when primitive values are needed in an expression.
-
-In translated Java source code only automatic unboxing is supported (via [primitive type coercion](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#primitive_coercion)). By default the `.toString()` method is used to convert any of the Java objects to a primitive value (a string). Certain classes override `[Symbol.toPrimitive]` and return another primitive value (e.g. boolean or number) instead.
-
-With that in place you can use such objects mostly like in Java, for example:
-
-```typescript
-const b = new java.lang.StringBuilder("def");
-console.log("abc" + b);
-```
-
-which prints `abcdef`.
-
-For boxing a different approach is used: [tagged templates](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals#tagged_templates), which unfortunately is not automatic. It's merely a convenience feature that helps to lower manual work on converted code. The java2ts support library contains a number of tagged templates for various primitive types, all named with a single capital letter, according to the object type they create.
-
-```typescript
-const s = S`def`; // s is of type java.lang.String
-console.log("abc" + s);
-```
-
-which prints `abcdef`. Or for numbers:
-
-```typescript
-const i1 = I`567`; // Using a string literal.
-const i2 = I`${890}`; // Using a number literal.
-console.log(1 + i1 + i2);
-```
-
-which prints `1458`. Unfortunately, the typescript compiler issues an error for the console call, saying that you cannot add a number and an `Integer` type, which is plain wrong, because obviously this is valid JS code. You can work around this error either by using the unary `+` in addition to the binary operator, wrap the `Integer` instance in a TS `Number`, cast the `Integer` objects to `any`, add a `.valueOf()` call to each object or suppress the error. See also this [years old Typescript issue](https://github.com/microsoft/TypeScript/issues/2361) about this matter.
-
-If you use ESLint as your linter, you may want to disable two rules that get in the way with the described approach, which are [@typescript-eslint/restrict-template-expressions](https://typescript-eslint.io/rules/restrict-template-expressions) and [@typescript-eslint/restrict-plus-operands](https://typescript-eslint.io/rules/restrict-plus-operands).
-
-## <a name="regex">Regular Expressions</a>
-
-TS regular expressions do not support all features from Java regex, specifically these flags are not supported:
-
-- Pattern.CANON_EQ
-- Pattern.COMMENTS
-- Pattern.LITERAL
-- Pattern.UNIX_LINES
-
-Just like for iterators, Java regular expressions are not converted to their native TS variant, but converted like normal code, with a thin wrapper that satisfies the Java APIs, but uses native regular expressions under the hood.
+Automatic unboxing, on the other hand, is used when primitive values are needed in an expression, which requires manual work. The tool has an option to convert string literals to string templates, which are provided by `JREE` to implicitly create a `java.lang.String` instance. This may get in the way when string literals are concatenated using the plus operator (you cannot add two objects together). If that's the case for you switch the behavior off by setting `wrapStringLiterals` to false.
 
 ## <a name="initialisers">Initialisers</a>
 
-Java class initialisers are handled properly, however, static initialisers require ECMA 2022 as transpilation target for the TS code. Non-static initialisers are converted to a parameter-less constructor (which might then be merged with other constructor code if that creates a constructor overloading situation).
+Java class initialisers are handled properly, however, static initialisers require ECMA 2022 as transpilation target for the TypeScript code. Non-static initialisers are converted to a parameter-less constructor (which might then be merged with other constructor code if that creates a constructor overloading situation).
 
-## <a name="equality">Containers and Equality</a>
-
-Containers (every class implementing `java.util.Set` or `java.util.Map`) require special attention. In Java these classes use **Object Equality** to locate elements. This approach not only compares objects by reference, but also uses their `equals()` method to compare them. This cannot only lead to deep comparisons, but also to equality of different instances, if they contain the same values. Comparison using the `equals` method is accompanied by the `hashCode` method, which returns a number that identifies that object as a single value. The general contract here is that objects which are considered equal **must**  generate the same hash code. However, there's no 1:1 matching: objects returning the same hash code are not always also equal (aka hash conflict).
-
-The class `java.lang.Object` contains a default implementation for both methods, which uses **Identity Equality** (aka **Reference Equality**), both in Java and TS. This is accomplished by comparing the memory address of two objects (which is guaranteed to be unique). The default hash code in TS, however, is a running number internally (as there's no way to get the memory address there). Classes that rely on object equality must override `equals` and `hashCode` and provide an own implementation. The java2ts support library contains an implementation of the MurmurHash3 algorithm to provide hash codes for arbitrary objects and values.
-
-Primitive types, on the other hand, are always compared by value (both in Java and TS). Number, bigint, string, boolean and the special values `undefined` and `NaN` fall under this category. So they neither need to implement an `equals` method nor can they be compared by reference. Side note: `null` and `symbol` are also marked as primitive type in JS/TS, but `null` is not really a primitive and `symbol` is not used in converted Java code.
-
-## <a name="buffers">Buffers</a>
-
-Buffers (like `lang.nio.CharBuffer` or `lang.nio.IntBuffer`) are implemented as specified in Java. However, there's no support for direct and indirect buffers. All buffers use `ArrayBuffer` as underlying storage structure, plus typed arrays (and `DataView` for byte buffers) as interface between the app and the back buffer.
+The tool can omit the type of a member if it gets a value from an initializer. This can be switched by setting `suppressTypeWithInitializer` to `true` or `false`.
 
 ## <a name="classes">Nested Classes and Interfaces</a>
 
@@ -222,47 +153,13 @@ To allow use of such local classes as a type, a namespace declaration is automat
 
 ## <a name="constructors">Constructors</a>
 
-Constructors are mostly handled like methods (including overloading), but need a bit more attention. Usually linters require that constructors are listed at the beginning of a class definition, so they will be moved to that position in the converted file (if not there already).
+Constructors are mostly handled like methods (including overloading), but need a bit more attention, especially when explicit constructor invocation (see below) exist.
 
-What's not supported is generic constructors, as this is not possible with TS. Such code must be manually fixed.
+What's not supported is generic constructors, as this is not possible with TypeScript. Such code must be manually fixed.
 
 ### <a name="eci">Explicit Constructor Invocation</a>
 
-Explicit constructor invocation (also known as constructor chaining) is a concept where one constructor can call another constructor in the same class, by using the function call `this()`. This is implemented in TS by converting all constructors to a single implementation (like for any overloaded method), but additionally the generated body is placed into a local closure, which allows to call itself recursively, emulating so the chaining.
-
-While this implementation works well, there are a few issues with it:
-
-- Initialisation of read-only class members cause a Typescript error, because the initialisation happens now in the mentioned closure and not directly in the constructor body. These errors must be manually suppressed by placing a `// @ts-ignore` (or `@ts-expect-error`) line directly before each assignment line.
-- Typescript considers `super()` calls, which are not directly executed in the constructor body as error. Additionally, such calls are not counted when Typescript (and ESlint) check for an existing `super()` call for derived classes. All these 3 errors must be suppressed as well. The tool will automatically insert TS suppression lines, if the `suppressTSErrorsForECI` option is set. Though this might hide other errors too, which is why the automatic insertion is optional. The ESlint errors are always suppressed as they rather have informational character and are for very specific problems (not like the TS suppression).
-
-Here's a real world example of the final form of a constructor, which uses overloading and initialises read-only members:
-
-```typescript
-    /* eslint-disable constructor-super, @typescript-eslint/no-unsafe-call */
-    public constructor(a: SingletonPredictionContext);
-    public constructor(parents: PredictionContext[], returnStates: number[]);
-    /* @ts-expect-error, because of the super() call in the closure. */
-    public constructor(aOrParents: SingletonPredictionContext | PredictionContext[], returnStates?: number[]) {
-        const $this = (aOrParents: SingletonPredictionContext | PredictionContext[], returnStates?: number[]): void => {
-            if (aOrParents instanceof SingletonPredictionContext && returnStates === undefined) {
-                const a = aOrParents;
-                $this([a.parent], [a.returnState]);
-            } else {
-                const parents = aOrParents as PredictionContext[];
-                /* @ts-expect-error, because of the super() call in the closure. */
-                super(PredictionContext.calculateHashCode(parents, returnStates));
-                /* @ts-ignore */
-                this.parents = parents;
-                /* @ts-ignore */
-                this.returnStates = returnStates;
-            }
-        };
-
-        $this(aOrParents, returnStates);
-
-    }
-    /* eslint-enable constructor-super, @typescript-eslint/no-unsafe-call */
-```
+Explicit constructor invocation (also known as constructor chaining) is a concept where one constructor can call another constructor in the same class, by using the function call `this()`. The tools converts such calls like any other function call, which is obviously not correct. It is necessary to manually handle this case, but at least the individual code blocks for each overload is preserved (and converted).
 
 ## <a name="exceptions">Exception Handling and Try-with-resources</a>
 
@@ -270,21 +167,15 @@ The converter tries to preserve as much of Java's exception semantics as possibl
 
 Usually, the message of an exception (unless explicitly specified in the converted code) is not what the JRE is using, especially for exceptions originating in native code (e.g. file APIs).
 
-The `Throwable` implementation parses the stacktrace in a TS error object to find the individual stack elements (`StackTraceElement`). However, that's not exactly what is available in Java (but close). This class also helps to implement the semantic of suppressed exceptions, but because that's automatic in Java, though not in JS/TS, this works only in certain circumstances (namely try-with-resource statements, see next paragraph). To recap: exceptions thrown in a try block are not visible when the finally block also throws an exception. In Java the exceptions from the try block are added as suppressed exceptions to the exception thrown in the finally block. In TS these exceptions are lost.
+The `Throwable` implementation parses the stacktrace in a TypeScript error object to find the individual stack elements (`StackTraceElement`). However, that's not exactly what is available in Java (but close). This class also helps to implement the semantic of suppressed exceptions, but because that's automatic in Java, though not in JS/TS, this works only in certain circumstances (namely in try-with-resource statements, see next paragraph). To recap: exceptions thrown in a try block are not visible when the finally block also throws an exception. In Java the exceptions from the try block are added as suppressed exceptions to the exception thrown in the finally block. In TypeScript these "inner" exceptions are lost.
 
 Java 8 and higher support a construct which ensures that certain resources are automatically closed, regardless of errors. For this concept the try/catch/finally statement supports an additional expression between the `try` keyword and the opening curly brace. Any object that implements the `AutoCloseable` interface is automatically closed when the try block finished execution (with or w/o errors). To emulate this behavior additional try blocks are inserted, which handle exceptions in the same way as Java does.
 
 ## <a name="reflection">Reflection</a>
 
-Support of reflection is only done very rudimentary, as it requires help from the Java VM, which we don't have in TS and it's probably not a good idea to simulate that. An attempt is made to convert access to `getClass` in a class definition to an automatically generated method, which is however private and cannot be used by other classes. This is really only a workaround, which doesn't work well, so it might happen that this conversion is removed in the future.
+Reflection support is only rudimentary currently. All generated classes derive from `java.lang.Object` where some of the reflection support is located (`.class` getter and `.getClass()` method), but that's about it currently. Typescript also has some reflection support (list methods etc.), but that isn't used yet.
 
-Expressions like `type.class` are converted to a creation call of the `java.lang.Class` class, which implements only a very small part of the `Class` API (and has not the exact same semantic like what's in Java).
-
-This all won't help much, so it's probably most of the time necessary to manually adjust such reflection code. Usually it's simpler in TS to write expressions like `if (t.getClass() === AClass.class)` as `if (t instanceof AClass)`, which cannot be generated automatically, because of the different levels at which each part of the source expression is handled.
-
-## <a name="system-properties">System Properties</a>
-
-System properties are supported just like in Java, and get their initial values from the current environment (either `navigator` or `os` and `process` Node JS modules). JVM, Java and JRE specific entries (see [java keys](https://docs.oracle.com/javase/7/docs/api/java/lang/System.html#getProperties()) are filled with arbitrary values, e.g. matching the supported Java version of the java2ts tool. Applications using such properties in generated code should replace the default values with something that matches the expected values.
+Sometimes Java code checks the type of a class by comparing it like `if (t.getClass() === AClass.class)`. This is converted as is and will even work, but it's better (and feels more natural) to (manually) convert such expression to the usual `if (t instanceof AClass)` expression.
 
 ## <a name="others">Others</a>
 
@@ -292,36 +183,30 @@ This chapter collects a few other things that are worth to be mentioned.
 
 - `java.lang.Object.toString()` returns a Typescript string, not `java.lang.String` to avoid a circular dependency between the two classes.
 - The same holds true for `java.lang.Class.getName()` and `java.lang.Class.getSimpleName()`.
-- All classes deriving from `java.lang.Object` override the `toString()` method and return `java.lang.String`, however. Unfortunately, the `string` result type cannot be suppressed in derived classes, so you have to cast the result to `java.lang.String` explicitly.
-- All classes and interfaces that have a companion in Typescript (like Number, Object, String, Map etc.) are prefixed with `Java` to avoid confusion (e.g. JavaString, JavaMap etc.) and which allows to import them without conflicts. You still can use fully qualified names with the original class and interface names (e.g. `java.lang.Object`).
+- All classes deriving from `java.lang.Object` override the `toString()` method and return `java.lang.String`, however.
+- All classes and interfaces that have a companion with the same name in Typescript (like Number, Object, String, Map etc.) are prefixed with `Java` to avoid confusion (e.g. JavaString, JavaMap etc.) and which allows to import them without conflicts. You still can use fully qualified names with the original class and interface names (e.g. `java.lang.Object`).
 
 ## <a name="unsupported">Unsupported Features</a>
 
 ### <a name="Annotations">Annotations</a>
 
-Annotations usually cannot be converted, except for a very few (like @final), which are implemented using decorators. The current implementation is however very basic. Don't expect much of that.
+Currently annotations are not converted.
 
 ### <a name="serialisation">Serialisation and Deserialisation</a>
 
 The serialisation concept is not supported in Typescript.
 
-### <a name="security">Security</a>
-
-Java optionally uses a security manager to manage access to certain resources, like system properties. The current JRE shims do not support such a manager.
-
 ### <a name="threading">Threading</a>
 
-Because TS is single threaded (and workers cannot share objects) there's no need to support any of the synchronisation methods from Java. Synchronized blocks are converted to simple blocks, but the `synchronized` keyword is left as a comment in the target code to indicate that a block was originally used in multi threading scenarios and needed special attention.
-
-For the same reason there's no need to add `Hashtable` to the JRE shims as it is essentially just a synchronized `HashMap`.
+Because TypeScript is single threaded (and workers cannot share objects) there's no need to support any of the synchronisation methods from Java. Synchronized blocks are converted to simple blocks, but the `synchronized` keyword is left as a comment in the target code to indicate that a block was originally used in multi threading scenarios and needed special attention.
 
 ### <a name="async-file-operations">Asynchronous File Operations</a>
 
-For the same reason (no threads) it is not possible to implement asynchronous file operations (interruptible channels etc.). All of these operations are either synchronous or not implemented (based on the Node.js fs module). This also means it is not possible to interrupt a file/channel operation or wait for it. Maybe at a later point we can use async file APIs to emulate these things.
+Asynchronous file operations (interruptible channels etc.) are not supported either.
 
 ### <a="memory-mapped-files>Memory Mapped Files</a>
 
-Memory mapped files require support from a native package (Node.js does not support them and in a browser they are totally out of scope). Since I don't want to add such a dependency (like to [mmap](https://www.npmjs.com/package/mmap)) there's no support this feature.
+Memory mapped files require support from a native package (Node.js does not support them and in a browser they are totally out of scope), so there's no support for them.
 
 ## <a name="symbol-resolution">Symbol Resolution and Import Resolvers</a>
 
@@ -364,4 +249,4 @@ const importResolver = (packageId: string): PackageSource[] => {
 
 In this example the resolver creates empty sources for each known JRE package (which could not be resolved otherwise). An empty source has an empty symbol table and can hence not resolve symbols. So they serve rather as placeholders. If a package cannot be resolved `java2typescript` implicitly creates an empty source (and logs that in the console).
 
-Normally you would, however, not create an empty source, but one that can deal with symbols and return fully qualified names. For an example how to do that check the `JavaPackageSource.ts` file, which manually creates a symbol table for all supported Java types, and holds the target path to the TS implementations (shims) for path resolution.
+Normally you would, however, not create an empty source, but one that can deal with symbols and return fully qualified names. For an example how to do that check the `JavaPackageSource.ts` file, which manually creates a symbol table for all supported Java types, and holds the target path to the TypeScript implementations (shims) for path resolution.
