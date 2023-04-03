@@ -5,9 +5,9 @@
  * See LICENSE file for more info.
  */
 
-import type { Config } from "jest";
+import type { JestConfigWithTsJest } from "ts-jest";
 
-const config: Config = {
+const config: JestConfigWithTsJest = {
     // All imported modules in your tests should be mocked automatically
     // automock: false,
 
@@ -27,7 +27,7 @@ const config: Config = {
 
     // An array of glob patterns indicating a set of files for which coverage information should be collected
     collectCoverageFrom: [
-        "../src/**/*.ts",
+        "**/src/**/*.ts",
     ],
 
     // The directory where Jest should output its coverage files
@@ -146,12 +146,13 @@ const config: Config = {
     // Automatically restore mock state and implementation before every test
     // restoreMocks: false,
 
-    // The root directory that Jest should scan for tests and modules within
-    // rootDir: undefined,
+    // The main base directory for resolving all other relative paths from.
+    rootDir: "../",
 
     // A list of paths to directories that Jest should use to search for files in
     roots: [
-        "./",
+        "<rootDir>/src/",
+        "<rootDir>/tests/",
     ],
 
     // Allows you to use a custom runner instead of Jest's default test runner
@@ -180,9 +181,7 @@ const config: Config = {
     // testLocationInResults: false,
 
     // The glob patterns Jest uses to detect test files
-    testMatch: [
-        "**/*.spec.ts",
-    ],
+    testMatch: ["**/*.spec.ts"],
 
     // An array of regexp pattern strings that are matched against all test paths, matched tests are skipped
     testPathIgnorePatterns: [
@@ -203,7 +202,15 @@ const config: Config = {
     testTimeout: 30000,
 
     // A map from regular expressions to paths to transformers
-    transform: {},
+    transform: {
+        // eslint-disable-next-line @typescript-eslint/naming-convention
+        "^.+\\.ts$": [
+            "ts-jest",
+            {
+                useESM: true,
+            },
+        ],
+    },
 
     // An array of regexp pattern strings that are matched against all source file paths, matched files will skip
     // transformation
