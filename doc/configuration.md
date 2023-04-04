@@ -37,13 +37,17 @@ The `options` field in the top level configuration object accepts the following 
 
 * **autoAddBraces** (boolean, optional): if true then the tool automatically adds braces around code in `if`/`else`/`switch` statements, if there are none yet.
 
-* **addNullUnionType**
+* **addNullUnionType** (boolean, optional, default: true): controls whether non-primitive types are extended with `| null` to indicate their possible nullability.
 
-* **suppressTypeWithInitializer**
+* **suppressTypeWithInitializer** (boolean, optional) when true no explicit type is written for types that have an initializer.
 
-* **wrapStringLiterals**
+* **wrapStringLiterals** (boolean, optional) when true all string literals are wrapped with the template literal `S`, which makes conversion between Typescript string literals and the `java.lang.String` object easier. This can lead to problems if such literals are concatenated using the plus operator (which is often the case), because it is not possible by default with any object. You still can use primitive type coercion, like
 
-* **memberOrderOptions**
+```
+* call("" + S`abc`)
+```
+
+* **memberOrderOptions** (object, optional) allows to specify a structure which describes how to order class members in generated classes. This structure was taken from the [ESLint member ordering rule](https://typescript-eslint.io/rules/member-ordering/#options), however the `order` and `optionalityOrder` settings are currently ignored.
 
 * **addIndexFiles** (boolean, optional): when true then the tool generates an index.ts file in every target (sub) folder, to allow for simpler import statements in generated files.
 
@@ -53,7 +57,7 @@ The `options` field in the top level configuration object accepts the following 
 
 * **classResolver** (map, optional): provides a mapping of a class name to an alternative name. Each value in the map consists of two parts: an alias (optional) and an import path. This allows to swap implementations for not supported Java 3rd party packages and use another JS/TS 3rd party libraries instead. The `importPath` usually specifies a 3rd party node module and the `alias` allows to change the imported type name to something more useful (e.g. the original name of the Java type).
 
-There are no default values for any of the settings in this list, except that unspecified boolean values are taken as `false`.
+If not otherwise indicated there's no default value for a settings in this list, except for boolean values, where undefined means `false`.
 
 ## Debug Options
 

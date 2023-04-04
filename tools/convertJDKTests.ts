@@ -5,13 +5,13 @@
 
 /* cspell: ignore a4tstool */
 
-import path from "path";
+import * as path from "path";
 
 import {
     IClassResolver, IConverterConfiguration, JavaToTypescriptConverter,
-} from "../src/conversion/JavaToTypeScript";
-import { PackageSource } from "../src/PackageSource";
-import { PackageSourceManager } from "../src/PackageSourceManager";
+} from "../src/conversion/JavaToTypeScript.js";
+import { PackageSource } from "../src/PackageSource.js";
+import { PackageSourceManager } from "../src/PackageSourceManager.js";
 
 /** Member sorting identifiers as used in the project's eslint configuration. */
 const memberOrderOptions = {
@@ -75,7 +75,7 @@ const convertJDKLangTests = async () => {
         packageRoot: path.resolve(process.cwd(), "../jdk/test/jdk/java/lang"),
         javaLib: "../../../../../../src",
         include: [
-            "ImplicitStringConcatShapes.java",
+            "lang/CharSequence/Comparison.java",
         ],
         exclude: [
             "AssertionError",

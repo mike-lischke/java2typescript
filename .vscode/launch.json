@@ -51,7 +51,7 @@
                 "--experimental-specifier-resolution=node",
                 "--loader",
                 "ts-node/esm",
-                "src/convertJDKTests.ts",
+                "tools/convertJDKTests.ts",
             ],
             "console": "integratedTerminal",
             "trace": false

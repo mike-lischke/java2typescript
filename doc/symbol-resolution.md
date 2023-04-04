@@ -58,4 +58,4 @@ const importResolver = (packageId: string): PackageSource[] => {
 
 In this example the resolver creates empty sources for each known SDK package (which could not be resolved otherwise). An empty source has an empty symbol table and can hence not resolve symbols. So they are rather placeholders. If a package cannot be resolved `java2typescript` implicitly creates an empty source (and logs that in the console).
 
-The import resolver can be assigned to the `IConverterConfiguration.options.importResolver` field. This is only possible if you write your own conversion script as described in [the readme](../readme.md#running-from-your-code) chapter.
+The import resolver can be assigned to the `IConverterConfiguration.options.importResolver` field. This is only possible if you write your own conversion script as described in the [Running From Your Code](../readme.md#running-from-your-code) chapter.

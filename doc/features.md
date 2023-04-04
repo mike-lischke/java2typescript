@@ -115,7 +115,7 @@ For arrays of primitive values the situation is different, however. Typescript k
 
 There's currently no support for `BigInteger` and `BigNumber`;
 
-## <a name="text>Text</a>
+## <a name="text">Text</a>
 
 ### <a name="string">Char and String</a>
 
@@ -204,7 +204,7 @@ Because TypeScript is single threaded (and workers cannot share objects) there's
 
 Asynchronous file operations (interruptible channels etc.) are not supported either.
 
-### <a="memory-mapped-files>Memory Mapped Files</a>
+### <a name="memory-mapped-files">Memory Mapped Files</a>
 
 Memory mapped files require support from a native package (Node.js does not support them and in a browser they are totally out of scope), so there's no support for them.
 
