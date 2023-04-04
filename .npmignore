@@ -5,15 +5,16 @@
 .coverage
 .eslintignore
 .eslintrc.json
+.antlr
 cspell.json
 jest.config.ts
 tsconfig.json
 
-bin
-config
-coverage
-doc
-parser
-src
-tests
-tools
+bin/*.jar
+coverage/**
+data/**
+doc/**
+parser/**
+src/**
+tests/**
+tools/**

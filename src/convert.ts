@@ -15,7 +15,6 @@ import {
 } from "./conversion/JavaToTypeScript.js";
 import { IMemberOrderOptions } from "./conversion/MemberOrdering.js";
 
-console.log(process.argv);
 const args = process.argv.slice(2);
 
 if (args.length < 1) {
