@@ -1,12 +1,22 @@
 {
     "name": "java2typescript",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "description": "Convert Java Code to Typescript",
     "keywords": [
         "Java",
         "Typescript",
-        "ANTLR4"
+        "ANTLR4",
+        "JRE",
+        "JDK"
     ],
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/mike-lischke/java2typescript.git"
+    },
+    "bugs": {
+        "url": "https://github.com/mike-lischke/java2typescript/issues"
+    },
+    "homepage": "https://github.com/mike-lischke/java2typescript",
     "author": "Mike Lischke",
     "license": "MIT",
     "type": "module",
