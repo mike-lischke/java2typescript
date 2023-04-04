@@ -1,5 +1,5 @@
 [![Build & Test](https://github.com/mike-lischke/java2typescript/actions/workflows/nodejs.yml/badge.svg?branch=master)](https://github.com/mike-lischke/java2typescript/actions/workflows/nodejs.yml)
-[![Java 11](https://img.shields.io/badge/java-11-4c7e9f.svg)](http://java.oracle.com)
+[![Java 11](https://img.shields.io/badge/java-11-4c7e9f.svg)](http://java.oracle.com) [![Downloads](https://img.shields.io/npm/dw/java2typescript?color=blue)](https://www.npmjs.com/package/jree)
 
 # Java To Typescript Converter
 
