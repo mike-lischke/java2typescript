@@ -33,7 +33,6 @@
   - [Security](#security)
   - [Threading](#threading)
   - [Asynchronous File Operations](#asynchronous-file-operations)
-- [Symbol Resolution and Import Resolvers](#symbol-resolution-and-import-resolvers)
 
 
 ## <a name="introduction">Introduction</a>
@@ -207,46 +206,3 @@ Asynchronous file operations (interruptible channels etc.) are not supported eit
 ### <a name="memory-mapped-files">Memory Mapped Files</a>
 
 Memory mapped files require support from a native package (Node.js does not support them and in a browser they are totally out of scope), so there's no support for them.
-
-## <a name="symbol-resolution">Symbol Resolution and Import Resolvers</a>
-
-In opposition to Java all non-local symbols in Typescript must use the fully qualified identifier form (e.g. `this.` for class/interface members, `ClassName.` for static members etc.). This requires to resolve every symbol (types, variable names etc.). The converter resolves symbols according to this model:
-
-- The current file (local variables, parameters, normal and static class members, in this order).
-- Any of the extended or implemented classes/interfaces (public and protected normal and static class members), in the order they are specified in the Java code.
-- Any of the files in the current project/package (only exported classes/interfaces), in the order they are found while enumerating the files on disk.
-- Module mappings (exported classes/interfaces from a 3rd party package), in the order they are given.
-- Import resolvers.
-
-If a symbol cannot be resolved then the original text is used and the user has to fix it manually.
-
-> Note: The symbol resolution process does not handle symbol shadowing (for example a local variable with the same name as a method in the class), which is bad style anyway. This situation must be solved manually.
-
-Import resolvers are the last resort to get symbols automatically resolved if nothing else works. There is one predefined resolver in the project: for the JRE. See the [separate readme](../src/lib/java/readme.md) for details, how to work with and extend the JRE shims.
-
-The converter uses so-called package sources for keeping symbol information per file. There are 2 types of package sources:
-
-- For source code Java files.
-- For packages without source code.
-
-A file package source is automatically created for each of the Java files in the current package (and each of the 3rd party source files, if specified in the source mapping configuration field). The package source parses the file and creates a symbol table from the generated parse tree. This symbol table is then used to resolve symbols. A package source also knows where to find the source files, to properly create relative import paths in the generated files.
-
-An import resolver function maps a package ID to a package source it creates:
-
-```typescript
-const importResolver = (packageId: string): PackageSource[] => {
-    const result: PackageSource[] = [];
-
-    knownSDKPackages.forEach((value) => {
-        if (packageId.startsWith(value)) {
-            result.push(PackageSourceManager.emptySource(value));
-        }
-    });
-
-    return result;
-};
-```
-
-In this example the resolver creates empty sources for each known JRE package (which could not be resolved otherwise). An empty source has an empty symbol table and can hence not resolve symbols. So they serve rather as placeholders. If a package cannot be resolved `java2typescript` implicitly creates an empty source (and logs that in the console).
-
-Normally you would, however, not create an empty source, but one that can deal with symbols and return fully qualified names. For an example how to do that check the `JavaPackageSource.ts` file, which manually creates a symbol table for all supported Java types, and holds the target path to the TypeScript implementations (shims) for path resolution.
