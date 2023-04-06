@@ -20,11 +20,12 @@
         "index.ts",
         "src/**/*.ts",
         "parser/generated/**/*.ts",
-        "data/**/*.json"
+        "data/**/*.json",
+        "tools/convertJDKTests.ts"
     ],
     "exclude": [
-        "node_modules/**/*.*",
-        "output/**/*.*"
+        "node_modules/**/*",
+        "output/**/*",
     ],
     "ts-node": {
         "esm": true

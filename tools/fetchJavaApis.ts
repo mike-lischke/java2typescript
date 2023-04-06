@@ -6,13 +6,13 @@
 /**
  * This tool can be used to fetch the Java API definitions from the JDK docs and
  * generate JSON files for them. The JSON files are then used by the JavaPackageSource to
- * load them in a symbol table.
+ * create the java.base symbol table from.
  *
  * It relies on a specific HTML page layout and hence can break if the JDK docs change.
  */
 
 import { JSDOM } from "jsdom";
-import fs from "fs";
+import * as fs from "fs";
 
 const docsBaseUrl = "https://docs.oracle.com/en/java/javase/11/docs/api/";
 

@@ -114,7 +114,10 @@ export class MemberOrdering {
                             }
 
                             case "field": {
-                                if (member.type !== ContextMemberType.Field) {
+                                // Nested classes are implemented as instance fields and a class expression or
+                                // factory function. Hence they count as fields too.
+                                if (member.type !== ContextMemberType.Field
+                                    && member.type !== ContextMemberType.Class) {
                                     return false;
                                 }
 

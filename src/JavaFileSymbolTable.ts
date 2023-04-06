@@ -19,9 +19,9 @@ import { ISymbolInfo } from "./conversion/types.js";
 import { PackageSource } from "./PackageSource.js";
 import { JavaClassSymbol } from "./parsing/JavaClassSymbol.js";
 import {
-    ClassCreatorSymbol,
-    ConstructorSymbol, EnumSymbol, InitializerBlockSymbol, JavaParseTreeWalker, PackageSymbol,
+    ClassCreatorSymbol, ConstructorSymbol, InitializerBlockSymbol, JavaParseTreeWalker,
 } from "./parsing/JavaParseTreeWalker.js";
+import { ParserRuleContext } from "antlr4ts";
 
 export class JavaFileSymbolTable extends SymbolTable {
 
@@ -236,6 +236,8 @@ export class JavaFileSymbolTable extends SymbolTable {
         const classSymbols = this.getNestedSymbolsOfTypeSync(JavaClassSymbol);
         const interfaceSymbols = this.getNestedSymbolsOfTypeSync(InterfaceSymbol);
 
+        // The lists are sorted with outer symbols first, so they can be resolved via imports and
+        // inner classes can be resolved via the outer class (or also from imports if necessary).
         if (this.importList.size > 0 && (classSymbols.length > 0 || interfaceSymbols.length > 0)) {
             this.resolveClassSymbols(classSymbols);
             this.resolveInterfaceSymbols(interfaceSymbols);
@@ -251,28 +253,16 @@ export class JavaFileSymbolTable extends SymbolTable {
                 if (candidate instanceof CreatorContext) {
                     // Anonymous inner class creation.
                     const type = candidate.createdName().identifier(0).text;
-                    this.resolveTypeName(type, (symbol: BaseSymbol) => {
-                        if (symbol instanceof ClassSymbol) {
-                            classSymbol.extends.push(symbol);
-                        }
-                    });
+                    const symbol = this.resolveInheritedType(type);
+                    if (symbol instanceof ClassSymbol) {
+                        classSymbol.extends.push(symbol);
+                    }
                 } else if (classSymbol.context instanceof ClassDeclarationContext) {
                     const typeType = classSymbol.context.typeType();
                     if (typeType) { // Implies EXTENDS() is assigned.
-                        if (classSymbol.parent instanceof JavaFileSymbolTable) {
-                            // A symbol imported from another package.
-                            this.resolveFromImports(typeType, (symbol: BaseSymbol) => {
-                                if (symbol instanceof ClassSymbol) {
-                                    classSymbol.extends.push(symbol);
-                                }
-                            });
-                        } else {
-                            // A symbol defined in the same file.
-                            this.resolveLocally(typeType, (symbol: BaseSymbol) => {
-                                if (symbol instanceof ClassSymbol) {
-                                    classSymbol.extends.push(symbol);
-                                }
-                            });
+                        const symbol = this.resolveInheritedType(typeType);
+                        if (symbol instanceof ClassSymbol) {
+                            classSymbol.extends.push(symbol);
                         }
                     } else if (this.objectSymbol) {
                         // Make the implicit derivation from java.lang.Object explicit.
@@ -282,11 +272,10 @@ export class JavaFileSymbolTable extends SymbolTable {
                     if (classSymbol.context.IMPLEMENTS()) {
                         // Interfaces to implement.
                         classSymbol.context.typeList(0).typeType().forEach((typeContext) => {
-                            this.resolveFromImports(typeContext, (symbol: BaseSymbol) => {
-                                if (symbol instanceof ClassSymbol || symbol instanceof InterfaceSymbol) {
-                                    classSymbol.implements.push(symbol);
-                                }
-                            });
+                            const symbol = this.resolveInheritedType(typeContext);
+                            if (symbol instanceof ClassSymbol) {
+                                classSymbol.extends.push(symbol);
+                            }
                         });
                     }
                 }
@@ -301,85 +290,94 @@ export class JavaFileSymbolTable extends SymbolTable {
             if (context.typeList()) {
                 // Interfaces or classes to extend.
                 context.typeList()?.typeType().forEach((typeContext) => {
-                    this.resolveFromImports(typeContext, (symbol: BaseSymbol) => {
-                        if (symbol instanceof ClassSymbol || symbol instanceof InterfaceSymbol) {
-                            interfaceSymbol.extends.push(symbol);
-                        }
-                    });
+                    const symbol = this.resolveInheritedType(typeContext);
+                    if (symbol instanceof ClassSymbol || symbol instanceof InterfaceSymbol) {
+                        interfaceSymbol.extends.push(symbol);
+                    }
                 });
             }
         });
     };
 
-    private resolveFromImports = (context: TypeTypeContext, add: (symbol: BaseSymbol) => void): void => {
-        if (context.classOrInterfaceType()) {
-            const parts = context.classOrInterfaceType()?.identifier().map((node) => {
-                return node.text;
-            });
-            const name = parts?.join(".") ?? "";
-
-            const packageSymbols = this.source.symbolTable.getAllSymbolsSync(PackageSymbol);
-            if (packageSymbols.length === 1) {
-                for (const source of this.importList) {
-                    if (source.packageId === "java") {
-                        const info = source.resolveType(name);
-                        if (info && info.symbol) {
-                            add(info.symbol);
-
-                            break;
-                        }
-                    } else if (source.packageId.endsWith("." + name)) {
-                        const resolved = source.resolveAndImport(name);
-                        if (resolved) {
-                            add(resolved);
-                        }
-
-                        break;
-                    }
+    private resolveFromImports = (name: string): BaseSymbol | undefined => {
+        for (const source of this.importList) {
+            if (source.packageId === "java") {
+                const info = source.resolveType(name);
+                if (info && info.symbol) {
+                    return info.symbol;
                 }
-            }
+            } else if (source.packageId.endsWith("." + name)) {
+                const resolved = source.resolveAndImport(name);
+                if (resolved) {
+                    return resolved;
+                }
 
+                break;
+            }
         }
+
+        return undefined;
     };
 
-    private resolveLocally = (context: TypeTypeContext, add: (symbol: BaseSymbol) => void): void => {
-        if (context.classOrInterfaceType()) {
-            const parts = context.classOrInterfaceType()?.identifier().map((node) => {
+    /**
+     * Tries to resolve a type which is used as base type for a class or interface. This requires to check an eventual
+     * outer class first (iteratively), and then to check the imports.
+     *
+     * @param contextOrTypeName The context of the type to resolve.
+     *
+     * @returns The resolved symbol, or `undefined` if no symbol could be resolved.
+     */
+    private resolveInheritedType = (contextOrTypeName: TypeTypeContext | string): BaseSymbol | undefined => {
+        let typeName: string;
+        if (typeof contextOrTypeName === "string") {
+            typeName = contextOrTypeName;
+        } else {
+            const parts = contextOrTypeName.classOrInterfaceType()?.identifier().map((node) => {
                 return node.text;
             }) ?? [];
 
-            // eslint-disable-next-line @typescript-eslint/no-this-alias
-            let current: ScopedSymbol = this;
-            while (true) {
-                const name = parts.shift();
-                if (!name) {
-                    break;
-                }
-
-                const candidate = current.resolveSync(name, true);
-                if (!candidate || !(current instanceof ScopedSymbol)) {
-                    break;
-                }
-
-                current = candidate as ScopedSymbol;
+            // If the type is fully qualified, we resolve it from the imported packages.
+            typeName = parts?.join(".") ?? "";
+            if (parts.length > 1) {
+                return this.resolveFromImports(typeName);
             }
 
-            if (current && current !== this) {
-                add(current);
+            // Otherwise resolve iteratively from the current scope.
+            let current: ParserRuleContext | undefined = contextOrTypeName;
+            while (current) {
+                const owner = this.getWrappingClass(current);
+                if (!owner) {
+                    break;
+                }
+
+                const symbol = owner.resolveSync(typeName, false);
+                if (symbol) {
+                    return symbol;
+                }
+
+                current = owner.context as ParserRuleContext;
             }
         }
+
+        // Reached the top of the scope tree or no context was given. Try to resolve from the imported packages.
+        return this.resolveFromImports(typeName);
     };
 
-    private resolveTypeName = (name: string, add: (symbol: BaseSymbol) => void): void => {
-        for (const source of this.importList) {
-            const info = source.resolveType(name);
-            if (info?.symbol instanceof ClassSymbol || info?.symbol instanceof InterfaceSymbol
-                || info?.symbol instanceof EnumSymbol) {
-                add(info.symbol);
-
-                return;
+    private getWrappingClass = (context: ParserRuleContext): ClassSymbol | undefined => {
+        let run: ParserRuleContext | undefined = context.parent;
+        while (run) {
+            if (run instanceof ClassDeclarationContext) {
+                const name = run.identifier().text;
+                const symbol = this.resolveSync(name, true);
+                if (symbol instanceof ClassSymbol) {
+                    return symbol;
+                }
             }
+
+            run = run.parent;
         }
+
+        return undefined;
     };
 
     /**

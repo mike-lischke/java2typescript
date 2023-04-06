@@ -9,7 +9,7 @@ import path from "path";
 import { ParserRuleContext } from "antlr4ts";
 import { Interval } from "antlr4ts/misc/index.js";
 import { ParseTree, TerminalNode } from "antlr4ts/tree/index.js";
-import { ClassSymbol, InterfaceSymbol, ScopedSymbol, TypedSymbol, BaseSymbol, TypeKind } from "antlr4-c3";
+import { ClassSymbol, InterfaceSymbol, ScopedSymbol, TypedSymbol, BaseSymbol, TypeKind, MethodSymbol } from "antlr4-c3";
 
 import { java, S } from "jree";
 
@@ -59,6 +59,9 @@ enum ModifierType {
     Synchronized,
     Transient,
     Volatile,
+
+    /** Not a Java modifier, but used to indicate that the `override` keyword must be added. */
+    Override,
 
     /**
      * Special value to indicate that the modifier (usually an annotation) was ignored and so must the following
@@ -649,6 +652,15 @@ export class FileProcessor {
         return result;
     };
 
+    /**
+     * Processes the body of a class declaration.
+     *
+     * @param builder The builder to append the processed content to.
+     * @param context The parse context of the class body.
+     * @param extraCtorParams Optional extra parameters to add to the constructor.
+     *
+     * @returns True if the class contains abstract members.
+     */
     private processClassBody = (builder: java.lang.StringBuilder, context?: ClassBodyContext,
         extraCtorParams?: ExtraParameters): boolean => {
         if (!context) {
@@ -656,8 +668,8 @@ export class FileProcessor {
         }
 
         this.getContent(builder, context.LBRACE());
-        const containsAbstract = this.processClassBodyDeclarations(builder,
-            context.classBodyDeclaration(), extraCtorParams);
+        const containsAbstract = this.processClassBodyDeclarations(builder, context.classBodyDeclaration(),
+            extraCtorParams);
         this.getContent(builder, context.RBRACE());
 
         return containsAbstract;
@@ -762,6 +774,13 @@ export class FileProcessor {
                     modifiers.add("protected");
                 }
 
+                // Typescript does not allow fields of a nested class to be protected or private.
+                if (this.typeStack.size() > 2) {
+                    modifiers.delete("protected");
+                    modifiers.delete("private");
+                    modifiers.add("public");
+                }
+
                 if (context.memberDeclaration()) {
                     const detailList = this.processMemberDeclaration(context.memberDeclaration(), `${ws}`, modifiers,
                         extraCtorParams);
@@ -820,6 +839,9 @@ export class FileProcessor {
                 const details = this.processMethodDeclaration(context.methodDeclaration());
                 if (details) {
                     details.leadingWhitespace = prefix;
+                    if (this.overridesMethod(context, details)) {
+                        modifiers.add("override");
+                    }
                     details.modifiers = modifiers;
                     result.push(details);
                 }
@@ -3561,7 +3583,6 @@ export class FileProcessor {
                 break;
             }
 
-            const modifier = this.createModifierString(member.modifiers);
             switch (member.type) {
                 case MemberType.Constructor:
                 case MemberType.Method: {
@@ -3570,14 +3591,8 @@ export class FileProcessor {
                     break;
                 }
 
-                case MemberType.Static: {
-                    // Not strictly required, but standard eslint ordering rules for members require static blocks
-                    // to be after all other members.
-                    pending.push(member);
-                    break;
-                }
-
                 case MemberType.Abstract: {
+                    const modifier = this.createModifierString(member.modifiers) + " ";
                     builder.append(member.leadingWhitespace);
                     builder.append(modifier);
                     builder.append(member.nameWhitespace ?? "");
@@ -3598,6 +3613,7 @@ export class FileProcessor {
                 }
 
                 default: {
+                    const modifier = this.createModifierString(member.modifiers) + " ";
                     builder.append(member.leadingWhitespace);
                     builder.append(modifier);
                     builder.append(member.bodyContent);
@@ -3766,7 +3782,7 @@ export class FileProcessor {
             }
         } else {
             builder.append(member.leadingWhitespace);
-            builder.append(this.createModifierString(member.modifiers));
+            builder.append(this.createModifierString(member.modifiers) + " ");
             builder.append(member.nameWhitespace ?? "");
             builder.append(member.name ?? "");
             if (member.signatureContent) {
@@ -3992,6 +4008,10 @@ export class FileProcessor {
             sorted.push("private");
         }
 
+        if (modifiers.has("override")) {
+            sorted.push("override");
+        }
+
         if (modifiers.has("abstract")) {
             sorted.push("abstract");
         }
@@ -4005,5 +4025,42 @@ export class FileProcessor {
         }
 
         return sorted.join(" ");
+    };
+
+    /**
+     * Checks if the given method overrides a method from a base class.
+     *
+     * @param context The parse context of the method.
+     * @param details The details of the method to check.
+     *
+     * @returns True if the method overrides a method from a base class, otherwise false.
+     */
+    private overridesMethod = (context: MemberDeclarationContext, details: ITypeMemberDetails): boolean => {
+        if (!details.name) {
+            return false;
+        }
+
+        const info = this.source.getQualifiedSymbol(context, details.name);
+        if (!info) {
+            return false;
+        }
+
+        let run = info.symbol;
+        while (run) {
+            if (run instanceof ClassSymbol) {
+                if (run.extends.length === 0) {
+                    return false;
+                }
+
+                const methodSymbol = run.extends[0].resolveSync(details.name);
+                if (methodSymbol && methodSymbol instanceof MethodSymbol) {
+                    return true;
+                }
+            }
+
+            run = run.parent;
+        }
+
+        return false;
     };
 }
