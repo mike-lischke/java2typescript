@@ -53,7 +53,7 @@ Generic syntax and semantics in Java and TypeScript are pretty much the same, wi
 
 ## <a name="interfaces">Interfaces</a>
 
-Java interfaces are mostly like TypeScript interface with the exception of default methods, which are a way to add an implementation to all implementers of an interface in Java, without having to change those implementors. This is accomplished in converted code by adding a side class with the same name as the interface, which then gets those default implementation.
+Java interfaces are mostly like TypeScript interface with the exception of default methods, which are a way to add an implementation to all implementors of an interface in Java, without having to change those implementors. This is accomplished in converted code by adding a side class with the same name as the interface, which then gets those default implementation.
 
 Together with the namespace, which is sometimes generated (see [Nested Classes and Interfaces](#nested-classes-and-interfaces)) this can lead to a file which contains an interface, a class and a namespace, all with the same name.
 
@@ -128,6 +128,8 @@ Read also the [Boxing and Unboxing chapter](#boxing-and-unboxing).
 
 In both languages strings are stored in UTF-16 (two bytes per character) and use surrogates for values > 0xFFFF. However, there's no simple `char` type in TS, so we can only use `number` for it. To better distinguish a char type from an ordinary number a type alias is used (`char`). Arrays of chars, on the other hand, are converted to `Uint16Array` instead, which should be as efficient as the Java implementation.
 
+Java has got the concept of interning a string object, which TypeScript doesn't know. This is not the same as string pooling, which applies to string literals, not string objects.
+
 ### <a name="coding">Encoding and Decoding</a>
 
 The classes `java.nio.charset.Charset`, `java.nio.charset.CharsetEncoder` and `java.nio.charset.CharsetDecoder` internally use the `TextEncoder` and `TextDecoder` classes from the browser. With them a large number of charsets are available for decoding. Unfortunately, the `TextEncoder` class does not support encoding to other but UTF-8.
@@ -148,29 +150,31 @@ The tool can omit the type of a member if it gets a value from an initializer. T
 
 ## <a name="classes">Nested Classes and Interfaces</a>
 
-Nested classes and types are converted to local classes in Typescript by using either a class expression (for static nested classes) or class factory methods (for non-static nested classes). This concept allows non-static inner classes to access all members of the outer class (including private ones) and supports inheritance between local classes (and external use anyhow).
+Nested types in Java are fully supported, but require different approaches, depending on the type.
 
-To allow use of such local classes as a type, a namespace declaration is automatically added at the end of the generated file.
+Nested classes are converted to local classes in Typescript by using either a class expression (for static nested classes) or class factory methods (for non-static nested classes). This concept allows non-static inner classes to access all members of the outer class (including private ones) and supports inheritance between local classes (and external use anyhow).
 
-> Note: in opposition to Java it is not possible for the outer class to access non-public members of nested classes. You have to convert all members that are required outside of the nested class to be publicly accessible. This shouldn't cause any trouble if the nested class itself is defined as non-public.
+To ease use of such local classes as a type, a side namespace declaration is automatically added at the end of the generated file.
+
+Nested interfaces and enums are static by definition and always moved to this side namespace. Because of declaration merging this allows nesting of interface declarations, just like in Java.
 
 ## <a name="constructors">Constructors</a>
 
-Constructors are mostly handled like methods (including overloading), but need a bit more attention, especially when explicit constructor invocation (see below) exist.
+Constructors are mostly handled like methods (including overloading), but need a bit more attention, especially when explicit constructor invocation (see below) is used.
 
 What's not supported is generic constructors, as this is not possible with TypeScript. Such code must be manually fixed.
 
 ### <a name="eci">Explicit Constructor Invocation</a>
 
-Explicit constructor invocation (also known as constructor chaining) is a concept where one constructor can call another constructor in the same class, by using the function call `this()`. The tools converts such calls like any other function call, which is obviously not correct. It is necessary to manually handle this case, but at least the individual code blocks for each overload is preserved (and converted).
+Explicit constructor invocation (also known as constructor chaining) is a concept where one constructor can call another constructor in the same class, by using the function call `this()`. The tools converts such calls like any other function call, which is obviously not correct. It is necessary to manually handle this case, but at least the code block for each overload is preserved (and converted).
 
 ## <a name="exceptions">Exception Handling and Try-with-resources</a>
 
 The converter tries to preserve as much of Java's exception semantics as possible, even at the price of higher code complexity. However, there are certain limits.
 
-Usually, the message of an exception (unless explicitly specified in the converted code) is not what the JRE is using, especially for exceptions originating in native code (e.g. file APIs).
+Usually, the message of an exception (unless explicitly specified in the converted code) is not what the JRE is using, especially for exceptions originating in native code (e.g. file APIs). So relying on the exact wording of an error message is not going to work in converted code.
 
-The `Throwable` implementation parses the stacktrace in a TypeScript error object to find the individual stack elements (`StackTraceElement`). However, that's not exactly what is available in Java (but close). This class also helps to implement the semantic of suppressed exceptions, but because that's automatic in Java, though not in JS/TS, this works only in certain circumstances (namely in try-with-resource statements, see next paragraph). To recap: exceptions thrown in a try block are not visible when the finally block also throws an exception. In Java the exceptions from the try block are added as suppressed exceptions to the exception thrown in the finally block. In TypeScript these "inner" exceptions are lost.
+The `Throwable` implementation parses the stacktrace in a TypeScript error object to find the individual stack elements (`StackTraceElement`). However, that's not exactly what is available in Java (but close). The `Throwable` class also helps to implement the semantic of suppressed exceptions. While that is automatic in Java, but not in JS/TS, this works only in certain circumstances (namely in try-with-resource statements, see next paragraph). To recap: exceptions thrown in a try block are not visible when the finally block also throws an exception. In Java the exceptions from the try block are added as suppressed exceptions to the exception thrown in the finally block. In TypeScript these "inner" exceptions are lost, except with the special construct used for try-with-resource statements.
 
 Java 8 and higher support a construct which ensures that certain resources are automatically closed, regardless of errors. For this concept the try/catch/finally statement supports an additional expression between the `try` keyword and the opening curly brace. Any object that implements the `AutoCloseable` interface is automatically closed when the try block finished execution (with or w/o errors). To emulate this behavior additional try blocks are inserted, which handle exceptions in the same way as Java does.
 
