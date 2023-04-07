@@ -53,7 +53,7 @@ Generic syntax and semantics in Java and TypeScript are pretty much the same, wi
 
 ## <a name="interfaces">Interfaces</a>
 
-Java interfaces are more than interfaces in the original sense (API contracts), as they can have actual code, much like classes. As this is not supported in Typescript different paths are taken in the conversion process. Java interfaces without methods and initialized fields are converted directly to their TypeScript interface equivalent. Otherwise they are implemented as abstract classes, which is an acceptable workaround. Especially, as TypeScript interfaces can extend TypeScript classes.
+Java interfaces are mostly like TypeScript interface with the exception of default methods, which are a way to add an implementation to all implementers of an interface in Java, without having to change those implementors. This is accomplished in converted code by adding a side class with the same name as the interface, which then gets those default implementation.
 
 Together with the namespace, which is sometimes generated (see [Nested Classes and Interfaces](#nested-classes-and-interfaces)) this can lead to a file which contains an interface, a class and a namespace, all with the same name.
 
@@ -74,6 +74,8 @@ In addition to access levels there's a range of additional modifiers:
 - `sealed`, unsupported (Java 17), ignored
 - `non-sealed`, unsupported (Java 17), ignored
 
+Nested classes may not contain private or protected members. Hence they are automatically converted to `public` by the converter.
+
 ## <a name="enumerations">Enumerations</a>
 
 Enums in Java are essentially classes with extra functionality. Enum members (constants) are instances of the enum type with specific values. Each enum constant can customize the behavior of the inherited enum type, by specifying custom constructor parameters and an own class body, which may override methods. All that is also modelled in Typescript, which requires to implement all the implicit handling of the Java VM explicitly.
@@ -92,7 +94,9 @@ Method overloading is supported up to the point what's possible in Typescript. T
 
 The conversion to TypeScript method overloading (with their overloading signatures and the implementation signature) requires sometimes to re-order source code. Because the implementation bodies of the method overloads are combined into one TypeScript method body, it is not possible to maintain the same code structure for them.
 
-The generated implementation signature consists only of a single rest parameter, which has turned out to be the best way to handle different parameter lists, in possibly many overloads. And it allows to have rest parameters in overloads as well. The tool generates a switch statement which acts on the number of parameters found in the rest parameter list. The block for case branch then contains the translated code of the original Java method and often needs additional manual work (e.g. to fix cases where two overloads have the same amount of parameters).
+The generated implementation signature consists only of a single rest parameter, which has turned out to be the best way to handle different parameter lists, in possibly many overloads. And it allows to have rest parameters in overloads as well. The tool generates a switch statement which acts on the number of parameters found in the rest parameter list. The block for each case branch then contains the translated code of the original Java method and often needs additional manual work (e.g. to fix cases where two overloads have the same amount of parameters).
+
+Only relevant if switched on (`"noImplicitOverride": true` in tsconfig.json): the tool automatically adds the `override` keyword to each method that overrides a inherited method. If this switch is not active it doesn't matter if the `override` keyword is there or not, so it's always added.
 
 ## <a name="nullability">Implicit Nullability, the `null`, and Undefined Values</a>
 
