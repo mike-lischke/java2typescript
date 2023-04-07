@@ -129,8 +129,9 @@ export interface IConverterConfiguration {
     packageRoot: string;
 
     /**
-     * The absolute path to the Java SDK polyfills root folder. Leave undefined to use the default
-     * (the `jree` node package).
+     * The path to the Java runtime. This is what's used for runtime imports.
+     * If not given, the `jree` node package is used. A value without at least one slash is assumed to be a node module.
+     * If the given path is relative, it is assumed to be relative to the output path.
      */
     javaLib?: string;
 
@@ -172,7 +173,17 @@ export interface IConverterConfiguration {
 
 export class JavaToTypescriptConverter {
     public constructor(private configuration: IConverterConfiguration) {
-        PackageSourceManager.configure(configuration.javaLib, configuration.options?.importResolver);
+        let javaLib;
+        if (!configuration.javaLib) {
+            javaLib = "jree"; // Use the jree node module as default.
+        } else if (configuration.javaLib.indexOf("/") < 0) {
+            javaLib = configuration.javaLib; // Assume this is another node module.
+        } else {
+            // It's a path, so resolve it relative to the output path.
+            javaLib = path.resolve(configuration.outputPath, configuration.javaLib);
+        }
+
+        PackageSourceManager.configure(javaLib, configuration.options?.importResolver);
 
         configuration.packageRoot = path.resolve(configuration.packageRoot);
 
@@ -192,7 +203,7 @@ export class JavaToTypescriptConverter {
         // Start off by creating java file source instances for each file in the package root.
         const fileList = glob.sync(this.configuration.packageRoot + "/**/*.java");
         if (fileList.length === 0) {
-            console.error("The specified pattern/path does not return any file");
+            console.error("The specified pattern/path did not return any file");
 
             return;
         }

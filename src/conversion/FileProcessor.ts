@@ -695,7 +695,7 @@ export class FileProcessor {
                     const bodyContent = new java.lang.StringBuilder();
                     const leadingWhitespace = this.getLeadingWhiteSpaces(context);
                     this.getContent(bodyContent, context.STATIC());
-                    this.processBlock(bodyContent, context.block());
+                    this.processBlock({ builder: bodyContent, context: context.block() });
                     members.push({
                         type: MemberType.Static,
                         leadingWhitespace,
@@ -1126,7 +1126,7 @@ export class FileProcessor {
 
     private processMethodBody = (builder: java.lang.StringBuilder, context: MethodBodyContext): void => {
         if (context.block()) {
-            this.processBlock(builder, context.block());
+            this.processBlock({ builder, context: context.block() });
         } else {
             this.getContent(builder, context.SEMI());
         }
@@ -1246,7 +1246,7 @@ export class FileProcessor {
             }
         }
 
-        this.processBlock(result.bodyContent, context.block(), superCall);
+        this.processBlock({ builder: result.bodyContent, context: context.block(), extra: superCall });
 
         return result;
     };
@@ -1810,28 +1810,37 @@ export class FileProcessor {
         this.registerJavaImport("S");
     };
 
-    private processBlock = (builder: java.lang.StringBuilder, context?: BlockContext, extra?: string): void => {
-        if (!context) {
+    private processBlock = (details: {
+        builder: java.lang.StringBuilder,
+        context?: BlockContext,
+        extra?: string;
+        ignoreBraces?: boolean;
+    }): void => {
+        if (!details.context) {
             return;
         }
 
-        this.getContent(builder, context.LBRACE());
-
-        if (extra) {
-            // Add this string to the block before processing the rest.
-            if (context.blockStatement().length > 0) {
-                builder.append(this.getLeadingWhiteSpaces(context.blockStatement(0)));
-            } else {
-                builder.append(this.getLeadingWhiteSpaces(context.RBRACE()));
-            }
-            builder.append(extra);
+        if (!details.ignoreBraces) {
+            this.getContent(details.builder, details.context.LBRACE());
         }
 
-        context.blockStatement().forEach((child) => {
-            this.processBlockStatement(builder, child);
+        if (details.extra) {
+            // Add this string to the block before processing the rest.
+            if (details.context.blockStatement().length > 0) {
+                details.builder.append(this.getLeadingWhiteSpaces(details.context.blockStatement(0)));
+            } else {
+                details.builder.append(this.getLeadingWhiteSpaces(details.context.RBRACE()));
+            }
+            details.builder.append(details.extra);
+        }
+
+        details.context.blockStatement().forEach((child) => {
+            this.processBlockStatement(details.builder, child);
         });
 
-        this.getContent(builder, context.RBRACE());
+        if (!details.ignoreBraces) {
+            this.getContent(details.builder, details.context.RBRACE());
+        }
     };
 
     private processBlockStatement = (builder: java.lang.StringBuilder, context: BlockStatementContext): void => {
@@ -2361,7 +2370,7 @@ export class FileProcessor {
         if (context.lambdaBody().expression()) {
             this.processExpression(builder, context.lambdaBody().expression());
         } else {
-            this.processBlock(builder, context.lambdaBody().block());
+            this.processBlock({ builder, context: context.lambdaBody().block() });
         }
     };
 
@@ -2828,7 +2837,7 @@ export class FileProcessor {
 
             switch (id) {
                 case JavaParser.RULE_block: {
-                    this.processBlock(builder, context.block());
+                    this.processBlock({ builder, context: context.block() });
 
                     break;
                 }
@@ -2900,12 +2909,12 @@ export class FileProcessor {
                             "java.lang.Throwable | undefined;\n\n");
                         const names = this.processResourceSpecification(builder, context.resourceSpecification());
                         builder.append("\ntry {\n\ttry ");
-                        this.processBlock(builder, context.block());
+                        this.processBlock({ builder, context: context.block() });
                         builder.append(`\n\tfinally {\n\terror = closeResources([${names.join(", ")}]);\n\t}\n`);
                         builder.append("} catch(e) {\n\terror = handleResourceError(e, error);\n");
                         builder.append("} finally {\n\tthrowResourceError(error);\n}\n}\n");
                     } else {
-                        this.processBlock(builder, context.block());
+                        this.processBlock({ builder, context: context.block() });
                     }
 
                     this.processCatchClauses(builder, context.catchClause());
@@ -2941,8 +2950,10 @@ export class FileProcessor {
                     builder.append(`${this.getLeadingWhiteSpaces(context.SYNCHRONIZED())}/* `);
                     this.getContent(builder, context.SYNCHRONIZED());
                     this.getContent(builder, context.parExpression());
+                    this.getContent(builder, context.block()!.LBRACE());
                     builder.append(" */");
-                    this.processBlock(builder, context.block());
+                    this.processBlock({ builder, context: context.block(), ignoreBraces: true });
+                    this.getContent(builder, context.block()!.RBRACE(), true);
 
                     break;
                 }
@@ -2993,7 +3004,7 @@ export class FileProcessor {
 
             switch (id) {
                 case JavaParser.RULE_block: {
-                    this.processBlock(builder, firstChild as BlockContext);
+                    this.processBlock({ builder, context: firstChild as BlockContext });
                     break;
                 }
 
@@ -3125,7 +3136,7 @@ export class FileProcessor {
             return;
         }
 
-        this.processBlock(builder, context.block(), extra);
+        this.processBlock({ builder, context: context.block(), extra });
     };
 
     private processCatchClauses = (builder: java.lang.StringBuilder, contexts: CatchClauseContext[]): void => {
@@ -3171,7 +3182,7 @@ export class FileProcessor {
 
             const currentName = context.identifier().text;
             const assignment = currentName !== catchName ? `const ${context.identifier().text} = ${catchName};\n` : "";
-            this.processBlock(builder, context.block(), assignment);
+            this.processBlock({ builder, context: context.block(), extra: assignment });
             if (index === contexts.length - 1) {
                 builder.append(` else {\n\tthrow ${catchName};\n\t}\n`);
             }
@@ -3693,7 +3704,7 @@ export class FileProcessor {
                 // Write the overload signatures.
                 overloads.forEach((overload) => {
                     builder.append(overload.leadingWhitespace);
-                    builder.append(this.createModifierString(overload.modifiers));
+                    builder.append(this.createModifierString(overload.modifiers) + " ");
 
                     // Remove the arrow style for overloading.
                     let signature = `${overload.signatureContent?.toString()}` ?? "";

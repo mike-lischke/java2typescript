@@ -23,9 +23,9 @@ export class PackageSourceManager {
     // The list of all known package sources.
     private static sources = new Map<string, PackageSource>();
 
-    public static configure = (javaTargetRoot?: string, customImportResolver?: CustomImportResolver): void => {
+    public static configure = (javaTargetRoot: string, customImportResolver?: CustomImportResolver): void => {
         this.customImportResolver = customImportResolver;
-        this.javaTargetRoot = javaTargetRoot ?? "jree";
+        this.javaTargetRoot = javaTargetRoot;
 
         // All JRE sources are always known.
         const source = new JavaPackageSource("java", "", this.javaTargetRoot);
