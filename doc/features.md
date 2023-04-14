@@ -132,7 +132,7 @@ Java has got the concept of interning a string object, which TypeScript doesn't 
 
 ### <a name="coding">Encoding and Decoding</a>
 
-The classes `java.nio.charset.Charset`, `java.nio.charset.CharsetEncoder` and `java.nio.charset.CharsetDecoder` internally use the `TextEncoder` and `TextDecoder` classes from the browser. With them a large number of charsets are available for decoding. Unfortunately, the `TextEncoder` class does not support encoding to other but UTF-8.
+The classes `java.nio.charset.Charset`, `java.nio.charset.CharsetEncoder` and `java.nio.charset.CharsetDecoder` internally use the `TextEncoder` and `TextDecoder` classes from the browser. With them a large number of charsets are available for decoding. Unfortunately, the `TextEncoder` class only supports UTF-8 encoding.
 
 ## <a name="boxing">Boxing and Unboxing</a>
 

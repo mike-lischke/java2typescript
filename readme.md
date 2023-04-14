@@ -58,3 +58,14 @@ To support iterative conversions (running the tool multiple times with the same 
 ## Supported Language Features
 
 Of course there's no 1:1 translation between Java and Typescript and therefore it is important to understand what needs to be considered and what problems are to be expected. A separate document discusses these aspects: [feature documentation](doc/features.md).
+
+### Common Problems in Converted Java Code
+
+There is almost never an error free result, after conversion. There are simply too many conditions that influence the process and its result. The most common problem classes that can occur are:
+
+- **Incomplete Conversion**: The source file may contain code that is not supported by java2typescript. However, the coverage of Java 11 features should be fairly complete, so this is a rare problem.
+- **Bugs**: The conversion process may contain bugs.
+- **Boxing**: [Auto boxing in TypeScript](doc/features.md#boxing-and-unboxing) works only for built-in types. Other boxing, for example the conversion of a string literal to `java.lang.String`, is a manual process. For this reason you may get errors when string literals appear in Java code where `java.lang.String` is expected. In such cases you have to manually adjust the code to deal with this situation. This is probably the most common issue with translated code.
+- **Unsupported Features**: Certain constructs cannot be converted automatically (e.g. `this` calls, aka. explicit constructor invocation). The tool does as much as it can to convert the code, but some manual work is needed to make the code compiling and working.
+- **Linter Errors**: Many projects use a linter (like ESLint). Converted Java code often does not conform to popular TS linter formatting rules. It is recommended to allow formatting the generated code by the IDE (e.g. in VS Code) to fix the most common problems (like indentation). To help getting over linter problems until you have time to deal with them use the conversion setting which allows to add arbitrary text to each generated file. This is useful to write suppression commands for linter or spelling errors. See the `configuration.options.prefix` field.
+- **Project Settings**: There's a variety of possible TypeScript settings for a project (target versions, browser vs. Node.js etc.). These can cause errors that relate to your project setup, not the conversion process as such.
