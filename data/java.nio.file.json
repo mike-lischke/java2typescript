@@ -130,15 +130,14 @@
                 "modifiers": [],
                 "type": "method"
             }
-        ]
+        ],
+        "typeParameters": "<T>"
     },
     {
         "name": "java.nio.file.DirectoryStream.Filter",
         "type": "interface",
         "modifiers": [],
-        "extends": [
-            "java.lang.Object"
-        ],
+        "extends": [],
         "implements": [],
         "members": [
             {
@@ -146,7 +145,8 @@
                 "modifiers": [],
                 "type": "method"
             }
-        ]
+        ],
+        "typeParameters": "<T>"
     },
     {
         "name": "java.nio.file.FileAlreadyExistsException",
@@ -954,7 +954,8 @@
                 "modifiers": [],
                 "type": "method"
             }
-        ]
+        ],
+        "typeParameters": "<T>"
     },
     {
         "name": "java.nio.file.FileVisitResult",
@@ -1259,9 +1260,7 @@
         "name": "java.nio.file.PathMatcher",
         "type": "interface",
         "modifiers": [],
-        "extends": [
-            "java.lang.Object"
-        ],
+        "extends": [],
         "implements": [],
         "members": [
             {
@@ -1370,7 +1369,8 @@
                 "modifiers": [],
                 "type": "method"
             }
-        ]
+        ],
+        "typeParameters": "<T>"
     },
     {
         "name": "java.nio.file.SimpleFileVisitor",
@@ -1403,7 +1403,8 @@
                 "modifiers": [],
                 "type": "method"
             }
-        ]
+        ],
+        "typeParameters": "<T>"
     },
     {
         "name": "java.nio.file.StandardCopyOption",
@@ -1549,7 +1550,8 @@
                 "modifiers": [],
                 "type": "method"
             }
-        ]
+        ],
+        "typeParameters": "<T>"
     },
     {
         "name": "java.nio.file.WatchEvent.Kind",
@@ -1568,7 +1570,8 @@
                 "modifiers": [],
                 "type": "method"
             }
-        ]
+        ],
+        "typeParameters": "<T>"
     },
     {
         "name": "java.nio.file.WatchEvent.Modifier",

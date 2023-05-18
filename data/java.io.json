@@ -1332,9 +1332,7 @@
         "name": "java.io.FileFilter",
         "type": "interface",
         "modifiers": [],
-        "extends": [
-            "java.lang.Object"
-        ],
+        "extends": [],
         "implements": [],
         "members": [
             {
@@ -1404,9 +1402,7 @@
         "name": "java.io.FilenameFilter",
         "type": "interface",
         "modifiers": [],
-        "extends": [
-            "java.lang.Object"
-        ],
+        "extends": [],
         "implements": [],
         "members": [
             {
@@ -2095,9 +2091,7 @@
         "name": "java.io.ObjectInputFilter",
         "type": "interface",
         "modifiers": [],
-        "extends": [
-            "java.lang.Object"
-        ],
+        "extends": [],
         "implements": [],
         "members": [
             {

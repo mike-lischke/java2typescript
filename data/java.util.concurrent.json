@@ -143,7 +143,8 @@
                 "modifiers": [],
                 "type": "method"
             }
-        ]
+        ],
+        "typeParameters": "<E>"
     },
     {
         "name": "java.util.concurrent.BlockingDeque",
@@ -299,7 +300,8 @@
                 "modifiers": [],
                 "type": "method"
             }
-        ]
+        ],
+        "typeParameters": "<E>"
     },
     {
         "name": "java.util.concurrent.BlockingQueue",
@@ -365,7 +367,8 @@
                 "modifiers": [],
                 "type": "method"
             }
-        ]
+        ],
+        "typeParameters": "<E>"
     },
     {
         "name": "java.util.concurrent.BrokenBarrierException",
@@ -381,9 +384,7 @@
         "name": "java.util.concurrent.Callable",
         "type": "interface",
         "modifiers": [],
-        "extends": [
-            "java.lang.Object"
-        ],
+        "extends": [],
         "implements": [],
         "members": [
             {
@@ -391,7 +392,8 @@
                 "modifiers": [],
                 "type": "method"
             }
-        ]
+        ],
+        "typeParameters": "<V>"
     },
     {
         "name": "java.util.concurrent.CancellationException",
@@ -625,7 +627,8 @@
                 "modifiers": [],
                 "type": "method"
             }
-        ]
+        ],
+        "typeParameters": "<T>"
     },
     {
         "name": "java.util.concurrent.CompletableFuture.AsynchronousCompletionTask",
@@ -677,7 +680,8 @@
                 "modifiers": [],
                 "type": "method"
             }
-        ]
+        ],
+        "typeParameters": "<V>"
     },
     {
         "name": "java.util.concurrent.CompletionStage",
@@ -876,7 +880,8 @@
                 "modifiers": [],
                 "type": "method"
             }
-        ]
+        ],
+        "typeParameters": "<T>"
     },
     {
         "name": "java.util.concurrent.ConcurrentHashMap",
@@ -1198,7 +1203,8 @@
                 "modifiers": [],
                 "type": "method"
             }
-        ]
+        ],
+        "typeParameters": "<K,​V>"
     },
     {
         "name": "java.util.concurrent.ConcurrentHashMap.KeySetView",
@@ -1291,7 +1297,8 @@
                 "modifiers": [],
                 "type": "method"
             }
-        ]
+        ],
+        "typeParameters": "<K,​V>"
     },
     {
         "name": "java.util.concurrent.ConcurrentLinkedDeque",
@@ -1457,7 +1464,8 @@
                 "modifiers": [],
                 "type": "method"
             }
-        ]
+        ],
+        "typeParameters": "<E>"
     },
     {
         "name": "java.util.concurrent.ConcurrentLinkedQueue",
@@ -1543,7 +1551,8 @@
                 "modifiers": [],
                 "type": "method"
             }
-        ]
+        ],
+        "typeParameters": "<E>"
     },
     {
         "name": "java.util.concurrent.ConcurrentMap",
@@ -1609,7 +1618,8 @@
                 "modifiers": [],
                 "type": "method"
             }
-        ]
+        ],
+        "typeParameters": "<K,​V>"
     },
     {
         "name": "java.util.concurrent.ConcurrentNavigableMap",
@@ -1670,7 +1680,8 @@
                 "modifiers": [],
                 "type": "method"
             }
-        ]
+        ],
+        "typeParameters": "<K,​V>"
     },
     {
         "name": "java.util.concurrent.ConcurrentSkipListMap",
@@ -1881,7 +1892,8 @@
                 "modifiers": [],
                 "type": "method"
             }
-        ]
+        ],
+        "typeParameters": "<K,​V>"
     },
     {
         "name": "java.util.concurrent.ConcurrentSkipListSet",
@@ -2017,7 +2029,8 @@
                 "modifiers": [],
                 "type": "method"
             }
-        ]
+        ],
+        "typeParameters": "<E>"
     },
     {
         "name": "java.util.concurrent.CopyOnWriteArrayList",
@@ -2190,7 +2203,8 @@
                 "modifiers": [],
                 "type": "method"
             }
-        ]
+        ],
+        "typeParameters": "<E>"
     },
     {
         "name": "java.util.concurrent.CopyOnWriteArraySet",
@@ -2286,7 +2300,8 @@
                 "modifiers": [],
                 "type": "method"
             }
-        ]
+        ],
+        "typeParameters": "<E>"
     },
     {
         "name": "java.util.concurrent.CountDownLatch",
@@ -2435,7 +2450,8 @@
                 "modifiers": [],
                 "type": "method"
             }
-        ]
+        ],
+        "typeParameters": "<T>"
     },
     {
         "name": "java.util.concurrent.CyclicBarrier",
@@ -2583,7 +2599,8 @@
                 "modifiers": [],
                 "type": "method"
             }
-        ]
+        ],
+        "typeParameters": "<E extends Delayed>"
     },
     {
         "name": "java.util.concurrent.Exchanger",
@@ -2604,7 +2621,8 @@
                 "modifiers": [],
                 "type": "method"
             }
-        ]
+        ],
+        "typeParameters": "<V>"
     },
     {
         "name": "java.util.concurrent.ExecutionException",
@@ -2651,7 +2669,8 @@
                 "modifiers": [],
                 "type": "method"
             }
-        ]
+        ],
+        "typeParameters": "<V>"
     },
     {
         "name": "java.util.concurrent.Executors",
@@ -2943,15 +2962,14 @@
             "java.util.concurrent.Flow.Subscriber"
         ],
         "implements": [],
-        "members": []
+        "members": [],
+        "typeParameters": "<T,​R>"
     },
     {
         "name": "java.util.concurrent.Flow.Publisher",
         "type": "interface",
         "modifiers": [],
-        "extends": [
-            "java.lang.Object"
-        ],
+        "extends": [],
         "implements": [],
         "members": [
             {
@@ -2959,7 +2977,8 @@
                 "modifiers": [],
                 "type": "method"
             }
-        ]
+        ],
+        "typeParameters": "<T>"
     },
     {
         "name": "java.util.concurrent.Flow.Subscriber",
@@ -2988,7 +3007,8 @@
                 "modifiers": [],
                 "type": "method"
             }
-        ]
+        ],
+        "typeParameters": "<T>"
     },
     {
         "name": "java.util.concurrent.Flow.Subscription",
@@ -3465,7 +3485,8 @@
                 "modifiers": [],
                 "type": "method"
             }
-        ]
+        ],
+        "typeParameters": "<V>"
     },
     {
         "name": "java.util.concurrent.ForkJoinWorkerThread",
@@ -3535,7 +3556,8 @@
                 "modifiers": [],
                 "type": "method"
             }
-        ]
+        ],
+        "typeParameters": "<V>"
     },
     {
         "name": "java.util.concurrent.FutureTask",
@@ -3583,7 +3605,8 @@
                 "modifiers": [],
                 "type": "method"
             }
-        ]
+        ],
+        "typeParameters": "<V>"
     },
     {
         "name": "java.util.concurrent.LinkedBlockingDeque",
@@ -3779,7 +3802,8 @@
                 "modifiers": [],
                 "type": "method"
             }
-        ]
+        ],
+        "typeParameters": "<E>"
     },
     {
         "name": "java.util.concurrent.LinkedBlockingQueue",
@@ -3880,7 +3904,8 @@
                 "modifiers": [],
                 "type": "method"
             }
-        ]
+        ],
+        "typeParameters": "<E>"
     },
     {
         "name": "java.util.concurrent.LinkedTransferQueue",
@@ -4001,7 +4026,8 @@
                 "modifiers": [],
                 "type": "method"
             }
-        ]
+        ],
+        "typeParameters": "<E>"
     },
     {
         "name": "java.util.concurrent.Phaser",
@@ -4208,7 +4234,8 @@
                 "modifiers": [],
                 "type": "method"
             }
-        ]
+        ],
+        "typeParameters": "<E>"
     },
     {
         "name": "java.util.concurrent.RecursiveAction",
@@ -4264,7 +4291,8 @@
                 "modifiers": [],
                 "type": "method"
             }
-        ]
+        ],
+        "typeParameters": "<V>"
     },
     {
         "name": "java.util.concurrent.RejectedExecutionException",
@@ -4305,7 +4333,8 @@
                 "modifiers": [],
                 "type": "method"
             }
-        ]
+        ],
+        "typeParameters": "<V>"
     },
     {
         "name": "java.util.concurrent.RunnableScheduledFuture",
@@ -4321,7 +4350,8 @@
                 "modifiers": [],
                 "type": "method"
             }
-        ]
+        ],
+        "typeParameters": "<V>"
     },
     {
         "name": "java.util.concurrent.ScheduledExecutorService",
@@ -4363,7 +4393,8 @@
             "java.util.concurrent.Future"
         ],
         "implements": [],
-        "members": []
+        "members": [],
+        "typeParameters": "<V>"
     },
     {
         "name": "java.util.concurrent.ScheduledThreadPoolExecutor",
@@ -4672,7 +4703,8 @@
                 "modifiers": [],
                 "type": "method"
             }
-        ]
+        ],
+        "typeParameters": "<T>"
     },
     {
         "name": "java.util.concurrent.SynchronousQueue",
@@ -4798,7 +4830,8 @@
                 "modifiers": [],
                 "type": "method"
             }
-        ]
+        ],
+        "typeParameters": "<E>"
     },
     {
         "name": "java.util.concurrent.ThreadFactory",
@@ -5364,6 +5397,7 @@
                 "modifiers": [],
                 "type": "method"
             }
-        ]
+        ],
+        "typeParameters": "<E>"
     }
 ]

@@ -48,7 +48,8 @@
                 "modifiers": [],
                 "type": "method"
             }
-        ]
+        ],
+        "typeParameters": "<T,​S extends BaseStream<T,​S>>"
     },
     {
         "name": "java.util.stream.Collector",
@@ -103,7 +104,8 @@
                 "modifiers": [],
                 "type": "method"
             }
-        ]
+        ],
+        "typeParameters": "<T,​A,​R>"
     },
     {
         "name": "java.util.stream.Collector.Characteristics",
@@ -1499,7 +1501,8 @@
                 "modifiers": [],
                 "type": "method"
             }
-        ]
+        ],
+        "typeParameters": "<T>"
     },
     {
         "name": "java.util.stream.Stream.Builder",
@@ -1525,7 +1528,8 @@
                 "modifiers": [],
                 "type": "method"
             }
-        ]
+        ],
+        "typeParameters": "<T>"
     },
     {
         "name": "java.util.stream.StreamSupport",

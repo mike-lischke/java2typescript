@@ -7,7 +7,7 @@ import path from "path";
 
 import { ParseTree } from "antlr4ts/tree/index.js";
 
-import { BaseSymbol, SymbolTable } from "antlr4-c3";
+import { BaseSymbol, ScopedSymbol, SymbolTable } from "antlr4-c3";
 
 import { Interval } from "antlr4ts/misc/";
 import { CompilationUnitContext } from "../parser/generated/JavaParser.js";
@@ -98,7 +98,13 @@ export class PackageSource {
      */
     public getImportInfo = (importingFile: string): [string[], string] => {
         if (this.targetFile && this.importedSymbols.size > 0) {
-            const names = Array.from(this.importedSymbols.values());
+            let names: string[];
+            const override = this.importOverride;
+            if (override) {
+                names = [override];
+            } else {
+                names = Array.from(this.importedSymbols.values());
+            }
             let importPath: string;
             if (this.targetFile.startsWith("/") || this.targetFile.startsWith("./")) {
                 importPath = path.relative(path.dirname(importingFile), path.dirname(this.targetFile));
@@ -178,12 +184,25 @@ export class PackageSource {
         void this.parseTree;
 
         if (this.symbolTable) {
-            const symbol = this.symbolTable.resolveSync(name, true); // Only look locally.
-            if (symbol) {
-                this.importedSymbols.add(symbol.name);
-            }
+            const parts = name.split(".");
 
-            return symbol;
+            let part = parts.shift();
+            let parent: ScopedSymbol = this.symbolTable;
+            while (part) {
+                const symbol = parent.resolveSync(part, true); // Only look locally.
+                if (parts.length === 0 && symbol) {
+                    this.importedSymbols.add(symbol.name);
+
+                    return symbol;
+                }
+
+                if (!symbol || !(symbol instanceof ScopedSymbol)) {
+                    return undefined;
+                }
+
+                parent = symbol;
+                part = parts.shift();
+            }
         }
 
         return undefined;
@@ -195,5 +214,15 @@ export class PackageSource {
 
     protected createSymbolTable(): SymbolTable {
         return new SymbolTable("default", {});
+    }
+
+    /**
+     * Allows derived package sources to override the import statement generation.
+     *
+     * @returns The value to use for all symbols used from this source. This is usually the top level namespace,
+     *          if given, and should be importable from the package's target path.
+     */
+    protected get importOverride(): string | undefined {
+        return undefined;
     }
 }

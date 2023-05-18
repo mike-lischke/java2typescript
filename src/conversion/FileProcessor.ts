@@ -9,7 +9,10 @@ import path from "path";
 import { ParserRuleContext } from "antlr4ts";
 import { Interval } from "antlr4ts/misc/index.js";
 import { ParseTree, TerminalNode } from "antlr4ts/tree/index.js";
-import { ClassSymbol, InterfaceSymbol, ScopedSymbol, TypedSymbol, BaseSymbol, TypeKind, MethodSymbol } from "antlr4-c3";
+import {
+    ClassSymbol, InterfaceSymbol, ScopedSymbol, TypedSymbol, BaseSymbol, TypeKind, MethodSymbol, NamespaceSymbol,
+    RoutineSymbol,
+} from "antlr4-c3";
 
 import { java, S } from "jree";
 
@@ -19,7 +22,8 @@ import {
     BlockStatementContext, CatchClauseContext, ClassBodyContext, ClassBodyDeclarationContext,
     ClassCreatorRestContext, ClassDeclarationContext, ClassOrInterfaceModifierContext, ClassOrInterfaceTypeContext,
     ClassTypeContext, CompilationUnitContext, ConstantDeclaratorContext, ConstDeclarationContext,
-    ConstructorDeclarationContext, CreatedNameContext, CreatorContext, EnhancedForControlContext, EnumConstantContext,
+    ConstructorDeclarationContext, CreatedNameContext, CreatorContext, ElementValueArrayInitializerContext,
+    ElementValueContext, EnhancedForControlContext, EnumConstantContext,
     EnumConstantsContext, EnumDeclarationContext, ExplicitGenericInvocationContext,
     ExplicitGenericInvocationSuffixContext, ExpressionContext, ExpressionListContext, FieldDeclarationContext,
     FinallyBlockContext, ForControlContext, ForInitContext, FormalParameterContext, FormalParameterListContext,
@@ -59,6 +63,8 @@ enum ModifierType {
     Synchronized,
     Transient,
     Volatile,
+
+    Annotation,
 
     /** Not a Java modifier, but used to indicate that the `override` keyword must be added. */
     Override,
@@ -170,6 +176,15 @@ export class FileProcessor {
 
     // Names of 3rd party modules/packages to import.
     private moduleImports = new Set<string>();
+
+    // A list of actually used package imports in the file. From them type aliases and const
+    // declarations are generated when fully qualified names are not used.
+    private packageImports = new Map<string, BaseSymbol>();
+
+    // The list of known package imports that are available for use in the current file. This includes imports from
+    // the file itself and the default imports from java.lang.
+    // Used only when fully qualified identifiers are not used.
+    private availablePackageImports = new Map<string, BaseSymbol>();
 
     // Keeps names of classes for which inner processing is going on. Sometimes it is necessary to know the name
     // for special processing (e.g. auto creating static initializer functions or type aliases).
@@ -291,6 +306,12 @@ export class FileProcessor {
 
     private processCompilationUnit = (builder: java.lang.StringBuilder, target: string, libPath: string,
         context: CompilationUnitContext): void => {
+
+        if (this.configuration.options?.useUnqualifiedTypes) {
+            // Register default imports for the standard library that are available without explicit import.
+            this.registerDefaultImports();
+        }
+
         this.typeStack.push({
             name: "file",
             type: ContextType.File,
@@ -303,7 +324,6 @@ export class FileProcessor {
         const prefix = this.configuration.options?.prefix as ConverterOptionsPrefixFunc ?? (() => { return ""; });
         if (firstChild instanceof ParserRuleContext) {
             header.append(this.getLeadingWhiteSpaces(firstChild));
-
             header.append(prefix(this.source.sourceFile, this.source.targetFile));
 
             if (context.packageDeclaration()) {
@@ -316,6 +336,25 @@ export class FileProcessor {
                 }
 
                 this.ignoreContent(entry);
+
+                const name = entry.qualifiedName().text;
+                const parts = name.split(".").map((part) => {
+                    return part.trim();
+                });
+
+                if (parts.length > 1) {
+                    const type = parts[parts.length - 1];
+
+                    // Ignore wildcard imports.
+                    if (type !== "*") {
+                        const fullName = parts.join(".");
+
+                        const info = this.resolveFromImports(fullName);
+                        if (typeof info !== "string" && info.symbol) {
+                            this.availablePackageImports.set(fullName, info.symbol);
+                        }
+                    }
+                }
             });
 
             this.processTypeDeclarations(builder, context.typeDeclaration());
@@ -331,6 +370,27 @@ export class FileProcessor {
                 header.append(`import * as ${name} from "${name}";\n`);
             });
             header.append("\n");
+
+            let aliases = "";
+            if (this.configuration.options?.useUnqualifiedTypes) {
+                // Create const reassignments and type aliases depending on the type of the imported symbol.
+                this.packageImports.forEach((symbol, key) => {
+                    const createAssignment = !(symbol instanceof InterfaceSymbol);
+                    const createTypeAlias = !(symbol instanceof RoutineSymbol);
+                    if (createTypeAlias) {
+                        if (("typeParameters" in symbol) && symbol.typeParameters) {
+                            const typeParameters = symbol.typeParameters;
+                            aliases += `type ${symbol.name}${typeParameters} = ${key}${typeParameters};\n`;
+                        } else {
+                            aliases += `type ${symbol.name} = ${key};\n`;
+                        }
+                    }
+
+                    if (createAssignment) {
+                        aliases += `const ${symbol.name} = ${key};\n`;
+                    }
+                });
+            }
 
             this.source.importList.forEach((source) => {
                 const info = source.getImportInfo(target);
@@ -357,7 +417,10 @@ export class FileProcessor {
                 header.append(`import { ${entry.join(", ")} } from "${key}";\n`);
             });
 
-            header.append("\n");
+            if (aliases.length > 0) {
+                header.append("\n");
+                header.append(aliases);
+            }
         }
 
         this.getContent(builder, context.EOF());
@@ -374,7 +437,7 @@ export class FileProcessor {
     private processTypeDeclarations = (builder: java.lang.StringBuilder, list: TypeDeclarationContext[]): void => {
         list.forEach((context) => {
             const prefix = new java.lang.StringBuilder();
-            let ws = this.getLeadingWhiteSpaces(context);
+            const ws = this.getLeadingWhiteSpaces(context);
 
             const modifiers = new Set<string>();
             let ignoreNextWhitespaces = false;
@@ -397,12 +460,6 @@ export class FileProcessor {
 
                     case ModifierType.Private: {
                         modifiers.add("private");
-                        break;
-                    }
-
-                    case ModifierType.Final: {
-                        ws += "@final\n";
-                        this.registerJavaImport("final");
                         break;
                     }
 
@@ -514,18 +571,83 @@ export class FileProcessor {
                     break;
                 }
             }
-        } else if (this.configuration.options?.convertAnnotations && context.annotation()) {
-            this.processAnnotation(builder, context.annotation());
         } else {
-            this.ignoreContent(context.annotation());
-            result = ModifierType.Ignored;
+            this.processAnnotation(builder, context.annotation());
+
+            return ModifierType.Annotation;
         }
 
         return result;
     };
 
     private processAnnotation = (builder: java.lang.StringBuilder, context?: AnnotationContext): void => {
-        this.getContent(builder, context, true);
+        if (this.configuration.options?.convertAnnotations && context) {
+            if (context.qualifiedName()) {
+                this.getContent(builder, context.AT());
+
+                // Resolve the annotation name to trigger the import.
+                const name = context.qualifiedName()!.text;
+                this.resolveType(context, name);
+
+                this.getContent(builder, context.qualifiedName());
+            } else {
+                // Taken over as is. Must be manually converted.
+                this.getContent(builder, context.altAnnotationQualifiedName());
+            }
+
+            if (context.elementValuePairs()) {
+                // Convert the value pairs to a single object literal, with keys and values.
+                this.getContent(builder, context.LPAREN());
+                builder.append("{");
+                context.elementValuePairs()!.elementValuePair().forEach((pair) => {
+                    this.getContent(builder, pair.identifier());
+                    builder.append(": ");
+                    this.ignoreContent(pair.ASSIGN());
+                    this.processElementValue(builder, pair.elementValue());
+                });
+
+                builder.append("}");
+                this.getContent(builder, context.RPAREN());
+            } else if (context.elementValue()) {
+                this.getContent(builder, context.LPAREN());
+                this.processElementValue(builder, context.elementValue());
+                this.getContent(builder, context.RPAREN());
+            }
+
+            builder.append("\n");
+        } else {
+            this.ignoreContent(context);
+        }
+    };
+
+    private processElementValue = (builder: java.lang.StringBuilder, context?: ElementValueContext): void => {
+        if (context) {
+            if (context.expression()) {
+                this.processExpression(builder, context.expression());
+            } else if (context.annotation()) {
+                this.processAnnotation(builder, context.annotation());
+            } else if (context.elementValueArrayInitializer()) {
+                this.processElementValueArrayInitializer(builder, context.elementValueArrayInitializer());
+            } else {
+                this.getContent(builder, context);
+            }
+        }
+    };
+
+    private processElementValueArrayInitializer = (builder: java.lang.StringBuilder,
+        context?: ElementValueArrayInitializerContext): void => {
+        if (context) {
+            let ws = this.getLeadingWhiteSpaces(context.LBRACE()!);
+            builder.append(ws);
+            builder.append("[");
+            context.elementValue().forEach((value) => {
+                this.processElementValue(builder, value);
+            });
+
+            ws = this.getLeadingWhiteSpaces(context.RBRACE()!);
+            builder.append(ws);
+            builder.append("]");
+        }
     };
 
     private processClassDeclaration = (context: ClassDeclarationContext | undefined,
@@ -553,49 +675,27 @@ export class FileProcessor {
         this.getContent(localBuilder, context.CLASS());
         this.getContent(localBuilder, context.identifier());
 
+        let typeParameters = "";
         if (context.typeParameters()) {
-            this.processTypeParameters(localBuilder, context.typeParameters());
+            const typeParametersBuilder = new java.lang.StringBuilder();
+            this.processTypeParameters(typeParametersBuilder, context.typeParameters());
+            typeParameters = `${typeParametersBuilder.toString()}`;
+
+            localBuilder.append(typeParameters);
         }
 
-        // JS/TS can extend only a single class, but implement multiple classes. Due to the fact that we have to convert
-        // Java interfaces to (abstract) classes in TS, we have a problem with inheritance then, if we would generally
-        // convert the `implements` clause to `extends`.
-        // Fortunately, TS allows that a class implements a class (not only interfaces), which is what we use here.
-        // Sometimes this causes extra work after conversion, so we check the special case that a class only implements
-        // one interface and extends no other class, in which case we can convert the `implements` clause to `extends`.
-        if (context.EXTENDS() && context.typeType()) {
+        if (context.EXTENDS()) {
             this.getContent(localBuilder, context.EXTENDS());
             this.processTypeType(localBuilder, context.typeType());
         } else {
+            // Add the default extends clause.
             localBuilder.append(" extends JavaObject");
             this.registerJavaImport("JavaObject");
         }
 
         if (context.IMPLEMENTS()) {
-            let convertToExtends = !context.EXTENDS() && context.typeList(0).typeType().length === 1;
-            if (convertToExtends) {
-                // Additionally check if the implemented interface is a native TS interface.
-                // No need to convert to EXTENDS in such a case.
-                const type = context.typeList(0).typeType(0);
-                if (type.classOrInterfaceType()) {
-                    const name = type.classOrInterfaceType()!.identifier(0).text;
-                    const info = this.source.getQualifiedSymbol(context, name);
-                    const interfaceSymbol = info ? info.symbol as JavaInterfaceSymbol : undefined;
-
-                    if (interfaceSymbol?.isTypescriptCompatible) {
-                        convertToExtends = false;
-                    }
-                }
-            }
-
-            if (convertToExtends) {
-                localBuilder.append(this.getLeadingWhiteSpaces(context.IMPLEMENTS()));
-                localBuilder.append("extends ");
-                this.processTypeList(localBuilder, context.typeList(0));
-            } else {
-                this.getContent(localBuilder, context.IMPLEMENTS());
-                this.processTypeList(localBuilder, context.typeList(0));
-            }
+            this.getContent(localBuilder, context.IMPLEMENTS());
+            this.processTypeList(localBuilder, context.typeList(0));
         }
 
         if (this.processClassBody(localBuilder, context.classBody(), extraCtorParams)) {
@@ -627,15 +727,27 @@ export class FileProcessor {
             // Add a type declaration for the nested type, so it can be used as a type in expressions.
             const typeOfText = modifiers.has("static") ? "typeof " : "";
 
-            let typeParameters = "";
-            if (context.typeParameters()) {
-                typeParameters = context.typeParameters()!.text;
-            }
-
             if (typeParameters || modifiers.has("static")) {
-                // Not possible with inner types (non-static).
+                // The type parameters on the right-hand-side must not include any type constraints.
+                // In fact not even any annotations or comments need to be included. So we just iterate
+                // again over the type parameters and only include the names.
+                const temp: string[] = [];
+                context.typeParameters()?.typeParameter().forEach((typeParameter) => {
+                    temp.push(typeParameter.identifier().text);
+                });
+
+                let minimizedTypeParameters = temp.length > 0 ? temp.join(",") : "";
+                if (typeParameters.length > 0) {
+                    typeParameters = `<${typeParameters}>`;
+                }
+
+                if (minimizedTypeParameters.length > 0) {
+                    minimizedTypeParameters = `<${minimizedTypeParameters}>`;
+                }
+
                 this.typeStack.peek().deferredDeclarations.append(`\texport type ${className}` +
-                    `${typeParameters} = InstanceType<typeof ${owner.name!}.${className}${typeParameters}>;\n`);
+                    `${typeParameters} = InstanceType<typeof ${owner.name!}.${className}` +
+                    `${minimizedTypeParameters}>;\n`);
             } else {
                 this.typeStack.peek().deferredDeclarations.append(`\texport type ${className}` +
                     ` = InstanceType<${typeOfText}${owner.name!}["${className}"]>;\n`);
@@ -718,7 +830,7 @@ export class FileProcessor {
                 }
             } else {
                 const prefix = new java.lang.StringBuilder();
-                const ws = this.getLeadingWhiteSpaces(context);
+                let ws = this.getLeadingWhiteSpaces(context);
 
                 const modifiers = new Set<string>();
                 let ignoreNextWhitespaces = false;
@@ -765,6 +877,11 @@ export class FileProcessor {
                             break;
                         }
 
+                        case ModifierType.Annotation: {
+                            ws += prefix;
+                            break;
+                        }
+
                         default:
                     }
                 });
@@ -772,13 +889,6 @@ export class FileProcessor {
                 if (!modifiers.has("public") && !modifiers.has("protected") && !modifiers.has("private")) {
                     // No modifier means package-private.
                     modifiers.add("protected");
-                }
-
-                // Typescript does not allow fields of a nested class to be protected or private.
-                if (this.typeStack.size() > 2) {
-                    modifiers.delete("protected");
-                    modifiers.delete("private");
-                    modifiers.add("public");
                 }
 
                 if (context.memberDeclaration()) {
@@ -1888,6 +1998,7 @@ export class FileProcessor {
             builder.append(this.getLeadingWhiteSpaces(context.FINAL()));
             this.ignoreContent(context.FINAL());
         } else {
+            // Decorators are not valid at this position, so we just ignore them.
             this.getContent(builder, context, true);
         }
     };
@@ -2610,9 +2721,16 @@ export class FileProcessor {
                     if (count === 1) {
                         const temp = new java.lang.StringBuilder();
                         this.processCreatedName(temp, context.createdName());
-                        builder.append(" Array<");
-                        builder.append(temp);
-                        builder.append(">");
+
+                        // Special case for char arrays.
+                        const type = context.createdName().primitiveType();
+                        if (type) {
+                            this.convertPrimitiveType(builder, type.start.type, true);
+                        } else {
+                            builder.append("Array<");
+                            builder.append(temp);
+                            builder.append(">");
+                        }
 
                         builder.append(this.getLeadingWhiteSpaces(rest.LBRACK(0)));
 
@@ -3325,86 +3443,7 @@ export class FileProcessor {
             isPrimitiveType = true;
             const type = (child as PrimitiveTypeContext).start.type;
             ignoreBrackets = context.LBRACK().length > 0;
-
-            switch (type) {
-                case JavaLexer.CHAR: {
-                    if (ignoreBrackets) {
-                        builder.append("Uint16Array");
-                    } else {
-                        this.registerJavaImport("char");
-                        builder.append("char");
-                    }
-                    break;
-                }
-
-                case JavaLexer.BYTE: {
-                    if (ignoreBrackets) {
-                        builder.append("Int8Array");
-                    } else {
-                        this.registerJavaImport("byte");
-                        builder.append("byte");
-                    }
-                    break;
-                }
-
-                case JavaLexer.SHORT: {
-                    if (ignoreBrackets) {
-                        builder.append("Int16Array");
-                    } else {
-                        this.registerJavaImport("short");
-                        builder.append("short");
-                    }
-                    break;
-                }
-
-                case JavaLexer.INT: {
-                    if (ignoreBrackets) {
-                        builder.append("Int32Array");
-                    } else {
-                        this.registerJavaImport("int");
-                        builder.append("int");
-                    }
-                    break;
-                }
-
-                case JavaLexer.LONG: {
-                    if (ignoreBrackets) {
-                        builder.append("BigInt64Array");
-                    } else {
-                        this.registerJavaImport("long");
-                        builder.append("long");
-                    }
-                    break;
-                }
-
-                case JavaLexer.FLOAT: {
-                    if (ignoreBrackets) {
-                        builder.append("Float64Array");
-                    } else {
-                        this.registerJavaImport("float");
-                        builder.append("float");
-                    }
-                    break;
-                }
-
-                case JavaLexer.DOUBLE: {
-                    if (ignoreBrackets) {
-                        builder.append("Float64Array");
-                    } else {
-                        this.registerJavaImport("double");
-                        builder.append("double");
-                    }
-                    break;
-                }
-
-                default: {
-                    if (ignoreBrackets) {
-                        builder.append("boolean[]");
-                    } else {
-                        builder.append("boolean");
-                    }
-                }
-            }
+            this.convertPrimitiveType(builder, type, ignoreBrackets);
         }
         ++index;
 
@@ -3558,12 +3597,10 @@ export class FileProcessor {
 
         builder.append(this.getLeadingWhiteSpaces(context));
 
-        if (context.BOOLEAN()) {
-            builder.append("boolean");
-        } else if (context.LONG()) {
+        if (context.LONG()) {
             builder.append("bigint");
         } else {
-            builder.append("number"); // Use number also for the char type.
+            builder.append(context.text);
         }
     };
 
@@ -3969,15 +4006,65 @@ export class FileProcessor {
         }
 
         // 3. Is it an imported type?
+        return this.resolveFromImports(name);
+    };
+
+    /**
+     * Loops over all imports and tries to find the symbol with the given name.
+     *
+     * @param name The name of the symbol to find.
+     *
+     * @returns Either the symbol info or the name itself.
+     */
+    private resolveFromImports(name: string): ISymbolInfo | string {
         for (const source of this.source.importList) {
             const info = source.resolveType(name);
             if (info) {
+                if (this.configuration.options?.useUnqualifiedTypes) {
+                    const fullName = info.qualifiedName;
+                    // The name has already been added to the package imports, so just return the it.
+                    if (this.packageImports.has(fullName)) {
+                        return name;
+                    }
+
+                    // First mention of this type, so check if it is actually available for import.
+                    // If so, add it to the package imports and return the name.
+                    const candidate = this.availablePackageImports.get(fullName);
+                    if (candidate) {
+                        this.packageImports.set(fullName, candidate);
+
+                        return name;
+                    }
+                }
+
                 return info;
             }
         }
 
         return name;
-    };
+    }
+
+    /**
+     * Iterates over all symbols in the java.lang package (ignoring sub namespaces like java.lang.annotation) and
+     * adds them to the default package imports.
+     */
+    private registerDefaultImports(): void {
+        const [file] = this.source.importList;
+        const java = file.symbolTable.firstChild as ScopedSymbol;
+        java.children.forEach((child) => {
+            if (child.name === "lang") { // Looking for all symbols in java.lang.
+                (child as NamespaceSymbol).children.forEach((symbol) => {
+                    if (!(symbol instanceof NamespaceSymbol)) {
+                        const fullName = symbol.qualifiedName(".", true).substring(5);
+                        this.availablePackageImports.set(fullName, symbol);
+                    }
+                });
+
+                return;
+            }
+        });
+
+    }
 
     /**
      * Used to add a symbol for import via the java main import (e.g. helper code).
@@ -4073,5 +4160,107 @@ export class FileProcessor {
         }
 
         return false;
+    };
+
+    /**
+     * Called when a primitive type is encountered (maybe in conjunction with an array).
+     *
+     * @param builder The builder to append the type to.
+     * @param type The token type of the primitive type.
+     * @param isArray True if the type is part of an array expression, otherwise false.
+     */
+    private convertPrimitiveType = (builder: java.lang.StringBuilder, type: number, isArray: boolean): void => {
+        switch (type) {
+            case JavaLexer.CHAR: {
+                if (isArray) {
+                    builder.append("Uint16Array");
+                } else {
+                    this.registerJavaImport("char");
+                    builder.append("char");
+                }
+
+                break;
+            }
+
+            case JavaLexer.BYTE: {
+                if (isArray) {
+                    builder.append("Int8Array");
+                } else {
+                    this.registerJavaImport("byte");
+                    builder.append("byte");
+                }
+
+                break;
+            }
+
+            case JavaLexer.SHORT: {
+                if (isArray) {
+                    builder.append("Int16Array");
+                } else {
+                    this.registerJavaImport("short");
+                    builder.append("short");
+                }
+
+                break;
+            }
+
+            case JavaLexer.INT: {
+                if (isArray) {
+                    builder.append("Int32Array");
+                } else {
+                    this.registerJavaImport("int");
+                    builder.append("int");
+                }
+
+                break;
+            }
+
+            case JavaLexer.LONG: {
+                if (isArray) {
+                    builder.append("BigInt64Array");
+                } else {
+                    this.registerJavaImport("long");
+                    builder.append("long");
+                }
+
+                break;
+            }
+
+            case JavaLexer.FLOAT: {
+                if (isArray) {
+                    builder.append("Float64Array");
+                } else {
+                    this.registerJavaImport("float");
+                    builder.append("float");
+                }
+
+                break;
+            }
+
+            case JavaLexer.DOUBLE: {
+                if (isArray) {
+                    builder.append("Float64Array");
+                } else {
+                    this.registerJavaImport("double");
+                    builder.append("double");
+                }
+
+                break;
+            }
+
+            case JavaLexer.BOOLEAN: {
+                if (isArray) {
+                    builder.append("boolean[]");
+                } else {
+                    builder.append("boolean");
+                }
+
+                break;
+            }
+
+            default: {
+                throw new Error(`Unknown primitive type: ${type}`);
+            }
+        }
     };
 }

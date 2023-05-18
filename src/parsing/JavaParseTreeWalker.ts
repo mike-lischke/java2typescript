@@ -44,6 +44,7 @@ export class ClassCreatorSymbol extends ScopedSymbol { }
 
 export class JavaInterfaceSymbol extends InterfaceSymbol {
     public isTypescriptCompatible = false;
+    public typeParameters?: string;
 }
 export class InterfaceBodySymbol extends ScopedSymbol { }
 
@@ -129,6 +130,9 @@ export class JavaParseTreeWalker implements JavaParserListener {
 
     public enterClassDeclaration = (ctx: ClassDeclarationContext): void => {
         const symbol = this.pushNewScope(JavaClassSymbol, ctx.identifier().text, ctx);
+        if (ctx.typeParameters()) {
+            symbol.typeParameters = ctx.typeParameters()!.text;
+        }
         this.checkStatic(symbol);
     };
 
@@ -198,6 +202,9 @@ export class JavaParseTreeWalker implements JavaParserListener {
 
     public enterInterfaceDeclaration = (ctx: InterfaceDeclarationContext): void => {
         const symbol = this.pushNewScope(JavaInterfaceSymbol, ctx.identifier().text, ctx);
+        if (ctx.typeParameters()) {
+            symbol.typeParameters = ctx.typeParameters()!.text;
+        }
 
         // Check the interface if it is compatible with Typescript.
         symbol.isTypescriptCompatible = true;
@@ -207,8 +214,8 @@ export class JavaParseTreeWalker implements JavaParserListener {
                 const memberContext = context.interfaceMemberDeclaration();
 
                 // The Java interface is compatible with TS if there are only:
-                // - const declarations (will be moved to a parallel namespace)
-                // - static (generic) method declarations (will be moved to a parallel namespace)
+                // - const declarations (will be moved to a side namespace)
+                // - static (generic) method declarations (will be moved to a side namespace)
                 // - non-static (generic) method declarations without a body.
                 if (!memberContext?.constDeclaration()) {
                     let commonBodyDeclaration: InterfaceCommonBodyDeclarationContext | undefined;
@@ -436,7 +443,7 @@ export class JavaParseTreeWalker implements JavaParserListener {
         return {
             name: typeText,
             baseTypes: [],
-            kind: kind as unknown as TypeKind, // Temporary use of the cast until the type kind is updated.
+            kind,
             reference: ReferenceKind.Irrelevant,
         };
     };

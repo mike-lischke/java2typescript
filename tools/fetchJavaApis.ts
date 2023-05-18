@@ -37,6 +37,7 @@ interface ITypeRecord {
     extends: string[]; // Must be a list for interfaces.
     implements: string[];
     members: IMemberRecord[];
+    typeParameters?: string;
 }
 
 /**
@@ -170,10 +171,10 @@ const processType = async (url: string, base: string) => {
         record.modifiers.push("abstract");
     }
 
-    if (inheritance.childNodes.length > 2) {
+    if (inheritance.childNodes.length > 1) {
         let currentList = "";
         let typeParamNesting = 0;
-        for (let i = 2; i < inheritance.childNodes.length; i++) {
+        for (let i = 1; i < inheritance.childNodes.length; i++) {
             const item = inheritance.childNodes[i];
             if (item.nodeType === 3) { // Node.TEXT_NODE
                 const text = item.textContent!.trim();
@@ -207,11 +208,21 @@ const processType = async (url: string, base: string) => {
                     const titleParts = title.split(" ");
                     const name = anchor.textContent!;
                     record.implements.push(titleParts[titleParts.length - 1] + "." + name);
+                } else {
+                    const span = item as HTMLSpanElement;
+                    const text = span.textContent?.trim();
+                    if (text) {
+                        const openingAngle = text.indexOf("<");
+                        if (openingAngle >= 0) {
+                            const closingAngle = text.lastIndexOf(">");
+                            record.typeParameters = text.substring(openingAngle, closingAngle + 1);
+                        }
+                    }
                 }
             }
         }
 
-        if (record.extends.length === 0) {
+        if (record.extends.length === 0 && record.type !== "interface" && record.name !== "java.lang.Object") {
             record.extends = ["java.lang.Object"];
         }
     }
@@ -273,7 +284,7 @@ const processType = async (url: string, base: string) => {
 /**
  * Connects to the Java docs and fetches certain APIs
  *
- * @param filter A list class names or package names to fetch. Can be empty to fetch the entire java.base package.
+ * @param filter A list of package names to fetch. Can be empty to fetch the entire java.base package.
  */
 const fetchJavaApis = async (filter: string[]) => {
     if (filter.length === 0) {

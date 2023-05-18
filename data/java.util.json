@@ -77,7 +77,8 @@
                 "modifiers": [],
                 "type": "method"
             }
-        ]
+        ],
+        "typeParameters": "<E>"
     },
     {
         "name": "java.util.AbstractList",
@@ -175,7 +176,8 @@
                 "modifiers": [],
                 "type": "method"
             }
-        ]
+        ],
+        "typeParameters": "<E>"
     },
     {
         "name": "java.util.AbstractMap",
@@ -279,7 +281,8 @@
                 "modifiers": [],
                 "type": "method"
             }
-        ]
+        ],
+        "typeParameters": "<K,​V>"
     },
     {
         "name": "java.util.AbstractMap.SimpleEntry",
@@ -322,7 +325,8 @@
                 "modifiers": [],
                 "type": "method"
             }
-        ]
+        ],
+        "typeParameters": "<K,​V>"
     },
     {
         "name": "java.util.AbstractMap.SimpleImmutableEntry",
@@ -365,7 +369,8 @@
                 "modifiers": [],
                 "type": "method"
             }
-        ]
+        ],
+        "typeParameters": "<K,​V>"
     },
     {
         "name": "java.util.AbstractQueue",
@@ -403,7 +408,8 @@
                 "modifiers": [],
                 "type": "method"
             }
-        ]
+        ],
+        "typeParameters": "<E>"
     },
     {
         "name": "java.util.AbstractSequentialList",
@@ -451,7 +457,8 @@
                 "modifiers": [],
                 "type": "method"
             }
-        ]
+        ],
+        "typeParameters": "<E>"
     },
     {
         "name": "java.util.AbstractSet",
@@ -479,7 +486,8 @@
                 "modifiers": [],
                 "type": "method"
             }
-        ]
+        ],
+        "typeParameters": "<E>"
     },
     {
         "name": "java.util.ArrayDeque",
@@ -655,7 +663,8 @@
                 "modifiers": [],
                 "type": "method"
             }
-        ]
+        ],
+        "typeParameters": "<E>"
     },
     {
         "name": "java.util.ArrayList",
@@ -811,7 +820,8 @@
                 "modifiers": [],
                 "type": "method"
             }
-        ]
+        ],
+        "typeParameters": "<E>"
     },
     {
         "name": "java.util.Arrays",
@@ -3541,7 +3551,8 @@
                 "modifiers": [],
                 "type": "method"
             }
-        ]
+        ],
+        "typeParameters": "<E>"
     },
     {
         "name": "java.util.Collections",
@@ -4041,9 +4052,7 @@
         "name": "java.util.Comparator",
         "type": "interface",
         "modifiers": [],
-        "extends": [
-            "java.lang.Object"
-        ],
+        "extends": [],
         "implements": [],
         "members": [
             {
@@ -4154,7 +4163,8 @@
                 "modifiers": [],
                 "type": "method"
             }
-        ]
+        ],
+        "typeParameters": "<T>"
     },
     {
         "name": "java.util.ConcurrentModificationException",
@@ -4560,7 +4570,8 @@
                 "modifiers": [],
                 "type": "method"
             }
-        ]
+        ],
+        "typeParameters": "<E>"
     },
     {
         "name": "java.util.Dictionary",
@@ -4608,7 +4619,8 @@
                 "modifiers": [],
                 "type": "method"
             }
-        ]
+        ],
+        "typeParameters": "<K,​V>"
     },
     {
         "name": "java.util.DoubleSummaryStatistics",
@@ -4711,7 +4723,8 @@
                 "modifiers": [],
                 "type": "method"
             }
-        ]
+        ],
+        "typeParameters": "<E>"
     },
     {
         "name": "java.util.EnumMap",
@@ -4792,7 +4805,8 @@
                 "modifiers": [],
                 "type": "method"
             }
-        ]
+        ],
+        "typeParameters": "<K extends Enum<K>,​V>"
     },
     {
         "name": "java.util.EnumSet",
@@ -4894,7 +4908,8 @@
                 ],
                 "type": "method"
             }
-        ]
+        ],
+        "typeParameters": "<E extends Enum<E>>"
     },
     {
         "name": "java.util.EventListener",
@@ -4922,7 +4937,8 @@
                 "modifiers": [],
                 "type": "method"
             }
-        ]
+        ],
+        "typeParameters": "<T extends EventListener>"
     },
     {
         "name": "java.util.EventObject",
@@ -5351,7 +5367,8 @@
                 "modifiers": [],
                 "type": "method"
             }
-        ]
+        ],
+        "typeParameters": "<K,​V>"
     },
     {
         "name": "java.util.HashSet",
@@ -5407,7 +5424,8 @@
                 "modifiers": [],
                 "type": "method"
             }
-        ]
+        ],
+        "typeParameters": "<E>"
     },
     {
         "name": "java.util.Hashtable",
@@ -5538,7 +5556,8 @@
                 "modifiers": [],
                 "type": "method"
             }
-        ]
+        ],
+        "typeParameters": "<K,​V>"
     },
     {
         "name": "java.util.IdentityHashMap",
@@ -5624,7 +5643,8 @@
                 "modifiers": [],
                 "type": "method"
             }
-        ]
+        ],
+        "typeParameters": "<K,​V>"
     },
     {
         "name": "java.util.IllegalFormatCodePointException",
@@ -5837,7 +5857,8 @@
                 "modifiers": [],
                 "type": "method"
             }
-        ]
+        ],
+        "typeParameters": "<E>"
     },
     {
         "name": "java.util.LinkedHashMap",
@@ -5878,7 +5899,8 @@
                 "modifiers": [],
                 "type": "method"
             }
-        ]
+        ],
+        "typeParameters": "<K,​V>"
     },
     {
         "name": "java.util.LinkedHashSet",
@@ -5894,7 +5916,8 @@
                 "modifiers": [],
                 "type": "method"
             }
-        ]
+        ],
+        "typeParameters": "<E>"
     },
     {
         "name": "java.util.LinkedList",
@@ -6105,7 +6128,8 @@
                 "modifiers": [],
                 "type": "method"
             }
-        ]
+        ],
+        "typeParameters": "<E>"
     },
     {
         "name": "java.util.List",
@@ -6347,7 +6371,8 @@
                 "modifiers": [],
                 "type": "method"
             }
-        ]
+        ],
+        "typeParameters": "<E>"
     },
     {
         "name": "java.util.ListIterator",
@@ -6403,7 +6428,8 @@
                 "modifiers": [],
                 "type": "method"
             }
-        ]
+        ],
+        "typeParameters": "<E>"
     },
     {
         "name": "java.util.ListResourceBundle",
@@ -7413,7 +7439,8 @@
                 "modifiers": [],
                 "type": "method"
             }
-        ]
+        ],
+        "typeParameters": "<K,​V>"
     },
     {
         "name": "java.util.Map.Entry",
@@ -7475,7 +7502,8 @@
                 "modifiers": [],
                 "type": "method"
             }
-        ]
+        ],
+        "typeParameters": "<K,​V>"
     },
     {
         "name": "java.util.MissingFormatArgumentException",
@@ -7644,7 +7672,8 @@
                 "modifiers": [],
                 "type": "method"
             }
-        ]
+        ],
+        "typeParameters": "<K,​V>"
     },
     {
         "name": "java.util.NavigableSet",
@@ -7730,7 +7759,8 @@
                 "modifiers": [],
                 "type": "method"
             }
-        ]
+        ],
+        "typeParameters": "<E>"
     },
     {
         "name": "java.util.NoSuchElementException",
@@ -7932,9 +7962,7 @@
         "name": "java.util.Observer",
         "type": "interface",
         "modifiers": [],
-        "extends": [
-            "java.lang.Object"
-        ],
+        "extends": [],
         "implements": [],
         "members": [
             {
@@ -8059,7 +8087,8 @@
                 "modifiers": [],
                 "type": "method"
             }
-        ]
+        ],
+        "typeParameters": "<T>"
     },
     {
         "name": "java.util.OptionalDouble",
@@ -8366,7 +8395,8 @@
                 "modifiers": [],
                 "type": "method"
             }
-        ]
+        ],
+        "typeParameters": "<T,​T_CONS>"
     },
     {
         "name": "java.util.PrimitiveIterator.OfDouble",
@@ -8540,7 +8570,8 @@
                 "modifiers": [],
                 "type": "method"
             }
-        ]
+        ],
+        "typeParameters": "<E>"
     },
     {
         "name": "java.util.Properties",
@@ -8734,7 +8765,8 @@
                 "modifiers": [],
                 "type": "method"
             }
-        ]
+        ],
+        "typeParameters": "<E>"
     },
     {
         "name": "java.util.Random",
@@ -9501,7 +9533,8 @@
                 "modifiers": [],
                 "type": "method"
             }
-        ]
+        ],
+        "typeParameters": "<S>"
     },
     {
         "name": "java.util.ServiceLoader.Provider",
@@ -9522,7 +9555,8 @@
                 "modifiers": [],
                 "type": "method"
             }
-        ]
+        ],
+        "typeParameters": "<S>"
     },
     {
         "name": "java.util.Set",
@@ -9704,7 +9738,8 @@
                 "modifiers": [],
                 "type": "method"
             }
-        ]
+        ],
+        "typeParameters": "<E>"
     },
     {
         "name": "java.util.SimpleTimeZone",
@@ -9897,7 +9932,8 @@
                 "modifiers": [],
                 "type": "method"
             }
-        ]
+        ],
+        "typeParameters": "<K,​V>"
     },
     {
         "name": "java.util.SortedSet",
@@ -9943,7 +9979,8 @@
                 "modifiers": [],
                 "type": "method"
             }
-        ]
+        ],
+        "typeParameters": "<E>"
     },
     {
         "name": "java.util.Spliterator",
@@ -10076,7 +10113,8 @@
                 "modifiers": [],
                 "type": "method"
             }
-        ]
+        ],
+        "typeParameters": "<T>"
     },
     {
         "name": "java.util.Spliterator.OfDouble",
@@ -10160,7 +10198,8 @@
                 "modifiers": [],
                 "type": "method"
             }
-        ]
+        ],
+        "typeParameters": "<T,​T_CONS,​T_SPLITR extends Spliterator.OfPrimitive<T,​T_CONS,​T_SPLITR>>"
     },
     {
         "name": "java.util.Spliterators",
@@ -10494,7 +10533,8 @@
                 "modifiers": [],
                 "type": "method"
             }
-        ]
+        ],
+        "typeParameters": "<T>"
     },
     {
         "name": "java.util.SplittableRandom",
@@ -10661,7 +10701,8 @@
                 "modifiers": [],
                 "type": "method"
             }
-        ]
+        ],
+        "typeParameters": "<E>"
     },
     {
         "name": "java.util.StringJoiner",
@@ -11174,7 +11215,8 @@
                 "modifiers": [],
                 "type": "method"
             }
-        ]
+        ],
+        "typeParameters": "<K,​V>"
     },
     {
         "name": "java.util.TreeSet",
@@ -11315,7 +11357,8 @@
                 "modifiers": [],
                 "type": "method"
             }
-        ]
+        ],
+        "typeParameters": "<E>"
     },
     {
         "name": "java.util.UnknownFormatConversionException",
@@ -11708,7 +11751,8 @@
                 "modifiers": [],
                 "type": "method"
             }
-        ]
+        ],
+        "typeParameters": "<E>"
     },
     {
         "name": "java.util.WeakHashMap",
@@ -11779,6 +11823,7 @@
                 "modifiers": [],
                 "type": "method"
             }
-        ]
+        ],
+        "typeParameters": "<K,​V>"
     }
 ]

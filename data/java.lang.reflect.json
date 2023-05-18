@@ -490,7 +490,8 @@
                 "modifiers": [],
                 "type": "method"
             }
-        ]
+        ],
+        "typeParameters": "<T>"
     },
     {
         "name": "java.lang.reflect.Executable",
@@ -1514,7 +1515,8 @@
                 "modifiers": [],
                 "type": "method"
             }
-        ]
+        ],
+        "typeParameters": "<D extends GenericDeclaration>"
     },
     {
         "name": "java.lang.reflect.UndeclaredThrowableException",

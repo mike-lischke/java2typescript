@@ -64,7 +64,8 @@
                 "modifiers": [],
                 "type": "method"
             }
-        ]
+        ],
+        "typeParameters": "<T>"
     },
     {
         "name": "java.lang.ref.Reference",
@@ -109,7 +110,8 @@
                 ],
                 "type": "method"
             }
-        ]
+        ],
+        "typeParameters": "<T>"
     },
     {
         "name": "java.lang.ref.ReferenceQueue",
@@ -135,7 +137,8 @@
                 "modifiers": [],
                 "type": "method"
             }
-        ]
+        ],
+        "typeParameters": "<T>"
     },
     {
         "name": "java.lang.ref.SoftReference",
@@ -151,7 +154,8 @@
                 "modifiers": [],
                 "type": "method"
             }
-        ]
+        ],
+        "typeParameters": "<T>"
     },
     {
         "name": "java.lang.ref.WeakReference",
@@ -161,6 +165,7 @@
             "java.lang.ref.Reference"
         ],
         "implements": [],
-        "members": []
+        "members": [],
+        "typeParameters": "<T>"
     }
 ]

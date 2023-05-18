@@ -608,7 +608,8 @@
                 "modifiers": [],
                 "type": "method"
             }
-        ]
+        ],
+        "typeParameters": "<V,​A>"
     },
     {
         "name": "java.nio.channels.ConnectionPendingException",

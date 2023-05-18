@@ -176,9 +176,7 @@
         "name": "java.security.acl.Owner",
         "type": "interface",
         "modifiers": [],
-        "extends": [
-            "java.lang.Object"
-        ],
+        "extends": [],
         "implements": [],
         "members": [
             {
@@ -202,9 +200,7 @@
         "name": "java.security.acl.Permission",
         "type": "interface",
         "modifiers": [],
-        "extends": [
-            "java.lang.Object"
-        ],
+        "extends": [],
         "implements": [],
         "members": [
             {

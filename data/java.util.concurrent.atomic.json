@@ -561,7 +561,8 @@
                 "modifiers": [],
                 "type": "method"
             }
-        ]
+        ],
+        "typeParameters": "<T>"
     },
     {
         "name": "java.util.concurrent.atomic.AtomicLong",
@@ -1012,7 +1013,8 @@
                 "modifiers": [],
                 "type": "method"
             }
-        ]
+        ],
+        "typeParameters": "<T>"
     },
     {
         "name": "java.util.concurrent.atomic.AtomicMarkableReference",
@@ -1058,7 +1060,8 @@
                 "modifiers": [],
                 "type": "method"
             }
-        ]
+        ],
+        "typeParameters": "<V>"
     },
     {
         "name": "java.util.concurrent.atomic.AtomicReference",
@@ -1191,7 +1194,8 @@
                 "modifiers": [],
                 "type": "method"
             }
-        ]
+        ],
+        "typeParameters": "<V>"
     },
     {
         "name": "java.util.concurrent.atomic.AtomicReferenceArray",
@@ -1329,7 +1333,8 @@
                 "modifiers": [],
                 "type": "method"
             }
-        ]
+        ],
+        "typeParameters": "<E>"
     },
     {
         "name": "java.util.concurrent.atomic.AtomicReferenceFieldUpdater",
@@ -1399,7 +1404,8 @@
                 "modifiers": [],
                 "type": "method"
             }
-        ]
+        ],
+        "typeParameters": "<T,​V>"
     },
     {
         "name": "java.util.concurrent.atomic.AtomicStampedReference",
@@ -1445,7 +1451,8 @@
                 "modifiers": [],
                 "type": "method"
             }
-        ]
+        ],
+        "typeParameters": "<V>"
     },
     {
         "name": "java.util.concurrent.atomic.DoubleAccumulator",

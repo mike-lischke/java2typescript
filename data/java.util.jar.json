@@ -1657,9 +1657,7 @@
         "name": "java.util.jar.Pack200.Packer",
         "type": "interface",
         "modifiers": [],
-        "extends": [
-            "java.lang.Object"
-        ],
+        "extends": [],
         "implements": [],
         "members": [
             {
@@ -1816,9 +1814,7 @@
         "name": "java.util.jar.Pack200.Unpacker",
         "type": "interface",
         "modifiers": [],
-        "extends": [
-            "java.lang.Object"
-        ],
+        "extends": [],
         "implements": [],
         "members": [
             {

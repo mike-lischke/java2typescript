@@ -46,6 +46,9 @@ interface ITypeRecord {
 
     /** The members of the type (fields, methods and nested types). */
     members: IMemberRecord[];
+
+    /** A string containing all the type parameters if this type is generic. */
+    typeParameters?: string;
 }
 
 /** A package source specifically for Java imports. It handles symbol resolution for known Java SDK packages. */
@@ -97,7 +100,12 @@ export class JavaPackageSource extends PackageSource {
                 let newSymbol: ScopedSymbol | undefined;
                 switch (record.type) {
                     case "class": {
-                        newSymbol = symbolTable.addNewSymbolOfType(JavaClassSymbol, parent, name!, [], []);
+                        const symbol = symbolTable.addNewSymbolOfType(JavaClassSymbol, parent, name!, [], []);
+                        if (record.typeParameters !== undefined) {
+                            symbol.typeParameters = record.typeParameters;
+                        }
+
+                        newSymbol = symbol;
                         break;
                     }
 
@@ -106,6 +114,10 @@ export class JavaPackageSource extends PackageSource {
 
                         // All registered interfaces are implemented as native interfaces.
                         symbol.isTypescriptCompatible = true;
+                        if (record.typeParameters !== undefined) {
+                            symbol.typeParameters = record.typeParameters;
+                        }
+
                         newSymbol = symbol;
                         break;
                     }

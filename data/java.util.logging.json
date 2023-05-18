@@ -103,9 +103,7 @@
         "name": "java.util.logging.Filter",
         "type": "interface",
         "modifiers": [],
-        "extends": [
-            "java.lang.Object"
-        ],
+        "extends": [],
         "implements": [],
         "members": [
             {
@@ -703,9 +701,7 @@
         "name": "java.util.logging.LoggingMXBean",
         "type": "interface",
         "modifiers": [],
-        "extends": [
-            "java.lang.Object"
-        ],
+        "extends": [],
         "implements": [],
         "members": [
             {

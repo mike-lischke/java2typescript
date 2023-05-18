@@ -193,9 +193,11 @@ export class JavaFileSymbolTable extends SymbolTable {
             || symbol.parent instanceof InterfaceSymbol) {
             // Member of a class or interface.
             if (symbol.modifiers.has(Modifier.Static)) {
+                const parentName = this.getClassParentName(block, symbol.parent);
+
                 return {
                     symbol,
-                    qualifiedName: symbol.parent.name + "." + name,
+                    qualifiedName: parentName + "." + name,
                 };
 
             } else {
@@ -306,7 +308,7 @@ export class JavaFileSymbolTable extends SymbolTable {
                 if (info && info.symbol) {
                     return info.symbol;
                 }
-            } else if (source.packageId.endsWith("." + name)) {
+            } else if (name.startsWith(source.packageId) || source.packageId.endsWith("." + name)) {
                 const resolved = source.resolveAndImport(name);
                 if (resolved) {
                     return resolved;
@@ -398,12 +400,48 @@ export class JavaFileSymbolTable extends SymbolTable {
                     return false;
                 }
 
+                // Is the owning class a base class of the found class?
+                if (!(run instanceof ClassCreatorSymbol) && run.extends.includes(owningClass as ClassSymbol)) {
+                    return false;
+                }
+
                 break;
             }
             run = run.parent;
         }
 
         return true;
+    };
+
+    /**
+     * Determines if the given scope needs to be resolved in the outer scope.
+     *
+     * @param scope The scope to walk up from until a class, interface or enum is found.
+     * @param owningClass The class that owns a specific symbol that is accessed from the given scope.
+     *
+     * @returns Returns true if we can reach the owning class from the given scope, otherwise false.
+     */
+    private getClassParentName = (scope: BaseSymbol, owningClass: BaseSymbol): string => {
+        // Find the class/interface/enum that contains the scope.
+        let run: BaseSymbol | undefined = scope;
+        while (run) {
+            if (run instanceof ClassSymbol || run instanceof ClassCreatorSymbol || run instanceof InterfaceSymbol) {
+                // Is the found class (expression)/interface symbol the same as the owning class?
+                if (run === owningClass) {
+                    return run.name;
+                }
+
+                // Is the owning class a base class of the found class?
+                if (!(run instanceof ClassCreatorSymbol) && run.extends.includes(owningClass as ClassSymbol)) {
+                    return run.name;
+                }
+
+                break;
+            }
+            run = run.parent;
+        }
+
+        return owningClass.name;
     };
 
     /**

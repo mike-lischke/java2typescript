@@ -68,8 +68,7 @@
                 "--experimental-specifier-resolution=node",
                 "--loader",
                 "ts-node/esm",
-                "src/tools/fetchJavaApis.ts",
-                "java.util.stream"
+                "tools/fetchJavaApis.ts"
             ],
             "console": "integratedTerminal",
             "trace": false

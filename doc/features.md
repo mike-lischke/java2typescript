@@ -24,11 +24,10 @@
 - [Constructors](#constructors)
   - [Explicit Constructor Invocation](#explicit-constructor-invocation)
 - [Exception Handling and Try-with-resources](#exception-handling-and-try-with-resources)
+- [Annotations](#annotations)
 - [Reflection](#reflection)
-- [System Properties](#system-properties)
 - [Others](#others)
 - [Unsupported Features](#unsupported-features)
-  - [Annotations](#annotations)
   - [Serialisation and Deserialisation](#serialisation-and-deserialisation)
   - [Security](#security)
   - [Threading](#threading)
@@ -178,6 +177,12 @@ The `Throwable` implementation parses the stacktrace in a TypeScript error objec
 
 Java 8 and higher support a construct which ensures that certain resources are automatically closed, regardless of errors. For this concept the try/catch/finally statement supports an additional expression between the `try` keyword and the opening curly brace. Any object that implements the `AutoCloseable` interface is automatically closed when the try block finished execution (with or w/o errors). To emulate this behavior additional try blocks are inserted, which handle exceptions in the same way as Java does.
 
+## <a name="Annotations">Annotations</a>
+
+If enabled (see `convertAnnotations` in configuration.md) the tool will convert the syntax of annotations to TypeScript decorators. Java annotations can have key/value pairs, expressions, array initializers and even other annotations, all infinitely nested. For TypeScript key/value pairs are converted to an object parameter, having these pairs as properties. Expressions are converted as usual and serve as parameters to the decorator. Similar for array initializers. Nested annotations are processed like top level annotations, but will not work that way in TypeScript. Another thing you have to fix manually.
+
+There's no default implementation for any of the generated decorator expressions. You have to provide them yourself.
+
 ## <a name="reflection">Reflection</a>
 
 Reflection support is only rudimentary currently. All generated classes derive from `java.lang.Object` where some of the reflection support is located (`.class` getter and `.getClass()` method), but that's about it currently. Typescript also has some reflection support (list methods etc.), but that isn't used yet.
@@ -194,10 +199,6 @@ This chapter collects a few other things that are worth to be mentioned.
 - All classes and interfaces that have a companion with the same name in Typescript (like Number, Object, String, Map etc.) are prefixed with `Java` to avoid confusion (e.g. JavaString, JavaMap etc.) and which allows to import them without conflicts. You still can use fully qualified names with the original class and interface names (e.g. `java.lang.Object`).
 
 ## <a name="unsupported">Unsupported Features</a>
-
-### <a name="Annotations">Annotations</a>
-
-Currently annotations are not converted.
 
 ### <a name="serialisation">Serialisation and Deserialisation</a>
 

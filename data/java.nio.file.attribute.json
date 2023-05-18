@@ -417,7 +417,8 @@
                 "modifiers": [],
                 "type": "method"
             }
-        ]
+        ],
+        "typeParameters": "<T>"
     },
     {
         "name": "java.nio.file.attribute.FileAttributeView",

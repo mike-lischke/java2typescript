@@ -4020,7 +4020,8 @@
                 "modifiers": [],
                 "type": "method"
             }
-        ]
+        ],
+        "typeParameters": "<T>"
     },
     {
         "name": "java.lang.ClassCastException",
@@ -4322,7 +4323,8 @@
                 "modifiers": [],
                 "type": "method"
             }
-        ]
+        ],
+        "typeParameters": "<T>"
     },
     {
         "name": "java.lang.Cloneable",
@@ -4354,7 +4356,8 @@
                 "modifiers": [],
                 "type": "method"
             }
-        ]
+        ],
+        "typeParameters": "<T>"
     },
     {
         "name": "java.lang.Compiler",
@@ -4739,7 +4742,8 @@
                 ],
                 "type": "method"
             }
-        ]
+        ],
+        "typeParameters": "<E extends Enum<E>>"
     },
     {
         "name": "java.lang.EnumConstantNotPresentException",
@@ -5179,7 +5183,8 @@
                 "modifiers": [],
                 "type": "method"
             }
-        ]
+        ],
+        "typeParameters": "<T>"
     },
     {
         "name": "java.lang.InstantiationError",
@@ -5614,7 +5619,8 @@
                 "modifiers": [],
                 "type": "method"
             }
-        ]
+        ],
+        "typeParameters": "<T>"
     },
     {
         "name": "java.lang.LayerInstantiationException",
@@ -7654,9 +7660,7 @@
         "name": "java.lang.Runnable",
         "type": "interface",
         "modifiers": [],
-        "extends": [
-            "java.lang.Object"
-        ],
+        "extends": [],
         "implements": [],
         "members": [
             {
@@ -10741,9 +10745,7 @@
         "name": "java.lang.Thread.UncaughtExceptionHandler",
         "type": "interface",
         "modifiers": [],
-        "extends": [
-            "java.lang.Object"
-        ],
+        "extends": [],
         "implements": [],
         "members": [
             {
@@ -10932,7 +10934,8 @@
                 ],
                 "type": "method"
             }
-        ]
+        ],
+        "typeParameters": "<T>"
     },
     {
         "name": "java.lang.Throwable",

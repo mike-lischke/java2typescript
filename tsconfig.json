@@ -21,7 +21,7 @@
         "src/**/*.ts",
         "parser/generated/**/*.ts",
         "data/**/*.json",
-        "tools/convertJDKTests.ts"
+        "tools/*.ts"
     ],
     "exclude": [
         "node_modules/**/*",

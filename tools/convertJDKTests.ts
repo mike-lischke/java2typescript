@@ -7,11 +7,12 @@
 
 import * as path from "path";
 
+import { PackageSourceManager } from "../src/PackageSourceManager.js";
 import {
-    IClassResolver, IConverterConfiguration, JavaToTypescriptConverter,
+    IConverterConfiguration, JavaToTypescriptConverter,
 } from "../src/conversion/JavaToTypeScript.js";
 import { PackageSource } from "../src/PackageSource.js";
-import { PackageSourceManager } from "../src/PackageSourceManager.js";
+import { ClassSymbol, Modifier, NamespaceSymbol, RoutineSymbol, SymbolTable } from "antlr4-c3";
 
 /** Member sorting identifiers as used in the project's eslint configuration. */
 const memberOrderOptions = {
@@ -54,66 +55,90 @@ const memberOrderOptions = {
     ],
 };
 
-const knownSDKPackages: string[] = [
-];
+class TestNGSource extends PackageSource {
+    protected override createSymbolTable(): SymbolTable {
+        const symbolTable = new SymbolTable("TestNG", { allowDuplicateSymbols: false });
+
+        const testng = symbolTable.addNewNamespaceFromPathSync(undefined, "org.testng");
+        const assert = symbolTable.addNewSymbolOfType(ClassSymbol, testng, "Assert", [], []);
+        let routine = symbolTable.addNewSymbolOfType(RoutineSymbol, assert, "assertEquals");
+        routine.modifiers.add(Modifier.Static);
+        routine = symbolTable.addNewSymbolOfType(RoutineSymbol, assert, "assertNotEquals");
+        routine.modifiers.add(Modifier.Static);
+        routine = symbolTable.addNewSymbolOfType(RoutineSymbol, assert, "assertTrue");
+        routine.modifiers.add(Modifier.Static);
+        routine = symbolTable.addNewSymbolOfType(RoutineSymbol, assert, "assertFalse");
+        routine.modifiers.add(Modifier.Static);
+
+        const annotations = symbolTable.addNewSymbolOfType(NamespaceSymbol, testng, "annotations");
+        symbolTable.addNewSymbolOfType(RoutineSymbol, annotations, "Test");
+        symbolTable.addNewSymbolOfType(RoutineSymbol, annotations, "DataProvider");
+
+        return symbolTable;
+    }
+
+    protected get importOverride(): string | undefined {
+        return "org";
+    }
+}
+
+let annotationSource: TestNGSource;
 
 const importResolver = (packageId: string): PackageSource | undefined => {
-    knownSDKPackages.forEach((value) => {
-        if (packageId === value) {
-            return PackageSourceManager.emptySource(value);
+    if (packageId.startsWith("org.testng")) {
+        if (!annotationSource) {
+            // Create the package source on demand, so we don't try to access internal stuff before the
+            // package manager is fully initialized.
+            annotationSource = new TestNGSource("org.testng", "", "../../../../org/org");
         }
-    });
 
-    return undefined;
+        return annotationSource;
+    }
+
+    return PackageSourceManager.emptySource(packageId);
 };
 
-const classResolver = new Map<string, IClassResolver>([
-]);
+/**
+ * Files and folders of the JDK test suite that should be converted. Included here are only those tests for classes
+ * we currently have in the JREE (white list). The rest is ignored for now.
+ * However, some of the tests included via folders cannot be executed as they require additional classes that are not
+ * part of the JREE. These are listed in the exclude list.
+ */
+const include: string[] = [
+    "io/BufferedReader/",
+    "io/NegativeInitSize.java",
+    "io/Unicode.java",
+    "util/ArrayList",
+    "util/List",
+    "util/Collection/testlibrary",
+];
 
 const convertJDKLangTests = async () => {
     const antlrToolOptions: IConverterConfiguration = {
-        packageRoot: path.resolve(process.cwd(), "../jdk/test/jdk/java/lang"),
-        javaLib: "../../../../../../src",
-        include: [
-            "lang/CharSequence/Comparison.java",
+        packageRoot: path.resolve(process.cwd(), "../jdk/test/jdk/java/"),
+        javaLib: "../../../src",
+        include,
+        //include: ["NestedSubList.java"],
+        exclude: [ // Contains only files that were included above.
+            "io/BufferedReader/Lines.java", // Requires stream + lambda support.
+            "io/BufferedReader/ReadLineSync.java", // Requires thread support.
+            "io/BufferedReader/SkipNegativeInitSize.java", // Requires CharArrayReader
+            "io/BufferedReader/SkipNegative.java", // Requires CharArrayReader
+            "io/SkipNegativeInitSize.java", // Requires ByteArrayInputStream and others.
+            "io/NegativeInitSize.java", // Requires CharArrayReader and others.
+
+            "util/ArrayList/ArrayManagement.java", // Requires reflection.
+            "util/ArrayList/Bug6533203.java", // Requires thread support.
+            "util/ArrayList/IteratorMicroBenchmark.java", // Requires concurrent + ref support.
+            "util/ArrayList/RangeCheckMicroBenchmark.java", // Requires stream support.
         ],
-        exclude: [
-            "AssertionError",
-            "ClassLoader",
-            "InheritableThreadLocal",
-            "IntegralPrimitiveToString.java",
-            "ModuleLayer",
-            "ModuleTests",
-            "Package",
-            "PrimitiveSumMinMaxTest.java",
-            "ProcessBuilder",
-            "ProcessHandle",
-            "Runtime",
-            "RuntimePermission",
-            "SecurityManager",
-            "StackWalker",
-            "StrictMath",
-            "System",
-            "Thread",
-            "ThreadGroup",
-            "ThreadLocal",
-            "WeakPairMap",
-            "annotation",
-            "instrument",
-            "invoke",
-            "management",
-            "module",
-            "ref",
-            "reflect",
-        ],
-        outputPath: "../jree/tests/jdk/java/lang",
+        outputPath: "../jree/tests/jdk/java/",
         options: {
             importResolver,
-            classResolver,
-            convertAnnotations: false,
+            convertAnnotations: true,
             sourceMappings: [
             ],
-            preferArrowFunctions: true,
+            preferArrowFunctions: false,
             autoAddBraces: true,
             addIndexFiles: false,
             addNullUnionType: false,
@@ -125,11 +150,12 @@ const convertJDKLangTests = async () => {
 /* eslint-disable max-len */
 /* cspell: disable */
 /* eslint-disable jsdoc/check-tag-names */
+/* eslint-disable @typescript-eslint/naming-convention */
 `,
+            useUnqualifiedTypes: true,
         },
         sourceReplace: new Map([
         ]),
-
         debug: {
             pathForPosition: {
                 filePattern: "XXX",

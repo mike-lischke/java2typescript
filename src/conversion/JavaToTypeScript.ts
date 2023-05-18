@@ -3,7 +3,7 @@
  * Licensed under the MIT License. See License.txt in the project root for license information.
  */
 
-import glob from "glob";
+import { glob } from "glob";
 import path from "path";
 import fs from "fs";
 
@@ -81,6 +81,14 @@ export interface IConverterOptions {
      * folder plus the index files of all subfolders.
      */
     addIndexFiles?: boolean;
+
+    /**
+     * Normally the processor resolves types to their fully qualified name (e.g. `java.util.List`), regardless of which
+     * package import appears in the Java source file. If this option is true then the processor converts Java imports
+     * to const statements that map the imported type to its simple name (e.g. `const List = java.util.List`). That
+     * way the simple name can be used in the code. Default is: false.
+     */
+    useUnqualifiedTypes?: boolean;
 
     /**
      * A mapping of a 3rd party package which is available in source form. Maps root package IDs (without any type

@@ -268,9 +268,7 @@
         "name": "java.time.temporal.TemporalAdjuster",
         "type": "interface",
         "modifiers": [],
-        "extends": [
-            "java.lang.Object"
-        ],
+        "extends": [],
         "implements": [],
         "members": [
             {
@@ -551,9 +549,7 @@
         "name": "java.time.temporal.TemporalQuery",
         "type": "interface",
         "modifiers": [],
-        "extends": [
-            "java.lang.Object"
-        ],
+        "extends": [],
         "implements": [],
         "members": [
             {
@@ -561,7 +557,8 @@
                 "modifiers": [],
                 "type": "method"
             }
-        ]
+        ],
+        "typeParameters": "<R>"
     },
     {
         "name": "java.time.temporal.TemporalUnit",

@@ -346,7 +346,8 @@
                 "modifiers": [],
                 "type": "method"
             }
-        ]
+        ],
+        "typeParameters": "<D extends ChronoLocalDate>"
     },
     {
         "name": "java.time.chrono.Chronology",
@@ -789,7 +790,8 @@
                 "modifiers": [],
                 "type": "method"
             }
-        ]
+        ],
+        "typeParameters": "<D extends ChronoLocalDate>"
     },
     {
         "name": "java.time.chrono.Era",

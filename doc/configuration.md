@@ -29,7 +29,7 @@ The `options` field in the top level configuration object accepts the following 
 
 * **prefix** (string, optional): content which is inserted before the first generated source line (e.g. linter settings).
 
-* **convertAnnotations** (boolean, optional, experimental): if true then an attempt is made to convert (some) of the Java annotations to Typescript decorators. This is not fully working, so use with care.
+* **convertAnnotations** (boolean, optional): if true then Java annotations are converted to Typescript decorator names. You have to provide implementations for these decorators.
 
 * **lib** (string, optional): specifies a path (relative to the current path or absolute) which holds additional TS source files (like for MurmurHash or decorators), that are used in the generated code.
 
@@ -50,6 +50,8 @@ The `options` field in the top level configuration object accepts the following 
 * **memberOrderOptions** (object, optional) allows to specify a structure which describes how to order class members in generated classes. This structure was taken from the [ESLint member ordering rule](https://typescript-eslint.io/rules/member-ordering/#options), however the `order` and `optionalityOrder` settings are currently ignored.
 
 * **addIndexFiles** (boolean, optional): when true then the tool generates an index.ts file in every target (sub) folder, to allow for simpler import statements in generated files.
+
+* **useUnqualifiedTypes** (boolean, optional, default: false): when true then Java types are used without qualification, if they are imported in the current file. Instead const reassignments and type aliases are generated from the imports.
 
 * **sourceMappings** (array of mapping entries, optional): a rarely used member to provide mappings between Java source files, which do not belong to the current package (and are not converted) and 3rd party JS/TS packages. So these mappings can be used to specify already converted Java packages. Each entry in the array is an object with 2 members (`sourcePath` and `importPath`), the path of the separate Java package and the import path to be used in generated files (if given as relative path then Node.js will try to solve the path in the node_module folder). The source files are only needed to collect symbol information.
 
