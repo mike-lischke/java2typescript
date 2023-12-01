@@ -108,17 +108,21 @@ const include: string[] = [
     "io/BufferedReader/",
     "io/NegativeInitSize.java",
     "io/Unicode.java",
+    "util/AbstractList",
     "util/ArrayList",
     "util/List",
     "util/Collection/testlibrary",
+    "util/HashMap",
+    "util/HashSet",
+    "util/Iterator",
 ];
 
 const convertJDKLangTests = async () => {
     const antlrToolOptions: IConverterConfiguration = {
         packageRoot: path.resolve(process.cwd(), "../jdk/test/jdk/java/"),
         javaLib: "../../../src",
-        include,
-        //include: ["NestedSubList.java"],
+        //include,
+        include: ["/IteratorDefaults.java"],
         exclude: [ // Contains only files that were included above.
             "io/BufferedReader/Lines.java", // Requires stream + lambda support.
             "io/BufferedReader/ReadLineSync.java", // Requires thread support.
@@ -131,6 +135,9 @@ const convertJDKLangTests = async () => {
             "util/ArrayList/Bug6533203.java", // Requires thread support.
             "util/ArrayList/IteratorMicroBenchmark.java", // Requires concurrent + ref support.
             "util/ArrayList/RangeCheckMicroBenchmark.java", // Requires stream support.
+            "util/HashMap/KeySetRemove.java", // Uses TreeMap too.
+            "util/HashMap/PutNullKey.java", // Uses IntStream.
+            "util/HashSet/Serialization.java", // Requires serialization support.
         ],
         outputPath: "../jree/tests/jdk/java/",
         options: {
@@ -158,10 +165,10 @@ const convertJDKLangTests = async () => {
         ]),
         debug: {
             pathForPosition: {
-                filePattern: "XXX",
+                //filePattern: "XXX",
                 position: {
-                    row: 120,
-                    column: 58,
+                    row: 49,
+                    column: 5,
                 },
             },
         },

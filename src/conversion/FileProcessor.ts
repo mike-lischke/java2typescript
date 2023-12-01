@@ -1494,8 +1494,15 @@ export class FileProcessor {
         }
 
         const nested = this.processNestedContent(doExport);
+
+        // Check if this declaration itself is nested.
+        if (this.typeStack.size() > 1) {
+            this.typeStack.peek().deferredDeclarations.append(`\texport ${localBuilder}\n\n`);
+        } else {
+            result.bodyContent.append(`${prefix}${localBuilder}`);
+        }
+
         this.typeStack.peek().deferredDeclarations.append(nested);
-        result.bodyContent.append(`${prefix}${localBuilder}`);
 
         return result;
     };
@@ -4175,7 +4182,7 @@ export class FileProcessor {
                 if (isArray) {
                     builder.append("Uint16Array");
                 } else {
-                    this.registerJavaImport("char");
+                    this.registerJavaImport("type char");
                     builder.append("char");
                 }
 
@@ -4186,7 +4193,7 @@ export class FileProcessor {
                 if (isArray) {
                     builder.append("Int8Array");
                 } else {
-                    this.registerJavaImport("byte");
+                    this.registerJavaImport("type byte");
                     builder.append("byte");
                 }
 
@@ -4197,7 +4204,7 @@ export class FileProcessor {
                 if (isArray) {
                     builder.append("Int16Array");
                 } else {
-                    this.registerJavaImport("short");
+                    this.registerJavaImport("type short");
                     builder.append("short");
                 }
 
@@ -4208,7 +4215,7 @@ export class FileProcessor {
                 if (isArray) {
                     builder.append("Int32Array");
                 } else {
-                    this.registerJavaImport("int");
+                    this.registerJavaImport("type int");
                     builder.append("int");
                 }
 
@@ -4219,7 +4226,7 @@ export class FileProcessor {
                 if (isArray) {
                     builder.append("BigInt64Array");
                 } else {
-                    this.registerJavaImport("long");
+                    this.registerJavaImport("type long");
                     builder.append("long");
                 }
 
@@ -4230,7 +4237,7 @@ export class FileProcessor {
                 if (isArray) {
                     builder.append("Float64Array");
                 } else {
-                    this.registerJavaImport("float");
+                    this.registerJavaImport("type float");
                     builder.append("float");
                 }
 
@@ -4241,7 +4248,7 @@ export class FileProcessor {
                 if (isArray) {
                     builder.append("Float64Array");
                 } else {
-                    this.registerJavaImport("double");
+                    this.registerJavaImport("type double");
                     builder.append("double");
                 }
 
