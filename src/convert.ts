@@ -22,7 +22,7 @@ if (args.length < 1) {
     process.exit(1);
 }
 
-console.log("\nConverting Java to TypeScript...");
+console.log("\nConverting Java to TypeScript...\n");
 
 // Load the given configuration file and create a converter configuration from it.
 const configFile = args[0];

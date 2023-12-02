@@ -27,6 +27,7 @@
         "whitespaces"
     ],
     "ignoreWords": [
+        "ANTL",
         "COLONCOLON",
         "FEFFFFFFFFFFFFF",
         "Harwell",
@@ -52,6 +53,7 @@
         "stringtemplate",
         "testlibrary",
         "testng",
+        "testsuite",
         "typeof",
         "unmappable",
         "unmocked",

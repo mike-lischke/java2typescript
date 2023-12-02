@@ -321,7 +321,15 @@ export class FileProcessor {
 
         const firstChild = context.getChild(0);
         const header = new java.lang.StringBuilder();
-        const prefix = this.configuration.options?.prefix as ConverterOptionsPrefixFunc ?? (() => { return ""; });
+        let prefix;
+        if (typeof this.configuration.options?.prefix === "string") {
+            prefix = () => { return this.configuration.options?.prefix as string; };
+        } else if (typeof this.configuration.options?.prefix === "function") {
+            prefix = this.configuration.options?.prefix;
+        } else {
+            prefix = () => { return ""; };
+        }
+
         if (firstChild instanceof ParserRuleContext) {
             header.append(this.getLeadingWhiteSpaces(firstChild));
             header.append(prefix(this.source.sourceFile, this.source.targetFile));

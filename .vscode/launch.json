@@ -24,7 +24,7 @@
         {
             "type": "node",
             "request": "launch",
-            "name": "Convert ANTLR4",
+            "name": "Convert ANTLR4 runtime tests",
             "sourceMaps": true,
             "stopOnEntry": false,
             "smartStep": true,
@@ -34,7 +34,7 @@
                 "--loader",
                 "ts-node/esm",
                 "src/convert",
-                "config/antlr4.json",
+                "config/antlr4-runtime-tests.json",
             ],
             "console": "integratedTerminal",
             "trace": false
