@@ -18,3 +18,5 @@ parser/**
 src/**
 tests/**
 tools/**
+config/
+output/tools/
