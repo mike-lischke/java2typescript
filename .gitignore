@@ -1,3 +1,4 @@
 output
 node_modules
 coverage
+*.interp
