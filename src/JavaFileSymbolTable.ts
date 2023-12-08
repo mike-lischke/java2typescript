@@ -5,7 +5,7 @@
 
 /* eslint-disable no-underscore-dangle */
 
-import { ParseTree, ParseTreeWalker } from "antlr4ts/tree/index.js";
+import { ParseTree, ParseTreeWalker, ParserRuleContext } from "antlr4ng";
 import {
     SymbolTable, ClassSymbol, ScopedSymbol, ParameterSymbol, InterfaceSymbol, NamespaceSymbol, Modifier, BaseSymbol,
     TypedSymbol,
@@ -21,7 +21,6 @@ import { JavaClassSymbol } from "./parsing/JavaClassSymbol.js";
 import {
     ClassCreatorSymbol, ConstructorSymbol, InitializerBlockSymbol, JavaParseTreeWalker,
 } from "./parsing/JavaParseTreeWalker.js";
-import { ParserRuleContext } from "antlr4ts";
 
 export class JavaFileSymbolTable extends SymbolTable {
 
@@ -53,7 +52,7 @@ export class JavaFileSymbolTable extends SymbolTable {
         this.resolveReferences();
 
         let block = this.symbolWithContextSync(context);
-        let run: ParseTree | undefined = context;
+        let run: ParseTree | null = context;
         if (!block) {
             // The given context is not one of the key contexts we used in the symbol table.
             // Walk the parent chain up to see if we can find an expression or member context and continue from there.
@@ -153,7 +152,7 @@ export class JavaFileSymbolTable extends SymbolTable {
                 // The tests here all check for the use as constructor function.
                 const creator = context.creator();
                 if (creator && creator.createdName().identifier().length > 0) {
-                    const creatorName = creator.createdName().identifier(0).text;
+                    const creatorName = creator.createdName().identifier(0)?.getText();
                     if (creatorName === name) {
                         // The class is used to create a new instance of it.
                         return {
@@ -181,7 +180,7 @@ export class JavaFileSymbolTable extends SymbolTable {
                 // A type declaration is generated for that in the side-car namespace of the generated file.
                 return {
                     symbol,
-                    qualifiedName: `${run.identifier().text}.${name}`,
+                    qualifiedName: `${run.identifier().getText()}.${name}`,
                 };
             }
 
@@ -254,7 +253,7 @@ export class JavaFileSymbolTable extends SymbolTable {
                 const candidate = classSymbol.context?.parent?.parent?.parent;
                 if (candidate instanceof CreatorContext) {
                     // Anonymous inner class creation.
-                    const type = candidate.createdName().identifier(0).text;
+                    const type = candidate.createdName().identifier(0)!.getText();
                     const symbol = this.resolveInheritedType(type);
                     if (symbol instanceof ClassSymbol) {
                         classSymbol.extends.push(symbol);
@@ -273,7 +272,7 @@ export class JavaFileSymbolTable extends SymbolTable {
 
                     if (classSymbol.context.IMPLEMENTS()) {
                         // Interfaces to implement.
-                        classSymbol.context.typeList(0).typeType().forEach((typeContext) => {
+                        classSymbol.context.typeList(0)!.typeType().forEach((typeContext) => {
                             const symbol = this.resolveInheritedType(typeContext);
                             if (symbol instanceof ClassSymbol) {
                                 classSymbol.extends.push(symbol);
@@ -335,7 +334,7 @@ export class JavaFileSymbolTable extends SymbolTable {
             typeName = contextOrTypeName;
         } else {
             const parts = contextOrTypeName.classOrInterfaceType()?.identifier().map((node) => {
-                return node.text;
+                return node.getText();
             }) ?? [];
 
             // If the type is fully qualified, we resolve it from the imported packages.
@@ -366,10 +365,10 @@ export class JavaFileSymbolTable extends SymbolTable {
     };
 
     private getWrappingClass = (context: ParserRuleContext): ClassSymbol | undefined => {
-        let run: ParserRuleContext | undefined = context.parent;
+        let run: ParserRuleContext | null = context.parent;
         while (run) {
             if (run instanceof ClassDeclarationContext) {
-                const name = run.identifier().text;
+                const name = run.identifier().getText();
                 const symbol = this.resolveSync(name, true);
                 if (symbol instanceof ClassSymbol) {
                     return symbol;
@@ -457,16 +456,16 @@ export class JavaFileSymbolTable extends SymbolTable {
         const identifierContext = context._constantExpression?.primary()?.identifier();
         if (identifierContext) {
             // Only single identifiers can be resolved.
-            const statementContext = context.parent?.parent as StatementContext;
+            const statementContext = context.parent?.parent as unknown as StatementContext;
             const switchExpression = statementContext?.parExpression();
             if (switchExpression) {
                 const valueContext = switchExpression.expression().primary()?.identifier();
                 if (valueContext) {
-                    const info = this.getQualifiedSymbol(statementContext, valueContext.text);
+                    const info = this.getQualifiedSymbol(statementContext, valueContext.getText());
                     if (info && info.symbol instanceof TypedSymbol && info.symbol.type) {
                         const typeInfo = this.getQualifiedSymbol(statementContext, info.symbol.type.name);
                         if (typeInfo && typeInfo.symbol) {
-                            const symbol = typeInfo.symbol.resolveSync(identifierContext.text);
+                            const symbol = typeInfo.symbol.resolveSync(identifierContext.getText());
                             if (symbol) {
                                 return {
                                     symbol,

@@ -5,7 +5,7 @@
 
 import fs from "fs";
 
-import { CharStream, CharStreams, CommonTokenStream } from "antlr4ts";
+import { CharStream, CharStreams, CommonTokenStream, Interval, ParseTree } from "antlr4ng";
 
 import { JavaLexer } from "../parser/generated/JavaLexer.js";
 import { JavaParser, CompilationUnitContext } from "../parser/generated/JavaParser.js";
@@ -13,8 +13,6 @@ import { JavaParser, CompilationUnitContext } from "../parser/generated/JavaPars
 import { PackageSource } from "./PackageSource.js";
 import { JavaFileSymbolTable } from "./JavaFileSymbolTable.js";
 import { JavaErrorListener } from "./parsing/JavaErrorListener.js";
-import { ParseTree } from "antlr4ts/tree/index.js";
-import { Interval } from "antlr4ts/misc/";
 import { printParseTreeStack } from "./utilities.js";
 import { ISymbolInfo } from "./conversion/types.js";
 

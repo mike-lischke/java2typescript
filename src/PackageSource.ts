@@ -5,11 +5,10 @@
 
 import path from "path";
 
-import { ParseTree } from "antlr4ts/tree/index.js";
+import { ParseTree, Interval } from "antlr4ng";
 
 import { BaseSymbol, ScopedSymbol, SymbolTable } from "antlr4-c3";
 
-import { Interval } from "antlr4ts/misc/";
 import { CompilationUnitContext } from "../parser/generated/JavaParser.js";
 import { PackageSourceManager } from "./PackageSourceManager.js";
 import { ISymbolInfo } from "./conversion/types.js";

@@ -1,7 +1,7 @@
-// Generated from ./parser/JavaParser.g4 by ANTLR 4.9.0-SNAPSHOT
+// Generated from ./parser/JavaParser.g4 by ANTLR 4.13.1
 
+import { ErrorNode, ParseTreeListener, ParserRuleContext, TerminalNode } from "antlr4ng";
 
-import { ParseTreeListener } from "antlr4ts/tree/ParseTreeListener.js";
 
 import { CompilationUnitContext } from "./JavaParser.js";
 import { PackageDeclarationContext } from "./JavaParser.js";
@@ -133,7 +133,7 @@ import { ArgumentsContext } from "./JavaParser.js";
  * This interface defines a complete listener for a parse tree produced by
  * `JavaParser`.
  */
-export interface JavaParserListener extends ParseTreeListener {
+export class JavaParserListener implements ParseTreeListener {
     /**
      * Enter a parse tree produced by `JavaParser.compilationUnit`.
      * @param ctx the parse tree
@@ -144,7 +144,6 @@ export interface JavaParserListener extends ParseTreeListener {
      * @param ctx the parse tree
      */
     exitCompilationUnit?: (ctx: CompilationUnitContext) => void;
-
     /**
      * Enter a parse tree produced by `JavaParser.packageDeclaration`.
      * @param ctx the parse tree
@@ -155,7 +154,6 @@ export interface JavaParserListener extends ParseTreeListener {
      * @param ctx the parse tree
      */
     exitPackageDeclaration?: (ctx: PackageDeclarationContext) => void;
-
     /**
      * Enter a parse tree produced by `JavaParser.importDeclaration`.
      * @param ctx the parse tree
@@ -166,7 +164,6 @@ export interface JavaParserListener extends ParseTreeListener {
      * @param ctx the parse tree
      */
     exitImportDeclaration?: (ctx: ImportDeclarationContext) => void;
-
     /**
      * Enter a parse tree produced by `JavaParser.typeDeclaration`.
      * @param ctx the parse tree
@@ -177,7 +174,6 @@ export interface JavaParserListener extends ParseTreeListener {
      * @param ctx the parse tree
      */
     exitTypeDeclaration?: (ctx: TypeDeclarationContext) => void;
-
     /**
      * Enter a parse tree produced by `JavaParser.modifier`.
      * @param ctx the parse tree
@@ -188,7 +184,6 @@ export interface JavaParserListener extends ParseTreeListener {
      * @param ctx the parse tree
      */
     exitModifier?: (ctx: ModifierContext) => void;
-
     /**
      * Enter a parse tree produced by `JavaParser.classOrInterfaceModifier`.
      * @param ctx the parse tree
@@ -199,7 +194,6 @@ export interface JavaParserListener extends ParseTreeListener {
      * @param ctx the parse tree
      */
     exitClassOrInterfaceModifier?: (ctx: ClassOrInterfaceModifierContext) => void;
-
     /**
      * Enter a parse tree produced by `JavaParser.variableModifier`.
      * @param ctx the parse tree
@@ -210,7 +204,6 @@ export interface JavaParserListener extends ParseTreeListener {
      * @param ctx the parse tree
      */
     exitVariableModifier?: (ctx: VariableModifierContext) => void;
-
     /**
      * Enter a parse tree produced by `JavaParser.classDeclaration`.
      * @param ctx the parse tree
@@ -221,7 +214,6 @@ export interface JavaParserListener extends ParseTreeListener {
      * @param ctx the parse tree
      */
     exitClassDeclaration?: (ctx: ClassDeclarationContext) => void;
-
     /**
      * Enter a parse tree produced by `JavaParser.typeParameters`.
      * @param ctx the parse tree
@@ -232,7 +224,6 @@ export interface JavaParserListener extends ParseTreeListener {
      * @param ctx the parse tree
      */
     exitTypeParameters?: (ctx: TypeParametersContext) => void;
-
     /**
      * Enter a parse tree produced by `JavaParser.typeParameter`.
      * @param ctx the parse tree
@@ -243,7 +234,6 @@ export interface JavaParserListener extends ParseTreeListener {
      * @param ctx the parse tree
      */
     exitTypeParameter?: (ctx: TypeParameterContext) => void;
-
     /**
      * Enter a parse tree produced by `JavaParser.typeBound`.
      * @param ctx the parse tree
@@ -254,7 +244,6 @@ export interface JavaParserListener extends ParseTreeListener {
      * @param ctx the parse tree
      */
     exitTypeBound?: (ctx: TypeBoundContext) => void;
-
     /**
      * Enter a parse tree produced by `JavaParser.enumDeclaration`.
      * @param ctx the parse tree
@@ -265,7 +254,6 @@ export interface JavaParserListener extends ParseTreeListener {
      * @param ctx the parse tree
      */
     exitEnumDeclaration?: (ctx: EnumDeclarationContext) => void;
-
     /**
      * Enter a parse tree produced by `JavaParser.enumConstants`.
      * @param ctx the parse tree
@@ -276,7 +264,6 @@ export interface JavaParserListener extends ParseTreeListener {
      * @param ctx the parse tree
      */
     exitEnumConstants?: (ctx: EnumConstantsContext) => void;
-
     /**
      * Enter a parse tree produced by `JavaParser.enumConstant`.
      * @param ctx the parse tree
@@ -287,7 +274,6 @@ export interface JavaParserListener extends ParseTreeListener {
      * @param ctx the parse tree
      */
     exitEnumConstant?: (ctx: EnumConstantContext) => void;
-
     /**
      * Enter a parse tree produced by `JavaParser.enumBodyDeclarations`.
      * @param ctx the parse tree
@@ -298,7 +284,6 @@ export interface JavaParserListener extends ParseTreeListener {
      * @param ctx the parse tree
      */
     exitEnumBodyDeclarations?: (ctx: EnumBodyDeclarationsContext) => void;
-
     /**
      * Enter a parse tree produced by `JavaParser.interfaceDeclaration`.
      * @param ctx the parse tree
@@ -309,7 +294,6 @@ export interface JavaParserListener extends ParseTreeListener {
      * @param ctx the parse tree
      */
     exitInterfaceDeclaration?: (ctx: InterfaceDeclarationContext) => void;
-
     /**
      * Enter a parse tree produced by `JavaParser.classBody`.
      * @param ctx the parse tree
@@ -320,7 +304,6 @@ export interface JavaParserListener extends ParseTreeListener {
      * @param ctx the parse tree
      */
     exitClassBody?: (ctx: ClassBodyContext) => void;
-
     /**
      * Enter a parse tree produced by `JavaParser.interfaceBody`.
      * @param ctx the parse tree
@@ -331,7 +314,6 @@ export interface JavaParserListener extends ParseTreeListener {
      * @param ctx the parse tree
      */
     exitInterfaceBody?: (ctx: InterfaceBodyContext) => void;
-
     /**
      * Enter a parse tree produced by `JavaParser.classBodyDeclaration`.
      * @param ctx the parse tree
@@ -342,7 +324,6 @@ export interface JavaParserListener extends ParseTreeListener {
      * @param ctx the parse tree
      */
     exitClassBodyDeclaration?: (ctx: ClassBodyDeclarationContext) => void;
-
     /**
      * Enter a parse tree produced by `JavaParser.memberDeclaration`.
      * @param ctx the parse tree
@@ -353,7 +334,6 @@ export interface JavaParserListener extends ParseTreeListener {
      * @param ctx the parse tree
      */
     exitMemberDeclaration?: (ctx: MemberDeclarationContext) => void;
-
     /**
      * Enter a parse tree produced by `JavaParser.methodDeclaration`.
      * @param ctx the parse tree
@@ -364,7 +344,6 @@ export interface JavaParserListener extends ParseTreeListener {
      * @param ctx the parse tree
      */
     exitMethodDeclaration?: (ctx: MethodDeclarationContext) => void;
-
     /**
      * Enter a parse tree produced by `JavaParser.methodBody`.
      * @param ctx the parse tree
@@ -375,7 +354,6 @@ export interface JavaParserListener extends ParseTreeListener {
      * @param ctx the parse tree
      */
     exitMethodBody?: (ctx: MethodBodyContext) => void;
-
     /**
      * Enter a parse tree produced by `JavaParser.typeTypeOrVoid`.
      * @param ctx the parse tree
@@ -386,7 +364,6 @@ export interface JavaParserListener extends ParseTreeListener {
      * @param ctx the parse tree
      */
     exitTypeTypeOrVoid?: (ctx: TypeTypeOrVoidContext) => void;
-
     /**
      * Enter a parse tree produced by `JavaParser.genericMethodDeclaration`.
      * @param ctx the parse tree
@@ -397,7 +374,6 @@ export interface JavaParserListener extends ParseTreeListener {
      * @param ctx the parse tree
      */
     exitGenericMethodDeclaration?: (ctx: GenericMethodDeclarationContext) => void;
-
     /**
      * Enter a parse tree produced by `JavaParser.genericConstructorDeclaration`.
      * @param ctx the parse tree
@@ -408,7 +384,6 @@ export interface JavaParserListener extends ParseTreeListener {
      * @param ctx the parse tree
      */
     exitGenericConstructorDeclaration?: (ctx: GenericConstructorDeclarationContext) => void;
-
     /**
      * Enter a parse tree produced by `JavaParser.constructorDeclaration`.
      * @param ctx the parse tree
@@ -419,7 +394,6 @@ export interface JavaParserListener extends ParseTreeListener {
      * @param ctx the parse tree
      */
     exitConstructorDeclaration?: (ctx: ConstructorDeclarationContext) => void;
-
     /**
      * Enter a parse tree produced by `JavaParser.fieldDeclaration`.
      * @param ctx the parse tree
@@ -430,7 +404,6 @@ export interface JavaParserListener extends ParseTreeListener {
      * @param ctx the parse tree
      */
     exitFieldDeclaration?: (ctx: FieldDeclarationContext) => void;
-
     /**
      * Enter a parse tree produced by `JavaParser.interfaceBodyDeclaration`.
      * @param ctx the parse tree
@@ -441,7 +414,6 @@ export interface JavaParserListener extends ParseTreeListener {
      * @param ctx the parse tree
      */
     exitInterfaceBodyDeclaration?: (ctx: InterfaceBodyDeclarationContext) => void;
-
     /**
      * Enter a parse tree produced by `JavaParser.interfaceMemberDeclaration`.
      * @param ctx the parse tree
@@ -452,7 +424,6 @@ export interface JavaParserListener extends ParseTreeListener {
      * @param ctx the parse tree
      */
     exitInterfaceMemberDeclaration?: (ctx: InterfaceMemberDeclarationContext) => void;
-
     /**
      * Enter a parse tree produced by `JavaParser.constDeclaration`.
      * @param ctx the parse tree
@@ -463,7 +434,6 @@ export interface JavaParserListener extends ParseTreeListener {
      * @param ctx the parse tree
      */
     exitConstDeclaration?: (ctx: ConstDeclarationContext) => void;
-
     /**
      * Enter a parse tree produced by `JavaParser.constantDeclarator`.
      * @param ctx the parse tree
@@ -474,7 +444,6 @@ export interface JavaParserListener extends ParseTreeListener {
      * @param ctx the parse tree
      */
     exitConstantDeclarator?: (ctx: ConstantDeclaratorContext) => void;
-
     /**
      * Enter a parse tree produced by `JavaParser.interfaceMethodDeclaration`.
      * @param ctx the parse tree
@@ -485,7 +454,6 @@ export interface JavaParserListener extends ParseTreeListener {
      * @param ctx the parse tree
      */
     exitInterfaceMethodDeclaration?: (ctx: InterfaceMethodDeclarationContext) => void;
-
     /**
      * Enter a parse tree produced by `JavaParser.interfaceMethodModifier`.
      * @param ctx the parse tree
@@ -496,7 +464,6 @@ export interface JavaParserListener extends ParseTreeListener {
      * @param ctx the parse tree
      */
     exitInterfaceMethodModifier?: (ctx: InterfaceMethodModifierContext) => void;
-
     /**
      * Enter a parse tree produced by `JavaParser.genericInterfaceMethodDeclaration`.
      * @param ctx the parse tree
@@ -507,7 +474,6 @@ export interface JavaParserListener extends ParseTreeListener {
      * @param ctx the parse tree
      */
     exitGenericInterfaceMethodDeclaration?: (ctx: GenericInterfaceMethodDeclarationContext) => void;
-
     /**
      * Enter a parse tree produced by `JavaParser.interfaceCommonBodyDeclaration`.
      * @param ctx the parse tree
@@ -518,7 +484,6 @@ export interface JavaParserListener extends ParseTreeListener {
      * @param ctx the parse tree
      */
     exitInterfaceCommonBodyDeclaration?: (ctx: InterfaceCommonBodyDeclarationContext) => void;
-
     /**
      * Enter a parse tree produced by `JavaParser.variableDeclarators`.
      * @param ctx the parse tree
@@ -529,7 +494,6 @@ export interface JavaParserListener extends ParseTreeListener {
      * @param ctx the parse tree
      */
     exitVariableDeclarators?: (ctx: VariableDeclaratorsContext) => void;
-
     /**
      * Enter a parse tree produced by `JavaParser.variableDeclarator`.
      * @param ctx the parse tree
@@ -540,7 +504,6 @@ export interface JavaParserListener extends ParseTreeListener {
      * @param ctx the parse tree
      */
     exitVariableDeclarator?: (ctx: VariableDeclaratorContext) => void;
-
     /**
      * Enter a parse tree produced by `JavaParser.variableDeclaratorId`.
      * @param ctx the parse tree
@@ -551,7 +514,6 @@ export interface JavaParserListener extends ParseTreeListener {
      * @param ctx the parse tree
      */
     exitVariableDeclaratorId?: (ctx: VariableDeclaratorIdContext) => void;
-
     /**
      * Enter a parse tree produced by `JavaParser.variableInitializer`.
      * @param ctx the parse tree
@@ -562,7 +524,6 @@ export interface JavaParserListener extends ParseTreeListener {
      * @param ctx the parse tree
      */
     exitVariableInitializer?: (ctx: VariableInitializerContext) => void;
-
     /**
      * Enter a parse tree produced by `JavaParser.arrayInitializer`.
      * @param ctx the parse tree
@@ -573,7 +534,6 @@ export interface JavaParserListener extends ParseTreeListener {
      * @param ctx the parse tree
      */
     exitArrayInitializer?: (ctx: ArrayInitializerContext) => void;
-
     /**
      * Enter a parse tree produced by `JavaParser.classOrInterfaceType`.
      * @param ctx the parse tree
@@ -584,7 +544,6 @@ export interface JavaParserListener extends ParseTreeListener {
      * @param ctx the parse tree
      */
     exitClassOrInterfaceType?: (ctx: ClassOrInterfaceTypeContext) => void;
-
     /**
      * Enter a parse tree produced by `JavaParser.typeArgument`.
      * @param ctx the parse tree
@@ -595,7 +554,6 @@ export interface JavaParserListener extends ParseTreeListener {
      * @param ctx the parse tree
      */
     exitTypeArgument?: (ctx: TypeArgumentContext) => void;
-
     /**
      * Enter a parse tree produced by `JavaParser.qualifiedNameList`.
      * @param ctx the parse tree
@@ -606,7 +564,6 @@ export interface JavaParserListener extends ParseTreeListener {
      * @param ctx the parse tree
      */
     exitQualifiedNameList?: (ctx: QualifiedNameListContext) => void;
-
     /**
      * Enter a parse tree produced by `JavaParser.formalParameters`.
      * @param ctx the parse tree
@@ -617,7 +574,6 @@ export interface JavaParserListener extends ParseTreeListener {
      * @param ctx the parse tree
      */
     exitFormalParameters?: (ctx: FormalParametersContext) => void;
-
     /**
      * Enter a parse tree produced by `JavaParser.receiverParameter`.
      * @param ctx the parse tree
@@ -628,7 +584,6 @@ export interface JavaParserListener extends ParseTreeListener {
      * @param ctx the parse tree
      */
     exitReceiverParameter?: (ctx: ReceiverParameterContext) => void;
-
     /**
      * Enter a parse tree produced by `JavaParser.formalParameterList`.
      * @param ctx the parse tree
@@ -639,7 +594,6 @@ export interface JavaParserListener extends ParseTreeListener {
      * @param ctx the parse tree
      */
     exitFormalParameterList?: (ctx: FormalParameterListContext) => void;
-
     /**
      * Enter a parse tree produced by `JavaParser.formalParameter`.
      * @param ctx the parse tree
@@ -650,7 +604,6 @@ export interface JavaParserListener extends ParseTreeListener {
      * @param ctx the parse tree
      */
     exitFormalParameter?: (ctx: FormalParameterContext) => void;
-
     /**
      * Enter a parse tree produced by `JavaParser.lastFormalParameter`.
      * @param ctx the parse tree
@@ -661,7 +614,6 @@ export interface JavaParserListener extends ParseTreeListener {
      * @param ctx the parse tree
      */
     exitLastFormalParameter?: (ctx: LastFormalParameterContext) => void;
-
     /**
      * Enter a parse tree produced by `JavaParser.lambdaLVTIList`.
      * @param ctx the parse tree
@@ -672,7 +624,6 @@ export interface JavaParserListener extends ParseTreeListener {
      * @param ctx the parse tree
      */
     exitLambdaLVTIList?: (ctx: LambdaLVTIListContext) => void;
-
     /**
      * Enter a parse tree produced by `JavaParser.lambdaLVTIParameter`.
      * @param ctx the parse tree
@@ -683,7 +634,6 @@ export interface JavaParserListener extends ParseTreeListener {
      * @param ctx the parse tree
      */
     exitLambdaLVTIParameter?: (ctx: LambdaLVTIParameterContext) => void;
-
     /**
      * Enter a parse tree produced by `JavaParser.qualifiedName`.
      * @param ctx the parse tree
@@ -694,7 +644,6 @@ export interface JavaParserListener extends ParseTreeListener {
      * @param ctx the parse tree
      */
     exitQualifiedName?: (ctx: QualifiedNameContext) => void;
-
     /**
      * Enter a parse tree produced by `JavaParser.literal`.
      * @param ctx the parse tree
@@ -705,7 +654,6 @@ export interface JavaParserListener extends ParseTreeListener {
      * @param ctx the parse tree
      */
     exitLiteral?: (ctx: LiteralContext) => void;
-
     /**
      * Enter a parse tree produced by `JavaParser.integerLiteral`.
      * @param ctx the parse tree
@@ -716,7 +664,6 @@ export interface JavaParserListener extends ParseTreeListener {
      * @param ctx the parse tree
      */
     exitIntegerLiteral?: (ctx: IntegerLiteralContext) => void;
-
     /**
      * Enter a parse tree produced by `JavaParser.floatLiteral`.
      * @param ctx the parse tree
@@ -727,7 +674,6 @@ export interface JavaParserListener extends ParseTreeListener {
      * @param ctx the parse tree
      */
     exitFloatLiteral?: (ctx: FloatLiteralContext) => void;
-
     /**
      * Enter a parse tree produced by `JavaParser.altAnnotationQualifiedName`.
      * @param ctx the parse tree
@@ -738,7 +684,6 @@ export interface JavaParserListener extends ParseTreeListener {
      * @param ctx the parse tree
      */
     exitAltAnnotationQualifiedName?: (ctx: AltAnnotationQualifiedNameContext) => void;
-
     /**
      * Enter a parse tree produced by `JavaParser.annotation`.
      * @param ctx the parse tree
@@ -749,7 +694,6 @@ export interface JavaParserListener extends ParseTreeListener {
      * @param ctx the parse tree
      */
     exitAnnotation?: (ctx: AnnotationContext) => void;
-
     /**
      * Enter a parse tree produced by `JavaParser.elementValuePairs`.
      * @param ctx the parse tree
@@ -760,7 +704,6 @@ export interface JavaParserListener extends ParseTreeListener {
      * @param ctx the parse tree
      */
     exitElementValuePairs?: (ctx: ElementValuePairsContext) => void;
-
     /**
      * Enter a parse tree produced by `JavaParser.elementValuePair`.
      * @param ctx the parse tree
@@ -771,7 +714,6 @@ export interface JavaParserListener extends ParseTreeListener {
      * @param ctx the parse tree
      */
     exitElementValuePair?: (ctx: ElementValuePairContext) => void;
-
     /**
      * Enter a parse tree produced by `JavaParser.elementValue`.
      * @param ctx the parse tree
@@ -782,7 +724,6 @@ export interface JavaParserListener extends ParseTreeListener {
      * @param ctx the parse tree
      */
     exitElementValue?: (ctx: ElementValueContext) => void;
-
     /**
      * Enter a parse tree produced by `JavaParser.elementValueArrayInitializer`.
      * @param ctx the parse tree
@@ -793,7 +734,6 @@ export interface JavaParserListener extends ParseTreeListener {
      * @param ctx the parse tree
      */
     exitElementValueArrayInitializer?: (ctx: ElementValueArrayInitializerContext) => void;
-
     /**
      * Enter a parse tree produced by `JavaParser.annotationTypeDeclaration`.
      * @param ctx the parse tree
@@ -804,7 +744,6 @@ export interface JavaParserListener extends ParseTreeListener {
      * @param ctx the parse tree
      */
     exitAnnotationTypeDeclaration?: (ctx: AnnotationTypeDeclarationContext) => void;
-
     /**
      * Enter a parse tree produced by `JavaParser.annotationTypeBody`.
      * @param ctx the parse tree
@@ -815,7 +754,6 @@ export interface JavaParserListener extends ParseTreeListener {
      * @param ctx the parse tree
      */
     exitAnnotationTypeBody?: (ctx: AnnotationTypeBodyContext) => void;
-
     /**
      * Enter a parse tree produced by `JavaParser.annotationTypeElementDeclaration`.
      * @param ctx the parse tree
@@ -826,7 +764,6 @@ export interface JavaParserListener extends ParseTreeListener {
      * @param ctx the parse tree
      */
     exitAnnotationTypeElementDeclaration?: (ctx: AnnotationTypeElementDeclarationContext) => void;
-
     /**
      * Enter a parse tree produced by `JavaParser.annotationTypeElementRest`.
      * @param ctx the parse tree
@@ -837,7 +774,6 @@ export interface JavaParserListener extends ParseTreeListener {
      * @param ctx the parse tree
      */
     exitAnnotationTypeElementRest?: (ctx: AnnotationTypeElementRestContext) => void;
-
     /**
      * Enter a parse tree produced by `JavaParser.annotationMethodOrConstantRest`.
      * @param ctx the parse tree
@@ -848,7 +784,6 @@ export interface JavaParserListener extends ParseTreeListener {
      * @param ctx the parse tree
      */
     exitAnnotationMethodOrConstantRest?: (ctx: AnnotationMethodOrConstantRestContext) => void;
-
     /**
      * Enter a parse tree produced by `JavaParser.annotationMethodRest`.
      * @param ctx the parse tree
@@ -859,7 +794,6 @@ export interface JavaParserListener extends ParseTreeListener {
      * @param ctx the parse tree
      */
     exitAnnotationMethodRest?: (ctx: AnnotationMethodRestContext) => void;
-
     /**
      * Enter a parse tree produced by `JavaParser.annotationConstantRest`.
      * @param ctx the parse tree
@@ -870,7 +804,6 @@ export interface JavaParserListener extends ParseTreeListener {
      * @param ctx the parse tree
      */
     exitAnnotationConstantRest?: (ctx: AnnotationConstantRestContext) => void;
-
     /**
      * Enter a parse tree produced by `JavaParser.defaultValue`.
      * @param ctx the parse tree
@@ -881,7 +814,6 @@ export interface JavaParserListener extends ParseTreeListener {
      * @param ctx the parse tree
      */
     exitDefaultValue?: (ctx: DefaultValueContext) => void;
-
     /**
      * Enter a parse tree produced by `JavaParser.moduleDeclaration`.
      * @param ctx the parse tree
@@ -892,7 +824,6 @@ export interface JavaParserListener extends ParseTreeListener {
      * @param ctx the parse tree
      */
     exitModuleDeclaration?: (ctx: ModuleDeclarationContext) => void;
-
     /**
      * Enter a parse tree produced by `JavaParser.moduleBody`.
      * @param ctx the parse tree
@@ -903,7 +834,6 @@ export interface JavaParserListener extends ParseTreeListener {
      * @param ctx the parse tree
      */
     exitModuleBody?: (ctx: ModuleBodyContext) => void;
-
     /**
      * Enter a parse tree produced by `JavaParser.moduleDirective`.
      * @param ctx the parse tree
@@ -914,7 +844,6 @@ export interface JavaParserListener extends ParseTreeListener {
      * @param ctx the parse tree
      */
     exitModuleDirective?: (ctx: ModuleDirectiveContext) => void;
-
     /**
      * Enter a parse tree produced by `JavaParser.requiresModifier`.
      * @param ctx the parse tree
@@ -925,7 +854,6 @@ export interface JavaParserListener extends ParseTreeListener {
      * @param ctx the parse tree
      */
     exitRequiresModifier?: (ctx: RequiresModifierContext) => void;
-
     /**
      * Enter a parse tree produced by `JavaParser.recordDeclaration`.
      * @param ctx the parse tree
@@ -936,7 +864,6 @@ export interface JavaParserListener extends ParseTreeListener {
      * @param ctx the parse tree
      */
     exitRecordDeclaration?: (ctx: RecordDeclarationContext) => void;
-
     /**
      * Enter a parse tree produced by `JavaParser.recordHeader`.
      * @param ctx the parse tree
@@ -947,7 +874,6 @@ export interface JavaParserListener extends ParseTreeListener {
      * @param ctx the parse tree
      */
     exitRecordHeader?: (ctx: RecordHeaderContext) => void;
-
     /**
      * Enter a parse tree produced by `JavaParser.recordComponentList`.
      * @param ctx the parse tree
@@ -958,7 +884,6 @@ export interface JavaParserListener extends ParseTreeListener {
      * @param ctx the parse tree
      */
     exitRecordComponentList?: (ctx: RecordComponentListContext) => void;
-
     /**
      * Enter a parse tree produced by `JavaParser.recordComponent`.
      * @param ctx the parse tree
@@ -969,7 +894,6 @@ export interface JavaParserListener extends ParseTreeListener {
      * @param ctx the parse tree
      */
     exitRecordComponent?: (ctx: RecordComponentContext) => void;
-
     /**
      * Enter a parse tree produced by `JavaParser.recordBody`.
      * @param ctx the parse tree
@@ -980,7 +904,6 @@ export interface JavaParserListener extends ParseTreeListener {
      * @param ctx the parse tree
      */
     exitRecordBody?: (ctx: RecordBodyContext) => void;
-
     /**
      * Enter a parse tree produced by `JavaParser.block`.
      * @param ctx the parse tree
@@ -991,7 +914,6 @@ export interface JavaParserListener extends ParseTreeListener {
      * @param ctx the parse tree
      */
     exitBlock?: (ctx: BlockContext) => void;
-
     /**
      * Enter a parse tree produced by `JavaParser.blockStatement`.
      * @param ctx the parse tree
@@ -1002,7 +924,6 @@ export interface JavaParserListener extends ParseTreeListener {
      * @param ctx the parse tree
      */
     exitBlockStatement?: (ctx: BlockStatementContext) => void;
-
     /**
      * Enter a parse tree produced by `JavaParser.localVariableDeclaration`.
      * @param ctx the parse tree
@@ -1013,7 +934,6 @@ export interface JavaParserListener extends ParseTreeListener {
      * @param ctx the parse tree
      */
     exitLocalVariableDeclaration?: (ctx: LocalVariableDeclarationContext) => void;
-
     /**
      * Enter a parse tree produced by `JavaParser.identifier`.
      * @param ctx the parse tree
@@ -1024,7 +944,6 @@ export interface JavaParserListener extends ParseTreeListener {
      * @param ctx the parse tree
      */
     exitIdentifier?: (ctx: IdentifierContext) => void;
-
     /**
      * Enter a parse tree produced by `JavaParser.localTypeDeclaration`.
      * @param ctx the parse tree
@@ -1035,7 +954,6 @@ export interface JavaParserListener extends ParseTreeListener {
      * @param ctx the parse tree
      */
     exitLocalTypeDeclaration?: (ctx: LocalTypeDeclarationContext) => void;
-
     /**
      * Enter a parse tree produced by `JavaParser.statement`.
      * @param ctx the parse tree
@@ -1046,7 +964,6 @@ export interface JavaParserListener extends ParseTreeListener {
      * @param ctx the parse tree
      */
     exitStatement?: (ctx: StatementContext) => void;
-
     /**
      * Enter a parse tree produced by `JavaParser.catchClause`.
      * @param ctx the parse tree
@@ -1057,7 +974,6 @@ export interface JavaParserListener extends ParseTreeListener {
      * @param ctx the parse tree
      */
     exitCatchClause?: (ctx: CatchClauseContext) => void;
-
     /**
      * Enter a parse tree produced by `JavaParser.catchType`.
      * @param ctx the parse tree
@@ -1068,7 +984,6 @@ export interface JavaParserListener extends ParseTreeListener {
      * @param ctx the parse tree
      */
     exitCatchType?: (ctx: CatchTypeContext) => void;
-
     /**
      * Enter a parse tree produced by `JavaParser.finallyBlock`.
      * @param ctx the parse tree
@@ -1079,7 +994,6 @@ export interface JavaParserListener extends ParseTreeListener {
      * @param ctx the parse tree
      */
     exitFinallyBlock?: (ctx: FinallyBlockContext) => void;
-
     /**
      * Enter a parse tree produced by `JavaParser.resourceSpecification`.
      * @param ctx the parse tree
@@ -1090,7 +1004,6 @@ export interface JavaParserListener extends ParseTreeListener {
      * @param ctx the parse tree
      */
     exitResourceSpecification?: (ctx: ResourceSpecificationContext) => void;
-
     /**
      * Enter a parse tree produced by `JavaParser.resources`.
      * @param ctx the parse tree
@@ -1101,7 +1014,6 @@ export interface JavaParserListener extends ParseTreeListener {
      * @param ctx the parse tree
      */
     exitResources?: (ctx: ResourcesContext) => void;
-
     /**
      * Enter a parse tree produced by `JavaParser.resource`.
      * @param ctx the parse tree
@@ -1112,7 +1024,6 @@ export interface JavaParserListener extends ParseTreeListener {
      * @param ctx the parse tree
      */
     exitResource?: (ctx: ResourceContext) => void;
-
     /**
      * Enter a parse tree produced by `JavaParser.switchBlockStatementGroup`.
      * @param ctx the parse tree
@@ -1123,7 +1034,6 @@ export interface JavaParserListener extends ParseTreeListener {
      * @param ctx the parse tree
      */
     exitSwitchBlockStatementGroup?: (ctx: SwitchBlockStatementGroupContext) => void;
-
     /**
      * Enter a parse tree produced by `JavaParser.switchLabel`.
      * @param ctx the parse tree
@@ -1134,7 +1044,6 @@ export interface JavaParserListener extends ParseTreeListener {
      * @param ctx the parse tree
      */
     exitSwitchLabel?: (ctx: SwitchLabelContext) => void;
-
     /**
      * Enter a parse tree produced by `JavaParser.forControl`.
      * @param ctx the parse tree
@@ -1145,7 +1054,6 @@ export interface JavaParserListener extends ParseTreeListener {
      * @param ctx the parse tree
      */
     exitForControl?: (ctx: ForControlContext) => void;
-
     /**
      * Enter a parse tree produced by `JavaParser.forInit`.
      * @param ctx the parse tree
@@ -1156,7 +1064,6 @@ export interface JavaParserListener extends ParseTreeListener {
      * @param ctx the parse tree
      */
     exitForInit?: (ctx: ForInitContext) => void;
-
     /**
      * Enter a parse tree produced by `JavaParser.enhancedForControl`.
      * @param ctx the parse tree
@@ -1167,7 +1074,6 @@ export interface JavaParserListener extends ParseTreeListener {
      * @param ctx the parse tree
      */
     exitEnhancedForControl?: (ctx: EnhancedForControlContext) => void;
-
     /**
      * Enter a parse tree produced by `JavaParser.parExpression`.
      * @param ctx the parse tree
@@ -1178,7 +1084,6 @@ export interface JavaParserListener extends ParseTreeListener {
      * @param ctx the parse tree
      */
     exitParExpression?: (ctx: ParExpressionContext) => void;
-
     /**
      * Enter a parse tree produced by `JavaParser.expressionList`.
      * @param ctx the parse tree
@@ -1189,7 +1094,6 @@ export interface JavaParserListener extends ParseTreeListener {
      * @param ctx the parse tree
      */
     exitExpressionList?: (ctx: ExpressionListContext) => void;
-
     /**
      * Enter a parse tree produced by `JavaParser.methodCall`.
      * @param ctx the parse tree
@@ -1200,7 +1104,6 @@ export interface JavaParserListener extends ParseTreeListener {
      * @param ctx the parse tree
      */
     exitMethodCall?: (ctx: MethodCallContext) => void;
-
     /**
      * Enter a parse tree produced by `JavaParser.expression`.
      * @param ctx the parse tree
@@ -1211,7 +1114,6 @@ export interface JavaParserListener extends ParseTreeListener {
      * @param ctx the parse tree
      */
     exitExpression?: (ctx: ExpressionContext) => void;
-
     /**
      * Enter a parse tree produced by `JavaParser.pattern`.
      * @param ctx the parse tree
@@ -1222,7 +1124,6 @@ export interface JavaParserListener extends ParseTreeListener {
      * @param ctx the parse tree
      */
     exitPattern?: (ctx: PatternContext) => void;
-
     /**
      * Enter a parse tree produced by `JavaParser.lambdaExpression`.
      * @param ctx the parse tree
@@ -1233,7 +1134,6 @@ export interface JavaParserListener extends ParseTreeListener {
      * @param ctx the parse tree
      */
     exitLambdaExpression?: (ctx: LambdaExpressionContext) => void;
-
     /**
      * Enter a parse tree produced by `JavaParser.lambdaParameters`.
      * @param ctx the parse tree
@@ -1244,7 +1144,6 @@ export interface JavaParserListener extends ParseTreeListener {
      * @param ctx the parse tree
      */
     exitLambdaParameters?: (ctx: LambdaParametersContext) => void;
-
     /**
      * Enter a parse tree produced by `JavaParser.lambdaBody`.
      * @param ctx the parse tree
@@ -1255,7 +1154,6 @@ export interface JavaParserListener extends ParseTreeListener {
      * @param ctx the parse tree
      */
     exitLambdaBody?: (ctx: LambdaBodyContext) => void;
-
     /**
      * Enter a parse tree produced by `JavaParser.primary`.
      * @param ctx the parse tree
@@ -1266,7 +1164,6 @@ export interface JavaParserListener extends ParseTreeListener {
      * @param ctx the parse tree
      */
     exitPrimary?: (ctx: PrimaryContext) => void;
-
     /**
      * Enter a parse tree produced by `JavaParser.switchExpression`.
      * @param ctx the parse tree
@@ -1277,7 +1174,6 @@ export interface JavaParserListener extends ParseTreeListener {
      * @param ctx the parse tree
      */
     exitSwitchExpression?: (ctx: SwitchExpressionContext) => void;
-
     /**
      * Enter a parse tree produced by `JavaParser.switchLabeledRule`.
      * @param ctx the parse tree
@@ -1288,7 +1184,6 @@ export interface JavaParserListener extends ParseTreeListener {
      * @param ctx the parse tree
      */
     exitSwitchLabeledRule?: (ctx: SwitchLabeledRuleContext) => void;
-
     /**
      * Enter a parse tree produced by `JavaParser.guardedPattern`.
      * @param ctx the parse tree
@@ -1299,7 +1194,6 @@ export interface JavaParserListener extends ParseTreeListener {
      * @param ctx the parse tree
      */
     exitGuardedPattern?: (ctx: GuardedPatternContext) => void;
-
     /**
      * Enter a parse tree produced by `JavaParser.switchRuleOutcome`.
      * @param ctx the parse tree
@@ -1310,7 +1204,6 @@ export interface JavaParserListener extends ParseTreeListener {
      * @param ctx the parse tree
      */
     exitSwitchRuleOutcome?: (ctx: SwitchRuleOutcomeContext) => void;
-
     /**
      * Enter a parse tree produced by `JavaParser.classType`.
      * @param ctx the parse tree
@@ -1321,7 +1214,6 @@ export interface JavaParserListener extends ParseTreeListener {
      * @param ctx the parse tree
      */
     exitClassType?: (ctx: ClassTypeContext) => void;
-
     /**
      * Enter a parse tree produced by `JavaParser.creator`.
      * @param ctx the parse tree
@@ -1332,7 +1224,6 @@ export interface JavaParserListener extends ParseTreeListener {
      * @param ctx the parse tree
      */
     exitCreator?: (ctx: CreatorContext) => void;
-
     /**
      * Enter a parse tree produced by `JavaParser.createdName`.
      * @param ctx the parse tree
@@ -1343,7 +1234,6 @@ export interface JavaParserListener extends ParseTreeListener {
      * @param ctx the parse tree
      */
     exitCreatedName?: (ctx: CreatedNameContext) => void;
-
     /**
      * Enter a parse tree produced by `JavaParser.innerCreator`.
      * @param ctx the parse tree
@@ -1354,7 +1244,6 @@ export interface JavaParserListener extends ParseTreeListener {
      * @param ctx the parse tree
      */
     exitInnerCreator?: (ctx: InnerCreatorContext) => void;
-
     /**
      * Enter a parse tree produced by `JavaParser.arrayCreatorRest`.
      * @param ctx the parse tree
@@ -1365,7 +1254,6 @@ export interface JavaParserListener extends ParseTreeListener {
      * @param ctx the parse tree
      */
     exitArrayCreatorRest?: (ctx: ArrayCreatorRestContext) => void;
-
     /**
      * Enter a parse tree produced by `JavaParser.classCreatorRest`.
      * @param ctx the parse tree
@@ -1376,7 +1264,6 @@ export interface JavaParserListener extends ParseTreeListener {
      * @param ctx the parse tree
      */
     exitClassCreatorRest?: (ctx: ClassCreatorRestContext) => void;
-
     /**
      * Enter a parse tree produced by `JavaParser.explicitGenericInvocation`.
      * @param ctx the parse tree
@@ -1387,7 +1274,6 @@ export interface JavaParserListener extends ParseTreeListener {
      * @param ctx the parse tree
      */
     exitExplicitGenericInvocation?: (ctx: ExplicitGenericInvocationContext) => void;
-
     /**
      * Enter a parse tree produced by `JavaParser.typeArgumentsOrDiamond`.
      * @param ctx the parse tree
@@ -1398,7 +1284,6 @@ export interface JavaParserListener extends ParseTreeListener {
      * @param ctx the parse tree
      */
     exitTypeArgumentsOrDiamond?: (ctx: TypeArgumentsOrDiamondContext) => void;
-
     /**
      * Enter a parse tree produced by `JavaParser.nonWildcardTypeArgumentsOrDiamond`.
      * @param ctx the parse tree
@@ -1409,7 +1294,6 @@ export interface JavaParserListener extends ParseTreeListener {
      * @param ctx the parse tree
      */
     exitNonWildcardTypeArgumentsOrDiamond?: (ctx: NonWildcardTypeArgumentsOrDiamondContext) => void;
-
     /**
      * Enter a parse tree produced by `JavaParser.nonWildcardTypeArguments`.
      * @param ctx the parse tree
@@ -1420,7 +1304,6 @@ export interface JavaParserListener extends ParseTreeListener {
      * @param ctx the parse tree
      */
     exitNonWildcardTypeArguments?: (ctx: NonWildcardTypeArgumentsContext) => void;
-
     /**
      * Enter a parse tree produced by `JavaParser.typeList`.
      * @param ctx the parse tree
@@ -1431,7 +1314,6 @@ export interface JavaParserListener extends ParseTreeListener {
      * @param ctx the parse tree
      */
     exitTypeList?: (ctx: TypeListContext) => void;
-
     /**
      * Enter a parse tree produced by `JavaParser.typeType`.
      * @param ctx the parse tree
@@ -1442,7 +1324,6 @@ export interface JavaParserListener extends ParseTreeListener {
      * @param ctx the parse tree
      */
     exitTypeType?: (ctx: TypeTypeContext) => void;
-
     /**
      * Enter a parse tree produced by `JavaParser.primitiveType`.
      * @param ctx the parse tree
@@ -1453,7 +1334,6 @@ export interface JavaParserListener extends ParseTreeListener {
      * @param ctx the parse tree
      */
     exitPrimitiveType?: (ctx: PrimitiveTypeContext) => void;
-
     /**
      * Enter a parse tree produced by `JavaParser.typeArguments`.
      * @param ctx the parse tree
@@ -1464,7 +1344,6 @@ export interface JavaParserListener extends ParseTreeListener {
      * @param ctx the parse tree
      */
     exitTypeArguments?: (ctx: TypeArgumentsContext) => void;
-
     /**
      * Enter a parse tree produced by `JavaParser.superSuffix`.
      * @param ctx the parse tree
@@ -1475,7 +1354,6 @@ export interface JavaParserListener extends ParseTreeListener {
      * @param ctx the parse tree
      */
     exitSuperSuffix?: (ctx: SuperSuffixContext) => void;
-
     /**
      * Enter a parse tree produced by `JavaParser.explicitGenericInvocationSuffix`.
      * @param ctx the parse tree
@@ -1486,7 +1364,6 @@ export interface JavaParserListener extends ParseTreeListener {
      * @param ctx the parse tree
      */
     exitExplicitGenericInvocationSuffix?: (ctx: ExplicitGenericInvocationSuffixContext) => void;
-
     /**
      * Enter a parse tree produced by `JavaParser.arguments`.
      * @param ctx the parse tree
@@ -1497,4 +1374,10 @@ export interface JavaParserListener extends ParseTreeListener {
      * @param ctx the parse tree
      */
     exitArguments?: (ctx: ArgumentsContext) => void;
+
+    visitTerminal(node: TerminalNode): void {}
+    visitErrorNode(node: ErrorNode): void {}
+    enterEveryRule(node: ParserRuleContext): void {}
+    exitEveryRule(node: ParserRuleContext): void {}
 }
+

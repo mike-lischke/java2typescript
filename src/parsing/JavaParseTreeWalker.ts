@@ -7,12 +7,11 @@
 
 import {
     BaseSymbol, BlockSymbol, FieldSymbol, MethodSymbol, ParameterSymbol, ScopedSymbol, SymbolTable, InterfaceSymbol,
-    Modifier, Type, TypeKind, ReferenceKind, VariableSymbol, ClassSymbol,
+    Modifier, IType, TypeKind, ReferenceKind, VariableSymbol, ClassSymbol,
 } from "antlr4-c3";
 import { java } from "jree";
 
-import { ParserRuleContext } from "antlr4ts";
-import { TerminalNode } from "antlr4ts/tree/index.js";
+import { ParserRuleContext, TerminalNode } from "antlr4ng";
 import {
     AnnotationTypeBodyContext, MethodDeclarationContext, BlockContext, EnumDeclarationContext,
     InterfaceDeclarationContext, AnnotationTypeDeclarationContext, ClassDeclarationContext, ExpressionContext,
@@ -56,7 +55,7 @@ export class TypeSymbol extends BaseSymbol { }
 export class PackageSymbol extends BaseSymbol { }
 export class ImportSymbol extends BaseSymbol { }
 
-export class JavaParseTreeWalker implements JavaParserListener {
+export class JavaParseTreeWalker extends JavaParserListener {
 
     private static typeKindMap = new Map<string, TypeKind>([
         ["Array", TypeKind.Array],
@@ -79,6 +78,7 @@ export class JavaParseTreeWalker implements JavaParserListener {
 
     public constructor(private symbolTable: SymbolTable, private packageRoot: string,
         private importList: Set<PackageSource>) {
+        super();
         this.symbolStack.push(symbolTable);
 
         // Get the Enum class symbol from the import list, in case we need it to add it to enum symbols.
@@ -94,8 +94,8 @@ export class JavaParseTreeWalker implements JavaParserListener {
     }
 
     public exitPackageDeclaration = (ctx: PackageDeclarationContext): void => {
-        const packageId = ctx.qualifiedName().text;
-        this.symbolTable.addNewSymbolOfType(PackageSymbol, this.symbolStack.peek(), ctx.qualifiedName().text);
+        const packageId = ctx.qualifiedName().getText();
+        this.symbolTable.addNewSymbolOfType(PackageSymbol, this.symbolStack.peek(), ctx.qualifiedName().getText());
 
         const sources = PackageSourceManager.fromPackageIdWildcard(packageId);
         sources.forEach((source) => {
@@ -105,7 +105,7 @@ export class JavaParseTreeWalker implements JavaParserListener {
     };
 
     public exitImportDeclaration = (ctx: ImportDeclarationContext): void => {
-        const packageId = ctx.qualifiedName().text;
+        const packageId = ctx.qualifiedName().getText();
         this.symbolTable.addNewSymbolOfType(ImportSymbol, this.symbolStack.peek(), packageId);
 
         if (ctx.MUL()) {
@@ -129,9 +129,9 @@ export class JavaParseTreeWalker implements JavaParserListener {
     };
 
     public enterClassDeclaration = (ctx: ClassDeclarationContext): void => {
-        const symbol = this.pushNewScope(JavaClassSymbol, ctx.identifier().text, ctx);
+        const symbol = this.pushNewScope(JavaClassSymbol, ctx.identifier().getText(), ctx);
         if (ctx.typeParameters()) {
-            symbol.typeParameters = ctx.typeParameters()!.text;
+            symbol.typeParameters = ctx.typeParameters()!.getText();
         }
         this.checkStatic(symbol);
     };
@@ -174,7 +174,7 @@ export class JavaParseTreeWalker implements JavaParserListener {
     };
 
     public enterMethodDeclaration = (ctx: MethodDeclarationContext): void => {
-        const symbol = this.pushNewScope(MethodSymbol, ctx.identifier().text, ctx);
+        const symbol = this.pushNewScope(MethodSymbol, ctx.identifier().getText(), ctx);
         this.checkStatic(symbol);
     };
 
@@ -183,7 +183,8 @@ export class JavaParseTreeWalker implements JavaParserListener {
     };
 
     public enterInterfaceMethodDeclaration = (ctx: InterfaceMethodDeclarationContext): void => {
-        const symbol = this.pushNewScope(MethodSymbol, ctx.interfaceCommonBodyDeclaration().identifier().text, ctx);
+        const symbol = this.pushNewScope(MethodSymbol,
+            ctx.interfaceCommonBodyDeclaration().identifier().getText(), ctx);
         symbol.modifiers.add(Modifier.Static);
     };
 
@@ -192,7 +193,7 @@ export class JavaParseTreeWalker implements JavaParserListener {
     };
 
     public enterConstructorDeclaration = (ctx: ConstructorDeclarationContext): void => {
-        const symbol = this.pushNewScope(ConstructorSymbol, ctx.identifier().text, ctx);
+        const symbol = this.pushNewScope(ConstructorSymbol, ctx.identifier().getText(), ctx);
         this.checkStatic(symbol);
     };
 
@@ -201,9 +202,9 @@ export class JavaParseTreeWalker implements JavaParserListener {
     };
 
     public enterInterfaceDeclaration = (ctx: InterfaceDeclarationContext): void => {
-        const symbol = this.pushNewScope(JavaInterfaceSymbol, ctx.identifier().text, ctx);
+        const symbol = this.pushNewScope(JavaInterfaceSymbol, ctx.identifier().getText(), ctx);
         if (ctx.typeParameters()) {
-            symbol.typeParameters = ctx.typeParameters()!.text;
+            symbol.typeParameters = ctx.typeParameters()!.getText();
         }
 
         // Check the interface if it is compatible with Typescript.
@@ -241,7 +242,7 @@ export class JavaParseTreeWalker implements JavaParserListener {
     };
 
     public enterAnnotationTypeDeclaration = (ctx: AnnotationTypeDeclarationContext): void => {
-        this.pushNewScope(AnnotationSymbol, ctx.identifier().text, ctx);
+        this.pushNewScope(AnnotationSymbol, ctx.identifier().getText(), ctx);
     };
 
     public exitAnnotationTypeDeclaration = (): void => {
@@ -249,7 +250,7 @@ export class JavaParseTreeWalker implements JavaParserListener {
     };
 
     public enterEnumDeclaration = (ctx: EnumDeclarationContext): void => {
-        const symbol = this.pushNewScope(EnumSymbol, ctx.identifier().text, ctx);
+        const symbol = this.pushNewScope(EnumSymbol, ctx.identifier().getText(), ctx);
         if (this.enumSymbol) {
             symbol.extends.push(this.enumSymbol);
             symbol.modifiers.add(Modifier.Static);
@@ -258,7 +259,7 @@ export class JavaParseTreeWalker implements JavaParserListener {
 
     public exitEnumConstant = (ctx: EnumConstantContext): void => {
         const block = this.symbolStack.peek();
-        this.symbolTable.addNewSymbolOfType(EnumConstantSymbol, block, ctx.identifier().text);
+        this.symbolTable.addNewSymbolOfType(EnumConstantSymbol, block, ctx.identifier().getText());
     };
 
     public exitEnumDeclaration = (): void => {
@@ -280,14 +281,14 @@ export class JavaParseTreeWalker implements JavaParserListener {
 
         if (ctx.typeType()) {
             // Explicit type.
-            const type = this.generateTypeRecord(ctx.typeType()!.text);
+            const type = this.generateTypeRecord(ctx.typeType()!.getText());
 
-            const id = ctx.variableDeclaratorId().identifier().text;
+            const id = ctx.variableDeclaratorId().identifier().getText();
             const symbol = this.symbolTable.addNewSymbolOfType(VariableSymbol, block, id, undefined, type);
             symbol.context = ctx;
         } else {
             // Auto type.
-            const id = ctx.variableDeclaratorId().identifier().text;
+            const id = ctx.variableDeclaratorId().identifier().getText();
             const symbol = this.symbolTable.addNewSymbolOfType(VariableSymbol, block, id, undefined);
             symbol.context = ctx;
         }
@@ -295,9 +296,9 @@ export class JavaParseTreeWalker implements JavaParserListener {
 
     public enterLocalVariableDeclaration = (ctx: LocalVariableDeclarationContext): void => {
         const block = this.symbolStack.peek();
-        const type = this.generateTypeRecord(ctx.typeType().text);
+        const type = this.generateTypeRecord(ctx.typeType().getText());
         ctx.variableDeclarators().variableDeclarator().forEach((declarator) => {
-            const id = declarator.variableDeclaratorId().identifier().text;
+            const id = declarator.variableDeclaratorId().identifier().getText();
             const symbol = this.symbolTable.addNewSymbolOfType(VariableSymbol, block, id, undefined, type);
             symbol.context = declarator;
             this.checkStatic(symbol);
@@ -307,9 +308,9 @@ export class JavaParseTreeWalker implements JavaParserListener {
     public enterFieldDeclaration = (ctx: FieldDeclarationContext): void => {
         const block = this.symbolStack.peek();
 
-        const type = this.generateTypeRecord(ctx.typeType().text);
+        const type = this.generateTypeRecord(ctx.typeType().getText());
         ctx.variableDeclarators().variableDeclarator().forEach((declarator) => {
-            const id = declarator.variableDeclaratorId().identifier().text;
+            const id = declarator.variableDeclaratorId().identifier().getText();
             const symbol = this.symbolTable.addNewSymbolOfType(FieldSymbol, block, id, undefined, type);
             symbol.context = declarator;
             this.checkStatic(symbol);
@@ -319,15 +320,15 @@ export class JavaParseTreeWalker implements JavaParserListener {
     public enterConstantDeclarator = (ctx: ConstantDeclaratorContext): void => {
         const block = this.symbolStack.peek();
 
-        const symbol = this.symbolTable.addNewSymbolOfType(FieldSymbol, block, ctx.identifier().text, undefined);
+        const symbol = this.symbolTable.addNewSymbolOfType(FieldSymbol, block, ctx.identifier().getText(), undefined);
         symbol.context = ctx;
     };
 
     public enterFormalParameter = (ctx: FormalParameterContext): void => {
         const block = this.symbolStack.peek();
 
-        const type = this.generateTypeRecord(ctx.typeType().text);
-        const id = ctx.variableDeclaratorId().identifier().text;
+        const type = this.generateTypeRecord(ctx.typeType().getText());
+        const id = ctx.variableDeclaratorId().identifier().getText();
         const symbol = this.symbolTable.addNewSymbolOfType(ParameterSymbol, block, id, undefined, type);
         symbol.context = ctx;
         this.checkStatic(symbol);
@@ -336,8 +337,9 @@ export class JavaParseTreeWalker implements JavaParserListener {
     public enterCatchClause = (ctx: CatchClauseContext): void => {
         const block = this.pushNewScope(BlockSymbol, "#catch#", ctx);
 
-        const type = this.generateTypeRecord(ctx.catchType().text); // Can be a union type, but we ignore that here.
-        const id = ctx.identifier().text;
+        // Can be a union type, but we ignore that here.
+        const type = this.generateTypeRecord(ctx.catchType().getText());
+        const id = ctx.identifier().getText();
         const symbol = this.symbolTable.addNewSymbolOfType(ParameterSymbol, block, id, undefined, type);
         symbol.context = ctx;
     };
@@ -376,7 +378,7 @@ export class JavaParseTreeWalker implements JavaParserListener {
      */
     private checkStatic = (symbol: BaseSymbol): void => {
         let found = false;
-        let run: ParserRuleContext | undefined = symbol.context as ParserRuleContext;
+        let run: ParserRuleContext | null = symbol.context as ParserRuleContext;
         while (run && !found) {
             switch (run.ruleIndex) {
                 case JavaParser.RULE_typeDeclaration: {
@@ -431,7 +433,7 @@ export class JavaParseTreeWalker implements JavaParserListener {
         }
     };
 
-    private generateTypeRecord = (typeText: string): Type => {
+    private generateTypeRecord = (typeText: string): IType => {
         const typeParamsCheck = typeText.match(/^[A-Z_.]+[ \t]*(<.+>)/i);
         let baseText = typeText;
         if (typeParamsCheck) {

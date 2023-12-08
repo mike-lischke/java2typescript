@@ -3,8 +3,7 @@
  * Licensed under the MIT License. See License.txt in the project root for license information.
  */
 
-import { ParserRuleContext, RuleContext } from "antlr4ts";
-import { TerminalNode, ParseTree } from "antlr4ts/tree/index.js";
+import { ParserRuleContext, RuleContext, TerminalNode, ParseTree } from "antlr4ng";
 
 /**
  * Get the lowest level parse tree, which covers the given position.
@@ -23,8 +22,8 @@ export const parseTreeFromPosition = (root: ParseTree, column: number, row: numb
             return undefined;
         }
 
-        const tokenStop = token.charPositionInLine + (token.stopIndex - token.startIndex + 1);
-        if (token.charPositionInLine <= column && tokenStop >= column) {
+        const tokenStop = token.column + (token.stop - token.start + 1);
+        if (token.column <= column && tokenStop >= column) {
             return root;
         }
 
@@ -35,11 +34,11 @@ export const parseTreeFromPosition = (root: ParseTree, column: number, row: numb
             return undefined;
         }
 
-        if (context.start.line > row || (context.start.line === row && column < context.start.charPositionInLine)) {
+        if (context.start.line > row || (context.start.line === row && column < context.start.column)) {
             return undefined;
         }
 
-        const tokenStop = context.stop.charPositionInLine + (context.stop.stopIndex - context.stop.startIndex + 1);
+        const tokenStop = context.stop.column + (context.stop.stop - context.stop.start + 1);
         if (context.stop.line < row || (context.stop.line === row && tokenStop < column)) {
             return undefined;
         }

@@ -6,9 +6,7 @@
 import fs from "fs";
 import path from "path";
 
-import { ParserRuleContext } from "antlr4ts";
-import { Interval } from "antlr4ts/misc/index.js";
-import { ParseTree, TerminalNode } from "antlr4ts/tree/index.js";
+import { ParserRuleContext, Interval, ParseTree, TerminalNode } from "antlr4ng";
 import {
     ClassSymbol, InterfaceSymbol, ScopedSymbol, TypedSymbol, BaseSymbol, TypeKind, MethodSymbol, NamespaceSymbol,
     RoutineSymbol,
@@ -43,7 +41,7 @@ import {
 } from "../../parser/generated/JavaParser.js";
 
 import { PackageSource } from "../PackageSource.js";
-import { ConverterOptionsPrefixFunc, IClassResolver, IConverterConfiguration } from "./JavaToTypeScript.js";
+import { IClassResolver, IConverterConfiguration } from "./JavaToTypeScript.js";
 import { EnumSymbol, JavaInterfaceSymbol } from "../parsing/JavaParseTreeWalker.js";
 import { PackageSourceManager } from "../PackageSourceManager.js";
 import { ContextType, ISymbolInfo, MemberType } from "./types.js";
@@ -345,7 +343,7 @@ export class FileProcessor {
 
                 this.ignoreContent(entry);
 
-                const name = entry.qualifiedName().text;
+                const name = entry.qualifiedName().getText();
                 const parts = name.split(".").map((part) => {
                     return part.trim();
                 });
@@ -387,7 +385,7 @@ export class FileProcessor {
                     const createTypeAlias = !(symbol instanceof RoutineSymbol);
                     if (createTypeAlias) {
                         if (("typeParameters" in symbol) && symbol.typeParameters) {
-                            const typeParameters = symbol.typeParameters;
+                            const typeParameters = symbol.typeParameters as string;
                             aliases += `type ${symbol.name}${typeParameters} = ${key}${typeParameters};\n`;
                         } else {
                             aliases += `type ${symbol.name} = ${key};\n`;
@@ -491,7 +489,7 @@ export class FileProcessor {
             }
 
             if (context.classDeclaration()) {
-                const details = this.processClassDeclaration(context.classDeclaration(), `${ws}`, modifiers);
+                const details = this.processClassDeclaration(context.classDeclaration(), `${ws}`, modifiers, null);
                 if (details) {
                     builder.append(details.bodyContent);
                 }
@@ -513,7 +511,7 @@ export class FileProcessor {
     };
 
     private processClassOrInterfaceModifier = (builder: java.lang.StringBuilder,
-        context: ClassOrInterfaceModifierContext | undefined, parentType: RelatedElement): ModifierType => {
+        context: ClassOrInterfaceModifierContext | null, parentType: RelatedElement): ModifierType => {
 
         let result = ModifierType.None;
 
@@ -588,13 +586,13 @@ export class FileProcessor {
         return result;
     };
 
-    private processAnnotation = (builder: java.lang.StringBuilder, context?: AnnotationContext): void => {
+    private processAnnotation = (builder: java.lang.StringBuilder, context: AnnotationContext | null): void => {
         if (this.configuration.options?.convertAnnotations && context) {
             if (context.qualifiedName()) {
                 this.getContent(builder, context.AT());
 
                 // Resolve the annotation name to trigger the import.
-                const name = context.qualifiedName()!.text;
+                const name = context.qualifiedName()!.getText();
                 this.resolveType(context, name);
 
                 this.getContent(builder, context.qualifiedName());
@@ -628,7 +626,7 @@ export class FileProcessor {
         }
     };
 
-    private processElementValue = (builder: java.lang.StringBuilder, context?: ElementValueContext): void => {
+    private processElementValue = (builder: java.lang.StringBuilder, context: ElementValueContext | null): void => {
         if (context) {
             if (context.expression()) {
                 this.processExpression(builder, context.expression());
@@ -643,7 +641,7 @@ export class FileProcessor {
     };
 
     private processElementValueArrayInitializer = (builder: java.lang.StringBuilder,
-        context?: ElementValueArrayInitializerContext): void => {
+        context: ElementValueArrayInitializerContext | null): void => {
         if (context) {
             let ws = this.getLeadingWhiteSpaces(context.LBRACE()!);
             builder.append(ws);
@@ -658,21 +656,21 @@ export class FileProcessor {
         }
     };
 
-    private processClassDeclaration = (context: ClassDeclarationContext | undefined,
-        prefix: string, modifiers: Set<string>, extraCtorParams?: ExtraParameters): ITypeMemberDetails | undefined => {
+    private processClassDeclaration = (context: ClassDeclarationContext | null, prefix: string, modifiers: Set<string>,
+        extraCtorParams: ExtraParameters | null): ITypeMemberDetails | undefined => {
         if (!context) {
             return undefined;
         }
 
         const result: ITypeMemberDetails = {
             type: MemberType.Class,
-            name: context.identifier().text,
+            name: context.identifier().getText(),
             leadingWhitespace: "",
             bodyContent: new java.lang.StringBuilder(),
         };
 
         this.typeStack.push({
-            name: context.identifier().text,
+            name: context.identifier().getText(),
             type: ContextType.Class,
             deferredDeclarations: new java.lang.StringBuilder(),
             generatedMembers: [],
@@ -712,7 +710,7 @@ export class FileProcessor {
 
         // Conclude nested content within this class declaration.
         const nested = this.processNestedContent(modifiers.has("export"));
-        const className = context.identifier().text;
+        const className = context.identifier().getText();
 
         // Check if this declaration itself is nested.
         if (this.typeStack.size() > 1) {
@@ -741,7 +739,7 @@ export class FileProcessor {
                 // again over the type parameters and only include the names.
                 const temp: string[] = [];
                 context.typeParameters()?.typeParameter().forEach((typeParameter) => {
-                    temp.push(typeParameter.identifier().text);
+                    temp.push(typeParameter.identifier().getText());
                 });
 
                 let minimizedTypeParameters = temp.length > 0 ? temp.join(",") : "";
@@ -781,8 +779,8 @@ export class FileProcessor {
      *
      * @returns True if the class contains abstract members.
      */
-    private processClassBody = (builder: java.lang.StringBuilder, context?: ClassBodyContext,
-        extraCtorParams?: ExtraParameters): boolean => {
+    private processClassBody = (builder: java.lang.StringBuilder, context: ClassBodyContext | null,
+        extraCtorParams: ExtraParameters | null): boolean => {
         if (!context) {
             return false;
         }
@@ -796,7 +794,7 @@ export class FileProcessor {
     };
 
     private processClassBodyDeclarations = (builder: java.lang.StringBuilder,
-        list: ClassBodyDeclarationContext[], extraCtorParams?: ExtraParameters): boolean => {
+        list: ClassBodyDeclarationContext[], extraCtorParams: ExtraParameters | null): boolean => {
         const members: ITypeMemberDetails[] = [];
         let containsAbstract = false;
 
@@ -943,8 +941,8 @@ export class FileProcessor {
         return result;
     };
 
-    private processMemberDeclaration = (context: MemberDeclarationContext | undefined, prefix: string,
-        modifiers: Set<string>, extraCtorParams?: ExtraParameters): ITypeMemberDetails[] => {
+    private processMemberDeclaration = (context: MemberDeclarationContext | null, prefix: string,
+        modifiers: Set<string>, extraCtorParams: ExtraParameters | null): ITypeMemberDetails[] => {
         if (!context) {
             return [];
         }
@@ -1038,7 +1036,7 @@ export class FileProcessor {
             }
 
             case JavaParser.RULE_classDeclaration: {
-                const details = this.processClassDeclaration(context.classDeclaration(), prefix, modifiers);
+                const details = this.processClassDeclaration(context.classDeclaration(), prefix, modifiers, null);
                 if (details) {
                     details.leadingWhitespace = prefix;
                     details.modifiers = modifiers;
@@ -1066,7 +1064,7 @@ export class FileProcessor {
         return result;
     };
 
-    private processMethodDeclaration = (context?: MethodDeclarationContext,
+    private processMethodDeclaration = (context: MethodDeclarationContext | null,
         genericParams?: java.lang.StringBuilder): ITypeMemberDetails | undefined => {
         if (!context) {
             return undefined;
@@ -1089,7 +1087,7 @@ export class FileProcessor {
         }
 
         result.nameWhitespace = this.getLeadingWhiteSpaces(context.identifier());
-        result.name = context.identifier().text;
+        result.name = context.identifier().getText();
         this.ignoreContent(context.identifier());
 
         result.signatureContent = new java.lang.StringBuilder();
@@ -1111,7 +1109,7 @@ export class FileProcessor {
             result.leadingWhitespace = this.getLeadingWhiteSpaces(context.LBRACK(0));
 
             const rightBrackets = context.RBRACK();
-            this.whiteSpaceAnchor = rightBrackets[rightBrackets.length - 1].symbol.stopIndex + 1;
+            this.whiteSpaceAnchor = rightBrackets[rightBrackets.length - 1].symbol.stop + 1;
         }
 
         if (this.configuration.options?.preferArrowFunctions) {
@@ -1141,7 +1139,8 @@ export class FileProcessor {
         }
     };
 
-    private processFormalParameterList = (details: ITypeMemberDetails, context?: FormalParameterListContext): void => {
+    private processFormalParameterList = (details: ITypeMemberDetails,
+        context: FormalParameterListContext | null): void => {
         if (!context) {
             return;
         }
@@ -1154,7 +1153,7 @@ export class FileProcessor {
             }
 
             details.signature?.push(this.processFormalParameter(details.signatureContent, child));
-            if (++index === context.childCount) {
+            if (++index === context.getChildCount()) {
                 break;
             }
 
@@ -1165,7 +1164,7 @@ export class FileProcessor {
 
             this.getContent(details.signatureContent, child);
 
-            if (++index === context.childCount) {
+            if (++index === context.getChildCount()) {
                 break;
             }
 
@@ -1235,7 +1234,7 @@ export class FileProcessor {
         }
 
         return {
-            name: identifier.text,
+            name: identifier.getText(),
             type: `${type}${brackets}`,
             nullable,
             rest: brackets.length > 0,
@@ -1251,7 +1250,7 @@ export class FileProcessor {
     };
 
     private processGenericMethodDeclaration = (
-        context?: GenericMethodDeclarationContext): ITypeMemberDetails | undefined => {
+        context: GenericMethodDeclarationContext | null): ITypeMemberDetails | undefined => {
         if (!context) {
             return undefined;
         }
@@ -1267,7 +1266,7 @@ export class FileProcessor {
         return result;
     };
 
-    private processFieldDeclaration = (context: FieldDeclarationContext | undefined,
+    private processFieldDeclaration = (context: FieldDeclarationContext | null,
         modifiers: Set<string>): ITypeMemberDetails[] => {
 
         if (!context) {
@@ -1285,8 +1284,8 @@ export class FileProcessor {
         return list;
     };
 
-    private processConstructorDeclaration = (extraCtorParams?: ExtraParameters,
-        context?: ConstructorDeclarationContext): ITypeMemberDetails | undefined => {
+    private processConstructorDeclaration = (extraCtorParams: ExtraParameters | null,
+        context: ConstructorDeclarationContext | null): ITypeMemberDetails | undefined => {
 
         if (!context) {
             return undefined;
@@ -1315,11 +1314,11 @@ export class FileProcessor {
             const statement = blockStatement.statement();
             if (statement && statement.expression().length > 0) {
                 const expression = statement.expression(0);
-                if (expression.methodCall()?.SUPER()) {
+                if (expression?.methodCall()?.SUPER()) {
                     hasSuperCall = true;
 
                     break;
-                } else if (expression.methodCall()?.THIS()) {
+                } else if (expression?.methodCall()?.THIS()) {
                     hasThisCall = true;
 
                     break;
@@ -1330,7 +1329,7 @@ export class FileProcessor {
         result.containsThisCall = hasThisCall;
 
         // See if we should automatically add a call to super. Only if none exists yet and this class extends another.
-        const info = this.source.resolveType(context.identifier().text);
+        const info = this.source.resolveType(context.identifier().getText());
         let needSuperCall = false;
         if (info && info.symbol instanceof ClassSymbol) {
             // A class always extends another class, and be it only the base Java object.
@@ -1369,8 +1368,8 @@ export class FileProcessor {
         return result;
     };
 
-    private processGenericConstructorDeclaration = (extraCtorParams?: ExtraParameters,
-        context?: GenericConstructorDeclarationContext): ITypeMemberDetails | undefined => {
+    private processGenericConstructorDeclaration = (extraCtorParams: ExtraParameters | null,
+        context: GenericConstructorDeclarationContext | null): ITypeMemberDetails | undefined => {
 
         if (!context) {
             return undefined;
@@ -1382,7 +1381,7 @@ export class FileProcessor {
         return this.processConstructorDeclaration(extraCtorParams, context.constructorDeclaration());
     };
 
-    private processTypeParameters = (builder: java.lang.StringBuilder, context?: TypeParametersContext): void => {
+    private processTypeParameters = (builder: java.lang.StringBuilder, context: TypeParametersContext | null): void => {
         if (!context) {
             return;
         }
@@ -1394,11 +1393,11 @@ export class FileProcessor {
             const child = context.getChild(index++) as TypeParameterContext;
             this.processTypeParameter(builder, child);
 
-            if (index === context.childCount - 1) {
+            if (index === context.getChildCount() - 1) {
                 break;
             }
 
-            this.getContent(builder, context.getChild(index++) as TerminalNode);
+            this.getContent(builder, context.getChild(index++));
         }
 
         this.getContent(builder, context.GT());
@@ -1406,7 +1405,7 @@ export class FileProcessor {
 
     private processTypeParameter = (builder: java.lang.StringBuilder, context: TypeParameterContext): void => {
         let i = 0;
-        while (i < context.childCount) {
+        while (i < context.getChildCount()) {
             const child = context.getChild(i++);
             if (child instanceof AnnotationContext) {
                 this.processAnnotation(builder, child);
@@ -1419,7 +1418,7 @@ export class FileProcessor {
 
         if (context.EXTENDS()) {
             i += 2;
-            while (i < context.childCount) {
+            while (i < context.getChildCount()) {
                 const child = context.getChild(i++);
                 if (child instanceof AnnotationContext) {
                     this.processAnnotation(builder, child);
@@ -1432,7 +1431,7 @@ export class FileProcessor {
         }
     };
 
-    private processTypeBound = (builder: java.lang.StringBuilder, context?: TypeBoundContext): void => {
+    private processTypeBound = (builder: java.lang.StringBuilder, context: TypeBoundContext | null): void => {
         if (!context) {
             return;
         }
@@ -1442,15 +1441,15 @@ export class FileProcessor {
             const child = context.getChild(index++);
             this.processTypeType(builder, child as TypeTypeContext);
 
-            if (index === context.childCount) {
+            if (index === context.getChildCount()) {
                 break;
             }
 
-            this.getContent(builder, context.getChild(index++) as TerminalNode);
+            this.getContent(builder, context.getChild(index++));
         }
     };
 
-    private processInterfaceDeclaration = (context: InterfaceDeclarationContext | undefined, prefix: string,
+    private processInterfaceDeclaration = (context: InterfaceDeclarationContext | null, prefix: string,
         doExport: boolean): ITypeMemberDetails | undefined => {
         if (!context) {
             return undefined;
@@ -1458,13 +1457,13 @@ export class FileProcessor {
 
         const result: ITypeMemberDetails = {
             type: MemberType.Interface,
-            name: context.identifier().text,
+            name: context.identifier().getText(),
             leadingWhitespace: "",
             bodyContent: new java.lang.StringBuilder(),
         };
 
         this.typeStack.push({
-            name: context.identifier().text,
+            name: context.identifier().getText(),
             type: ContextType.Interface,
             deferredDeclarations: new java.lang.StringBuilder(),
             generatedMembers: [],
@@ -1490,7 +1489,7 @@ export class FileProcessor {
             this.processTypeList(localBuilder, context.typeList());
         }
 
-        const info = this.source.getQualifiedSymbol(context, context.identifier().text);
+        const info = this.source.getQualifiedSymbol(context, context.identifier().getText());
         const interfaceSymbol = info ? info.symbol as JavaInterfaceSymbol : undefined;
         const isTypescriptCompatible = interfaceSymbol?.isTypescriptCompatible ?? false;
 
@@ -1604,7 +1603,7 @@ export class FileProcessor {
         return isTypescriptCompatible;
     };
 
-    private processInterfaceMemberDeclaration = (context: InterfaceMemberDeclarationContext | undefined, prefix: string,
+    private processInterfaceMemberDeclaration = (context: InterfaceMemberDeclarationContext | null, prefix: string,
         modifiers: Set<string>, isTypescriptCompatible: boolean): ITypeMemberDetails | undefined => {
         if (!context) {
             return;
@@ -1653,7 +1652,7 @@ export class FileProcessor {
             }
 
             case JavaParser.RULE_classDeclaration: {
-                return this.processClassDeclaration(firstChild as ClassDeclarationContext, prefix, modifiers);
+                return this.processClassDeclaration(firstChild as ClassDeclarationContext, prefix, modifiers, null);
             }
 
             case JavaParser.RULE_enumDeclaration: {
@@ -1680,8 +1679,8 @@ export class FileProcessor {
                 `${type.toString()}`);
 
             child = context.getChild(index++);
-            this.getContent(details.bodyContent, child as TerminalNode); // Comma or semicolon.
-            if (child.text === ";") {
+            this.getContent(details.bodyContent, child); // Comma or semicolon.
+            if (child!.getText() === ";") {
                 break;
             }
         }
@@ -1754,7 +1753,7 @@ export class FileProcessor {
         }
 
         const useArrowFunction = !isTypescriptCompatible && this.configuration.options?.preferArrowFunctions;
-        details.name = context.identifier().text;
+        details.name = context.identifier().getText();
         details.nameWhitespace = this.getLeadingWhiteSpaces(context.identifier());
         this.ignoreContent(context.identifier());
         if (useArrowFunction) {
@@ -1783,7 +1782,7 @@ export class FileProcessor {
     };
 
     private processAnnotationTypeDeclaration = (
-        context?: AnnotationTypeDeclarationContext): ITypeMemberDetails | undefined => {
+        context: AnnotationTypeDeclarationContext | null): ITypeMemberDetails | undefined => {
 
         if (!context) {
             return undefined;
@@ -1791,7 +1790,7 @@ export class FileProcessor {
 
         const result: ITypeMemberDetails = {
             type: MemberType.Annotation,
-            name: context.identifier().text,
+            name: context.identifier().getText(),
             leadingWhitespace: "",
             bodyContent: new java.lang.StringBuilder(),
         };
@@ -1801,7 +1800,7 @@ export class FileProcessor {
         return result;
     };
 
-    private processEnumDeclaration = (context: EnumDeclarationContext | undefined,
+    private processEnumDeclaration = (context: EnumDeclarationContext | null,
         modifiers: Set<string>): ITypeMemberDetails | undefined => {
         if (!context) {
             return undefined;
@@ -1809,7 +1808,7 @@ export class FileProcessor {
 
         const result: ITypeMemberDetails = {
             type: MemberType.Enum,
-            name: context.identifier().text,
+            name: context.identifier().getText(),
             leadingWhitespace: "",
             bodyContent: new java.lang.StringBuilder(),
         };
@@ -1817,7 +1816,7 @@ export class FileProcessor {
         // Enums in Java are essentially classes with some extra (implicit) handling.
         // We convert them to TS classes and explicitly add what Java does internally.
         this.typeStack.push({
-            name: context.identifier().text,
+            name: context.identifier().getText(),
             type: ContextType.Enum,
             deferredDeclarations: new java.lang.StringBuilder(),
             generatedMembers: [],
@@ -1829,7 +1828,7 @@ export class FileProcessor {
         this.ignoreContent(context.ENUM());
         localBuilder.append("class ");
         this.getContent(localBuilder, context.identifier());
-        localBuilder.append(S` extends java.lang.Enum<${context.identifier().text}>`); // Implicit extension in Java.
+        localBuilder.append(S` extends java.lang.Enum<${context.identifier().getText()}>`); // Implicit in Java.
         this.resolveType(context, "Enum");
 
         if (context.IMPLEMENTS()) {
@@ -1861,7 +1860,7 @@ export class FileProcessor {
 
         // Check if this enum itself is nested.
         if (this.typeStack.size() > 1) {
-            const className = context.identifier().text;
+            const className = context.identifier().getText();
 
             // This is a nested enum declaration, which are implicitly static.
             result.bodyContent.append(` ${className} = ${localBuilder.toString()};\n`);
@@ -1879,7 +1878,7 @@ export class FileProcessor {
         return result;
     };
 
-    private processEnumConstants = (builder: java.lang.StringBuilder, context?: EnumConstantsContext): void => {
+    private processEnumConstants = (builder: java.lang.StringBuilder, context: EnumConstantsContext | null): void => {
         if (!context) {
             return;
         }
@@ -1910,7 +1909,7 @@ export class FileProcessor {
 
         const owner = this.typeStack.peek();
         const ownerName = owner?.name ?? "<unknown>";
-        const enumName = context.identifier().text;
+        const enumName = context.identifier().getText();
         builder.append(`: ${ownerName} = `);
 
         builder.append(`new class extends ${ownerName} `);
@@ -1918,7 +1917,7 @@ export class FileProcessor {
         this.processArguments(argumentsBuilder, context.arguments());
 
         if (context.classBody()) {
-            this.processClassBody(builder, context.classBody());
+            this.processClassBody(builder, context.classBody(), null);
         } else {
             builder.append("{\n}");
         }
@@ -1937,7 +1936,7 @@ export class FileProcessor {
 
     private processBlock = (details: {
         builder: java.lang.StringBuilder,
-        context?: BlockContext,
+        context: BlockContext | null,
         extra?: string;
         ignoreBraces?: boolean;
     }): void => {
@@ -1980,7 +1979,7 @@ export class FileProcessor {
     };
 
     private processLocalVariableDeclaration = (builder: java.lang.StringBuilder,
-        context?: LocalVariableDeclarationContext): void => {
+        context: LocalVariableDeclarationContext | null): void => {
         if (!context) {
             return;
         }
@@ -2035,11 +2034,11 @@ export class FileProcessor {
 
             this.processVariableDeclarator(details.bodyContent, child as VariableDeclaratorContext, type, makeOptional);
             result.push(details);
-            if (index === context.childCount) {
+            if (index === context.getChildCount()) {
                 break;
             }
 
-            const comma = context.getChild(index++) as TerminalNode;
+            const comma = context.getChild(index++);
             details.bodyContent.append(`;${this.getLeadingWhiteSpaces(comma)}\n`);
             this.ignoreContent(comma);
         }
@@ -2086,7 +2085,7 @@ export class FileProcessor {
     };
 
     private processVariableInitializer = (builder: java.lang.StringBuilder,
-        context?: VariableInitializerContext): void => {
+        context: VariableInitializerContext | null): void => {
         if (!context) {
             return;
         }
@@ -2098,7 +2097,8 @@ export class FileProcessor {
         }
     };
 
-    private processArrayInitializer = (builder: java.lang.StringBuilder, context?: ArrayInitializerContext): void => {
+    private processArrayInitializer = (builder: java.lang.StringBuilder,
+        context: ArrayInitializerContext | null): void => {
         if (!context) {
             return;
         }
@@ -2113,9 +2113,9 @@ export class FileProcessor {
     };
 
     private processParExpression = (builder: java.lang.StringBuilder,
-        context?: ParExpressionContext): ISymbolInfo | undefined => {
+        context: ParExpressionContext | null): ISymbolInfo | null => {
         if (!context) {
-            return;
+            return null;
         }
 
         this.getContent(builder, context.LPAREN());
@@ -2134,12 +2134,12 @@ export class FileProcessor {
      * @returns If the expression results in an identifiable member (e.g. a field) then the symbol for it is returned.
      */
     private processExpression = (builder: java.lang.StringBuilder,
-        context?: ExpressionContext): ISymbolInfo | undefined => {
+        context: ExpressionContext | null): ISymbolInfo | null => {
         if (!context) {
-            return undefined;
+            return null;
         }
 
-        let instance: ISymbolInfo | undefined;
+        let instance: ISymbolInfo | null = null;
 
         const firstChild = context.getChild(0);
         if (firstChild instanceof TerminalNode) {
@@ -2242,7 +2242,7 @@ export class FileProcessor {
                                     this.getContent(builder, context.DOT());
                                     this.getContent(builder, context.identifier());
                                 } else if (context.getChild(2) instanceof TerminalNode) {
-                                    const node = context.getChild(2) as TerminalNode;
+                                    const node = context.getChild(2) as unknown as TerminalNode;
                                     switch (node.symbol.type) {
                                         case JavaLexer.IDENTIFIER:
                                         case JavaLexer.THIS: {
@@ -2301,7 +2301,7 @@ export class FileProcessor {
                                 } else if (operator.type === JavaLexer.NOTEQUAL) {
                                     usedOperator = "!==";
                                 }
-                                builder.append(this.getLeadingWhiteSpaces(context.getChild(1) as TerminalNode));
+                                builder.append(this.getLeadingWhiteSpaces(context.getChild(1)));
                                 builder.append(usedOperator ?? "");
 
                                 this.processExpression(builder, context.expression(1));
@@ -2364,7 +2364,7 @@ export class FileProcessor {
 
                 case JavaParser.RULE_methodCall: {
                     // A method call with no instance to call on.
-                    this.processMethodCall(builder, context.methodCall());
+                    this.processMethodCall(builder, context.methodCall(), null);
 
                     break;
                 }
@@ -2410,11 +2410,11 @@ export class FileProcessor {
     };
 
     private processExplicitGenericInvocation = (builder: java.lang.StringBuilder,
-        context?: ExplicitGenericInvocationContext): void => {
+        context: ExplicitGenericInvocationContext | null): void => {
         this.getContent(builder, context);
     };
 
-    private processSuperSuffix = (builder: java.lang.StringBuilder, context?: SuperSuffixContext): void => {
+    private processSuperSuffix = (builder: java.lang.StringBuilder, context: SuperSuffixContext | null): void => {
         if (!context) {
             return;
         }
@@ -2427,7 +2427,7 @@ export class FileProcessor {
     };
 
     private processNonWildcardTypeArguments = (builder: java.lang.StringBuilder,
-        context?: NonWildcardTypeArgumentsContext): void => {
+        context: NonWildcardTypeArgumentsContext | null): void => {
         if (!context) {
             return;
         }
@@ -2436,7 +2436,7 @@ export class FileProcessor {
         this.getContent(builder, context.GT());
     };
 
-    private processInnerCreator = (builder: java.lang.StringBuilder, context?: InnerCreatorContext): void => {
+    private processInnerCreator = (builder: java.lang.StringBuilder, context: InnerCreatorContext | null): void => {
         if (!context) {
             return;
         }
@@ -2445,7 +2445,8 @@ export class FileProcessor {
         this.processClassCreatorRest(builder, context.classCreatorRest());
     };
 
-    private processClassCreatorRest = (builder: java.lang.StringBuilder, context?: ClassCreatorRestContext): void => {
+    private processClassCreatorRest = (builder: java.lang.StringBuilder,
+        context: ClassCreatorRestContext | null): void => {
         if (!context) {
             return;
         }
@@ -2454,14 +2455,14 @@ export class FileProcessor {
             // This is an anonymous inner class, which gets converted to a class expression.
             const localBuilder = new java.lang.StringBuilder();
             this.processArguments(localBuilder, context.arguments());
-            this.processClassBody(builder, context.classBody());
+            this.processClassBody(builder, context.classBody(), null);
             builder.append(localBuilder);
         } else {
             this.processArguments(builder, context.arguments());
         }
     };
 
-    private processArguments = (builder: java.lang.StringBuilder, context?: ArgumentsContext): void => {
+    private processArguments = (builder: java.lang.StringBuilder, context: ArgumentsContext | null): void => {
         if (!context) {
             return;
         }
@@ -2472,7 +2473,7 @@ export class FileProcessor {
     };
 
     private processNonWildcardTypeArgumentsOrDiamond = (builder: java.lang.StringBuilder,
-        context?: NonWildcardTypeArgumentsOrDiamondContext): void => {
+        context: NonWildcardTypeArgumentsOrDiamondContext | null): void => {
         if (!context) {
             return;
         }
@@ -2484,7 +2485,8 @@ export class FileProcessor {
         }
     };
 
-    private processLambdaExpression = (builder: java.lang.StringBuilder, context?: LambdaExpressionContext): void => {
+    private processLambdaExpression = (builder: java.lang.StringBuilder,
+        context: LambdaExpressionContext | null): void => {
         if (!context) {
             return;
         }
@@ -2527,8 +2529,8 @@ export class FileProcessor {
      * @param instance Optional symbol information, if the method call belongs to this instance. This allows us to
      *                 transform certain method calls to their TS equivalent.
      */
-    private processMethodCall = (builder: java.lang.StringBuilder, context?: MethodCallContext,
-        instance?: ISymbolInfo): void => {
+    private processMethodCall = (builder: java.lang.StringBuilder, context: MethodCallContext | null,
+        instance: ISymbolInfo | null): void => {
         if (!context) {
             return;
         }
@@ -2546,7 +2548,7 @@ export class FileProcessor {
             }
             this.getContent(builder, context.RPAREN());
         } else {
-            const methodName = context.identifier()?.text ?? "";
+            const methodName = context.identifier()?.getText() ?? "";
             const ws = this.getLeadingWhiteSpaces(context.identifier());
 
             this.ignoreContent(context.identifier());
@@ -2656,22 +2658,22 @@ export class FileProcessor {
         this.getContent(builder, context.RPAREN());
     };
 
-    private processExpressionList = (builder: java.lang.StringBuilder, context?: ExpressionListContext): void => {
+    private processExpressionList = (builder: java.lang.StringBuilder, context: ExpressionListContext | null): void => {
         if (!context) {
             return;
         }
 
         let i = 0;
-        while (i < context.childCount) {
+        while (i < context.getChildCount()) {
             let child = context.getChild(i++);
             this.processExpression(builder, child as ExpressionContext);
 
-            if (i === context.childCount) {
+            if (i === context.getChildCount()) {
                 break;
             }
 
             child = context.getChild(i++);
-            this.getContent(builder, child as TerminalNode); // The comma.
+            this.getContent(builder, child); // The comma.
         }
     };
 
@@ -2683,7 +2685,7 @@ export class FileProcessor {
      *
      * @returns true if the caller should use the `new` operator, otherwise false (e.g. for array initializers).
      */
-    private processCreator = (builder: java.lang.StringBuilder, context?: CreatorContext): boolean => {
+    private processCreator = (builder: java.lang.StringBuilder, context: CreatorContext | null): boolean => {
         if (!context) {
             return false;
         }
@@ -2694,7 +2696,7 @@ export class FileProcessor {
         let innerClass = false;
         if (context.classCreatorRest() && context.classCreatorRest()?.classBody()) {
             innerClass = true;
-            const info = this.resolveType(context, context.createdName().text);
+            const info = this.resolveType(context, context.createdName().getText());
             if (typeof info === "string") {
                 builder.append("class extends ");
             } else {
@@ -2740,7 +2742,7 @@ export class FileProcessor {
                         // Special case for char arrays.
                         const type = context.createdName().primitiveType();
                         if (type) {
-                            this.convertPrimitiveType(builder, type.start.type, true);
+                            this.convertPrimitiveType(builder, type.start!.type, true);
                         } else {
                             builder.append("Array<");
                             builder.append(temp);
@@ -2782,49 +2784,50 @@ export class FileProcessor {
         }
 
         let index = 0;
-        while (index < context.childCount) {
+        while (index < context.getChildCount()) {
             let child = context.getChild(index++);
             if (index === 1) {
-                const ws = this.getLeadingWhiteSpaces(child as TerminalNode);
-                const info = this.resolveType(context, child.text);
+                const ws = this.getLeadingWhiteSpaces(child);
+                const info = this.resolveType(context, child!.getText());
                 if (typeof info === "string") {
                     builder.append(`${ws}${info}`);
                 } else {
                     builder.append(`${ws}${info.qualifiedName}`);
                 }
             } else {
-                this.getContent(builder, child as TerminalNode);
+                this.getContent(builder, child);
             }
 
-            if (index === context.childCount) {
+            if (index === context.getChildCount()) {
                 break;
             }
 
             child = context.getChild(index);
             if (child instanceof TypeArgumentsOrDiamondContext) {
                 builder.append(this.getLeadingWhiteSpaces(child));
-                if (child.text !== "<>") { // Using .text here, as that leaves out all white spaces.
+                if (child.getText() !== "<>") { // Using .text here, as that leaves out all white spaces.
                     this.processTypeArguments(builder, child.typeArguments());
                 }
 
                 ++index;
-                if (index === context.childCount) {
+                if (index === context.getChildCount()) {
                     break;
                 }
             }
 
-            this.getContent(builder, child as TerminalNode); // The dot.
+            this.getContent(builder, child); // The dot.
             ++index;
         }
 
     };
 
-    private processPrimary = (builder: java.lang.StringBuilder, context?: PrimaryContext): ISymbolInfo | undefined => {
+    private processPrimary = (builder: java.lang.StringBuilder,
+        context: PrimaryContext | null): ISymbolInfo | null => {
         if (!context) {
-            return;
+            return null;
         }
 
-        let instance: ISymbolInfo | undefined;
+        let instance: ISymbolInfo | null = null;
 
         const firstChild = context.getChild(0);
         if (firstChild instanceof TerminalNode) {
@@ -2847,10 +2850,10 @@ export class FileProcessor {
                     const ws = this.getLeadingWhiteSpaces(context.identifier());
                     builder.append(ws);
 
-                    let name = context.identifier()?.text ?? "";
-                    instance = context.parent && this.source.getQualifiedSymbol(context.parent, name);
+                    let name = context.identifier()?.getText() ?? "";
+                    instance = context.parent && (this.source.getQualifiedSymbol(context.parent, name) ?? null);
 
-                    if (instance === undefined) {
+                    if (!instance) {
                         const info = this.resolveType(context, name);
                         name = typeof info === "string" ? info : info.qualifiedName;
                     } else {
@@ -2878,7 +2881,7 @@ export class FileProcessor {
 
                 case JavaParser.RULE_identifier: {
                     builder.append(this.getLeadingWhiteSpaces(context.identifier()));
-                    const identifier = context.identifier()?.text;
+                    const identifier = context.identifier()?.getText();
                     const info = this.resolveType(context.parent, identifier ?? "");
                     if (typeof info === "string") {
                         builder.append(info);
@@ -2906,7 +2909,7 @@ export class FileProcessor {
         return instance;
     };
 
-    private processLiteral = (builder: java.lang.StringBuilder, context?: LiteralContext): void => {
+    private processLiteral = (builder: java.lang.StringBuilder, context: LiteralContext | null): void => {
         if (!context) {
             return;
         }
@@ -2915,7 +2918,7 @@ export class FileProcessor {
 
         if (context.integerLiteral()) {
             // Long integer literals can be converted to big int.
-            const value = context.integerLiteral()?.text ?? "";
+            const value = context.integerLiteral()?.getText() ?? "";
             if (value.endsWith("l") || value.endsWith("L")) {
                 builder.append(`${value.substring(0, value.length - 1)}n`);
             } else {
@@ -2923,7 +2926,7 @@ export class FileProcessor {
             }
         } else if (context.floatLiteral()) {
             // Double float literals have no expression in JS/TS, so we just remove the suffix.
-            const value = context.floatLiteral()?.text ?? "";
+            const value = context.floatLiteral()?.getText() ?? "";
             if (value.endsWith("f") || value.endsWith("F") || value.endsWith("d") || value.endsWith("D")) {
                 builder.append(value.substring(0, value.length - 1));
             } else {
@@ -2932,7 +2935,7 @@ export class FileProcessor {
         } else if (context.STRING_LITERAL()) {
             const wrap = this.configuration.options?.wrapStringLiterals ?? false;
             if (wrap) {
-                const value = context.STRING_LITERAL()?.text ?? "";
+                const value = context.STRING_LITERAL()?.getText() ?? "";
                 builder.append(`S\`${value.substring(1, value.length - 1)}\``);
                 this.registerJavaImport("S");
             } else {
@@ -2944,7 +2947,7 @@ export class FileProcessor {
     };
 
     private processExplicitGenericInvocationSuffix = (builder: java.lang.StringBuilder,
-        context?: ExplicitGenericInvocationSuffixContext): void => {
+        context: ExplicitGenericInvocationSuffixContext | null): void => {
         if (!context) {
             return;
         }
@@ -2958,7 +2961,7 @@ export class FileProcessor {
         }
     };
 
-    private processStatement = (builder: java.lang.StringBuilder, context?: StatementContext): void => {
+    private processStatement = (builder: java.lang.StringBuilder, context: StatementContext | null): void => {
         if (!context) {
             return;
         }
@@ -2985,11 +2988,11 @@ export class FileProcessor {
                     this.getContent(builder, context.IF());
                     this.processParExpression(builder, context.parExpression());
 
-                    this.expressionWithBraces(builder, context.statement(0));
+                    this.expressionWithBraces(builder, context.statement(0)!);
                     if (context.ELSE()) {
                         this.getContent(builder, context.ELSE());
 
-                        this.expressionWithBraces(builder, context.statement(1));
+                        this.expressionWithBraces(builder, context.statement(1)!);
                     }
 
                     break;
@@ -3000,7 +3003,7 @@ export class FileProcessor {
                     this.getContent(builder, context.LPAREN());
                     this.processForControl(builder, context.forControl());
                     this.getContent(builder, context.RPAREN());
-                    this.expressionWithBraces(builder, context.statement(0));
+                    this.expressionWithBraces(builder, context.statement(0)!);
 
                     break;
                 }
@@ -3167,7 +3170,7 @@ export class FileProcessor {
     };
 
     private processResourceSpecification = (builder: java.lang.StringBuilder,
-        context?: ResourceSpecificationContext): string[] => {
+        context: ResourceSpecificationContext | null): string[] => {
         if (!context) {
             return [];
         }
@@ -3189,7 +3192,7 @@ export class FileProcessor {
             let identifier: string;
             if (resource.identifier()) {
                 // A single identifier. This specifies the name of a closable object.
-                identifier = resource.identifier()?.text ?? "";
+                identifier = resource.identifier()?.getText() ?? "";
             } else {
                 const modifiers = resource.variableModifier();
                 if (modifiers.length > 0) {
@@ -3198,14 +3201,14 @@ export class FileProcessor {
 
                 if (resource.VAR()) {
                     builder.append(`${this.getLeadingWhiteSpaces(resource.VAR())}const`);
-                    identifier = resource.identifier()?.text ?? "";
+                    identifier = resource.identifier()?.getText() ?? "";
                 } else {
                     builder.append(`${this.getLeadingWhiteSpaces(resource.classOrInterfaceType())}const`);
 
                     const localBuilder = new java.lang.StringBuilder();
                     this.processClassOrInterfaceType(localBuilder, resource.classOrInterfaceType());
 
-                    identifier = resource.variableDeclaratorId()?.identifier().text ?? "";
+                    identifier = resource.variableDeclaratorId()?.identifier().getText() ?? "";
                     this.getContent(builder, resource.variableDeclaratorId());
                     builder.append(`: ${localBuilder.toString()} `);
                 }
@@ -3228,8 +3231,8 @@ export class FileProcessor {
             hasDefault ||= this.processSwitchLabel(builder, label);
         });
 
-        const needBraces = context.blockStatement().length > 1 || !context.blockStatement(0).statement()
-            || !context.blockStatement(0).statement()?.block();
+        const needBraces = context.blockStatement().length > 1 || !context.blockStatement(0)?.statement()
+            || !context.blockStatement(0)?.statement()?.block();
         const addBraces = needBraces && this.configuration.options?.autoAddBraces;
 
         if (addBraces) {
@@ -3263,7 +3266,7 @@ export class FileProcessor {
         return false;
     };
 
-    private processFinallyBlock = (builder: java.lang.StringBuilder, context?: FinallyBlockContext,
+    private processFinallyBlock = (builder: java.lang.StringBuilder, context: FinallyBlockContext | null,
         extra?: string): void => {
         if (!context) {
             return;
@@ -3280,7 +3283,7 @@ export class FileProcessor {
         // Construct a unique name from all catch error names.
         const names = new Set<string>();
         contexts.forEach((context) => {
-            names.add(context.identifier().text);
+            names.add(context.identifier().getText());
         });
 
         const nameArray = Array.from(names);
@@ -3301,7 +3304,7 @@ export class FileProcessor {
 
             builder.append(this.getLeadingWhiteSpaces(context.catchType()));
             const typeChecks = context.catchType().qualifiedName().map((name) => {
-                let qualifiedName = name.text;
+                let qualifiedName = name.getText();
                 const info = this.resolveType(context, qualifiedName);
                 if (typeof info !== "string") {
                     qualifiedName = info.qualifiedName;
@@ -3313,8 +3316,10 @@ export class FileProcessor {
             this.ignoreContent(context.RPAREN());
             builder.append(`${index === 0 ? "" : "else "}if (${typeChecks.join(" || ")})`);
 
-            const currentName = context.identifier().text;
-            const assignment = currentName !== catchName ? `const ${context.identifier().text} = ${catchName};\n` : "";
+            const currentName = context.identifier().getText();
+            const assignment = currentName !== catchName
+                ? `const ${context.identifier().getText()} = ${catchName};\n`
+                : "";
             this.processBlock({ builder, context: context.block(), extra: assignment });
             if (index === contexts.length - 1) {
                 builder.append(` else {\n\tthrow ${catchName};\n\t}\n`);
@@ -3324,7 +3329,7 @@ export class FileProcessor {
         builder.append("}");
     };
 
-    private processForControl = (builder: java.lang.StringBuilder, context?: ForControlContext): void => {
+    private processForControl = (builder: java.lang.StringBuilder, context: ForControlContext | null): void => {
         if (!context) {
             return;
         }
@@ -3342,7 +3347,7 @@ export class FileProcessor {
         this.processExpressionList(builder, context.expressionList());
     };
 
-    private processForInit = (builder: java.lang.StringBuilder, context?: ForInitContext): void => {
+    private processForInit = (builder: java.lang.StringBuilder, context: ForInitContext | null): void => {
         if (!context) {
             return;
         }
@@ -3355,7 +3360,7 @@ export class FileProcessor {
     };
 
     private processEnhancedForControl = (builder: java.lang.StringBuilder,
-        context?: EnhancedForControlContext): void => {
+        context: EnhancedForControlContext | null): void => {
         if (!context) {
             return;
         }
@@ -3379,11 +3384,11 @@ export class FileProcessor {
     };
 
     private processLocalTypeDeclaration = (builder: java.lang.StringBuilder,
-        context?: LocalTypeDeclarationContext): void => {
+        context: LocalTypeDeclarationContext | null): void => {
         this.getContent(builder, context, true);
     };
 
-    private processTypeList = (builder: java.lang.StringBuilder, context?: TypeListContext): void => {
+    private processTypeList = (builder: java.lang.StringBuilder, context: TypeListContext | null): void => {
         if (!context) {
             return;
         }
@@ -3403,13 +3408,13 @@ export class FileProcessor {
                 ignoreNext = list.pop() === undefined;
             }
 
-            if (index === context.childCount) {
+            if (index === context.getChildCount()) {
                 break;
             }
 
             // Handle the comma.
             const comma = new java.lang.StringBuilder();
-            this.getContent(comma, context.getChild(index++) as TerminalNode, false);
+            this.getContent(comma, context.getChild(index++), false);
             if (!ignoreNext) {
                 list.push(comma);
             }
@@ -3420,7 +3425,8 @@ export class FileProcessor {
         });
     };
 
-    private processTypeTypeOrVoid = (builder: java.lang.StringBuilder, context?: TypeTypeOrVoidContext): boolean => {
+    private processTypeTypeOrVoid = (builder: java.lang.StringBuilder,
+        context: TypeTypeOrVoidContext | null): boolean => {
         if (!context) {
             return false;
         }
@@ -3434,7 +3440,7 @@ export class FileProcessor {
         return this.processTypeType(builder, context.typeType());
     };
 
-    private processTypeType = (builder: java.lang.StringBuilder, context?: TypeTypeContext): boolean => {
+    private processTypeType = (builder: java.lang.StringBuilder, context: TypeTypeContext | null): boolean => {
         if (!context) {
             return false;
         }
@@ -3456,28 +3462,28 @@ export class FileProcessor {
             this.processClassOrInterfaceType(builder, child);
         } else {
             isPrimitiveType = true;
-            const type = (child as PrimitiveTypeContext).start.type;
+            const type = (child as PrimitiveTypeContext).start!.type;
             ignoreBrackets = context.LBRACK().length > 0;
             this.convertPrimitiveType(builder, type, ignoreBrackets);
         }
         ++index;
 
-        while (index < context.childCount) {
-            while (index < context.childCount && context.getChild(index) instanceof AnnotationContext) {
+        while (index < context.getChildCount()) {
+            while (index < context.getChildCount() && context.getChild(index) instanceof AnnotationContext) {
                 this.processAnnotation(builder, context.getChild(index) as AnnotationContext);
                 ++index;
             }
 
             // Array notation.
-            if (index < context.childCount - 1) {
+            if (index < context.getChildCount() - 1) {
                 if (ignoreBrackets) {
                     // Already handled above for the most inner bracket pair.
                     ignoreBrackets = false;
-                    this.ignoreContent(context.getChild(index++) as TerminalNode);
-                    this.ignoreContent(context.getChild(index++) as TerminalNode);
+                    this.ignoreContent(context.getChild(index++));
+                    this.ignoreContent(context.getChild(index++));
                 } else {
-                    this.getContent(builder, context.getChild(index++) as TerminalNode);
-                    this.getContent(builder, context.getChild(index++) as TerminalNode);
+                    this.getContent(builder, context.getChild(index++));
+                    this.getContent(builder, context.getChild(index++));
                 }
             }
         }
@@ -3485,7 +3491,7 @@ export class FileProcessor {
         return isPrimitiveType;
     };
 
-    private processClassType = (builder: java.lang.StringBuilder, context?: ClassTypeContext): void => {
+    private processClassType = (builder: java.lang.StringBuilder, context: ClassTypeContext | null): void => {
         if (!context) {
             return;
         }
@@ -3506,7 +3512,7 @@ export class FileProcessor {
     };
 
     private processClassOrInterfaceType = (builder: java.lang.StringBuilder,
-        context?: ClassOrInterfaceTypeContext): void => {
+        context: ClassOrInterfaceTypeContext | null): void => {
         if (!context) {
             return;
         }
@@ -3515,21 +3521,21 @@ export class FileProcessor {
         while (true) {
             const child = context.getChild(index++);
 
-            builder.append(this.getLeadingWhiteSpaces(child as TerminalNode));
+            builder.append(this.getLeadingWhiteSpaces(child));
 
             // Only resolve the first identifier part in the qualified identifier.
             if (index === 1) {
-                const info = this.resolveType(context, child.text);
+                const info = this.resolveType(context, child!.getText());
                 if (typeof info === "string") {
                     builder.append(info);
                 } else {
                     builder.append(info.qualifiedName);
                 }
             } else {
-                builder.append(child.text);
+                builder.append(child!.getText());
             }
 
-            if (index === context.childCount) {
+            if (index === context.getChildCount()) {
                 break;
             }
 
@@ -3537,21 +3543,21 @@ export class FileProcessor {
                 this.processTypeArguments(builder, context.getChild(index++) as TypeArgumentsContext);
             }
 
-            if (index === context.childCount) {
+            if (index === context.getChildCount()) {
                 break;
             }
 
             if (context.getChild(index) instanceof TerminalNode) {
-                builder.append(this.getLeadingWhiteSpaces(context.getChild(index++) as TerminalNode) + ".");
+                builder.append(this.getLeadingWhiteSpaces(context.getChild(index++)) + ".");
             }
 
-            if (index === context.childCount) {
+            if (index === context.getChildCount()) {
                 break;
             }
         }
     };
 
-    private processTypeArguments = (builder: java.lang.StringBuilder, context?: TypeArgumentsContext): void => {
+    private processTypeArguments = (builder: java.lang.StringBuilder, context: TypeArgumentsContext | null): void => {
         if (!context) {
             return;
         }
@@ -3562,11 +3568,11 @@ export class FileProcessor {
         while (true) {
             const child = context.getChild(index++) as TypeArgumentContext;
             this.processTypeArgument(builder, child);
-            if (index === context.childCount - 1) {
+            if (index === context.getChildCount() - 1) {
                 break;
             }
 
-            this.getContent(builder, context.getChild(index++) as TerminalNode); // Comma.
+            this.getContent(builder, context.getChild(index++)); // Comma.
         }
 
         this.getContent(builder, context.GT());
@@ -3585,7 +3591,7 @@ export class FileProcessor {
                 builder.append(this.getLeadingWhiteSpaces(context.QUESTION()));
             } else {
                 // The ? operator, like in List<?>.
-                builder.append(this.getLeadingWhiteSpaces(firstChild as TerminalNode));
+                builder.append(this.getLeadingWhiteSpaces(firstChild));
             }
 
             if (context.EXTENDS() || context.SUPER()) {
@@ -3605,7 +3611,7 @@ export class FileProcessor {
         }
     };
 
-    private processPrimitiveType = (builder: java.lang.StringBuilder, context?: PrimitiveTypeContext): void => {
+    private processPrimitiveType = (builder: java.lang.StringBuilder, context: PrimitiveTypeContext | null): void => {
         if (!context) {
             return;
         }
@@ -3615,7 +3621,7 @@ export class FileProcessor {
         if (context.LONG()) {
             builder.append("bigint");
         } else {
-            builder.append(context.text);
+            builder.append(context.getText());
         }
     };
 
@@ -3884,13 +3890,21 @@ export class FileProcessor {
      *
      * @returns The original white space text between tokens.
      */
-    private getLeadingWhiteSpaces = (target?: ParserRuleContext | TerminalNode): string => {
+    private getLeadingWhiteSpaces = (target: ParseTree | null): string => {
         if (!target) {
             return "";
         }
 
-        const startIndex = target instanceof TerminalNode ? target.symbol.startIndex : target.start.startIndex;
-        const stopIndex = target instanceof TerminalNode ? target.symbol.stopIndex : target.stop?.stopIndex;
+        let startIndex = 0;
+        let stopIndex;
+        if (target instanceof TerminalNode) {
+            startIndex = target.symbol.start;
+            stopIndex = target.symbol.stop;
+        } else if (target instanceof ParserRuleContext) {
+            startIndex = target.start!.start;
+            stopIndex = target.stop?.stop;
+        }
+
         const interval = Interval.of(this.whiteSpaceAnchor, startIndex - 1);
         this.whiteSpaceAnchor = (stopIndex ?? startIndex) + 1;
 
@@ -3904,14 +3918,23 @@ export class FileProcessor {
      * @param target A parse tree for which to get the content.
      * @param commented If true the target content is placed in a multi line comment.
      */
-    private getContent = (builder: java.lang.StringBuilder, target?: ParserRuleContext | TerminalNode,
+    private getContent = (builder: java.lang.StringBuilder, target: ParseTree | null,
         commented = false): void => {
         if (!target) {
             return;
         }
 
-        const startIndex = target instanceof TerminalNode ? target.symbol.startIndex : target.start.startIndex;
-        const stopIndex = target instanceof TerminalNode ? target.symbol.stopIndex : target.stop?.stopIndex;
+        let startIndex = 0;
+        let stopIndex;
+
+        if (target instanceof TerminalNode) {
+            startIndex = target.symbol.start;
+            stopIndex = target.symbol.stop;
+        } else if (target instanceof ParserRuleContext) {
+            startIndex = target.start!.start;
+            stopIndex = target.stop?.stop;
+        }
+
         const interval = Interval.of(startIndex, stopIndex ?? startIndex);
 
         const ws = this.getLeadingWhiteSpaces(target);
@@ -3929,7 +3952,7 @@ export class FileProcessor {
      *
      * @param target A parse tree for which to get the content.
      */
-    private ignoreContent = (target?: ParserRuleContext | TerminalNode): void => {
+    private ignoreContent = (target: ParseTree | null): void => {
         if (target) {
             this.getContent(new java.lang.StringBuilder(), target);
         }
@@ -3948,8 +3971,8 @@ export class FileProcessor {
             return;
         }
 
-        const startIndex = start instanceof TerminalNode ? start.symbol.startIndex : start.start.startIndex;
-        const stopIndex = stop instanceof TerminalNode ? stop.symbol.stopIndex : (stop.stop?.stopIndex ?? startIndex);
+        const startIndex = start instanceof TerminalNode ? start.symbol.start : start.start!.start;
+        const stopIndex = stop instanceof TerminalNode ? stop.symbol.stop : (stop.stop?.stop ?? startIndex);
         const interval = Interval.of(startIndex, stopIndex);
 
         const ws = this.getLeadingWhiteSpaces(start);
@@ -3996,7 +4019,7 @@ export class FileProcessor {
      *
      * @returns Either a replacement for the given name or the name itself.
      */
-    private resolveType = (context: ParseTree | undefined, name: string): ISymbolInfo | string => {
+    private resolveType = (context: ParseTree | null, name: string): ISymbolInfo | string => {
         if (!context) {
             return name;
         }
