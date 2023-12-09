@@ -77,7 +77,7 @@ class TestNGSource extends PackageSource {
         return symbolTable;
     }
 
-    protected get importOverride(): string | undefined {
+    protected override get importOverride(): string | undefined {
         return "org";
     }
 }

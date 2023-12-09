@@ -51,12 +51,12 @@
     "scripts": {
         "build": "tsc",
         "fetch-apis": "ts-node-esm tools/fetchJavaApis.ts",
-        "run-antlr4-conversion": "ts-node-esm  ./src/convert.ts config/antlr4.json",
+        "run-antlr4-conversion": "node --experimental-vm-modules --loader ts-node/esm ./src/convert.ts config/antlr4-runtime-tests.json",
         "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js --config=./tests/jest.config.ts --no-coverage --watchAll=false",
         "test-ci": "node --experimental-vm-modules node_modules/jest/bin/jest.js  --config=./tests/jest.config.ts --no-coverage --watchAll=false --silent",
         "test-coverage": "node --experimental-vm-modules node_modules/jest/bin/jest.js  --config=./tests/jest.config.ts --coverage",
         "lint": "eslint \"./src/**/*.ts\"",
-        "generate": "java -jar node_modules/antlr4ng/cli/antlr4-4.13.2-SNAPSHOT-complete.jar -Dlanguage=TypeScript -Xexact-output-dir ./parser/JavaLexer.g4 ./parser/JavaParser.g4 -visitor -o ./parser/generated",
+        "generate": "antlr4ng -Dlanguage=TypeScript -Xexact-output-dir ./parser/JavaLexer.g4 ./parser/JavaParser.g4 -visitor -o ./parser/generated",
         "link": "npm link",
         "unlink": "npm unlink ."
     }

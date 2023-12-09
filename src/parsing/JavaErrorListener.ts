@@ -9,8 +9,9 @@ export class JavaErrorListener extends BaseErrorListener {
 
     public errors: string[] = [];
 
-    public syntaxError<S extends Token, T extends ATNSimulator>(recognizer: Recognizer<T>, offendingSymbol: S | null,
-        line: number, charPositionInLine: number, msg: string, _e: RecognitionException | null): void {
+    public override syntaxError<S extends Token, T extends ATNSimulator>(recognizer: Recognizer<T>,
+        offendingSymbol: S | null, line: number, charPositionInLine: number, msg: string,
+        _e: RecognitionException | null): void {
         this.errors.push(msg);
     }
 }

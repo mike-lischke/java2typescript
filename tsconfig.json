@@ -1,8 +1,8 @@
 {
     "compilerOptions": {
-        "moduleResolution": "NodeNext",
+        "moduleResolution": "Node16",
         "target": "ES2022",
-        "module": "NodeNext",
+        "module": "Node16",
         "outDir": "./output",
         "sourceMap": true,
         "declaration": true,
@@ -10,7 +10,7 @@
         "isolatedModules": true,
         "strict": true,
         "noImplicitAny": true,
-        "noImplicitOverride": false,
+        "noImplicitOverride": true,
         "strictNullChecks": true,
         "strictPropertyInitialization": true,
         "rootDirs": [],

@@ -93,7 +93,7 @@ export class JavaParseTreeWalker extends JavaParserListener {
         }
     }
 
-    public exitPackageDeclaration = (ctx: PackageDeclarationContext): void => {
+    public override exitPackageDeclaration = (ctx: PackageDeclarationContext): void => {
         const packageId = ctx.qualifiedName().getText();
         this.symbolTable.addNewSymbolOfType(PackageSymbol, this.symbolStack.peek(), ctx.qualifiedName().getText());
 
@@ -104,7 +104,7 @@ export class JavaParseTreeWalker extends JavaParserListener {
 
     };
 
-    public exitImportDeclaration = (ctx: ImportDeclarationContext): void => {
+    public override exitImportDeclaration = (ctx: ImportDeclarationContext): void => {
         const packageId = ctx.qualifiedName().getText();
         this.symbolTable.addNewSymbolOfType(ImportSymbol, this.symbolStack.peek(), packageId);
 
@@ -120,15 +120,15 @@ export class JavaParseTreeWalker extends JavaParserListener {
 
     };
 
-    public enterBlock = (ctx: BlockContext): void => {
+    public override enterBlock = (ctx: BlockContext): void => {
         this.pushNewScope(BlockSymbol, "#block#", ctx);
     };
 
-    public exitBlock = (): void => {
+    public override exitBlock = (): void => {
         this.symbolStack.pop();
     };
 
-    public enterClassDeclaration = (ctx: ClassDeclarationContext): void => {
+    public override enterClassDeclaration = (ctx: ClassDeclarationContext): void => {
         const symbol = this.pushNewScope(JavaClassSymbol, ctx.identifier().getText(), ctx);
         if (ctx.typeParameters()) {
             symbol.typeParameters = ctx.typeParameters()!.getText();
@@ -136,72 +136,72 @@ export class JavaParseTreeWalker extends JavaParserListener {
         this.checkStatic(symbol);
     };
 
-    public exitClassDeclaration = (): void => {
+    public override exitClassDeclaration = (): void => {
         this.symbolStack.pop();
     };
 
-    public enterClassBodyDeclaration = (ctx: ClassBodyDeclarationContext): void => {
+    public override enterClassBodyDeclaration = (ctx: ClassBodyDeclarationContext): void => {
         if (ctx.block()) {
             const symbol = this.pushNewScope(InitializerBlockSymbol, "#initializer#", ctx);
             symbol.isStatic = ctx.STATIC() !== undefined;
         }
     };
 
-    public exitClassBodyDeclaration = (): void => {
+    public override exitClassBodyDeclaration = (): void => {
         if (this.symbolStack.peek().name === "#initializer#") {
             this.symbolStack.pop();
         }
     };
 
-    public enterClassCreatorRest = (ctx: ClassCreatorRestContext): void => {
+    public override enterClassCreatorRest = (ctx: ClassCreatorRestContext): void => {
         if (ctx.classBody()) { // Anonymous class.
             this.pushNewScope(ClassCreatorSymbol, "#anonymous-class#", ctx);
         }
     };
 
-    public exitClassCreatorRest = (): void => {
+    public override exitClassCreatorRest = (): void => {
         if (this.symbolStack.peek().name === "#anonymous-class#") {
             this.symbolStack.pop();
         }
     };
 
-    public enterAnnotationTypeBody = (ctx: AnnotationTypeBodyContext): void => {
+    public override enterAnnotationTypeBody = (ctx: AnnotationTypeBodyContext): void => {
         this.pushNewScope(AnnotationSymbol, "#annotationTypeBody#", ctx);
     };
 
-    public exitAnnotationTypeBody = (): void => {
+    public override exitAnnotationTypeBody = (): void => {
         this.symbolStack.pop();
     };
 
-    public enterMethodDeclaration = (ctx: MethodDeclarationContext): void => {
+    public override enterMethodDeclaration = (ctx: MethodDeclarationContext): void => {
         const symbol = this.pushNewScope(MethodSymbol, ctx.identifier().getText(), ctx);
         this.checkStatic(symbol);
     };
 
-    public exitMethodDeclaration = (): void => {
+    public override exitMethodDeclaration = (): void => {
         this.symbolStack.pop();
     };
 
-    public enterInterfaceMethodDeclaration = (ctx: InterfaceMethodDeclarationContext): void => {
+    public override enterInterfaceMethodDeclaration = (ctx: InterfaceMethodDeclarationContext): void => {
         const symbol = this.pushNewScope(MethodSymbol,
             ctx.interfaceCommonBodyDeclaration().identifier().getText(), ctx);
         symbol.modifiers.add(Modifier.Static);
     };
 
-    public exitInterfaceMethodDeclaration = (): void => {
+    public override exitInterfaceMethodDeclaration = (): void => {
         this.symbolStack.pop();
     };
 
-    public enterConstructorDeclaration = (ctx: ConstructorDeclarationContext): void => {
+    public override enterConstructorDeclaration = (ctx: ConstructorDeclarationContext): void => {
         const symbol = this.pushNewScope(ConstructorSymbol, ctx.identifier().getText(), ctx);
         this.checkStatic(symbol);
     };
 
-    public exitConstructorDeclaration = (): void => {
+    public override exitConstructorDeclaration = (): void => {
         this.symbolStack.pop();
     };
 
-    public enterInterfaceDeclaration = (ctx: InterfaceDeclarationContext): void => {
+    public override enterInterfaceDeclaration = (ctx: InterfaceDeclarationContext): void => {
         const symbol = this.pushNewScope(JavaInterfaceSymbol, ctx.identifier().getText(), ctx);
         if (ctx.typeParameters()) {
             symbol.typeParameters = ctx.typeParameters()!.getText();
@@ -237,19 +237,19 @@ export class JavaParseTreeWalker extends JavaParserListener {
 
     };
 
-    public exitInterfaceDeclaration = (): void => {
+    public override exitInterfaceDeclaration = (): void => {
         this.symbolStack.pop();
     };
 
-    public enterAnnotationTypeDeclaration = (ctx: AnnotationTypeDeclarationContext): void => {
+    public override enterAnnotationTypeDeclaration = (ctx: AnnotationTypeDeclarationContext): void => {
         this.pushNewScope(AnnotationSymbol, ctx.identifier().getText(), ctx);
     };
 
-    public exitAnnotationTypeDeclaration = (): void => {
+    public override exitAnnotationTypeDeclaration = (): void => {
         this.symbolStack.pop();
     };
 
-    public enterEnumDeclaration = (ctx: EnumDeclarationContext): void => {
+    public override enterEnumDeclaration = (ctx: EnumDeclarationContext): void => {
         const symbol = this.pushNewScope(EnumSymbol, ctx.identifier().getText(), ctx);
         if (this.enumSymbol) {
             symbol.extends.push(this.enumSymbol);
@@ -257,26 +257,26 @@ export class JavaParseTreeWalker extends JavaParserListener {
         }
     };
 
-    public exitEnumConstant = (ctx: EnumConstantContext): void => {
+    public override exitEnumConstant = (ctx: EnumConstantContext): void => {
         const block = this.symbolStack.peek();
         this.symbolTable.addNewSymbolOfType(EnumConstantSymbol, block, ctx.identifier().getText());
     };
 
-    public exitEnumDeclaration = (): void => {
+    public override exitEnumDeclaration = (): void => {
         this.symbolStack.pop();
     };
 
-    public enterExpression = (ctx: ExpressionContext): void => {
+    public override enterExpression = (ctx: ExpressionContext): void => {
         // Pushing an own symbol for an expression gives us an anchor point for symbol search also with
         // references to higher scopes.
         this.pushNewScope(BlockSymbol, "#expression#", ctx);
     };
 
-    public exitExpression = (): void => {
+    public override exitExpression = (): void => {
         this.symbolStack.pop();
     };
 
-    public enterEnhancedForControl = (ctx: EnhancedForControlContext): void => {
+    public override enterEnhancedForControl = (ctx: EnhancedForControlContext): void => {
         const block = this.symbolStack.peek();
 
         if (ctx.typeType()) {
@@ -294,7 +294,7 @@ export class JavaParseTreeWalker extends JavaParserListener {
         }
     };
 
-    public enterLocalVariableDeclaration = (ctx: LocalVariableDeclarationContext): void => {
+    public override enterLocalVariableDeclaration = (ctx: LocalVariableDeclarationContext): void => {
         const block = this.symbolStack.peek();
         const type = this.generateTypeRecord(ctx.typeType().getText());
         ctx.variableDeclarators().variableDeclarator().forEach((declarator) => {
@@ -305,7 +305,7 @@ export class JavaParseTreeWalker extends JavaParserListener {
         });
     };
 
-    public enterFieldDeclaration = (ctx: FieldDeclarationContext): void => {
+    public override enterFieldDeclaration = (ctx: FieldDeclarationContext): void => {
         const block = this.symbolStack.peek();
 
         const type = this.generateTypeRecord(ctx.typeType().getText());
@@ -317,14 +317,14 @@ export class JavaParseTreeWalker extends JavaParserListener {
         });
     };
 
-    public enterConstantDeclarator = (ctx: ConstantDeclaratorContext): void => {
+    public override enterConstantDeclarator = (ctx: ConstantDeclaratorContext): void => {
         const block = this.symbolStack.peek();
 
         const symbol = this.symbolTable.addNewSymbolOfType(FieldSymbol, block, ctx.identifier().getText(), undefined);
         symbol.context = ctx;
     };
 
-    public enterFormalParameter = (ctx: FormalParameterContext): void => {
+    public override enterFormalParameter = (ctx: FormalParameterContext): void => {
         const block = this.symbolStack.peek();
 
         const type = this.generateTypeRecord(ctx.typeType().getText());
@@ -334,7 +334,7 @@ export class JavaParseTreeWalker extends JavaParserListener {
         this.checkStatic(symbol);
     };
 
-    public enterCatchClause = (ctx: CatchClauseContext): void => {
+    public override enterCatchClause = (ctx: CatchClauseContext): void => {
         const block = this.pushNewScope(BlockSymbol, "#catch#", ctx);
 
         // Can be a union type, but we ignore that here.
@@ -344,19 +344,19 @@ export class JavaParseTreeWalker extends JavaParserListener {
         symbol.context = ctx;
     };
 
-    public exitCatchClause = (): void => {
+    public override exitCatchClause = (): void => {
         this.symbolStack.pop();
     };
 
-    public enterSwitchBlockStatementGroup = (ctx: SwitchBlockStatementGroupContext): void => {
+    public override enterSwitchBlockStatementGroup = (ctx: SwitchBlockStatementGroupContext): void => {
         this.pushNewScope(SwitchBlockGroup, "#switchBlockGroup", ctx);
     };
 
-    public exitSwitchBlockStatementGroup = (): void => {
+    public override exitSwitchBlockStatementGroup = (): void => {
         this.symbolStack.pop();
     };
 
-    public visitTerminal = (_node: TerminalNode): void => { /**/ };
+    public override visitTerminal = (_node: TerminalNode): void => { /**/ };
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     private pushNewScope = <T extends ScopedSymbol>(t: new (...args: any[]) => T, name: string,
