@@ -5,7 +5,7 @@
 
 import fs from "fs";
 
-import { CharStream, CharStreams, CommonTokenStream, Interval, ParseTree } from "antlr4ng";
+import { CharStream, CommonTokenStream, Interval, ParseTree } from "antlr4ng";
 
 import { JavaLexer } from "../parser/generated/JavaLexer.js";
 import { JavaParser, CompilationUnitContext } from "../parser/generated/JavaParser.js";
@@ -60,7 +60,7 @@ export class JavaFileSource extends PackageSource {
     };
 
     protected override textFromInterval = (interval: Interval): string => {
-        return this.fileParseInfo?.inputStream.getText(interval) ?? "";
+        return this.fileParseInfo?.inputStream.getTextFromInterval(interval) ?? "";
     };
 
     private parse = (): void => {
@@ -75,7 +75,7 @@ export class JavaFileSource extends PackageSource {
             content = content.replace(pattern, value);
         });
 
-        const inputStream = CharStreams.fromString(content);
+        const inputStream = CharStream.fromString(content);
         const lexer = new JavaLexer(inputStream);
         const tokenStream = new CommonTokenStream(lexer);
         const parser = new JavaParser(tokenStream);

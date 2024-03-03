@@ -672,14 +672,14 @@ export class FileProcessor {
     private processElementValueArrayInitializer = (builder: java.lang.StringBuilder,
         context: ElementValueArrayInitializerContext | null): void => {
         if (context) {
-            let ws = this.getLeadingWhiteSpaces(context.LBRACE()!);
+            let ws = this.getLeadingWhiteSpaces(context.LBRACE());
             builder.append(ws);
             builder.append("[");
             context.elementValue().forEach((value) => {
                 this.processElementValue(builder, value);
             });
 
-            ws = this.getLeadingWhiteSpaces(context.RBRACE()!);
+            ws = this.getLeadingWhiteSpaces(context.RBRACE());
             builder.append(ws);
             builder.append("]");
         }
@@ -2666,7 +2666,7 @@ export class FileProcessor {
                 builder.append(methodName);
             } else {
                 // Check if there's a qualifier for this call. If not try to resolve the method to a known symbol.
-                const expression = context.parent as ExpressionContext;
+                const expression = context.parent as ParserRuleContext as ExpressionContext;
                 let info: string | ISymbolInfo | undefined;
                 if (expression.expression().length === 0) {
                     info = this.resolveType(context, methodName);

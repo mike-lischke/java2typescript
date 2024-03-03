@@ -425,7 +425,6 @@ export class JavaParser extends antlr.Parser {
         }
         catch (re) {
             if (re instanceof antlr.RecognitionException) {
-                localContext.exception = re;
                 this.errorHandler.reportError(this, re);
                 this.errorHandler.recover(this, re);
             } else {
@@ -468,7 +467,6 @@ export class JavaParser extends antlr.Parser {
         }
         catch (re) {
             if (re instanceof antlr.RecognitionException) {
-                localContext.exception = re;
                 this.errorHandler.reportError(this, re);
                 this.errorHandler.recover(this, re);
             } else {
@@ -519,7 +517,6 @@ export class JavaParser extends antlr.Parser {
         }
         catch (re) {
             if (re instanceof antlr.RecognitionException) {
-                localContext.exception = re;
                 this.errorHandler.reportError(this, re);
                 this.errorHandler.recover(this, re);
             } else {
@@ -636,7 +633,6 @@ export class JavaParser extends antlr.Parser {
         }
         catch (re) {
             if (re instanceof antlr.RecognitionException) {
-                localContext.exception = re;
                 this.errorHandler.reportError(this, re);
                 this.errorHandler.recover(this, re);
             } else {
@@ -720,7 +716,6 @@ export class JavaParser extends antlr.Parser {
         }
         catch (re) {
             if (re instanceof antlr.RecognitionException) {
-                localContext.exception = re;
                 this.errorHandler.reportError(this, re);
                 this.errorHandler.recover(this, re);
             } else {
@@ -813,7 +808,6 @@ export class JavaParser extends antlr.Parser {
         }
         catch (re) {
             if (re instanceof antlr.RecognitionException) {
-                localContext.exception = re;
                 this.errorHandler.reportError(this, re);
                 this.errorHandler.recover(this, re);
             } else {
@@ -868,7 +862,6 @@ export class JavaParser extends antlr.Parser {
         }
         catch (re) {
             if (re instanceof antlr.RecognitionException) {
-                localContext.exception = re;
                 this.errorHandler.reportError(this, re);
                 this.errorHandler.recover(this, re);
             } else {
@@ -943,7 +936,6 @@ export class JavaParser extends antlr.Parser {
         }
         catch (re) {
             if (re instanceof antlr.RecognitionException) {
-                localContext.exception = re;
                 this.errorHandler.reportError(this, re);
                 this.errorHandler.recover(this, re);
             } else {
@@ -988,7 +980,6 @@ export class JavaParser extends antlr.Parser {
         }
         catch (re) {
             if (re instanceof antlr.RecognitionException) {
-                localContext.exception = re;
                 this.errorHandler.reportError(this, re);
                 this.errorHandler.recover(this, re);
             } else {
@@ -1058,7 +1049,6 @@ export class JavaParser extends antlr.Parser {
         }
         catch (re) {
             if (re instanceof antlr.RecognitionException) {
-                localContext.exception = re;
                 this.errorHandler.reportError(this, re);
                 this.errorHandler.recover(this, re);
             } else {
@@ -1099,7 +1089,6 @@ export class JavaParser extends antlr.Parser {
         }
         catch (re) {
             if (re instanceof antlr.RecognitionException) {
-                localContext.exception = re;
                 this.errorHandler.reportError(this, re);
                 this.errorHandler.recover(this, re);
             } else {
@@ -1172,7 +1161,6 @@ export class JavaParser extends antlr.Parser {
         }
         catch (re) {
             if (re instanceof antlr.RecognitionException) {
-                localContext.exception = re;
                 this.errorHandler.reportError(this, re);
                 this.errorHandler.recover(this, re);
             } else {
@@ -1215,7 +1203,6 @@ export class JavaParser extends antlr.Parser {
         }
         catch (re) {
             if (re instanceof antlr.RecognitionException) {
-                localContext.exception = re;
                 this.errorHandler.reportError(this, re);
                 this.errorHandler.recover(this, re);
             } else {
@@ -1277,7 +1264,6 @@ export class JavaParser extends antlr.Parser {
         }
         catch (re) {
             if (re instanceof antlr.RecognitionException) {
-                localContext.exception = re;
                 this.errorHandler.reportError(this, re);
                 this.errorHandler.recover(this, re);
             } else {
@@ -1316,7 +1302,6 @@ export class JavaParser extends antlr.Parser {
         }
         catch (re) {
             if (re instanceof antlr.RecognitionException) {
-                localContext.exception = re;
                 this.errorHandler.reportError(this, re);
                 this.errorHandler.recover(this, re);
             } else {
@@ -1367,7 +1352,6 @@ export class JavaParser extends antlr.Parser {
         }
         catch (re) {
             if (re instanceof antlr.RecognitionException) {
-                localContext.exception = re;
                 this.errorHandler.reportError(this, re);
                 this.errorHandler.recover(this, re);
             } else {
@@ -1408,7 +1392,6 @@ export class JavaParser extends antlr.Parser {
         }
         catch (re) {
             if (re instanceof antlr.RecognitionException) {
-                localContext.exception = re;
                 this.errorHandler.reportError(this, re);
                 this.errorHandler.recover(this, re);
             } else {
@@ -1449,7 +1432,6 @@ export class JavaParser extends antlr.Parser {
         }
         catch (re) {
             if (re instanceof antlr.RecognitionException) {
-                localContext.exception = re;
                 this.errorHandler.reportError(this, re);
                 this.errorHandler.recover(this, re);
             } else {
@@ -1521,7 +1503,6 @@ export class JavaParser extends antlr.Parser {
         }
         catch (re) {
             if (re instanceof antlr.RecognitionException) {
-                localContext.exception = re;
                 this.errorHandler.reportError(this, re);
                 this.errorHandler.recover(this, re);
             } else {
@@ -1614,7 +1595,6 @@ export class JavaParser extends antlr.Parser {
         }
         catch (re) {
             if (re instanceof antlr.RecognitionException) {
-                localContext.exception = re;
                 this.errorHandler.reportError(this, re);
                 this.errorHandler.recover(this, re);
             } else {
@@ -1673,7 +1653,6 @@ export class JavaParser extends antlr.Parser {
         }
         catch (re) {
             if (re instanceof antlr.RecognitionException) {
-                localContext.exception = re;
                 this.errorHandler.reportError(this, re);
                 this.errorHandler.recover(this, re);
             } else {
@@ -1712,7 +1691,6 @@ export class JavaParser extends antlr.Parser {
         }
         catch (re) {
             if (re instanceof antlr.RecognitionException) {
-                localContext.exception = re;
                 this.errorHandler.reportError(this, re);
                 this.errorHandler.recover(this, re);
             } else {
@@ -1775,7 +1753,6 @@ export class JavaParser extends antlr.Parser {
         }
         catch (re) {
             if (re instanceof antlr.RecognitionException) {
-                localContext.exception = re;
                 this.errorHandler.reportError(this, re);
                 this.errorHandler.recover(this, re);
             } else {
@@ -1801,7 +1778,6 @@ export class JavaParser extends antlr.Parser {
         }
         catch (re) {
             if (re instanceof antlr.RecognitionException) {
-                localContext.exception = re;
                 this.errorHandler.reportError(this, re);
                 this.errorHandler.recover(this, re);
             } else {
@@ -1827,7 +1803,6 @@ export class JavaParser extends antlr.Parser {
         }
         catch (re) {
             if (re instanceof antlr.RecognitionException) {
-                localContext.exception = re;
                 this.errorHandler.reportError(this, re);
                 this.errorHandler.recover(this, re);
             } else {
@@ -1868,7 +1843,6 @@ export class JavaParser extends antlr.Parser {
         }
         catch (re) {
             if (re instanceof antlr.RecognitionException) {
-                localContext.exception = re;
                 this.errorHandler.reportError(this, re);
                 this.errorHandler.recover(this, re);
             } else {
@@ -1896,7 +1870,6 @@ export class JavaParser extends antlr.Parser {
         }
         catch (re) {
             if (re instanceof antlr.RecognitionException) {
-                localContext.exception = re;
                 this.errorHandler.reportError(this, re);
                 this.errorHandler.recover(this, re);
             } else {
@@ -1994,7 +1967,6 @@ export class JavaParser extends antlr.Parser {
         }
         catch (re) {
             if (re instanceof antlr.RecognitionException) {
-                localContext.exception = re;
                 this.errorHandler.reportError(this, re);
                 this.errorHandler.recover(this, re);
             } else {
@@ -2073,7 +2045,6 @@ export class JavaParser extends antlr.Parser {
         }
         catch (re) {
             if (re instanceof antlr.RecognitionException) {
-                localContext.exception = re;
                 this.errorHandler.reportError(this, re);
                 this.errorHandler.recover(this, re);
             } else {
@@ -2118,7 +2089,6 @@ export class JavaParser extends antlr.Parser {
         }
         catch (re) {
             if (re instanceof antlr.RecognitionException) {
-                localContext.exception = re;
                 this.errorHandler.reportError(this, re);
                 this.errorHandler.recover(this, re);
             } else {
@@ -2163,7 +2133,6 @@ export class JavaParser extends antlr.Parser {
         }
         catch (re) {
             if (re instanceof antlr.RecognitionException) {
-                localContext.exception = re;
                 this.errorHandler.reportError(this, re);
                 this.errorHandler.recover(this, re);
             } else {
@@ -2204,7 +2173,6 @@ export class JavaParser extends antlr.Parser {
         }
         catch (re) {
             if (re instanceof antlr.RecognitionException) {
-                localContext.exception = re;
                 this.errorHandler.reportError(this, re);
                 this.errorHandler.recover(this, re);
             } else {
@@ -2287,7 +2255,6 @@ export class JavaParser extends antlr.Parser {
         }
         catch (re) {
             if (re instanceof antlr.RecognitionException) {
-                localContext.exception = re;
                 this.errorHandler.reportError(this, re);
                 this.errorHandler.recover(this, re);
             } else {
@@ -2328,7 +2295,6 @@ export class JavaParser extends antlr.Parser {
         }
         catch (re) {
             if (re instanceof antlr.RecognitionException) {
-                localContext.exception = re;
                 this.errorHandler.reportError(this, re);
                 this.errorHandler.recover(this, re);
             } else {
@@ -2404,7 +2370,6 @@ export class JavaParser extends antlr.Parser {
         }
         catch (re) {
             if (re instanceof antlr.RecognitionException) {
-                localContext.exception = re;
                 this.errorHandler.reportError(this, re);
                 this.errorHandler.recover(this, re);
             } else {
@@ -2445,7 +2410,6 @@ export class JavaParser extends antlr.Parser {
         }
         catch (re) {
             if (re instanceof antlr.RecognitionException) {
-                localContext.exception = re;
                 this.errorHandler.reportError(this, re);
                 this.errorHandler.recover(this, re);
             } else {
@@ -2482,7 +2446,6 @@ export class JavaParser extends antlr.Parser {
         }
         catch (re) {
             if (re instanceof antlr.RecognitionException) {
-                localContext.exception = re;
                 this.errorHandler.reportError(this, re);
                 this.errorHandler.recover(this, re);
             } else {
@@ -2523,7 +2486,6 @@ export class JavaParser extends antlr.Parser {
         }
         catch (re) {
             if (re instanceof antlr.RecognitionException) {
-                localContext.exception = re;
                 this.errorHandler.reportError(this, re);
                 this.errorHandler.recover(this, re);
             } else {
@@ -2610,7 +2572,6 @@ export class JavaParser extends antlr.Parser {
         }
         catch (re) {
             if (re instanceof antlr.RecognitionException) {
-                localContext.exception = re;
                 this.errorHandler.reportError(this, re);
                 this.errorHandler.recover(this, re);
             } else {
@@ -2676,7 +2637,6 @@ export class JavaParser extends antlr.Parser {
         }
         catch (re) {
             if (re instanceof antlr.RecognitionException) {
-                localContext.exception = re;
                 this.errorHandler.reportError(this, re);
                 this.errorHandler.recover(this, re);
             } else {
@@ -2739,7 +2699,6 @@ export class JavaParser extends antlr.Parser {
         }
         catch (re) {
             if (re instanceof antlr.RecognitionException) {
-                localContext.exception = re;
                 this.errorHandler.reportError(this, re);
                 this.errorHandler.recover(this, re);
             } else {
@@ -2810,7 +2769,6 @@ export class JavaParser extends antlr.Parser {
         }
         catch (re) {
             if (re instanceof antlr.RecognitionException) {
-                localContext.exception = re;
                 this.errorHandler.reportError(this, re);
                 this.errorHandler.recover(this, re);
             } else {
@@ -2851,7 +2809,6 @@ export class JavaParser extends antlr.Parser {
         }
         catch (re) {
             if (re instanceof antlr.RecognitionException) {
-                localContext.exception = re;
                 this.errorHandler.reportError(this, re);
                 this.errorHandler.recover(this, re);
             } else {
@@ -2928,7 +2885,6 @@ export class JavaParser extends antlr.Parser {
         }
         catch (re) {
             if (re instanceof antlr.RecognitionException) {
-                localContext.exception = re;
                 this.errorHandler.reportError(this, re);
                 this.errorHandler.recover(this, re);
             } else {
@@ -2971,7 +2927,6 @@ export class JavaParser extends antlr.Parser {
         }
         catch (re) {
             if (re instanceof antlr.RecognitionException) {
-                localContext.exception = re;
                 this.errorHandler.reportError(this, re);
                 this.errorHandler.recover(this, re);
             } else {
@@ -3040,7 +2995,6 @@ export class JavaParser extends antlr.Parser {
         }
         catch (re) {
             if (re instanceof antlr.RecognitionException) {
-                localContext.exception = re;
                 this.errorHandler.reportError(this, re);
                 this.errorHandler.recover(this, re);
             } else {
@@ -3083,7 +3037,6 @@ export class JavaParser extends antlr.Parser {
         }
         catch (re) {
             if (re instanceof antlr.RecognitionException) {
-                localContext.exception = re;
                 this.errorHandler.reportError(this, re);
                 this.errorHandler.recover(this, re);
             } else {
@@ -3143,7 +3096,6 @@ export class JavaParser extends antlr.Parser {
         }
         catch (re) {
             if (re instanceof antlr.RecognitionException) {
-                localContext.exception = re;
                 this.errorHandler.reportError(this, re);
                 this.errorHandler.recover(this, re);
             } else {
@@ -3184,7 +3136,6 @@ export class JavaParser extends antlr.Parser {
         }
         catch (re) {
             if (re instanceof antlr.RecognitionException) {
-                localContext.exception = re;
                 this.errorHandler.reportError(this, re);
                 this.errorHandler.recover(this, re);
             } else {
@@ -3227,7 +3178,6 @@ export class JavaParser extends antlr.Parser {
         }
         catch (re) {
             if (re instanceof antlr.RecognitionException) {
-                localContext.exception = re;
                 this.errorHandler.reportError(this, re);
                 this.errorHandler.recover(this, re);
             } else {
@@ -3270,7 +3220,6 @@ export class JavaParser extends antlr.Parser {
         }
         catch (re) {
             if (re instanceof antlr.RecognitionException) {
-                localContext.exception = re;
                 this.errorHandler.reportError(this, re);
                 this.errorHandler.recover(this, re);
             } else {
@@ -3348,7 +3297,6 @@ export class JavaParser extends antlr.Parser {
         }
         catch (re) {
             if (re instanceof antlr.RecognitionException) {
-                localContext.exception = re;
                 this.errorHandler.reportError(this, re);
                 this.errorHandler.recover(this, re);
             } else {
@@ -3380,7 +3328,6 @@ export class JavaParser extends antlr.Parser {
         }
         catch (re) {
             if (re instanceof antlr.RecognitionException) {
-                localContext.exception = re;
                 this.errorHandler.reportError(this, re);
                 this.errorHandler.recover(this, re);
             } else {
@@ -3412,7 +3359,6 @@ export class JavaParser extends antlr.Parser {
         }
         catch (re) {
             if (re instanceof antlr.RecognitionException) {
-                localContext.exception = re;
                 this.errorHandler.reportError(this, re);
                 this.errorHandler.recover(this, re);
             } else {
@@ -3455,7 +3401,6 @@ export class JavaParser extends antlr.Parser {
         }
         catch (re) {
             if (re instanceof antlr.RecognitionException) {
-                localContext.exception = re;
                 this.errorHandler.reportError(this, re);
                 this.errorHandler.recover(this, re);
             } else {
@@ -3524,7 +3469,6 @@ export class JavaParser extends antlr.Parser {
         }
         catch (re) {
             if (re instanceof antlr.RecognitionException) {
-                localContext.exception = re;
                 this.errorHandler.reportError(this, re);
                 this.errorHandler.recover(this, re);
             } else {
@@ -3565,7 +3509,6 @@ export class JavaParser extends antlr.Parser {
         }
         catch (re) {
             if (re instanceof antlr.RecognitionException) {
-                localContext.exception = re;
                 this.errorHandler.reportError(this, re);
                 this.errorHandler.recover(this, re);
             } else {
@@ -3593,7 +3536,6 @@ export class JavaParser extends antlr.Parser {
         }
         catch (re) {
             if (re instanceof antlr.RecognitionException) {
-                localContext.exception = re;
                 this.errorHandler.reportError(this, re);
                 this.errorHandler.recover(this, re);
             } else {
@@ -3637,7 +3579,6 @@ export class JavaParser extends antlr.Parser {
         }
         catch (re) {
             if (re instanceof antlr.RecognitionException) {
-                localContext.exception = re;
                 this.errorHandler.reportError(this, re);
                 this.errorHandler.recover(this, re);
             } else {
@@ -3703,7 +3644,6 @@ export class JavaParser extends antlr.Parser {
         }
         catch (re) {
             if (re instanceof antlr.RecognitionException) {
-                localContext.exception = re;
                 this.errorHandler.reportError(this, re);
                 this.errorHandler.recover(this, re);
             } else {
@@ -3733,7 +3673,6 @@ export class JavaParser extends antlr.Parser {
         }
         catch (re) {
             if (re instanceof antlr.RecognitionException) {
-                localContext.exception = re;
                 this.errorHandler.reportError(this, re);
                 this.errorHandler.recover(this, re);
             } else {
@@ -3774,7 +3713,6 @@ export class JavaParser extends antlr.Parser {
         }
         catch (re) {
             if (re instanceof antlr.RecognitionException) {
-                localContext.exception = re;
                 this.errorHandler.reportError(this, re);
                 this.errorHandler.recover(this, re);
             } else {
@@ -3869,7 +3807,6 @@ export class JavaParser extends antlr.Parser {
         }
         catch (re) {
             if (re instanceof antlr.RecognitionException) {
-                localContext.exception = re;
                 this.errorHandler.reportError(this, re);
                 this.errorHandler.recover(this, re);
             } else {
@@ -3988,7 +3925,6 @@ export class JavaParser extends antlr.Parser {
         }
         catch (re) {
             if (re instanceof antlr.RecognitionException) {
-                localContext.exception = re;
                 this.errorHandler.reportError(this, re);
                 this.errorHandler.recover(this, re);
             } else {
@@ -4025,7 +3961,6 @@ export class JavaParser extends antlr.Parser {
         }
         catch (re) {
             if (re instanceof antlr.RecognitionException) {
-                localContext.exception = re;
                 this.errorHandler.reportError(this, re);
                 this.errorHandler.recover(this, re);
             } else {
@@ -4064,7 +3999,6 @@ export class JavaParser extends antlr.Parser {
         }
         catch (re) {
             if (re instanceof antlr.RecognitionException) {
-                localContext.exception = re;
                 this.errorHandler.reportError(this, re);
                 this.errorHandler.recover(this, re);
             } else {
@@ -4088,7 +4022,6 @@ export class JavaParser extends antlr.Parser {
         }
         catch (re) {
             if (re instanceof antlr.RecognitionException) {
-                localContext.exception = re;
                 this.errorHandler.reportError(this, re);
                 this.errorHandler.recover(this, re);
             } else {
@@ -4114,7 +4047,6 @@ export class JavaParser extends antlr.Parser {
         }
         catch (re) {
             if (re instanceof antlr.RecognitionException) {
-                localContext.exception = re;
                 this.errorHandler.reportError(this, re);
                 this.errorHandler.recover(this, re);
             } else {
@@ -4153,7 +4085,6 @@ export class JavaParser extends antlr.Parser {
         }
         catch (re) {
             if (re instanceof antlr.RecognitionException) {
-                localContext.exception = re;
                 this.errorHandler.reportError(this, re);
                 this.errorHandler.recover(this, re);
             } else {
@@ -4194,7 +4125,6 @@ export class JavaParser extends antlr.Parser {
         }
         catch (re) {
             if (re instanceof antlr.RecognitionException) {
-                localContext.exception = re;
                 this.errorHandler.reportError(this, re);
                 this.errorHandler.recover(this, re);
             } else {
@@ -4320,7 +4250,6 @@ export class JavaParser extends antlr.Parser {
         }
         catch (re) {
             if (re instanceof antlr.RecognitionException) {
-                localContext.exception = re;
                 this.errorHandler.reportError(this, re);
                 this.errorHandler.recover(this, re);
             } else {
@@ -4352,7 +4281,6 @@ export class JavaParser extends antlr.Parser {
         }
         catch (re) {
             if (re instanceof antlr.RecognitionException) {
-                localContext.exception = re;
                 this.errorHandler.reportError(this, re);
                 this.errorHandler.recover(this, re);
             } else {
@@ -4405,7 +4333,6 @@ export class JavaParser extends antlr.Parser {
         }
         catch (re) {
             if (re instanceof antlr.RecognitionException) {
-                localContext.exception = re;
                 this.errorHandler.reportError(this, re);
                 this.errorHandler.recover(this, re);
             } else {
@@ -4442,7 +4369,6 @@ export class JavaParser extends antlr.Parser {
         }
         catch (re) {
             if (re instanceof antlr.RecognitionException) {
-                localContext.exception = re;
                 this.errorHandler.reportError(this, re);
                 this.errorHandler.recover(this, re);
             } else {
@@ -4483,7 +4409,6 @@ export class JavaParser extends antlr.Parser {
         }
         catch (re) {
             if (re instanceof antlr.RecognitionException) {
-                localContext.exception = re;
                 this.errorHandler.reportError(this, re);
                 this.errorHandler.recover(this, re);
             } else {
@@ -4509,7 +4434,6 @@ export class JavaParser extends antlr.Parser {
         }
         catch (re) {
             if (re instanceof antlr.RecognitionException) {
-                localContext.exception = re;
                 this.errorHandler.reportError(this, re);
                 this.errorHandler.recover(this, re);
             } else {
@@ -4550,7 +4474,6 @@ export class JavaParser extends antlr.Parser {
         }
         catch (re) {
             if (re instanceof antlr.RecognitionException) {
-                localContext.exception = re;
                 this.errorHandler.reportError(this, re);
                 this.errorHandler.recover(this, re);
             } else {
@@ -4591,7 +4514,6 @@ export class JavaParser extends antlr.Parser {
         }
         catch (re) {
             if (re instanceof antlr.RecognitionException) {
-                localContext.exception = re;
                 this.errorHandler.reportError(this, re);
                 this.errorHandler.recover(this, re);
             } else {
@@ -4637,7 +4559,6 @@ export class JavaParser extends antlr.Parser {
         }
         catch (re) {
             if (re instanceof antlr.RecognitionException) {
-                localContext.exception = re;
                 this.errorHandler.reportError(this, re);
                 this.errorHandler.recover(this, re);
             } else {
@@ -4680,7 +4601,6 @@ export class JavaParser extends antlr.Parser {
         }
         catch (re) {
             if (re instanceof antlr.RecognitionException) {
-                localContext.exception = re;
                 this.errorHandler.reportError(this, re);
                 this.errorHandler.recover(this, re);
             } else {
@@ -4712,7 +4632,6 @@ export class JavaParser extends antlr.Parser {
         }
         catch (re) {
             if (re instanceof antlr.RecognitionException) {
-                localContext.exception = re;
                 this.errorHandler.reportError(this, re);
                 this.errorHandler.recover(this, re);
             } else {
@@ -4816,7 +4735,6 @@ export class JavaParser extends antlr.Parser {
         }
         catch (re) {
             if (re instanceof antlr.RecognitionException) {
-                localContext.exception = re;
                 this.errorHandler.reportError(this, re);
                 this.errorHandler.recover(this, re);
             } else {
@@ -5196,7 +5114,6 @@ export class JavaParser extends antlr.Parser {
         }
         catch (re) {
             if (re instanceof antlr.RecognitionException) {
-                localContext.exception = re;
                 this.errorHandler.reportError(this, re);
                 this.errorHandler.recover(this, re);
             } else {
@@ -5247,7 +5164,6 @@ export class JavaParser extends antlr.Parser {
         }
         catch (re) {
             if (re instanceof antlr.RecognitionException) {
-                localContext.exception = re;
                 this.errorHandler.reportError(this, re);
                 this.errorHandler.recover(this, re);
             } else {
@@ -5288,7 +5204,6 @@ export class JavaParser extends antlr.Parser {
         }
         catch (re) {
             if (re instanceof antlr.RecognitionException) {
-                localContext.exception = re;
                 this.errorHandler.reportError(this, re);
                 this.errorHandler.recover(this, re);
             } else {
@@ -5314,7 +5229,6 @@ export class JavaParser extends antlr.Parser {
         }
         catch (re) {
             if (re instanceof antlr.RecognitionException) {
-                localContext.exception = re;
                 this.errorHandler.reportError(this, re);
                 this.errorHandler.recover(this, re);
             } else {
@@ -5353,7 +5267,6 @@ export class JavaParser extends antlr.Parser {
         }
         catch (re) {
             if (re instanceof antlr.RecognitionException) {
-                localContext.exception = re;
                 this.errorHandler.reportError(this, re);
                 this.errorHandler.recover(this, re);
             } else {
@@ -5396,7 +5309,6 @@ export class JavaParser extends antlr.Parser {
         }
         catch (re) {
             if (re instanceof antlr.RecognitionException) {
-                localContext.exception = re;
                 this.errorHandler.reportError(this, re);
                 this.errorHandler.recover(this, re);
             } else {
@@ -5472,7 +5384,6 @@ export class JavaParser extends antlr.Parser {
         }
         catch (re) {
             if (re instanceof antlr.RecognitionException) {
-                localContext.exception = re;
                 this.errorHandler.reportError(this, re);
                 this.errorHandler.recover(this, re);
             } else {
@@ -5523,7 +5434,6 @@ export class JavaParser extends antlr.Parser {
         }
         catch (re) {
             if (re instanceof antlr.RecognitionException) {
-                localContext.exception = re;
                 this.errorHandler.reportError(this, re);
                 this.errorHandler.recover(this, re);
             } else {
@@ -5590,7 +5500,6 @@ export class JavaParser extends antlr.Parser {
         }
         catch (re) {
             if (re instanceof antlr.RecognitionException) {
-                localContext.exception = re;
                 this.errorHandler.reportError(this, re);
                 this.errorHandler.recover(this, re);
             } else {
@@ -5660,7 +5569,6 @@ export class JavaParser extends antlr.Parser {
         }
         catch (re) {
             if (re instanceof antlr.RecognitionException) {
-                localContext.exception = re;
                 this.errorHandler.reportError(this, re);
                 this.errorHandler.recover(this, re);
             } else {
@@ -5697,7 +5605,6 @@ export class JavaParser extends antlr.Parser {
         }
         catch (re) {
             if (re instanceof antlr.RecognitionException) {
-                localContext.exception = re;
                 this.errorHandler.reportError(this, re);
                 this.errorHandler.recover(this, re);
             } else {
@@ -5758,7 +5665,6 @@ export class JavaParser extends antlr.Parser {
         }
         catch (re) {
             if (re instanceof antlr.RecognitionException) {
-                localContext.exception = re;
                 this.errorHandler.reportError(this, re);
                 this.errorHandler.recover(this, re);
             } else {
@@ -5786,7 +5692,6 @@ export class JavaParser extends antlr.Parser {
         }
         catch (re) {
             if (re instanceof antlr.RecognitionException) {
-                localContext.exception = re;
                 this.errorHandler.reportError(this, re);
                 this.errorHandler.recover(this, re);
             } else {
@@ -5827,7 +5732,6 @@ export class JavaParser extends antlr.Parser {
         }
         catch (re) {
             if (re instanceof antlr.RecognitionException) {
-                localContext.exception = re;
                 this.errorHandler.reportError(this, re);
                 this.errorHandler.recover(this, re);
             } else {
@@ -5931,7 +5835,6 @@ export class JavaParser extends antlr.Parser {
         }
         catch (re) {
             if (re instanceof antlr.RecognitionException) {
-                localContext.exception = re;
                 this.errorHandler.reportError(this, re);
                 this.errorHandler.recover(this, re);
             } else {
@@ -6152,7 +6055,7 @@ export class JavaParser extends antlr.Parser {
             alternative = this.interpreter.adaptivePredict(this.tokenStream, 170, this.context);
             while (alternative !== 2 && alternative !== antlr.ATN.INVALID_ALT_NUMBER) {
                 if (alternative === 1) {
-                    if (this._parseListeners != null) {
+                    if (this.parseListeners != null) {
                         this.triggerExitRuleEvent();
                     }
                     previousContext = localContext;
@@ -6565,7 +6468,6 @@ export class JavaParser extends antlr.Parser {
         }
         catch (re) {
             if (re instanceof antlr.RecognitionException) {
-                localContext.exception = re;
                 this.errorHandler.reportError(this, re);
                 this.errorHandler.recover(this, re);
             } else {
@@ -6624,7 +6526,6 @@ export class JavaParser extends antlr.Parser {
         }
         catch (re) {
             if (re instanceof antlr.RecognitionException) {
-                localContext.exception = re;
                 this.errorHandler.reportError(this, re);
                 this.errorHandler.recover(this, re);
             } else {
@@ -6652,7 +6553,6 @@ export class JavaParser extends antlr.Parser {
         }
         catch (re) {
             if (re instanceof antlr.RecognitionException) {
-                localContext.exception = re;
                 this.errorHandler.reportError(this, re);
                 this.errorHandler.recover(this, re);
             } else {
@@ -6748,7 +6648,6 @@ export class JavaParser extends antlr.Parser {
         }
         catch (re) {
             if (re instanceof antlr.RecognitionException) {
-                localContext.exception = re;
                 this.errorHandler.reportError(this, re);
                 this.errorHandler.recover(this, re);
             } else {
@@ -6835,7 +6734,6 @@ export class JavaParser extends antlr.Parser {
         }
         catch (re) {
             if (re instanceof antlr.RecognitionException) {
-                localContext.exception = re;
                 this.errorHandler.reportError(this, re);
                 this.errorHandler.recover(this, re);
             } else {
@@ -6951,7 +6849,6 @@ export class JavaParser extends antlr.Parser {
         }
         catch (re) {
             if (re instanceof antlr.RecognitionException) {
-                localContext.exception = re;
                 this.errorHandler.reportError(this, re);
                 this.errorHandler.recover(this, re);
             } else {
@@ -6996,7 +6893,6 @@ export class JavaParser extends antlr.Parser {
         }
         catch (re) {
             if (re instanceof antlr.RecognitionException) {
-                localContext.exception = re;
                 this.errorHandler.reportError(this, re);
                 this.errorHandler.recover(this, re);
             } else {
@@ -7080,7 +6976,6 @@ export class JavaParser extends antlr.Parser {
         }
         catch (re) {
             if (re instanceof antlr.RecognitionException) {
-                localContext.exception = re;
                 this.errorHandler.reportError(this, re);
                 this.errorHandler.recover(this, re);
             } else {
@@ -7215,7 +7110,7 @@ export class JavaParser extends antlr.Parser {
             alternative = this.interpreter.adaptivePredict(this.tokenStream, 187, this.context);
             while (alternative !== 2 && alternative !== antlr.ATN.INVALID_ALT_NUMBER) {
                 if (alternative === 1) {
-                    if (this._parseListeners != null) {
+                    if (this.parseListeners != null) {
                         this.triggerExitRuleEvent();
                     }
                     previousContext = localContext;
@@ -7242,7 +7137,6 @@ export class JavaParser extends antlr.Parser {
         }
         catch (re) {
             if (re instanceof antlr.RecognitionException) {
-                localContext.exception = re;
                 this.errorHandler.reportError(this, re);
                 this.errorHandler.recover(this, re);
             } else {
@@ -7292,7 +7186,6 @@ export class JavaParser extends antlr.Parser {
         }
         catch (re) {
             if (re instanceof antlr.RecognitionException) {
-                localContext.exception = re;
                 this.errorHandler.reportError(this, re);
                 this.errorHandler.recover(this, re);
             } else {
@@ -7356,7 +7249,6 @@ export class JavaParser extends antlr.Parser {
         }
         catch (re) {
             if (re instanceof antlr.RecognitionException) {
-                localContext.exception = re;
                 this.errorHandler.reportError(this, re);
                 this.errorHandler.recover(this, re);
             } else {
@@ -7440,7 +7332,6 @@ export class JavaParser extends antlr.Parser {
         }
         catch (re) {
             if (re instanceof antlr.RecognitionException) {
-                localContext.exception = re;
                 this.errorHandler.reportError(this, re);
                 this.errorHandler.recover(this, re);
             } else {
@@ -7538,7 +7429,6 @@ export class JavaParser extends antlr.Parser {
         }
         catch (re) {
             if (re instanceof antlr.RecognitionException) {
-                localContext.exception = re;
                 this.errorHandler.reportError(this, re);
                 this.errorHandler.recover(this, re);
             } else {
@@ -7575,7 +7465,6 @@ export class JavaParser extends antlr.Parser {
         }
         catch (re) {
             if (re instanceof antlr.RecognitionException) {
-                localContext.exception = re;
                 this.errorHandler.reportError(this, re);
                 this.errorHandler.recover(this, re);
             } else {
@@ -7725,7 +7614,6 @@ export class JavaParser extends antlr.Parser {
         }
         catch (re) {
             if (re instanceof antlr.RecognitionException) {
-                localContext.exception = re;
                 this.errorHandler.reportError(this, re);
                 this.errorHandler.recover(this, re);
             } else {
@@ -7759,7 +7647,6 @@ export class JavaParser extends antlr.Parser {
         }
         catch (re) {
             if (re instanceof antlr.RecognitionException) {
-                localContext.exception = re;
                 this.errorHandler.reportError(this, re);
                 this.errorHandler.recover(this, re);
             } else {
@@ -7785,7 +7672,6 @@ export class JavaParser extends antlr.Parser {
         }
         catch (re) {
             if (re instanceof antlr.RecognitionException) {
-                localContext.exception = re;
                 this.errorHandler.reportError(this, re);
                 this.errorHandler.recover(this, re);
             } else {
@@ -7824,7 +7710,6 @@ export class JavaParser extends antlr.Parser {
         }
         catch (re) {
             if (re instanceof antlr.RecognitionException) {
-                localContext.exception = re;
                 this.errorHandler.reportError(this, re);
                 this.errorHandler.recover(this, re);
             } else {
@@ -7863,7 +7748,6 @@ export class JavaParser extends antlr.Parser {
         }
         catch (re) {
             if (re instanceof antlr.RecognitionException) {
-                localContext.exception = re;
                 this.errorHandler.reportError(this, re);
                 this.errorHandler.recover(this, re);
             } else {
@@ -7891,7 +7775,6 @@ export class JavaParser extends antlr.Parser {
         }
         catch (re) {
             if (re instanceof antlr.RecognitionException) {
-                localContext.exception = re;
                 this.errorHandler.reportError(this, re);
                 this.errorHandler.recover(this, re);
             } else {
@@ -7932,7 +7815,6 @@ export class JavaParser extends antlr.Parser {
         }
         catch (re) {
             if (re instanceof antlr.RecognitionException) {
-                localContext.exception = re;
                 this.errorHandler.reportError(this, re);
                 this.errorHandler.recover(this, re);
             } else {
@@ -8044,7 +7926,6 @@ export class JavaParser extends antlr.Parser {
         }
         catch (re) {
             if (re instanceof antlr.RecognitionException) {
-                localContext.exception = re;
                 this.errorHandler.reportError(this, re);
                 this.errorHandler.recover(this, re);
             } else {
@@ -8076,7 +7957,6 @@ export class JavaParser extends antlr.Parser {
         }
         catch (re) {
             if (re instanceof antlr.RecognitionException) {
-                localContext.exception = re;
                 this.errorHandler.reportError(this, re);
                 this.errorHandler.recover(this, re);
             } else {
@@ -8121,7 +8001,6 @@ export class JavaParser extends antlr.Parser {
         }
         catch (re) {
             if (re instanceof antlr.RecognitionException) {
-                localContext.exception = re;
                 this.errorHandler.reportError(this, re);
                 this.errorHandler.recover(this, re);
             } else {
@@ -8183,7 +8062,6 @@ export class JavaParser extends antlr.Parser {
         }
         catch (re) {
             if (re instanceof antlr.RecognitionException) {
-                localContext.exception = re;
                 this.errorHandler.reportError(this, re);
                 this.errorHandler.recover(this, re);
             } else {
@@ -8241,7 +8119,6 @@ export class JavaParser extends antlr.Parser {
         }
         catch (re) {
             if (re instanceof antlr.RecognitionException) {
-                localContext.exception = re;
                 this.errorHandler.reportError(this, re);
                 this.errorHandler.recover(this, re);
             } else {
@@ -8278,7 +8155,6 @@ export class JavaParser extends antlr.Parser {
         }
         catch (re) {
             if (re instanceof antlr.RecognitionException) {
-                localContext.exception = re;
                 this.errorHandler.reportError(this, re);
                 this.errorHandler.recover(this, re);
             } else {
@@ -8291,7 +8167,7 @@ export class JavaParser extends antlr.Parser {
         return localContext;
     }
 
-    public override sempred(localContext: antlr.RuleContext | null, ruleIndex: number, predIndex: number): boolean {
+    public override sempred(localContext: antlr.ParserRuleContext | null, ruleIndex: number, predIndex: number): boolean {
         switch (ruleIndex) {
         case 97:
             return this.expression_sempred(localContext as ExpressionContext, predIndex);

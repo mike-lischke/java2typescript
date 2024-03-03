@@ -3,7 +3,7 @@
  * Licensed under the MIT License. See License.txt in the project root for license information.
  */
 
-import { ParserRuleContext, RuleContext, TerminalNode, ParseTree } from "antlr4ng";
+import { ParserRuleContext, TerminalNode, ParseTree } from "antlr4ng";
 
 /**
  * Get the lowest level parse tree, which covers the given position.
@@ -76,9 +76,9 @@ export const printParseTreeStack = (fileName: string, root: ParseTree, ruleNames
 
     console.log("\n\n");
     if (tree instanceof TerminalNode) {
-        console.log("Parse tree: " + (tree.parent as RuleContext).toString(ruleNames));
+        console.log("Parse tree: " + (tree.parent as ParserRuleContext).toString(ruleNames));
         console.log("\nText at position: " + tree.toString());
-    } else if (tree instanceof RuleContext) {
+    } else if (tree instanceof ParserRuleContext) {
         console.log(tree.toString(ruleNames));
     }
 
