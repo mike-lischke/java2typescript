@@ -48,6 +48,7 @@
         "javax",
         "mmap",
         "nanos",
+        "outfile",
         "spliterator",
         "strictfp",
         "stringbuilder",

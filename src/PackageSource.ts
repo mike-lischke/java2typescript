@@ -104,6 +104,7 @@ export class PackageSource {
             } else {
                 names = Array.from(this.importedSymbols.values());
             }
+
             let importPath: string;
             if (this.targetFile.startsWith("/") || this.targetFile.startsWith("./")) {
                 importPath = path.relative(path.dirname(importingFile), path.dirname(this.targetFile));

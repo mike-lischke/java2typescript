@@ -24,17 +24,35 @@
         {
             "type": "node",
             "request": "launch",
-            "name": "Convert ANTLR4 runtime tests",
+            "name": "Convert ANTLR4 runtime",
             "sourceMaps": true,
             "stopOnEntry": false,
             "smartStep": true,
             "args": [],
             "runtimeArgs": [
                 "--experimental-specifier-resolution=node",
+                "--no-warnings",
                 "--loader",
                 "ts-node/esm",
-                "src/convert",
-                "config/antlr4-runtime-tests.json",
+                "tools/convertANTLR4Runtime.ts",
+            ],
+            "console": "integratedTerminal",
+            "trace": false
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Convert ANTLR4 tool",
+            "sourceMaps": true,
+            "stopOnEntry": false,
+            "smartStep": true,
+            "args": [],
+            "runtimeArgs": [
+                "--experimental-specifier-resolution=node",
+                "--no-warnings",
+                "--loader",
+                "ts-node/esm",
+                "tools/convertANTLR4Tool.ts",
             ],
             "console": "integratedTerminal",
             "trace": false

@@ -1,0 +1,40 @@
+{
+    "name": "antlr-format-cli",
+    "version": "1.2.1",
+    "description": "A cli wrapper for the antlr-format package",
+    "author": "Mike Lischke",
+    "files": [
+        "License.txt",
+        "dist/antlr-format.cjs"
+    ],
+    "bin": {
+        "antlr-format": "./dist/antlr-format.cjs"
+    },
+    "type": "module",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/mike-lischke/antlr-format.git"
+    },
+    "keywords": [
+        "ANTLR4",
+        "Formatting",
+        "cli"
+    ],
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/mike-lischke/antlr-format/issues"
+    },
+    "homepage": "https://github.com/mike-lischke/antlr-format",
+    "scripts": {
+        "prepublishOnly": "npm run build",
+        "build": "esbuild ./java2ts.ts --main-fields=module,main --bundle --outfile=dist/antlr-format.cjs --platform=node --format=cjs --minify",
+        "generate-configuration-schema": "./node_modules/.bin/ts-json-schema-generator --path '../src/types.ts' --type 'IConfiguration' > config-schema.json"
+    },
+    "dependencies": {
+        "@readme/better-ajv-errors": "1.6.0",
+        "ajv": "8.12.0",
+        "commander": "11.1.0",
+        "glob": "10.3.10",
+        "ts-json-schema-generator": "1.4.1"
+    }
+}

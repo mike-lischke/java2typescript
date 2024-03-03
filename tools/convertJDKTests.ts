@@ -3,8 +3,6 @@
  * Licensed under the MIT License. See License.txt in the project root for license information.
  */
 
-/* cspell: ignore a4tstool */
-
 import * as path from "path";
 
 import { PackageSourceManager } from "../src/PackageSourceManager.js";

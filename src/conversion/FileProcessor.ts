@@ -167,13 +167,17 @@ export class FileProcessor {
         ["isEmpty", { replacement: "length === 0", options: { parentheses: "remove" } }],
     ]);
 
+    private static mapMethodMap = new Map<string | undefined, IMethodReplaceEntry>([
+        ["put", { replacement: "set", options: {} }],
+    ]);
+
     private whiteSpaceAnchor = 0;
 
     // Imports from within the library path (helpers, direct imports of Java classes etc.).
-    private libraryImports = new Map<string, string[]>();
+    private userLibraryImports: Map<string, string[]>;
 
     // Names of 3rd party modules/packages to import.
-    private moduleImports = new Set<string>();
+    private userPackageImports: string[];
 
     // A list of actually used package imports in the file. From them type aliases and const
     // declarations are generated when fully qualified names are not used.
@@ -193,7 +197,7 @@ export class FileProcessor {
     // Nested symbols from this file.
     private localSymbols = new Map<string, string>();
 
-    // The class that were resolved by the class resolver and must be listed in the imports.
+    // The classes that were resolved by the class resolver and must be listed in the imports.
     private resolvedClasses = new Set<string>();
 
     private memberOrdering: MemberOrdering | undefined;
@@ -208,6 +212,8 @@ export class FileProcessor {
         private source: PackageSource,
         private configuration: IConverterConfiguration) {
         this.classResolver = configuration.options?.classResolver ?? new Map();
+        this.userLibraryImports = configuration.options?.libraryImports ?? new Map();
+        this.userPackageImports = configuration.options?.packageImports ?? [];
 
         if (configuration.options?.memberOrderOptions) {
             this.memberOrdering = new MemberOrdering(configuration.options.memberOrderOptions);
@@ -277,10 +283,8 @@ export class FileProcessor {
             }
 
             if (this.source.targetFile) {
-                const libPath = path.relative(path.dirname(this.source.targetFile),
-                    this.configuration.options?.lib ?? "./");
                 const builder = new java.lang.StringBuilder();
-                this.processCompilationUnit(builder, this.source.targetFile, libPath, this.source.parseTree);
+                this.processCompilationUnit(builder, this.source.targetFile, this.source.parseTree);
 
                 try {
                     let converted = `${builder}`;
@@ -302,7 +306,7 @@ export class FileProcessor {
         }
     };
 
-    private processCompilationUnit = (builder: java.lang.StringBuilder, target: string, libPath: string,
+    private processCompilationUnit = (builder: java.lang.StringBuilder, target: string,
         context: CompilationUnitContext): void => {
 
         if (this.configuration.options?.useUnqualifiedTypes) {
@@ -328,6 +332,7 @@ export class FileProcessor {
             prefix = () => { return ""; };
         }
 
+        const importExtension = this.configuration.options?.importExtension ?? "";
         if (firstChild instanceof ParserRuleContext) {
             header.append(this.getLeadingWhiteSpaces(firstChild));
             header.append(prefix(this.source.sourceFile, this.source.targetFile));
@@ -372,7 +377,7 @@ export class FileProcessor {
             // which may use some of the already imported symbols.
             const consolidatedImports = new Map<string, string[]>();
 
-            this.moduleImports.forEach((name) => {
+            this.userPackageImports.forEach((name) => {
                 header.append(`import * as ${name} from "${name}";\n`);
             });
             header.append("\n");
@@ -381,8 +386,10 @@ export class FileProcessor {
             if (this.configuration.options?.useUnqualifiedTypes) {
                 // Create const reassignments and type aliases depending on the type of the imported symbol.
                 this.packageImports.forEach((symbol, key) => {
+                    // Cannot create a type alias for an enum type (it would be infinite recursion).
                     const createAssignment = !(symbol instanceof InterfaceSymbol);
-                    const createTypeAlias = !(symbol instanceof RoutineSymbol);
+                    const createTypeAlias = !(symbol instanceof RoutineSymbol) && key !== "java.lang.Enum";
+
                     if (createTypeAlias) {
                         if (("typeParameters" in symbol) && symbol.typeParameters) {
                             const typeParameters = symbol.typeParameters as string;
@@ -401,7 +408,12 @@ export class FileProcessor {
             this.source.importList.forEach((source) => {
                 const info = source.getImportInfo(target);
                 if (info[0].length > 0) {
-                    consolidatedImports.set(info[1], info[0]);
+                    let lib = consolidatedImports.get(info[1]);
+                    if (!lib) {
+                        lib = [];
+                        consolidatedImports.set(info[1], lib);
+                    }
+                    lib.push(...info[0]);
                 }
             });
 
@@ -420,6 +432,9 @@ export class FileProcessor {
             });
 
             consolidatedImports.forEach((entry, key) => {
+                if (key.startsWith(".") && !key.endsWith(importExtension)) {
+                    key += importExtension;
+                }
                 header.append(`import { ${entry.join(", ")} } from "${key}";\n`);
             });
 
@@ -432,8 +447,22 @@ export class FileProcessor {
         this.getContent(builder, context.EOF());
 
         header.append("\n");
-        this.libraryImports.forEach((entry, key) => {
-            const importPath = path.join(libPath, key);
+        this.userLibraryImports.forEach((entry, key) => {
+            let importPath: string;
+            if (key.startsWith("/") || key.startsWith("./")) {
+                importPath = path.relative(path.dirname(target), path.dirname(key));
+                importPath = path.join(importPath, path.basename(key, ".ts"));
+
+                if (importPath[0] !== ".") {
+                    importPath = "./" + importPath;
+                }
+            } else {
+                importPath = key;
+            }
+
+            if (importPath.startsWith(".") && !importPath.endsWith(importExtension)) {
+                importPath += importExtension;
+            }
             header.append(`import { ${entry.join(", ")} } from "${importPath}";\n`);
         });
 
@@ -1744,7 +1773,7 @@ export class FileProcessor {
         this.processTypeTypeOrVoid(returnType, context.typeTypeOrVoid());
         details.returnType = `${returnType.toString()}`;
 
-        const isAbstract = context.methodBody().SEMI() !== undefined && !isTypescriptCompatible;
+        const isAbstract = context.methodBody().SEMI() != null && !isTypescriptCompatible;
         if (isAbstract) {
             details.type = MemberType.Abstract;
             details.modifiers?.add("abstract");
@@ -1826,9 +1855,15 @@ export class FileProcessor {
 
         localBuilder.append(this.getLeadingWhiteSpaces(context.ENUM()));
         this.ignoreContent(context.ENUM());
-        localBuilder.append("class ");
+        localBuilder.append("class");
         this.getContent(localBuilder, context.identifier());
-        localBuilder.append(S` extends java.lang.Enum<${context.identifier().getText()}>`); // Implicit in Java.
+
+        let qualifier = "";
+        if (!this.configuration?.options?.useUnqualifiedTypes) {
+            qualifier = "java.lang.";
+        }
+
+        localBuilder.append(S` extends ${qualifier}Enum<${context.identifier().getText()}>`); // Implicit in Java.
         this.resolveType(context, "Enum");
 
         if (context.IMPLEMENTS()) {
@@ -1870,7 +1905,10 @@ export class FileProcessor {
                 ` = InstanceType<typeof ${owner.name!}.${className}>;\n`);
         } else {
             // A top level enum declaration.
+            const modifier = this.createModifierString(modifiers);
+            result.bodyContent.append(`${modifier}`);
             result.bodyContent.append(localBuilder);
+
         }
 
         this.typeStack.peek().deferredDeclarations.append(nested);
@@ -2058,7 +2096,7 @@ export class FileProcessor {
             builder.append("let ");
         }
 
-        const hasInitializer = context.ASSIGN() !== undefined;
+        const hasInitializer = context.ASSIGN() != null;
         if (type.length() > 0) {
             builder.append(`${ws}${name}`);
 
@@ -3027,7 +3065,7 @@ export class FileProcessor {
                     // With try-with-resource statements it can be there's neither a catch nor a finally clause.
                     // If that's the case then we don't need the outer try block anymore.
                     const hasCatchOrFinally = context.catchClause().length !== 0
-                        || context.finallyBlock() !== undefined;
+                        || context.finallyBlock() != null;
 
                     if (hasCatchOrFinally) {
                         this.getContent(builder, context.TRY());
@@ -4027,6 +4065,11 @@ export class FileProcessor {
         // 1. The application can force a remap of types to something else.
         const forClass = this.classResolver.get(name);
         if (forClass) {
+            // If no import path is given then just change the name of the type (e.g. "String" -> "string").
+            if (forClass.importPath.length === 0) {
+                return forClass.alias ?? name;
+            }
+
             // Don't change the type name here, but just register it for later handling in import processing.
             this.resolvedClasses.add(name);
 
@@ -4212,6 +4255,8 @@ export class FileProcessor {
             case JavaLexer.CHAR: {
                 if (isArray) {
                     builder.append("Uint16Array");
+                } else if (this.configuration.options?.convertNumberPrimitiveTypes) {
+                    builder.append("number");
                 } else {
                     this.registerJavaImport("type char");
                     builder.append("char");
@@ -4223,6 +4268,8 @@ export class FileProcessor {
             case JavaLexer.BYTE: {
                 if (isArray) {
                     builder.append("Int8Array");
+                } else if (this.configuration.options?.convertNumberPrimitiveTypes) {
+                    builder.append("number");
                 } else {
                     this.registerJavaImport("type byte");
                     builder.append("byte");
@@ -4234,6 +4281,8 @@ export class FileProcessor {
             case JavaLexer.SHORT: {
                 if (isArray) {
                     builder.append("Int16Array");
+                } else if (this.configuration.options?.convertNumberPrimitiveTypes) {
+                    builder.append("number");
                 } else {
                     this.registerJavaImport("type short");
                     builder.append("short");
@@ -4245,6 +4294,8 @@ export class FileProcessor {
             case JavaLexer.INT: {
                 if (isArray) {
                     builder.append("Int32Array");
+                } else if (this.configuration.options?.convertNumberPrimitiveTypes) {
+                    builder.append("number");
                 } else {
                     this.registerJavaImport("type int");
                     builder.append("int");
@@ -4256,6 +4307,8 @@ export class FileProcessor {
             case JavaLexer.LONG: {
                 if (isArray) {
                     builder.append("BigInt64Array");
+                } else if (this.configuration.options?.convertNumberPrimitiveTypes) {
+                    builder.append("bigint");
                 } else {
                     this.registerJavaImport("type long");
                     builder.append("long");
@@ -4267,6 +4320,8 @@ export class FileProcessor {
             case JavaLexer.FLOAT: {
                 if (isArray) {
                     builder.append("Float64Array");
+                } else if (this.configuration.options?.convertNumberPrimitiveTypes) {
+                    builder.append("number");
                 } else {
                     this.registerJavaImport("type float");
                     builder.append("float");
@@ -4278,6 +4333,8 @@ export class FileProcessor {
             case JavaLexer.DOUBLE: {
                 if (isArray) {
                     builder.append("Float64Array");
+                } else if (this.configuration.options?.convertNumberPrimitiveTypes) {
+                    builder.append("number");
                 } else {
                     this.registerJavaImport("type double");
                     builder.append("double");

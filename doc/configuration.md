@@ -31,8 +31,6 @@ The `options` field in the top level configuration object accepts the following 
 
 * **convertAnnotations** (boolean, optional): if true then Java annotations are converted to Typescript decorator names. You have to provide implementations for these decorators.
 
-* **lib** (string, optional): specifies a path (relative to the current path or absolute) which holds additional TS source files (like for MurmurHash or decorators), that are used in the generated code.
-
 * **preferArrowFunctions** (boolean, optional): when true then methods and function expression use arrow syntax, which is preferred syntax. For overloaded methods this setting has no effect, because there arrow syntax is not supported.
 
 * **autoAddBraces** (boolean, optional): if true then the tool automatically adds braces around code in `if`/`else`/`switch` statements, if there are none yet.
@@ -55,9 +53,15 @@ The `options` field in the top level configuration object accepts the following 
 
 * **sourceMappings** (array of mapping entries, optional): a rarely used member to provide mappings between Java source files, which do not belong to the current package (and are not converted) and 3rd party JS/TS packages. So these mappings can be used to specify already converted Java packages. Each entry in the array is an object with 2 members (`sourcePath` and `importPath`), the path of the separate Java package and the import path to be used in generated files (if given as relative path then Node.js will try to solve the path in the node_module folder). The source files are only needed to collect symbol information.
 
-* **importResolver** (custom import resolver function, optional): described in the next section.
+* **importResolver** (custom import resolver function, optional): described in the [symbol resolution doc](symbol-resolution.md#import-resolvers).
 
 * **classResolver** (map, optional): provides a mapping of a class name to an alternative name. Each value in the map consists of two parts: an alias (optional) and an import path. This allows to swap implementations for not supported Java 3rd party packages and use another JS/TS 3rd party libraries instead. The `importPath` usually specifies a 3rd party node module and the `alias` allows to change the imported type name to something more useful (e.g. the original name of the Java type).
+
+* **libraryImports** (`Map<string, string[]>`, optional): A list of additional imports to add to the generated file. Used for helper code, which is not part of the generated output. It's a mapping of a path to a file and the list of symbols to import from that file.
+
+* **packageImports** (list of strings, optional): A list of any other 3rd party package imports to add to the generated file. These are used as namespace imports like `import * as <name> from "<package>";`.
+
+* **importExtension** (string, optional): The extension to use for generated file import statements.
 
 If not otherwise indicated there's no default value for a settings in this list, except for boolean values, where undefined means `false`.
 

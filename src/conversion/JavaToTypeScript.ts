@@ -41,11 +41,6 @@ export interface IConverterOptions {
     /** If true then Java annotations are converted to Typescript decorators. */
     convertAnnotations?: boolean;
 
-    /**
-     * A folder path for additional TS source files required to polyfill Java classes or which implement support code.
-     */
-    lib?: string;
-
     /** If true, functions/methods use the arrow syntax. */
     preferArrowFunctions?: boolean;
 
@@ -68,6 +63,12 @@ export interface IConverterOptions {
      * automatically creates a java.lang.String object. Default is: false.
      */
     wrapStringLiterals?: boolean;
+
+    /**
+     * If true, numbers (int, float, double) are converted to their JS/TS counterparts (number/bigint).
+     * Default is: false.
+     */
+    convertNumberPrimitiveTypes?: boolean;
 
     /**
      * Takes a set of options as used for the
@@ -108,6 +109,24 @@ export interface IConverterOptions {
      * No file is parsed and no symbol table is created for the symbols listed here.
      */
     classResolver?: Map<string, IClassResolver>;
+
+    /**
+     * A list of additional imports to add to the generated file. Used for helper code, which is not part of the
+     * generated output. It's a mapping of a path to a file and the list of symbols to import from that file.
+     */
+    libraryImports?: Map<string, string[]>;
+
+    /**
+     * A list of any other 3rd party package imports to add to the generated file. These are used as namespace imports
+     * like `import * as <name> from "<package>";`.
+     */
+    packageImports?: string[];
+
+    /**
+     * The content of this field is appended to all file imports (usually `.js` for ESM imports), if they haven't got
+     * an extension already.
+     */
+    importExtension?: string;
 }
 
 /** Options used for debugging the transformation process. */

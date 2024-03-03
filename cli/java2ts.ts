@@ -7,13 +7,13 @@
 
 /** This is the main entry point for the java2typescript conversion, when using NPM. */
 
-import fs from "fs/promises";
-import path from "path";
+import * as fs from "fs/promises";
+import * as path from "path";
 
 import {
     IClassResolver, IConverterConfiguration, IConverterOptions, ISourceMapping, JavaToTypescriptConverter,
-} from "./conversion/JavaToTypeScript.js";
-import { IMemberOrderOptions } from "./conversion/MemberOrdering.js";
+} from "../src/conversion/JavaToTypeScript.js";
+import { IMemberOrderOptions } from "../src/conversion/MemberOrdering.js";
 
 const args = process.argv.slice(2);
 
@@ -33,7 +33,7 @@ let options: IConverterOptions | undefined;
 
 if ("options" in json) {
     // The class resolver entries are given as objects, but we need a map.
-    const rawResolver = json.options.importResolver as Object;
+    const rawResolver = json.options.classResolver as Object;
 
     let classResolver: Map<string, IClassResolver> | undefined;
     if (rawResolver) {
@@ -45,7 +45,6 @@ if ("options" in json) {
     options = {
         prefix: json.options.prefix as string,
         convertAnnotations: json.options.convertAnnotations as boolean,
-        lib: json.options.lib as string,
         preferArrowFunctions: json.options.preferArrowFunctions as boolean,
         autoAddBraces: json.options.autoAddBraces as boolean,
         addNullUnionType: json.options.addNullUnionType as boolean,

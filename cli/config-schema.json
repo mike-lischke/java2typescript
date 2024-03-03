@@ -1,0 +1,145 @@
+{
+  "$ref": "#/definitions/IConfiguration",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "definitions": {
+    "IConfiguration": {
+      "additionalProperties": false,
+      "description": "Structure of a configuration JSON file.",
+      "properties": {
+        "lexer": {
+          "$ref": "#/definitions/IFormattingOptions",
+          "description": "Dedicated options only for lexer grammars."
+        },
+        "main": {
+          "$ref": "#/definitions/IFormattingOptions",
+          "description": "Main options, used for parser and combined grammars. Also for lexer grammars, if the lexer key is not specified."
+        }
+      },
+      "required": [
+        "main"
+      ],
+      "type": "object"
+    },
+    "IFormattingOptions": {
+      "additionalProperties": false,
+      "description": "Options for grammar text formatting. Some names, values and meanings have been taken from clang-format (http://clang.llvm.org/docs/ClangFormatStyleOptions.html), but may have slight variations tailored towards ANTLR grammars. Deviations from that are mentioned in comments, otherwise see clang-format and the documentation for descriptions + examples.",
+      "properties": {
+        "alignActions": {
+          "description": "Align actions ({} blocks in rules) and predicates. Default: false.",
+          "type": "boolean"
+        },
+        "alignColons": {
+          "description": "Values not found in clang-format: When set to \"none\" places the colon directly behind the rule name. Trailing alignment aligns colons of consecutive single line rules (with at least one whitespace between rule name and colon). Hanging alignment moves the colon to the next line (after the normal indentation, aligning it so with the alt pipe chars). Default: none.",
+          "enum": [
+            "none",
+            "trailing",
+            "hanging"
+          ],
+          "type": "string"
+        },
+        "alignFirstTokens": {
+          "description": "Align first tokens in rules after the colon. Default: false.",
+          "type": "boolean"
+        },
+        "alignLabels": {
+          "description": "Align alt labels (# name). Default: true.",
+          "type": "boolean"
+        },
+        "alignLexerCommands": {
+          "description": "Align arrows from lexer commands. Default: false.",
+          "type": "boolean"
+        },
+        "alignSemicolons": {
+          "description": "Place semicolon behind last code token or on an own line (with or w/o indentation). Default: ownLine (no indentation). This setting has no effect for non-rule commands that end with a semicolon (e.g. \"grammar Test;\", \"import Blah;\" etc.). Such commands are always placed on a single line.",
+          "enum": [
+            "none",
+            "ownLine",
+            "hanging"
+          ],
+          "type": "string"
+        },
+        "alignTrailers": {
+          "description": "When true a single alignment for labels, actions, lexer commands and trailing comments is used instead of individual alignments for each type. This avoids large whitespace runs if you have a mix of these types. Setting alignTrailers disables the individual alignment settings of the mentioned types.",
+          "type": "boolean"
+        },
+        "alignTrailingComments": {
+          "description": "Default: false",
+          "type": "boolean"
+        },
+        "allowShortBlocksOnASingleLine": {
+          "description": "Default: true;",
+          "type": "boolean"
+        },
+        "allowShortRulesOnASingleLine": {
+          "description": "Like allowShortBlocksOnASingleLine, but for entire rules. Default: true.",
+          "type": "boolean"
+        },
+        "breakBeforeBraces": {
+          "description": "When true start predicates and actions on a new line. Default: false.",
+          "type": "boolean"
+        },
+        "breakBeforeParens": {
+          "description": "For blocks: if true puts opening parentheses on an own line. Default: false.",
+          "type": "boolean"
+        },
+        "columnLimit": {
+          "description": "Default: 100 chars.",
+          "type": "number"
+        },
+        "continuationIndentWidth": {
+          "description": "For line continuation (only used if useTab is false). Default: same as indentWith.",
+          "type": "number"
+        },
+        "disabled": {
+          "description": "Default: false",
+          "type": "boolean"
+        },
+        "groupedAlignments": {
+          "description": "When true alignments are organized in groups of lines where they apply. These line groups are separated by lines where a specific alignment type does not appear. Default: true.",
+          "type": "boolean"
+        },
+        "indentWidth": {
+          "description": "Default: 4 chars.",
+          "type": "number"
+        },
+        "keepEmptyLinesAtTheStartOfBlocks": {
+          "description": "Default: false.",
+          "type": "boolean"
+        },
+        "maxEmptyLinesToKeep": {
+          "description": "Default: 1.",
+          "type": "number"
+        },
+        "minEmptyLines": {
+          "description": "Between top level elements, how many empty lines must exist? Default: 0.",
+          "type": "number"
+        },
+        "reflowComments": {
+          "description": "Default: false.",
+          "type": "boolean"
+        },
+        "ruleInternalsOnSingleLine": {
+          "description": "Place rule internals (return value, local variables,",
+          "type": "boolean"
+        },
+        "singleLineOverrulesHangingColon": {
+          "description": "When `allowShortRulesOnASingleLine` is true and `alignColon` is set to \"hanging\" this setting determines which gets precedence. If true (the default) a rule is placed on a single line if it fits, ignoring the \"hanging\" setting.",
+          "type": "boolean"
+        },
+        "spaceBeforeAssignmentOperators": {
+          "description": "Default: true",
+          "type": "boolean"
+        },
+        "tabWidth": {
+          "description": "Default: 4.",
+          "type": "number"
+        },
+        "useTab": {
+          "description": "Default: true.",
+          "type": "boolean"
+        }
+      },
+      "type": "object"
+    }
+  }
+}

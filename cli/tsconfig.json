@@ -23,26 +23,12 @@
         "resolveJsonModule": true,
     },
     "include": [
-        "src/index.ts",
-        "src/**/*.ts",
-        "parser/generated/**/*.ts",
-        "data/**/*.json",
-        "tools/*.ts",
-        "cli/java2ts.ts"
+        "java2ts.ts",
+        "process-options.ts",
     ],
     "exclude": [
-        "node_modules",
         "dist",
-        "tests"
+        "node_modules",
     ],
     "compileOnSave": true,
-    "ts-node": {
-        "esm": true
-    },
-    "hooks": [
-        "file-permissions"
-    ],
-    "filePermissions": {
-        "output/src/convert.js": "0744"
-    }
 }

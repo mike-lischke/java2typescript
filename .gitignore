@@ -2,3 +2,5 @@ output
 node_modules
 coverage
 *.interp
+dist
+.vscode/numbered-bookmarks.json
