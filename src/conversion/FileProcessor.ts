@@ -383,7 +383,7 @@ export class FileProcessor {
             header.append("\n");
 
             let aliases = "";
-            if (this.configuration.options?.useUnqualifiedTypes) {
+            if (this.configuration.options?.useUnqualifiedTypes && this.configuration.javaLib !== "") {
                 // Create const reassignments and type aliases depending on the type of the imported symbol.
                 this.packageImports.forEach((symbol, key) => {
                     // Cannot create a type alias for an enum type (it would be infinite recursion).
@@ -722,7 +722,7 @@ export class FileProcessor {
         if (context.EXTENDS()) {
             this.getContent(localBuilder, context.EXTENDS());
             this.processTypeType(localBuilder, context.typeType());
-        } else {
+        } else if (this.configuration.javaLib !== "") {
             // Add the default extends clause.
             localBuilder.append(" extends JavaObject");
             this.registerJavaImport("JavaObject");
@@ -1353,6 +1353,11 @@ export class FileProcessor {
                     break;
                 }
             }
+        }
+
+        if (!hasSuperCall && this.configuration.javaLib === "") {
+            // Don't add a super call if no base class is specified and no java lib is used.
+            hasSuperCall = true;
         }
 
         result.containsThisCall = hasThisCall;
@@ -2739,8 +2744,12 @@ export class FileProcessor {
                 builder.append("class extends ");
             } else {
                 if (info.symbol instanceof InterfaceSymbol) {
-                    builder.append("class extends JavaObject implements ");
-                    this.registerJavaImport("JavaObject");
+                    if (this.configuration.javaLib === "") {
+                        builder.append("class implements ");
+                    } else {
+                        builder.append("class extends JavaObject implements ");
+                        this.registerJavaImport("JavaObject");
+                    }
                 } else {
                     builder.append("class extends ");
                 }

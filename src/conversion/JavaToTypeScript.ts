@@ -201,7 +201,7 @@ export interface IConverterConfiguration {
 export class JavaToTypescriptConverter {
     public constructor(private configuration: IConverterConfiguration) {
         let javaLib;
-        if (!configuration.javaLib) {
+        if (configuration.javaLib === undefined) {
             javaLib = "jree"; // Use the jree node module as default.
         } else if (configuration.javaLib.indexOf("/") < 0) {
             javaLib = configuration.javaLib; // Assume this is another node module.
