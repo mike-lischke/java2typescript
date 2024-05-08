@@ -24,6 +24,24 @@
         {
             "type": "node",
             "request": "launch",
+            "name": "Convert ANTLR3 runtime",
+            "sourceMaps": true,
+            "stopOnEntry": false,
+            "smartStep": true,
+            "args": [],
+            "runtimeArgs": [
+                "--experimental-specifier-resolution=node",
+                "--no-warnings",
+                "--loader",
+                "ts-node/esm",
+                "tools/convertANTLR3Runtime.ts",
+            ],
+            "console": "integratedTerminal",
+            "trace": false
+        },
+        {
+            "type": "node",
+            "request": "launch",
             "name": "Convert ANTLR4 runtime",
             "sourceMaps": true,
             "stopOnEntry": false,

@@ -26,7 +26,6 @@ describe("Options Tests", () => {
             exclude: [],
             include: [],
             options: {
-                lib: path.join(testDir, "..", "lib"),
                 prefix: (sourcePath) => {
                     return `/**\n * ${rand}\n * Auto generated from ${sourcePath}\n * ${new Date().toString()} */`;
                 },

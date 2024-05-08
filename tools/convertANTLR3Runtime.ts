@@ -5,6 +5,8 @@
 
 /* eslint-disable max-classes-per-file */
 
+// cspell:ignore Compiletime, Interp
+
 import * as path from "path";
 
 import { PackageSourceManager } from "../src/PackageSourceManager.js";
@@ -14,13 +16,9 @@ import { PackageSource } from "../src/PackageSource.js";
 /** Member sorting identifiers as used in the project's eslint configuration. */
 const memberOrderOptions = {
     default: [
-        "signature",
         "public-static-field",
         "protected-static-field",
         "private-static-field",
-        "public-decorated-field",
-        "protected-decorated-field",
-        "private-decorated-field",
         "public-instance-field",
         "protected-instance-field",
         "private-instance-field",
@@ -41,12 +39,9 @@ const memberOrderOptions = {
         "public-static-method",
         "protected-static-method",
         "private-static-method",
-        "public-decorated-method",
-        "protected-decorated-method",
-        "private-decorated-method",
-        "public-instance-method",
-        "protected-instance-method",
-        "private-instance-method",
+        "public-method",
+        "protected-method",
+        "private-method",
         "public-abstract-method",
         "protected-abstract-method",
     ],
@@ -62,38 +57,41 @@ const importResolver = (packageId: string): PackageSource | undefined => {
 };
 
 const include: string[] = [
+    //"ErrorBufferAllErrors.java",
 ];
 
 const classResolver = new Map([
     ["String", { alias: "string", importPath: "" }],
-    ["Object", { alias: "Object", importPath: "" }],
+    ["Object", { alias: "unknown", importPath: "" }],
     ["ArrayList", { alias: "Array", importPath: "" }],
-    ["List", { alias: "Array", importPath: "" }],
     ["Locale", { alias: "Intl.Locale", importPath: "" }],
     ["Map", { alias: "Map", importPath: "" }],
     ["HashMap", { alias: "Map", importPath: "" }],
     ["Integer", { alias: "number", importPath: "" }],
-    ["HashSet", { alias: "", importPath: "antlr4ng" }],
-    ["OrderedHashSet", { alias: "", importPath: "antlr4ng" }],
-    ["HashMap", { alias: "", importPath: "antlr4ng" }],
-    ["OrderedHashMap", { alias: "", importPath: "antlr4ng" }],
-    ["LinkedHashMap", { alias: "HashMap", importPath: "antlr4ng" }],
-    ["VocabularyImpl", { alias: "Vocabulary", importPath: "antlr4ng" }],
-    ["Pair", { alias: "", importPath: "" }],
+    ["RuntimeException", { alias: "Error", importPath: "" }],
+    ["NoSuchMethodError", { alias: "Error", importPath: "" }],
 ]);
 
-const convertANTLR4Tool = async () => {
+const convertANTLR4JavaRuntime = async () => {
     const antlrToolOptions: IConverterConfiguration = {
-        packageRoot: path.resolve(process.cwd(), "../ANTLRng/src/tree-walkers"),
+        javaLib: "",
+        packageRoot: path.resolve(process.cwd(), "../antlr3/runtime/Java/src/main/java/org"),
         include,
         exclude: [],
-        outputPath: "../ANTLRng/src/tree-walkers",
-        javaLib: "",
+        outputPath: "../antlr3ts-temp/",
         options: {
-            prefix: `
+            prefix:
+                `/*
+ * Copyright (c) The ANTLR Project. All rights reserved.
+ * Use of this file is governed by the BSD 3-clause license that
+ * can be found in the LICENSE.txt file in the project root.
+ */
+
+// cspell: disable
+
 /* eslint-disable jsdoc/require-returns, jsdoc/require-param */`,
             importResolver,
-            convertAnnotations: true,
+            convertAnnotations: false,
             preferArrowFunctions: false,
             autoAddBraces: true,
             addIndexFiles: false,
@@ -102,15 +100,11 @@ const convertANTLR4Tool = async () => {
             wrapStringLiterals: false,
             memberOrderOptions,
             sourceMappings: [
-                { sourcePath: path.resolve(process.cwd(), "../antlr4/runtime/Java/src"), importPath: "antlr4ng" },
             ],
             useUnqualifiedTypes: true,
-            libraryImports: new Map([
-                //[path.resolve(process.cwd(), "../ANTLRng/runtime-testsuite/decorators.js"), ["Test", "Override"]],
-            ]),
+            classResolver,
             importExtension: ".js",
             convertNumberPrimitiveTypes: true,
-            classResolver,
         },
         sourceReplace: new Map([
         ]),
@@ -130,4 +124,4 @@ const convertANTLR4Tool = async () => {
     await converter.startConversion();
 };
 
-await convertANTLR4Tool();
+await convertANTLR4JavaRuntime();
