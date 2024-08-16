@@ -63,7 +63,7 @@ let sourceReplace: Map<RegExp, string> | undefined;
 
 if (rawReplace) {
     const list: Array<[RegExp, string]> = Object.entries(rawReplace).map(([key, value]) => {
-        return [new RegExp(key), value];
+        return [new RegExp(key, 'g'), value];
     });
     sourceReplace = new Map<RegExp, string>(list);
 }
@@ -72,7 +72,7 @@ rawReplace = json.targetReplace as Object;
 let targetReplace: Map<RegExp, string> | undefined;
 if (rawReplace) {
     const list: Array<[RegExp, string]> = Object.entries(rawReplace).map(([key, value]) => {
-        return [new RegExp(key), value];
+        return [new RegExp(key, 'g'), value];
     });
     targetReplace = new Map<RegExp, string>(list);
 }
